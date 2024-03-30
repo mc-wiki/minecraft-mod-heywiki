@@ -16,16 +16,10 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "wiki.mc.rtfw.RTFWClient"
+      "wiki.mc.rtfw.FTFWClient"
     ]
   },
-  "mixins": [
-    "rtfw.mixins.json",
-    {
-      "config": "rtfw.client.mixins.json",
-      "environment": "client"
-    }
-  ],
+  "mixins": [],
   "depends": {
     "fabricloader": ">=0.15.7",
     "minecraft": "~1.20.4",
