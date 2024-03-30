@@ -28,7 +28,7 @@ public class FTFWClient implements ClientModInitializer {
             solvedLanguage = "fr";
         } else if (language.startsWith("ja_")) {
             solvedLanguage = "ja";
-        } else if (language.startsWith("lzh_")) {
+        } else if (language.equals("lzh")) {
             solvedLanguage = "lzh";
         } else if (language.startsWith("ko_")) {
             solvedLanguage = "ko";
