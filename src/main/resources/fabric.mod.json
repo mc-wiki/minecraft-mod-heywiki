@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "rtfw",
+  "version": "${version}",
+  "name": "RTFW",
+  "description": "Press semicolon to quickly read the f**king wiki.",
+  "authors": [
+    "Dianliang233 <dianliang233@gmail.com>"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "CC0-1.0",
+  "icon": "assets/rtfw/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "wiki.mc.rtfw.ReadTheFuckingWikiClient"
+    ]
+  },
+  "mixins": [
+    "rtfw.mixins.json",
+    {
+      "config": "rtfw.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.15.7",
+    "minecraft": "~1.20.4",
+    "java": ">=17",
+    "fabric-api": "*",
+    "fabric-key-binding-api-v1": "*"
+  }
+}
