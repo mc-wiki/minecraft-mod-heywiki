@@ -22,7 +22,7 @@ loom {
     splitEnvironmentSourceSets()
 
     mods {
-        "read-the-fucking-wiki" {
+        "rtfw" {
             sourceSet sourceSets.main
             sourceSet sourceSets.client
         }
