@@ -19,7 +19,12 @@
       "wiki.mc.rtfw.FTFWClient"
     ]
   },
-  "mixins": [],
+  "mixins": [
+    {
+      "config": "rtfw.client.mixins.json",
+      "environment": "client"
+    }
+  ],
   "depends": {
     "fabricloader": ">=0.15.7",
     "minecraft": "~1.20.4",

@@ -18,6 +18,12 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 public class FTFWClient implements ClientModInitializer {
+    public static KeyBinding readKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.rtfw.open", // The translation key of the keybinding's name
+            InputUtil.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
+            GLFW.GLFW_KEY_SEMICOLON, // The keycode of the key
+            "category.rtfw.rtfw" // The translation key of the keybinding's category.
+    ));
+
     public static @Nullable URI buildUri(String pageName, String language) {
         String solvedLanguage = null;
         if (language.startsWith("de_")) {
@@ -60,35 +66,35 @@ public class FTFWClient implements ClientModInitializer {
         var client = MinecraftClient.getInstance();
         var hit = client.crosshairTarget;
 
+        if (hit == null) return null;
+
         switch (hit.getType()) {
             case MISS:
                 break;
             case BLOCK:
                 var blockHit = (BlockHitResult) hit;
                 var blockPos = blockHit.getBlockPos();
-                var blockState = client.world.getBlockState(blockPos);
-                var block = blockState.getBlock();
-                return block.getName().getString();
+                if (client.world != null) {
+                    var blockState = client.world.getBlockState(blockPos);
+                    var block = blockState.getBlock();
+                    return block.getName().getString();
+                }
+                break;
             case ENTITY:
                 var entityHit = (EntityHitResult) hit;
                 var entity = entityHit.getEntity();
                 return entity.getName().getString();
         }
+
         return null;
     }
 
     @Override
     public void onInitializeClient() {
-        var readKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.rtfw.open", // The translation key of the keybinding's name
-                InputUtil.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
-                GLFW.GLFW_KEY_SEMICOLON, // The keycode of the key
-                "category.rtfw.rtfw" // The translation key of the keybinding's category.
-        ));
-
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (readKey.wasPressed()) {
-                var pageName = getPageNameByRaycast();
+                String pageName = getPageNameByRaycast();
+
                 if (pageName != null) {
                     var uri = buildUri(pageName, client.options.language);
                     Util.getOperatingSystem().open(uri);
