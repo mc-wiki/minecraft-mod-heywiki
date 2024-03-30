@@ -16,7 +16,7 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "wiki.mc.rtfw.ReadTheFuckingWikiClient"
+      "wiki.mc.rtfw.RTFWClient"
     ]
   },
   "mixins": [
