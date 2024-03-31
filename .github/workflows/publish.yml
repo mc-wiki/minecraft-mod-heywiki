@@ -5,8 +5,6 @@ on: [ release ]
 env:
   MINECRAFT_VERSION: 1.20.4
   JAVA_VERSION: 17
-  VERSION: ${{ env.GITHUB_REF }}+${{ env.MINECRAFT_VERSION }}
-  RELEASE_NAME: Hey Wiki ${{ env.VERSION }} for Minecraft ${{ env.MINECRAFT_VERSION }}
   MODRINTH_TOKEN: ${{ secrets.PUBLISH_MODRINTH_TOKEN }}
   CURSEFORGE_TOKEN: ${{ secrets.PUBLISH_CURSEFORGE_TOKEN }}
   GITHUB_TOKEN: ${{ secrets.PUBLISH_GITHUB_TOKEN }}
@@ -41,8 +39,8 @@ jobs:
 
           github-token: "${{ env.GITHUB_TOKEN }}"
 
-          name: "${{ env.RELEASE_NAME }}"
-          version: "${{ env.VERSION }}"
+          name: "Hey Wiki ${{ env.GITHUB_REF }} for Minecraft ${{ env.MINECRAFT_VERSION }}"
+          version: "${{ env.GITHUB_REF }}+${{ env.MINECRAFT_VERSION }}"
           version-type: release
           changelog-file: CHANGELOG.md
       - name: capture build artifacts
