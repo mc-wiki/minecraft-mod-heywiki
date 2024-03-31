@@ -15,17 +15,19 @@ import net.minecraft.util.hit.EntityHitResult;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 import wiki.mc.rtfw.commands.WhatBiomeCommand;
+import wiki.mc.rtfw.commands.WhatIsThisCommand;
+import wiki.mc.rtfw.commands.WhatIsThisItemCommand;
 import wiki.mc.rtfw.commands.WikiCommand;
 
 
-public class FTFWClient implements ClientModInitializer {
+public class RTFWClient implements ClientModInitializer {
     public static KeyBinding readKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.rtfw.open", // The translation key of the keybinding's name
             InputUtil.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
             GLFW.GLFW_KEY_SEMICOLON, // The keycode of the key
             "category.rtfw.rtfw" // The translation key of the keybinding's category.
     ));
 
-    private static @Nullable String getTranslationKeyByRaycast() {
+    public static @Nullable String getTranslationKeyByRaycast() {
         var client = MinecraftClient.getInstance();
         var hit = client.crosshairTarget;
 
@@ -53,15 +55,17 @@ public class FTFWClient implements ClientModInitializer {
     }
 
     private static void registerCommands(CommandDispatcher<FabricClientCommandSource> dispatcher, CommandRegistryAccess registryAccess) {
-        WikiCommand.register(dispatcher);
         WhatBiomeCommand.register(dispatcher);
+        WhatIsThisCommand.register(dispatcher);
+        WhatIsThisItemCommand.register(dispatcher);
+        WikiCommand.register(dispatcher);
     }
 
     @Override
     public void onInitializeClient() {
-        FTFWConfig.HANDLER.load();
+        RTFWConfig.HANDLER.load();
 
-        ClientCommandRegistrationCallback.EVENT.register(FTFWClient::registerCommands);
+        ClientCommandRegistrationCallback.EVENT.register(RTFWClient::registerCommands);
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (readKey.wasPressed()) {

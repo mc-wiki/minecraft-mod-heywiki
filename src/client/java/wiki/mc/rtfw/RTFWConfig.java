@@ -13,11 +13,11 @@ import net.minecraft.client.gui.screen.option.KeybindsScreen;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public class FTFWConfig {
-    public static ConfigClassHandler<FTFWConfig> HANDLER = ConfigClassHandler.createBuilder(FTFWConfig.class)
-            .id(new Identifier("ftfw", "config"))
+public class RTFWConfig {
+    public static ConfigClassHandler<RTFWConfig> HANDLER = ConfigClassHandler.createBuilder(RTFWConfig.class)
+            .id(new Identifier("rtfw", "config"))
             .serializer(config -> GsonConfigSerializerBuilder.create(config)
-                    .setPath(FabricLoader.getInstance().getConfigDir().resolve("ftfw.json"))
+                    .setPath(FabricLoader.getInstance().getConfigDir().resolve("rtfw.json"))
                     .build())
             .build();
 
@@ -43,21 +43,21 @@ public class FTFWConfig {
     public String language = "auto";
 
     public static Screen createGui(Screen parent) {
-        var instance = FTFWConfig.HANDLER.instance();
+        var instance = RTFWConfig.HANDLER.instance();
         var client = MinecraftClient.getInstance();
         return YetAnotherConfigLib.createBuilder()
-                .title(Text.translatable("options.ftfw.title"))
+                .title(Text.translatable("options.rtfw.title"))
                 .category(ConfigCategory.createBuilder()
-                        .name(Text.translatable("options.ftfw.general"))
+                        .name(Text.translatable("options.rtfw.general"))
                         .option(Option.<Boolean>createBuilder()
-                                .name(Text.translatable("options.ftfw.requires_confirmation.name"))
-                                .description(OptionDescription.of(Text.translatable("options.ftfw.requires_confirmation.description")))
+                                .name(Text.translatable("options.rtfw.requires_confirmation.name"))
+                                .description(OptionDescription.of(Text.translatable("options.rtfw.requires_confirmation.description")))
                                 .binding(true, () -> instance.requiresConfirmation, newVal -> instance.requiresConfirmation = newVal)
                                 .controller(TickBoxControllerBuilder::create)
                                 .build())
                         .option(Option.<String>createBuilder()
-                                .name(Text.translatable("options.ftfw.language.name"))
-                                .description(OptionDescription.of(Text.translatable("options.ftfw.language.description")))
+                                .name(Text.translatable("options.rtfw.language.name"))
+                                .description(OptionDescription.of(Text.translatable("options.rtfw.language.description")))
                                 .binding("auto",
                                         () -> instance.language,
                                         newVal -> instance.language = newVal)
@@ -66,13 +66,13 @@ public class FTFWConfig {
                                 )
                                 .build())
                         .option(ButtonOption.createBuilder()
-                                .name(Text.translatable("options.ftfw.open_keybinds.name"))
+                                .name(Text.translatable("options.rtfw.open_keybinds.name"))
                                 .text(Text.literal(""))
-                                .description(OptionDescription.of(Text.translatable("options.ftfw.open_keybinds.description")))
+                                .description(OptionDescription.of(Text.translatable("options.rtfw.open_keybinds.description")))
                                 .action((yaclScreen, option) -> client.setScreen(new KeybindsScreen(yaclScreen, client.options)))
                                 .build())
                         .build())
-                .save(FTFWConfig.HANDLER::save)
+                .save(RTFWConfig.HANDLER::save)
                 .build().generateScreen(parent);
     }
 }

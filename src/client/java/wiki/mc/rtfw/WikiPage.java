@@ -2,7 +2,6 @@ package wiki.mc.rtfw;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ConfirmLinkScreen;
 import net.minecraft.client.resource.language.TranslationStorage;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
@@ -18,7 +17,7 @@ import java.util.HashMap;
 
 public class WikiPage {
     private static final Logger LOGGER = LogUtils.getLogger();
-    private static final FTFWConfig config = FTFWConfig.HANDLER.instance();
+    private static final RTFWConfig config = RTFWConfig.HANDLER.instance();
     private static final MinecraftClient client = MinecraftClient.getInstance();
     private static final HashMap<String, TranslationStorage> languageMap = new HashMap<>();
 
@@ -112,7 +111,7 @@ public class WikiPage {
         var uri = getUri();
         if (uri != null) {
             if (config.requiresConfirmation && !skipConfirmation) {
-                ConfirmLinkScreen.open(null, uri.toString());
+                RTFWConfirmLinkScreen.open(null, uri.toString());
             } else {
                 Util.getOperatingSystem().open(uri);
             }

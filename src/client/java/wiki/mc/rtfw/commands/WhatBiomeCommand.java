@@ -8,16 +8,15 @@ import wiki.mc.rtfw.WikiPage;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
 
 public class WhatBiomeCommand {
-    private static final MinecraftClient client = MinecraftClient.getInstance();
+    private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
 
     public static void register(CommandDispatcher<FabricClientCommandSource> dispatcher) {
         dispatcher.register(literal("whatbiome")
                 .executes(ctx -> {
-                    // TODO: Throw out errors
-                    if (client.player == null || client.world == null) return 1;
+                    if (CLIENT.player == null || CLIENT.world == null) return 1;
 
-                    var block = client.player.getBlockPos();
-                    var biomeKey = client.world.getBiome(block).getKey();
+                    var block = CLIENT.player.getBlockPos();
+                    var biomeKey = CLIENT.world.getBiome(block).getKey();
                     if (biomeKey.isEmpty()) return 1;
                     String translationKey = biomeKey.get().getValue().toTranslationKey("biome");
                     WikiPage.fromTranslationKey(translationKey).openInBrowser(true);

@@ -21,7 +21,7 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "wiki.mc.rtfw.FTFWClient"
+      "wiki.mc.rtfw.RTFWClient"
     ],
     "modmenu": [
       "wiki.mc.rtfw.integration.ModMenuIntegration"
