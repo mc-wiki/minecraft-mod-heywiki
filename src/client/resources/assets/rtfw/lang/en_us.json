@@ -5,6 +5,9 @@
   "options.ftfw.general": "General",
   "options.ftfw.requires_confirmation.name": "Requires confirmation",
   "options.ftfw.requires_confirmation.description": "Open confirmation screen before opening the wiki article. This is useful to avoid accidentally triggering the feature.",
+  "options.ftfw.language.name": "Wiki language",
+  "options.ftfw.language.description": "Set your preferred language, overriding game language setting.",
+  "options.ftfw.language.default": "Use game language",
   "options.ftfw.open_keybinds.name": "Go to keybinds settings",
   "options.ftfw.open_keybinds.description": "Open the keybinds settings page to configure FTFW's keybinds."
 }

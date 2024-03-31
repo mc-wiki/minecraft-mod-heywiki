@@ -23,7 +23,7 @@ public class FTFWClient implements ClientModInitializer {
             "category.rtfw.rtfw" // The translation key of the keybinding's category.
     ));
 
-    private static @Nullable String getPageNameByRaycast() {
+    private static @Nullable String getTranslationKeyByRaycast() {
         var client = MinecraftClient.getInstance();
         var hit = client.crosshairTarget;
 
@@ -38,13 +38,13 @@ public class FTFWClient implements ClientModInitializer {
                 if (client.world != null) {
                     var blockState = client.world.getBlockState(blockPos);
                     var block = blockState.getBlock();
-                    return block.getName().getString();
+                    return block.getTranslationKey();
                 }
                 break;
             case ENTITY:
                 var entityHit = (EntityHitResult) hit;
                 var entity = entityHit.getEntity();
-                return entity.getName().getString();
+                return entity.getType().getTranslationKey();
         }
 
         return null;
@@ -56,14 +56,16 @@ public class FTFWClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+        FTFWConfig.HANDLER.load();
+
         ClientCommandRegistrationCallback.EVENT.register(FTFWClient::registerCommands);
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (readKey.wasPressed()) {
-                String pageName = getPageNameByRaycast();
+                String translationKey = getTranslationKeyByRaycast();
 
-                if (pageName != null) {
-                    new WikiPage(pageName).openInBrowser(client.options.language);
+                if (translationKey != null) {
+                    WikiPage.fromTranslationKey(translationKey).openInBrowser();
                 }
             }
         });

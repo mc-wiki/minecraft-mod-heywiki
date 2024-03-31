@@ -1,6 +1,7 @@
 package wiki.mc.rtfw;
 
 import dev.isxander.yacl3.api.*;
+import dev.isxander.yacl3.api.controller.DropdownStringControllerBuilder;
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
@@ -23,6 +24,24 @@ public class FTFWConfig {
     @SerialEntry
     public boolean requiresConfirmation = true;
 
+    private static final String[] LANGUAGES = {
+            "auto",
+            "de",
+            "en",
+            "es",
+            "fr",
+            "ja",
+            "ko",
+            "lzh",
+            "pt",
+            "ru",
+            "th",
+            "uk",
+            "zh"
+    };
+    @SerialEntry
+    public String language = "auto";
+
     public static Screen createGui(Screen parent) {
         var instance = FTFWConfig.HANDLER.instance();
         var client = MinecraftClient.getInstance();
@@ -35,6 +54,16 @@ public class FTFWConfig {
                                 .description(OptionDescription.of(Text.translatable("options.ftfw.requires_confirmation.description")))
                                 .binding(true, () -> instance.requiresConfirmation, newVal -> instance.requiresConfirmation = newVal)
                                 .controller(TickBoxControllerBuilder::create)
+                                .build())
+                        .option(Option.<String>createBuilder()
+                                .name(Text.translatable("options.ftfw.language.name"))
+                                .description(OptionDescription.of(Text.translatable("options.ftfw.language.description")))
+                                .binding("auto",
+                                        () -> instance.language,
+                                        newVal -> instance.language = newVal)
+                                .controller(opt -> DropdownStringControllerBuilder.create(opt)
+                                        .values(LANGUAGES)
+                                )
                                 .build())
                         .option(ButtonOption.createBuilder()
                                 .name(Text.translatable("options.ftfw.open_keybinds.name"))

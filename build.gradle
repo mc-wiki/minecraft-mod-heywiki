@@ -56,7 +56,7 @@ dependencies {
 
     // Add each module as a dependency
     apiModules.forEach {
-        modImplementation fabricApi.module(it, project.fabric_version)
+        include(modImplementation fabricApi.module(it, project.fabric_version))
     }
 
     // https://docs.isxander.dev/yet-another-config-lib

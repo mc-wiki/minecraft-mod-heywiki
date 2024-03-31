@@ -1,6 +1,5 @@
 package wiki.mc.rtfw.mixin;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.screen.slot.Slot;
 import org.jetbrains.annotations.Nullable;
@@ -23,9 +22,8 @@ public class HandledScreenMixin {
         if (FTFWClient.readKey.matchesKey(keyCode, scanCode)) {
             Slot slot = this.focusedSlot;
             if (slot != null && slot.hasStack()) {
-                String pageName = slot.getStack().getItem().getName().getString();
-                String language = MinecraftClient.getInstance().getLanguageManager().getLanguage();
-                new WikiPage(pageName).openInBrowser(language);
+                String translationKey = slot.getStack().getItem().getTranslationKey();
+                WikiPage.fromTranslationKey(translationKey).openInBrowser();
             }
         }
     }
