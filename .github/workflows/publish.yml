@@ -1,6 +1,9 @@
 name: publish
 
-on: [ release, workflow_dispatch ]
+on:
+  release:
+    types: [ published ]
+  workflow_dispatch:
 
 env:
   MINECRAFT_VERSION: 1.20.4
@@ -36,8 +39,8 @@ jobs:
 
           github-token: "${{ secrets.GITHUB_TOKEN }}"
 
-          name: "Hey Wiki ${{ env.GITHUB_REF }} for Minecraft ${{ env.MINECRAFT_VERSION }}"
-          version: "${{ env.GITHUB_REF }}+${{ env.MINECRAFT_VERSION }}"
+          name: "Hey Wiki ${{ github.ref_name }} for Minecraft ${{ env.MINECRAFT_VERSION }}"
+          version: "${{ github.ref_name }}+${{ env.MINECRAFT_VERSION }}"
           version-type: release
           changelog-file: CHANGELOG.md
       - name: capture build artifacts
