@@ -15,9 +15,9 @@ import net.minecraft.util.Identifier;
 
 public class HeyWikiConfig {
     public static ConfigClassHandler<HeyWikiConfig> HANDLER = ConfigClassHandler.createBuilder(HeyWikiConfig.class)
-            .id(new Identifier("rtfw", "config"))
+            .id(new Identifier("heywiki", "config"))
             .serializer(config -> GsonConfigSerializerBuilder.create(config)
-                    .setPath(FabricLoader.getInstance().getConfigDir().resolve("rtfw.json"))
+                    .setPath(FabricLoader.getInstance().getConfigDir().resolve("heywiki.json"))
                     .build())
             .build();
 
@@ -46,18 +46,18 @@ public class HeyWikiConfig {
         var instance = HeyWikiConfig.HANDLER.instance();
         var client = MinecraftClient.getInstance();
         return YetAnotherConfigLib.createBuilder()
-                .title(Text.translatable("options.rtfw.title"))
+                .title(Text.translatable("options.heywiki.title"))
                 .category(ConfigCategory.createBuilder()
-                        .name(Text.translatable("options.rtfw.general"))
+                        .name(Text.translatable("options.heywiki.general"))
                         .option(Option.<Boolean>createBuilder()
-                                .name(Text.translatable("options.rtfw.requires_confirmation.name"))
-                                .description(OptionDescription.of(Text.translatable("options.rtfw.requires_confirmation.description")))
+                                .name(Text.translatable("options.heywiki.requires_confirmation.name"))
+                                .description(OptionDescription.of(Text.translatable("options.heywiki.requires_confirmation.description")))
                                 .binding(true, () -> instance.requiresConfirmation, newVal -> instance.requiresConfirmation = newVal)
                                 .controller(TickBoxControllerBuilder::create)
                                 .build())
                         .option(Option.<String>createBuilder()
-                                .name(Text.translatable("options.rtfw.language.name"))
-                                .description(OptionDescription.of(Text.translatable("options.rtfw.language.description")))
+                                .name(Text.translatable("options.heywiki.language.name"))
+                                .description(OptionDescription.of(Text.translatable("options.heywiki.language.description")))
                                 .binding("auto",
                                         () -> instance.language,
                                         newVal -> instance.language = newVal)
@@ -66,9 +66,9 @@ public class HeyWikiConfig {
                                 )
                                 .build())
                         .option(ButtonOption.createBuilder()
-                                .name(Text.translatable("options.rtfw.open_keybinds.name"))
+                                .name(Text.translatable("options.heywiki.open_keybinds.name"))
                                 .text(Text.literal(""))
-                                .description(OptionDescription.of(Text.translatable("options.rtfw.open_keybinds.description")))
+                                .description(OptionDescription.of(Text.translatable("options.heywiki.open_keybinds.description")))
                                 .action((yaclScreen, option) -> client.setScreen(new KeybindsScreen(yaclScreen, client.options)))
                                 .build())
                         .build())
