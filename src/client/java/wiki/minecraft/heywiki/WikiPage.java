@@ -2,8 +2,8 @@ package wiki.minecraft.heywiki;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.resource.language.TranslationStorage;
-import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -46,27 +46,32 @@ public class WikiPage {
         this.pageName = pageName;
     }
 
+    public static void loadTranslation(String language) {
+        currentLang = language;
+        translation = language.equals("en_us")
+                ? TranslationStorage.load(
+                client.getResourceManager(),
+                List.of("en_us", language), false)
+                : TranslationStorage.load(
+                client.getResourceManager(),
+                List.of("en_us"), false);
+    }
+
     public static WikiPage fromTranslationKey(String translationKey) {
         if (config.language.equals("auto")) {
             String resolvedLanguage = resolveWikiLanguage(client.options.language);
             if (!resolvedLanguage.equals("en")) {
-                return new WikiPage(Text.translatable(translationKey).getString());
+                return new WikiPage(I18n.translate(translationKey));
             }
 
             if (!resolvedLanguage.equals(currentLang)) {
-                currentLang = "en_us";
-                translation = TranslationStorage.load(
-                        client.getResourceManager(),
-                        List.of("en_us"), false);
+                loadTranslation("en_us");
             }
             return new WikiPage(translation.get(translationKey));
         } else {
             String mappedConfigLanguage = getWikiLanguageGameLanguageMap().get(config.language);
             if (!mappedConfigLanguage.equals(currentLang)) {
-                currentLang = mappedConfigLanguage;
-                translation = TranslationStorage.load(
-                        client.getResourceManager(),
-                        List.of(mappedConfigLanguage, "en_us"), false);
+                loadTranslation(mappedConfigLanguage);
             }
 
             return new WikiPage(translation.get(translationKey));

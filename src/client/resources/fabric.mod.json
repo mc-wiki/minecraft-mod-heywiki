@@ -3,7 +3,7 @@
   "id": "heywiki",
   "version": "1.0.0",
   "name": "Hey Wiki",
-  "description": "Press semicolon to quickly read the wiki.",
+  "description": "Press semicolon to open the Minecraft Wiki page of the block/item/entity you're aiming at.",
   "authors": [
     {
       "name": "Dianliang233",
@@ -40,6 +40,7 @@
     "fabric-key-binding-api-v1": "*",
     "fabric-command-api-v2": "*",
     "fabric-lifecycle-events-v1": "*",
+    "fabric-resource-loader-v0": "*",
     "yet_another_config_lib_v3": "*"
   },
   "recommends": {
