@@ -8,12 +8,12 @@
     "Dianliang233 <dianliang233@gmail.com>"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://minecraft.wiki/w/MCW:PENDING",
+    "sources": "https://github.com/mcw-wiki/fabric-mod-rtfw"
   },
   "license": "CC0-1.0",
   "icon": "assets/rtfw/icon.png",
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
     "client": [
       "wiki.mc.rtfw.FTFWClient"
@@ -29,7 +29,8 @@
     "fabricloader": ">=0.15.7",
     "minecraft": "~1.20.4",
     "java": ">=17",
-    "fabric-api": "*",
-    "fabric-key-binding-api-v1": "*"
+    "fabric-key-binding-api-v1": "*",
+    "fabric-command-api-v2": "*",
+    "fabric-lifecycle-events-v1": "*"
   }
 }

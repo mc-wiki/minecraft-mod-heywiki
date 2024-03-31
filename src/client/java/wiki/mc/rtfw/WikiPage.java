@@ -15,7 +15,7 @@ public class WikiPage {
         this.pageName = pageName;
     }
 
-    public @Nullable URI buildUri(String language) {
+    public @Nullable URI getUri(String language) {
         String solvedLanguage = null;
         if (language.startsWith("de_")) {
             solvedLanguage = "de";
@@ -54,7 +54,7 @@ public class WikiPage {
     }
 
     public void openInBrowser(String language) {
-        var uri = buildUri(language);
+        var uri = getUri(language);
         if (uri != null) {
             Util.getOperatingSystem().open(uri);
         }
