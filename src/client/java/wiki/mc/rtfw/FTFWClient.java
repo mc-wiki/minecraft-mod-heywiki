@@ -14,6 +14,8 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
+import wiki.mc.rtfw.commands.WhatBiomeCommand;
+import wiki.mc.rtfw.commands.WikiCommand;
 
 
 public class FTFWClient implements ClientModInitializer {
@@ -52,6 +54,7 @@ public class FTFWClient implements ClientModInitializer {
 
     private static void registerCommands(CommandDispatcher<FabricClientCommandSource> dispatcher, CommandRegistryAccess registryAccess) {
         WikiCommand.register(dispatcher);
+        WhatBiomeCommand.register(dispatcher);
     }
 
     @Override
