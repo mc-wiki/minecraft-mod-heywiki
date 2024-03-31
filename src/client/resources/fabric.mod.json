@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "heywiki",
-  "version": "${version}",
+  "version": "1.0.0",
   "name": "Hey Wiki",
   "description": "Press semicolon to quickly read the wiki.",
   "authors": [
