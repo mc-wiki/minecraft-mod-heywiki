@@ -16,6 +16,16 @@ repositories {
     // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html
     // for more information about repositories.
+
+    maven {
+        name 'Xander Maven'
+        url 'https://maven.isxander.dev/releases'
+    }
+
+    maven {
+        name 'TerraformersMC Maven'
+        url 'https://maven.terraformersmc.com/releases'
+    }
 }
 
 loom {
@@ -46,8 +56,12 @@ dependencies {
 
     // Add each module as a dependency
     apiModules.forEach {
-        include(modImplementation(fabricApi.module(it, project.fabric_version)))
+        modImplementation fabricApi.module(it, project.fabric_version)
     }
+
+    // https://docs.isxander.dev/yet-another-config-lib
+    modImplementation "dev.isxander.yacl:yet-another-config-lib-fabric:3.3.2+1.20.4"
+    modApi "com.terraformersmc:modmenu:9.0.0"
 }
 
 processResources {

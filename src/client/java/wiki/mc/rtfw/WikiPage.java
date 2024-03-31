@@ -1,5 +1,6 @@
 package wiki.mc.rtfw;
 
+import net.minecraft.client.gui.screen.ConfirmLinkScreen;
 import net.minecraft.util.Util;
 import org.jetbrains.annotations.Nullable;
 
@@ -43,9 +44,9 @@ public class WikiPage {
 
         try {
             if (solvedLanguage == null)
-                return new URI("https://minecraft.wiki/w/" + URLEncoder.encode(this.pageName.replaceAll(" ", "_"), StandardCharsets.UTF_8));
+                return new URI("https://minecraft.wiki/?search=" + URLEncoder.encode(this.pageName.replaceAll(" ", "_"), StandardCharsets.UTF_8));
             else
-                return new URI("https://" + solvedLanguage + ".minecraft.wiki/w/" + URLEncoder.encode(this.pageName.replaceAll(" ", "_"), StandardCharsets.UTF_8));
+                return new URI("https://" + solvedLanguage + ".minecraft.wiki/?search=" + URLEncoder.encode(this.pageName.replaceAll(" ", "_"), StandardCharsets.UTF_8));
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
@@ -54,9 +55,18 @@ public class WikiPage {
     }
 
     public void openInBrowser(String language) {
+        openInBrowser(language, false);
+    }
+
+    public void openInBrowser(String language, Boolean skipConfirmation) {
+        var config = FTFWConfig.HANDLER.instance();
         var uri = getUri(language);
         if (uri != null) {
-            Util.getOperatingSystem().open(uri);
+            if (config.requiresConfirmation && !skipConfirmation) {
+                ConfirmLinkScreen.open(null, uri.toString());
+            } else {
+                Util.getOperatingSystem().open(uri);
+            }
         }
     }
 }

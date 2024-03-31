@@ -13,7 +13,7 @@ public class WikiCommand {
     public static void register(CommandDispatcher<FabricClientCommandSource> dispatcher) {
         dispatcher.register(literal("wiki").then(argument("page", greedyString())
                 .executes(ctx -> {
-                    new WikiPage(getString(ctx, "page")).openInBrowser(MinecraftClient.getInstance().getLanguageManager().getLanguage());
+                    new WikiPage(getString(ctx, "page")).openInBrowser(MinecraftClient.getInstance().getLanguageManager().getLanguage(), true);
                     return 0;
                 })));
     }
