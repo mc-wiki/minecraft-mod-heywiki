@@ -1,7 +1,7 @@
 package wiki.minecraft.heywiki;
 
 import dev.isxander.yacl3.api.*;
-import dev.isxander.yacl3.api.controller.DropdownStringControllerBuilder;
+import dev.isxander.yacl3.api.controller.EnumDropdownControllerBuilder;
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
 import dev.isxander.yacl3.config.v2.api.SerialEntry;
@@ -24,24 +24,6 @@ public class HeyWikiConfig {
     @SerialEntry
     public boolean requiresConfirmation = true;
 
-    private static final String[] LANGUAGES = {
-            "auto",
-            "de",
-            "en",
-            "es",
-            "fr",
-            "ja",
-            "ko",
-            "lzh",
-            "pt",
-            "ru",
-            "th",
-            "uk",
-            "zh"
-    };
-    @SerialEntry
-    public String language = "auto";
-
     public static Screen createGui(Screen parent) {
         var instance = HeyWikiConfig.HANDLER.instance();
         var client = MinecraftClient.getInstance();
@@ -55,15 +37,15 @@ public class HeyWikiConfig {
                                 .binding(true, () -> instance.requiresConfirmation, newVal -> instance.requiresConfirmation = newVal)
                                 .controller(TickBoxControllerBuilder::create)
                                 .build())
-                        .option(Option.<String>createBuilder()
+                        .option(Option.<Language>createBuilder()
                                 .name(Text.translatable("options.heywiki.language.name"))
                                 .description(OptionDescription.of(Text.translatable("options.heywiki.language.description")))
-                                .binding("auto",
-                                        () -> instance.language,
-                                        newVal -> instance.language = newVal)
-                                .controller(opt -> DropdownStringControllerBuilder.create(opt)
-                                        .values(LANGUAGES)
-                                )
+                                .binding(Language.AUTO,
+                                        () -> Language.fromName(instance.language),
+                                        newVal -> instance.language = newVal.getName())
+                                .controller(opt -> EnumDropdownControllerBuilder.create(opt).formatValue(
+                                        lang -> Text.translatable("options.heywiki.language." + lang.getName())
+                                ))
                                 .build())
                         .option(ButtonOption.createBuilder()
                                 .name(Text.translatable("options.heywiki.open_keybinds.name"))
@@ -74,5 +56,42 @@ public class HeyWikiConfig {
                         .build())
                 .save(HeyWikiConfig.HANDLER::save)
                 .build().generateScreen(parent);
+    }
+    @SerialEntry
+    public String language = "auto";
+
+    public static enum Language {
+        AUTO("auto"),
+        DE("de"),
+        EN("en"),
+        ES("es"),
+        FR("fr"),
+        JA("ja"),
+        KO("ko"),
+        LZH("lzh"),
+        PT("pt"),
+        RU("ru"),
+        TH("th"),
+        UK("uk"),
+        ZH("zh");
+
+        private final String name;
+
+        Language(String name) {
+            this.name = name;
+        }
+
+        public static Language fromName(String name) {
+            for (Language lang : values()) {
+                if (lang.getName().equals(name)) {
+                    return lang;
+                }
+            }
+            return AUTO;
+        }
+
+        public String getName() {
+            return name;
+        }
     }
 }
