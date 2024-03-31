@@ -53,10 +53,12 @@ public class WikiPage {
                 return new WikiPage(Text.translatable(translationKey).getString());
             }
 
-            currentLang = "en_us";
-            translation = TranslationStorage.load(
-                    client.getResourceManager(),
-                    List.of("en_us"), false);
+            if (!resolvedLanguage.equals(currentLang)) {
+                currentLang = "en_us";
+                translation = TranslationStorage.load(
+                        client.getResourceManager(),
+                        List.of("en_us"), false);
+            }
             return new WikiPage(translation.get(translationKey));
         } else {
             String mappedConfigLanguage = getWikiLanguageGameLanguageMap().get(config.language);
