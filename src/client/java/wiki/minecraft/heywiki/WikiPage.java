@@ -1,4 +1,4 @@
-package wiki.mc.rtfw;
+package wiki.minecraft.heywiki;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.MinecraftClient;
@@ -7,6 +7,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
+import wiki.minecraft.heywiki.screen.HeyWikiConfirmLinkScreen;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -17,7 +18,7 @@ import java.util.HashMap;
 
 public class WikiPage {
     private static final Logger LOGGER = LogUtils.getLogger();
-    private static final RTFWConfig config = RTFWConfig.HANDLER.instance();
+    private static final HeyWikiConfig config = HeyWikiConfig.HANDLER.instance();
     private static final MinecraftClient client = MinecraftClient.getInstance();
     private static final HashMap<String, TranslationStorage> languageMap = new HashMap<>();
 
@@ -111,7 +112,7 @@ public class WikiPage {
         var uri = getUri();
         if (uri != null) {
             if (config.requiresConfirmation && !skipConfirmation) {
-                RTFWConfirmLinkScreen.open(null, uri.toString());
+                HeyWikiConfirmLinkScreen.open(null, uri.toString());
             } else {
                 Util.getOperatingSystem().open(uri);
             }

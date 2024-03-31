@@ -1,13 +1,13 @@
-package wiki.mc.rtfw.commands;
+package wiki.minecraft.heywiki.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.text.Text;
-import wiki.mc.rtfw.WikiPage;
+import wiki.minecraft.heywiki.WikiPage;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
-import static wiki.mc.rtfw.RTFWClient.getTranslationKeyByRaycast;
+import static wiki.minecraft.heywiki.HeyWikiClient.getTranslationKeyByRaycast;
 
 public class WhatIsThisCommand {
     public static final SimpleCommandExceptionType NO_TARGET = new SimpleCommandExceptionType(Text.translatable("commands.whatisthis.no_target"));

@@ -1,4 +1,4 @@
-package wiki.mc.rtfw.mixin;
+package wiki.minecraft.heywiki.mixin;
 
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.screen.slot.Slot;
@@ -8,8 +8,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import wiki.mc.rtfw.RTFWClient;
-import wiki.mc.rtfw.WikiPage;
+import wiki.minecraft.heywiki.HeyWikiClient;
+import wiki.minecraft.heywiki.WikiPage;
 
 @Mixin(HandledScreen.class)
 public class HandledScreenMixin {
@@ -19,7 +19,7 @@ public class HandledScreenMixin {
 
     @Inject(method = "keyPressed", at = @At("HEAD"))
     public void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
-        if (RTFWClient.readKey.matchesKey(keyCode, scanCode)) {
+        if (HeyWikiClient.readKey.matchesKey(keyCode, scanCode)) {
             Slot slot = this.focusedSlot;
             if (slot != null && slot.hasStack()) {
                 String translationKey = slot.getStack().getItem().getTranslationKey();

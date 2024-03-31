@@ -1,8 +1,8 @@
-package wiki.mc.rtfw.commands;
+package wiki.minecraft.heywiki.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import wiki.mc.rtfw.WikiPage;
+import wiki.minecraft.heywiki.WikiPage;
 
 import static com.mojang.brigadier.arguments.StringArgumentType.getString;
 import static com.mojang.brigadier.arguments.StringArgumentType.greedyString;

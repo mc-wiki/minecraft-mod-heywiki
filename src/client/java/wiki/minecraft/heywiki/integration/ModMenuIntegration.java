@@ -1,12 +1,12 @@
-package wiki.mc.rtfw.integration;
+package wiki.minecraft.heywiki.integration;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import wiki.mc.rtfw.RTFWConfig;
+import wiki.minecraft.heywiki.HeyWikiConfig;
 
 public class ModMenuIntegration implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return RTFWConfig::createGui;
+        return HeyWikiConfig::createGui;
     }
 }

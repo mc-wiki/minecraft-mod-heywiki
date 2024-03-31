@@ -1,4 +1,4 @@
-package wiki.mc.rtfw;
+package wiki.minecraft.heywiki.screen;
 
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 import net.minecraft.client.MinecraftClient;
@@ -7,14 +7,14 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.Util;
 import org.lwjgl.glfw.GLFW;
 
-public class RTFWConfirmLinkScreen extends ConfirmLinkScreen {
-    public RTFWConfirmLinkScreen(BooleanConsumer callback, String link, boolean linkTrusted) {
+public class HeyWikiConfirmLinkScreen extends ConfirmLinkScreen {
+    public HeyWikiConfirmLinkScreen(BooleanConsumer callback, String link, boolean linkTrusted) {
         super(callback, link, linkTrusted);
     }
 
     public static void open(Screen parent, String url) {
         MinecraftClient minecraftClient = MinecraftClient.getInstance();
-        minecraftClient.setScreen(new RTFWConfirmLinkScreen((confirmed) -> {
+        minecraftClient.setScreen(new HeyWikiConfirmLinkScreen((confirmed) -> {
             if (confirmed) {
                 Util.getOperatingSystem().open(url);
             }

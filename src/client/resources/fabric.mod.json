@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "rtfw",
+  "id": "heywiki",
   "version": "${version}",
-  "name": "RTFW – Read The Wiki",
-  "description": "Press semicolon to quickly read the f**king wiki.",
+  "name": "Hey Wiki",
+  "description": "Press semicolon to quickly read the wiki.",
   "authors": [
     {
       "name": "Dianliang233",
@@ -12,24 +12,24 @@
   ],
   "contact": {
     "homepage": "https://minecraft.wiki/w/MCW:PENDING",
-    "sources": "https://github.com/mc-wiki/fabric-mod-rtfw",
-    "issues": "https://github.com/mc-wiki/fabric-mod-rtfw/issues",
+    "sources": "https://github.com/mc-wiki/fabric-mod-heywiki",
+    "issues": "https://github.com/mc-wiki/fabric-mod-heywiki/issues",
     "discord": "https://discord.gg/fGdE5ZE"
   },
   "license": "LGPL-3.0",
-  "icon": "assets/rtfw/icon.png",
+  "icon": "assets/heywiki/icon.png",
   "environment": "client",
   "entrypoints": {
     "client": [
-      "wiki.mc.rtfw.RTFWClient"
+      "wiki.minecraft.heywiki.HeyWikiClient"
     ],
     "modmenu": [
-      "wiki.mc.rtfw.integration.ModMenuIntegration"
+      "wiki.minecraft.heywiki.integration.ModMenuIntegration"
     ]
   },
   "mixins": [
     {
-      "config": "rtfw.client.mixins.json",
+      "config": "heywiki.client.mixins.json",
       "environment": "client"
     }
   ],

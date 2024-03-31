@@ -1,4 +1,4 @@
-package wiki.mc.rtfw;
+package wiki.minecraft.heywiki;
 
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.DropdownStringControllerBuilder;
@@ -13,8 +13,8 @@ import net.minecraft.client.gui.screen.option.KeybindsScreen;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public class RTFWConfig {
-    public static ConfigClassHandler<RTFWConfig> HANDLER = ConfigClassHandler.createBuilder(RTFWConfig.class)
+public class HeyWikiConfig {
+    public static ConfigClassHandler<HeyWikiConfig> HANDLER = ConfigClassHandler.createBuilder(HeyWikiConfig.class)
             .id(new Identifier("rtfw", "config"))
             .serializer(config -> GsonConfigSerializerBuilder.create(config)
                     .setPath(FabricLoader.getInstance().getConfigDir().resolve("rtfw.json"))
@@ -43,7 +43,7 @@ public class RTFWConfig {
     public String language = "auto";
 
     public static Screen createGui(Screen parent) {
-        var instance = RTFWConfig.HANDLER.instance();
+        var instance = HeyWikiConfig.HANDLER.instance();
         var client = MinecraftClient.getInstance();
         return YetAnotherConfigLib.createBuilder()
                 .title(Text.translatable("options.rtfw.title"))
@@ -72,7 +72,7 @@ public class RTFWConfig {
                                 .action((yaclScreen, option) -> client.setScreen(new KeybindsScreen(yaclScreen, client.options)))
                                 .build())
                         .build())
-                .save(RTFWConfig.HANDLER::save)
+                .save(HeyWikiConfig.HANDLER::save)
                 .build().generateScreen(parent);
     }
 }

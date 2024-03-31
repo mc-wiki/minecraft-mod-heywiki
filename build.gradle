@@ -32,7 +32,7 @@ loom {
     splitEnvironmentSourceSets()
 
     mods {
-        "rtfw" {
+        "heywiki" {
             sourceSet sourceSets.main
             sourceSet sourceSets.client
         }
