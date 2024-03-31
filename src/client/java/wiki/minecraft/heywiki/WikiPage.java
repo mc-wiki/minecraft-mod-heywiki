@@ -13,14 +13,15 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class WikiPage {
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final HeyWikiConfig config = HeyWikiConfig.HANDLER.instance();
     private static final MinecraftClient client = MinecraftClient.getInstance();
-    private static final HashMap<String, TranslationStorage> languageMap = new HashMap<>();
+    private static String currentLang;
+    private static TranslationStorage translation;
 
     private static HashMap<String, String> getWikiLanguageGameLanguageMap() {
         HashMap<String, String> map = new HashMap<>();
@@ -47,56 +48,64 @@ public class WikiPage {
 
     public static WikiPage fromTranslationKey(String translationKey) {
         if (config.language.equals("auto")) {
-            return new WikiPage(Text.translatable(translationKey).getString());
-        }
-        String mappedConfigLanguage = getWikiLanguageGameLanguageMap().get(config.language);
-        if (!languageMap.containsKey(mappedConfigLanguage)) {
-            languageMap.put(mappedConfigLanguage, TranslationStorage.load(
-                    client.getResourceManager(),
-                    Arrays.asList(mappedConfigLanguage, "en_us"), false));
-        }
+            String resolvedLanguage = resolveWikiLanguage(client.options.language);
+            if (!resolvedLanguage.equals("en")) {
+                return new WikiPage(Text.translatable(translationKey).getString());
+            }
 
-        return new WikiPage(languageMap.get(mappedConfigLanguage).get(translationKey));
+            currentLang = "en_us";
+            translation = TranslationStorage.load(
+                    client.getResourceManager(),
+                    List.of("en_us"), false);
+            return new WikiPage(translation.get(translationKey));
+        } else {
+            String mappedConfigLanguage = getWikiLanguageGameLanguageMap().get(config.language);
+            if (!mappedConfigLanguage.equals(currentLang)) {
+                currentLang = mappedConfigLanguage;
+                translation = TranslationStorage.load(
+                        client.getResourceManager(),
+                        List.of(mappedConfigLanguage, "en_us"), false);
+            }
+
+            return new WikiPage(translation.get(translationKey));
+        }
+    }
+
+    public static String resolveWikiLanguage(String language) {
+        if (language.startsWith("de_")) {
+            return "de";
+        } else if (language.startsWith("es_")) {
+            return "es";
+        } else if (language.startsWith("fr_")) {
+            return "fr";
+        } else if (language.startsWith("ja_")) {
+            return "ja";
+        } else if (language.equals("lzh")) {
+            return "lzh";
+        } else if (language.startsWith("ko_")) {
+            return "ko";
+        } else if (language.startsWith("pt_")) {
+            return "pt";
+        } else if (language.startsWith("ru_")) {
+            return "ru";
+        } else if (language.startsWith("th_")) {
+            return "th";
+        } else if (language.startsWith("uk_")) {
+            return "uk";
+        } else if (language.startsWith("zh_")) {
+            return "zh";
+        }
+        return "en";
     }
 
     public @Nullable URI getUri() {
-        String solvedLanguage = "en";
-
-        if (config.language.equals("auto")) {
-            var language = client.options.language;
-
-            if (language.startsWith("de_")) {
-                solvedLanguage = "de";
-            } else if (language.startsWith("es_")) {
-                solvedLanguage = "es";
-            } else if (language.startsWith("fr_")) {
-                solvedLanguage = "fr";
-            } else if (language.startsWith("ja_")) {
-                solvedLanguage = "ja";
-            } else if (language.equals("lzh")) {
-                solvedLanguage = "lzh";
-            } else if (language.startsWith("ko_")) {
-                solvedLanguage = "ko";
-            } else if (language.startsWith("pt_")) {
-                solvedLanguage = "pt";
-            } else if (language.startsWith("ru_")) {
-                solvedLanguage = "ru";
-            } else if (language.startsWith("th_")) {
-                solvedLanguage = "th";
-            } else if (language.startsWith("uk_")) {
-                solvedLanguage = "uk";
-            } else if (language.startsWith("zh_")) {
-                solvedLanguage = "zh";
-            }
-        } else {
-            solvedLanguage = config.language;
-        }
+        String resolvedLanguage = config.language.equals("auto") ? resolveWikiLanguage(client.options.language) : config.language;
 
         try {
-            if (solvedLanguage.equals("en"))
+            if (resolvedLanguage.equals("en"))
                 return new URI("https://minecraft.wiki/?search=" + URLEncoder.encode(this.pageName.replaceAll(" ", "_"), StandardCharsets.UTF_8));
             else
-                return new URI("https://" + solvedLanguage + ".minecraft.wiki/?search=" + URLEncoder.encode(this.pageName.replaceAll(" ", "_"), StandardCharsets.UTF_8));
+                return new URI("https://" + resolvedLanguage + ".minecraft.wiki/?search=" + URLEncoder.encode(this.pageName.replaceAll(" ", "_"), StandardCharsets.UTF_8));
         } catch (URISyntaxException e) {
             LOGGER.trace("Failed to create URI for wiki page", e);
         }
