@@ -1,0 +1,15 @@
+{
+  "category.heywiki.heywiki": "Hey Wiki",
+  "key.heywiki.open": "Abrir artigo na wiki",
+  "options.heywiki.title": "Opções do Hey Wiki",
+  "options.heywiki.general": "Geral",
+  "options.heywiki.requires_confirmation.name": "Requer confirmação",
+  "options.heywiki.requires_confirmation.description": "Abra a tela de confirmação antes de abrir o artigo na wiki. Isso é útil para evitar o acionamento acidental do recurso.",
+  "options.heywiki.language.name": "Idioma da Wiki",
+  "options.heywiki.language.description": "Defina seu idioma de preferência, substituindo a configuração de idioma do jogo.",
+  "options.heywiki.language.default": "Usar idioma do jogo",
+  "options.heywiki.open_keybinds.name": "Vá para as configurações de atalhos de teclado",
+  "options.heywiki.open_keybinds.description": "Abra a página de configurações de atalhos de teclado para configurar os atalhos de teclado do Hey Wiki.",
+  "commands.whatisthis.no_target": "Nada está sendo olhado.",
+  "commands.whatisthisitem.no_item_held": "Nenhum item está sendo segurado."
+}
