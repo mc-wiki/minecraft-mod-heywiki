@@ -23,7 +23,7 @@ import wiki.minecraft.heywiki.command.WikiCommand;
 public class HeyWikiClient implements ClientModInitializer {
     public static KeyBinding readKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.heywiki.open", // The translation key of the keybinding's name
             InputUtil.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
-            GLFW.GLFW_KEY_SEMICOLON, // The keycode of the key
+            GLFW.GLFW_KEY_H, // The keycode of the key
             "category.heywiki.heywiki" // The translation key of the keybinding's category.
     ));
 
