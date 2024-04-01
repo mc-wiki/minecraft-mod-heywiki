@@ -1,14 +1,18 @@
 {
   "schemaVersion": 1,
   "id": "heywiki",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "name": "Hey Wiki",
   "description": "Press semicolon to open the Minecraft Wiki page of the block/item/entity you're aiming at.",
   "authors": [
+    "Minecraft Wiki",
     {
       "name": "Dianliang233",
       "email": "dianliang233@gmail.com"
     }
+  ],
+  "contributors": [
+    "eduardoaddad"
   ],
   "contact": {
     "homepage": "https://minecraft.wiki/w/MCW:PENDING",
@@ -45,5 +49,13 @@
   },
   "recommends": {
     "modmenu": "*"
+  },
+  "custom": {
+    "mc-publish": {
+      "dependencies": [
+        "yacl",
+        "fabric-api"
+      ]
+    }
   }
 }
