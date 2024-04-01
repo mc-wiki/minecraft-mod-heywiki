@@ -3,6 +3,7 @@
 ## Changes
 
 - Now defaults to `H` key.
+- Added `/whatcommand` to quickly open a command page on the wiki with redirect `/whatcmd`.
 - Now reloads translation on resource reload to prevent reloading during key press.
 - Language config now shows language name in addition to language code.
 - Added redirect from `/whatis` to `/wiki`.

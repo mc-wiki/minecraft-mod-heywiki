@@ -19,10 +19,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
-import wiki.minecraft.heywiki.command.WhatBiomeCommand;
-import wiki.minecraft.heywiki.command.WhatIsThisCommand;
-import wiki.minecraft.heywiki.command.WhatIsThisItemCommand;
-import wiki.minecraft.heywiki.command.WikiCommand;
+import wiki.minecraft.heywiki.command.*;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
 
@@ -63,11 +60,13 @@ public class HeyWikiClient implements ClientModInitializer {
 
     private static void registerCommands(CommandDispatcher<FabricClientCommandSource> dispatcher, CommandRegistryAccess registryAccess) {
         WhatBiomeCommand.register(dispatcher);
+        var whatCommandCommand = WhatCommandCommand.register(dispatcher);
         WhatIsThisCommand.register(dispatcher);
         WhatIsThisItemCommand.register(dispatcher);
         var wikiCommand = WikiCommand.register(dispatcher);
 
         dispatcher.register(literal("whatis").redirect(wikiCommand));
+        dispatcher.register(literal("whatcmd").redirect(whatCommandCommand));
     }
 
     @Override
