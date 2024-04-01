@@ -24,6 +24,8 @@ import wiki.minecraft.heywiki.command.WhatIsThisCommand;
 import wiki.minecraft.heywiki.command.WhatIsThisItemCommand;
 import wiki.minecraft.heywiki.command.WikiCommand;
 
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
+
 
 public class HeyWikiClient implements ClientModInitializer {
     public static KeyBinding readKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.heywiki.open", // The translation key of the keybinding's name
@@ -63,7 +65,9 @@ public class HeyWikiClient implements ClientModInitializer {
         WhatBiomeCommand.register(dispatcher);
         WhatIsThisCommand.register(dispatcher);
         WhatIsThisItemCommand.register(dispatcher);
-        WikiCommand.register(dispatcher);
+        var wikiCommand = WikiCommand.register(dispatcher);
+
+        dispatcher.register(literal("whatis").redirect(wikiCommand));
     }
 
     @Override

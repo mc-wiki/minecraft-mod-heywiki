@@ -4,6 +4,8 @@
 
 - Now defaults to `H` key.
 - Now reloads translation on resource reload to prevent reloading during key press.
+- Language config now shows language name in addition to language code.
+- Added redirect from `/whatis` to `/wiki`.
 
 ## Fixes
 

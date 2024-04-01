@@ -1,6 +1,7 @@
 package wiki.minecraft.heywiki.command;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.tree.LiteralCommandNode;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.client.MinecraftClient;
 import wiki.minecraft.heywiki.WikiPage;
@@ -10,8 +11,8 @@ import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.lit
 public class WhatBiomeCommand {
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
 
-    public static void register(CommandDispatcher<FabricClientCommandSource> dispatcher) {
-        dispatcher.register(literal("whatbiome")
+    public static LiteralCommandNode<FabricClientCommandSource> register(CommandDispatcher<FabricClientCommandSource> dispatcher) {
+        return dispatcher.register(literal("whatbiome")
                 .executes(ctx -> {
                     if (CLIENT.player == null || CLIENT.world == null) return 1;
 
