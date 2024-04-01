@@ -6,6 +6,7 @@
 - Now reloads translation on resource reload to prevent reloading during key press.
 - Language config now shows language name in addition to language code.
 - Added redirect from `/whatis` to `/wiki`.
+- Added `pt_br` translation.
 
 ## Fixes
 
