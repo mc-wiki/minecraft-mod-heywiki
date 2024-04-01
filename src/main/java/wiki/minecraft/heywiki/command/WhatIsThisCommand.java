@@ -13,6 +13,7 @@ import static wiki.minecraft.heywiki.HeyWikiClient.getTranslationKeyByRaycast;
 public class WhatIsThisCommand {
     public static final SimpleCommandExceptionType NO_TARGET = new SimpleCommandExceptionType(Text.translatable("commands.whatisthis.no_target"));
 
+    @SuppressWarnings("UnusedReturnValue")
     public static LiteralCommandNode<FabricClientCommandSource> register(CommandDispatcher<FabricClientCommandSource> dispatcher) {
         return dispatcher.register(literal("whatisthis")
                 .executes(ctx -> {

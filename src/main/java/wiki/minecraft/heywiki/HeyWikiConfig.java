@@ -60,7 +60,7 @@ public class HeyWikiConfig {
     @SerialEntry
     public String language = "auto";
 
-    public static enum Language {
+    public enum Language {
         AUTO("auto"),
         DE("de"),
         EN("en"),

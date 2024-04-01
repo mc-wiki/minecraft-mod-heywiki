@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "heywiki",
-  "version": "1.1.0",
+  "version": "${version}",
   "name": "Hey Wiki",
   "description": "Press semicolon to open the Minecraft Wiki page of the block/item/entity you're aiming at.",
   "authors": [
@@ -33,7 +33,7 @@
   },
   "mixins": [
     {
-      "config": "heywiki.client.mixins.json",
+      "config": "heywiki.mixins.json",
       "environment": "client"
     }
   ],
