@@ -51,6 +51,15 @@
     "modmenu": "*"
   },
   "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.discord": "https://discord.gg/fGdE5ZE",
+        "modmenu.github_releases": "https://github.com/mc-wiki/fabric-mod-heywiki/releases",
+        "modmenu.mastodon": "https://wikis.world/@MinecraftWikiEN",
+        "modmenu.modrinth": "https://modrinth.com/mod/hey-wiki",
+        "modmenu.twitter": "https://twitter.com/MinecraftWikiEN"
+      }
+    },
     "mc-publish": {
       "dependencies": [
         "yacl",
