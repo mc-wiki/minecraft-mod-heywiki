@@ -3,7 +3,7 @@
   "id": "heywiki",
   "version": "${version}",
   "name": "Hey Wiki",
-  "description": "Press semicolon to open the Minecraft Wiki page of the block/item/entity you're aiming at.",
+  "description": "Press H to open the Minecraft Wiki page of the block/item/entity you're aiming at.",
   "authors": [
     "Minecraft Wiki",
     {

@@ -1,11 +1,11 @@
 # Hey Wiki
 
-Hey Wiki is a Fabric Minecraft mod that allows you to press semicolon (customizable) to open
+Hey Wiki is a Fabric Minecraft mod that allows you to press H (customizable) to open
 the [Minecraft Wiki](https://minecraft.wiki/) page of the block/item/entity you're aiming at.
 
 ## Features
 
-- Press semicolon (customizable) to open the Minecraft Wiki page of the block/item/entity you're aiming at.
+- Press H (customizable) to open the Minecraft Wiki page of the block/item/entity you're aiming at.
 - Adds several commands.
 
 ### Commands
