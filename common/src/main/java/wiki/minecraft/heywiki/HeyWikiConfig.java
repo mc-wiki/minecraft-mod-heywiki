@@ -5,58 +5,21 @@ import com.google.gson.JsonParser;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
+import me.shedaniel.clothconfig2.impl.builders.DropdownMenuBuilder;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import static dev.architectury.platform.Platform.getConfigFolder;
 
 public class HeyWikiConfig {
     public static boolean requiresConfirmation = true;
     public static String language = Language.AUTO.getName();
-
-    public static void load() {
-        File configFile = getConfigFolder().resolve("heywiki.json").toFile();
-        if (!configFile.exists()) {
-            return;
-        }
-        try {
-            JsonParser.parseReader(new Gson().newJsonReader(new FileReader(configFile))).getAsJsonObject().entrySet().forEach(entry -> {
-                switch (entry.getKey()) {
-                    case "requiresConfirmation":
-                        requiresConfirmation = entry.getValue().getAsBoolean();
-                        break;
-                    case "language":
-                        language = entry.getValue().getAsString();
-                        break;
-                }
-            });
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static void save() {
-        File configFile = getConfigFolder().resolve("heywiki.json").toFile();
-        if (!configFile.exists()) {
-            return;
-        }
-        try {
-            boolean createFile = configFile.createNewFile();
-            if (!createFile) {
-                throw new RuntimeException("Failed to create config file");
-            }
-            new Gson().newJsonWriter(new java.io.FileWriter(configFile)).beginObject()
-                      .name("requiresConfirmation").value(requiresConfirmation)
-                      .name("language").value(language)
-                      .endObject().close();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public static Screen createGui(Screen parent) {
         ConfigBuilder builder = ConfigBuilder.create()
@@ -73,12 +36,13 @@ public class HeyWikiConfig {
                 .setSaveConsumer(newValue -> HeyWikiConfig.requiresConfirmation = newValue)
                 .build());
         general.addEntry(entryBuilder
-                // FIXME: Change to a dropdown
-                .startEnumSelector(Text.translatable("options.heywiki.language.name"), Language.class, Language.fromName(HeyWikiConfig.language))
+                .startDropdownMenu(Text.translatable("options.heywiki.language.name"),
+                        DropdownMenuBuilder.TopCellElementBuilder.of(language, Language::fromName, lang -> Text.translatable("options.heywiki.language." + lang)),
+                        DropdownMenuBuilder.CellCreatorBuilder.of(lang -> Text.translatable("options.heywiki.language." + ((Language) lang).getName())))
+                .setSelections(Arrays.stream(Language.values()).collect(Collectors.toList()))
                 .setDefaultValue(Language.AUTO)
-                .setEnumNameProvider(val -> Text.translatable("options.heywiki.language." + ((Language) val).getName()))
                 .setTooltip(Text.translatable("options.heywiki.language.description"))
-                .setSaveConsumer(newValue -> HeyWikiConfig.language = newValue.getName())
+                .setSaveConsumer(newValue -> HeyWikiConfig.language = ((Language) newValue).getName())
                 .build());
         general.addEntry(entryBuilder
                 .fillKeybindingField(Text.translatable("key.heywiki.open"), HeyWikiClient.openWikiKey)
@@ -122,6 +86,40 @@ public class HeyWikiConfig {
 
         public String getName() {
             return name;
+        }
+    }
+
+    public static void load() {
+        Path configPath = getConfigFolder().resolve("heywiki.json");
+        if (!configPath.toFile().exists()) {
+            return;
+        }
+        try {
+            JsonParser.parseReader(new Gson().newJsonReader(Files.newBufferedReader(configPath))).getAsJsonObject().entrySet().forEach(entry -> {
+                switch (entry.getKey()) {
+                    case "requiresConfirmation":
+                        requiresConfirmation = entry.getValue().getAsBoolean();
+                        break;
+                    case "language":
+                        language = entry.getValue().getAsString();
+                        break;
+                }
+            });
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to read config file", e);
+        }
+    }
+
+    public static void save() {
+        Path configPath = getConfigFolder().resolve("heywiki.json");
+        try {
+            Files.createDirectories(configPath.getParent());
+            new Gson().newJsonWriter(Files.newBufferedWriter(configPath)).beginObject()
+                      .name("requiresConfirmation").value(requiresConfirmation)
+                      .name("language").value(language)
+                      .endObject().close();
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to write config file", e);
         }
     }
 }

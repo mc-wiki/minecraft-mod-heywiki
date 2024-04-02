@@ -1,6 +1,6 @@
 modLoader = "javafml"
 loaderVersion = "[2,)"
-#issueTrackerURL = ""
+issueTrackerURL = "https://github.com/mc-wiki/minecraft-mod-heywiki/issues"
 license = "LGPL-3.0"
 
 [[mods]]
@@ -11,7 +11,7 @@ authors = "Me!"
 description = '''
 Press H to open the Minecraft Wiki page of the block/item/entity you're aiming at.
 '''
-logoFile = "assets/heywiki/icon.png"
+logoFile = "icon.png"
 
 [[mixins]]
 #config = "heywiki.mixins.json"
@@ -39,7 +39,7 @@ ordering = "AFTER"
 side = "CLIENT"
 
 [[dependencies.heywiki]]
-modId = "cloth-config"
+modId = "cloth_config"
 type = "required"
 versionRange = "[13.0.112,)"
 ordering = "AFTER"

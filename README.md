@@ -1,7 +1,7 @@
 # Hey Wiki
 
-Hey Wiki is a Fabric Minecraft mod that allows you to press H (customizable) to open
-the [Minecraft Wiki](https://minecraft.wiki/) page of the block/item/entity you're aiming at.
+Hey Wiki is an official Fabric/NeoForge Minecraft mod by [the Minecraft Wiki](https://minecraft.wiki)
+that allows you to press H (customizable) to open the Minecraft Wiki page of the block/item/entity you're aiming at.
 
 ## Features
 
@@ -22,6 +22,14 @@ the [Minecraft Wiki](https://minecraft.wiki/) page of the block/item/entity you'
 
 ## Dependencies
 
-- Fabric API
-- YetAnotherConfigLib
-- (Optional) Mod Menu
+For Fabric:
+
+- (Required) [Fabric API](https://modrinth.com/mod/fabric-api)
+- (Required) [Architectury API](https://modrinth.com/mod/architectury-api): for multi-modloader compatibility
+- (Required) [Cloth Config](https://modrinth.com/mod/cloth-config): for configuration
+- (Recommended) [Mod Menu](https://modrinth.com/mod/mod-menu): to access the config menu
+
+For NeoForge:
+
+- (Required) [Architectury API](https://modrinth.com/mod/architectury-api): for multi-modloader compatibility
+- (Required) [Cloth Config](https://modrinth.com/mod/cloth-config): for configuration

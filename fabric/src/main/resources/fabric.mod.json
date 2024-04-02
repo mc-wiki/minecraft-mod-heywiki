@@ -16,12 +16,12 @@
   ],
   "contact": {
     "homepage": "https://minecraft.wiki/w/MCW:PENDING",
-    "sources": "https://github.com/mc-wiki/fabric-mod-heywiki",
-    "issues": "https://github.com/mc-wiki/fabric-mod-heywiki/issues",
+    "sources": "https://github.com/mc-wiki/minecraft-mod-heywiki",
+    "issues": "https://github.com/mc-wiki/minecraft-mod-heywiki/issues",
     "discord": "https://discord.gg/fGdE5ZE"
   },
   "license": "LGPL-3.0",
-  "icon": "assets/heywiki/icon.png",
+  "icon": "icon.png",
   "environment": "client",
   "entrypoints": {
     "client": [
@@ -55,7 +55,7 @@
     "modmenu": {
       "links": {
         "modmenu.discord": "https://discord.gg/fGdE5ZE",
-        "modmenu.github_releases": "https://github.com/mc-wiki/fabric-mod-heywiki/releases",
+        "modmenu.github_releases": "https://github.com/mc-wiki/minecraft-mod-heywiki/releases",
         "modmenu.mastodon": "https://wikis.world/@MinecraftWikiEN",
         "modmenu.modrinth": "https://modrinth.com/mod/hey-wiki",
         "modmenu.twitter": "https://twitter.com/MinecraftWikiEN"
