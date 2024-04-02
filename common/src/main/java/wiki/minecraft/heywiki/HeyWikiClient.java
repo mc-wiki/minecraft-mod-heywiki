@@ -24,10 +24,10 @@ import static dev.architectury.event.events.client.ClientCommandRegistrationEven
 
 public class HeyWikiClient {
     public static final String MOD_ID = "heywiki";
-    public static KeyBinding readKey = new KeyBinding("key.heywiki.open", // The translation key of the keybinding's name
+    public static KeyBinding openWikiKey = new KeyBinding("key.heywiki.open", // The translation key of the keybinding's name
             InputUtil.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
             GLFW.GLFW_KEY_H, // The keycode of the key
-            "category.heywiki.heywiki" // The translation key of the keybinding's category.
+            "key.categories.heywiki" // The translation key of the keybinding's category.
     );
 
     public static @Nullable String getTranslationKeyByRaycast() {
@@ -69,14 +69,14 @@ public class HeyWikiClient {
     }
 
     public static void init() {
-        HeyWikiConfig.HANDLER.load();
+        HeyWikiConfig.load();
 
-        KeyMappingRegistry.register(readKey);
+        KeyMappingRegistry.register(openWikiKey);
 
         ClientCommandRegistrationEvent.EVENT.register(HeyWikiClient::registerCommands);
 
         ClientTickEvent.CLIENT_POST.register(client -> {
-            while (readKey.wasPressed()) {
+            while (openWikiKey.wasPressed()) {
                 String translationKey = getTranslationKeyByRaycast();
 
                 if (translationKey != null) {

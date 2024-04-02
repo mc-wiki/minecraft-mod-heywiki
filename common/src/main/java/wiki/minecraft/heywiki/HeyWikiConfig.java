@@ -1,67 +1,93 @@
 package wiki.minecraft.heywiki;
 
-import dev.isxander.yacl3.api.*;
-import dev.isxander.yacl3.api.controller.EnumDropdownControllerBuilder;
-import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
-import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
-import dev.isxander.yacl3.config.v2.api.SerialEntry;
-import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
-import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
+import com.google.gson.Gson;
+import com.google.gson.JsonParser;
+import me.shedaniel.clothconfig2.api.ConfigBuilder;
+import me.shedaniel.clothconfig2.api.ConfigCategory;
+import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.option.KeybindsScreen;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+
+import static dev.architectury.platform.Platform.getConfigFolder;
 
 public class HeyWikiConfig {
-    public static ConfigClassHandler<HeyWikiConfig> HANDLER = ConfigClassHandler
-            .createBuilder(HeyWikiConfig.class)
-            .id(new Identifier("heywiki", "config"))
-            .serializer(config -> GsonConfigSerializerBuilder
-                    .create(config)
-                    .setPath(FabricLoader.getInstance().getConfigDir().resolve("heywiki.json"))
-                    .build())
-            .build();
+    public static boolean requiresConfirmation = true;
+    public static String language = Language.AUTO.getName();
 
-    @SerialEntry
-    public boolean requiresConfirmation = true;
-    @SerialEntry
-    public String language = "auto";
+    public static void load() {
+        File configFile = getConfigFolder().resolve("heywiki.json").toFile();
+        if (!configFile.exists()) {
+            return;
+        }
+        try {
+            JsonParser.parseReader(new Gson().newJsonReader(new FileReader(configFile))).getAsJsonObject().entrySet().forEach(entry -> {
+                switch (entry.getKey()) {
+                    case "requiresConfirmation":
+                        requiresConfirmation = entry.getValue().getAsBoolean();
+                        break;
+                    case "language":
+                        language = entry.getValue().getAsString();
+                        break;
+                }
+            });
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void save() {
+        File configFile = getConfigFolder().resolve("heywiki.json").toFile();
+        if (!configFile.exists()) {
+            return;
+        }
+        try {
+            boolean createFile = configFile.createNewFile();
+            if (!createFile) {
+                throw new RuntimeException("Failed to create config file");
+            }
+            new Gson().newJsonWriter(new java.io.FileWriter(configFile)).beginObject()
+                      .name("requiresConfirmation").value(requiresConfirmation)
+                      .name("language").value(language)
+                      .endObject().close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static Screen createGui(Screen parent) {
-        var instance = HeyWikiConfig.HANDLER.instance();
-        var client = MinecraftClient.getInstance();
-        return YetAnotherConfigLib
-                .createBuilder()
-                .title(Text.translatable("options.heywiki.title"))
-                .category(ConfigCategory
-                        .createBuilder()
-                        .name(Text.translatable("options.heywiki.general"))
-                        .option(Option.<Boolean>createBuilder()
-                                      .name(Text.translatable("options.heywiki.requires_confirmation.name"))
-                                      .description(OptionDescription.of(Text.translatable("options.heywiki.requires_confirmation.description")))
-                                      .binding(true, () -> instance.requiresConfirmation, newVal -> instance.requiresConfirmation = newVal)
-                                      .controller(TickBoxControllerBuilder::create)
-                                      .build())
-                        .option(Option.<Language>createBuilder()
-                                      .name(Text.translatable("options.heywiki.language.name"))
-                                      .description(OptionDescription.of(Text.translatable("options.heywiki.language.description")))
-                                      .binding(Language.AUTO,
-                                              () -> Language.fromName(instance.language),
-                                              newVal -> instance.language = newVal.getName())
-                                      .controller(opt -> EnumDropdownControllerBuilder.create(opt).formatValue(
-                                              lang -> Text.translatable("options.heywiki.language." + lang.getName())
-                                                                                                              ))
-                                      .build())
-                        .option(ButtonOption.createBuilder()
-                                            .name(Text.translatable("options.heywiki.open_keybinds.name"))
-                                            .text(Text.literal(""))
-                                            .description(OptionDescription.of(Text.translatable("options.heywiki.open_keybinds.description")))
-                                            .action((yaclScreen, option) -> client.setScreen(new KeybindsScreen(yaclScreen, client.options)))
-                                            .build())
-                        .build())
-                .save(HeyWikiConfig.HANDLER::save)
-                .build().generateScreen(parent);
+        ConfigBuilder builder = ConfigBuilder.create()
+                                             .setParentScreen(parent)
+                                             .setTitle(Text.translatable("options.heywiki.title"));
+
+        ConfigCategory general = builder.getOrCreateCategory(Text.translatable("options.heywiki.general"));
+
+        ConfigEntryBuilder entryBuilder = builder.entryBuilder();
+        general.addEntry(entryBuilder
+                .startBooleanToggle(Text.translatable("options.heywiki.requires_confirmation.name"), HeyWikiConfig.requiresConfirmation)
+                .setDefaultValue(true)
+                .setTooltip(Text.translatable("options.heywiki.requires_confirmation.description"))
+                .setSaveConsumer(newValue -> HeyWikiConfig.requiresConfirmation = newValue)
+                .build());
+        general.addEntry(entryBuilder
+                // FIXME: Change to a dropdown
+                .startEnumSelector(Text.translatable("options.heywiki.language.name"), Language.class, Language.fromName(HeyWikiConfig.language))
+                .setDefaultValue(Language.AUTO)
+                .setEnumNameProvider(val -> Text.translatable("options.heywiki.language." + ((Language) val).getName()))
+                .setTooltip(Text.translatable("options.heywiki.language.description"))
+                .setSaveConsumer(newValue -> HeyWikiConfig.language = newValue.getName())
+                .build());
+        general.addEntry(entryBuilder
+                .fillKeybindingField(Text.translatable("key.heywiki.open"), HeyWikiClient.openWikiKey)
+                .setTooltip(Text.translatable("options.heywiki.language.description"))
+                .build());
+
+        builder.setSavingRunnable(HeyWikiConfig::save);
+
+        return builder.build();
     }
 
     public enum Language {

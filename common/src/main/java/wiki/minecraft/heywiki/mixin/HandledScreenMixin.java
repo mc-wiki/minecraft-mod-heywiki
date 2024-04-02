@@ -19,7 +19,7 @@ public class HandledScreenMixin {
 
     @Inject(method = "keyPressed", at = @At("HEAD"))
     public void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
-        if (HeyWikiClient.readKey.matchesKey(keyCode, scanCode)) {
+        if (HeyWikiClient.openWikiKey.matchesKey(keyCode, scanCode)) {
             Slot slot = this.focusedSlot;
             if (slot != null && slot.hasStack()) {
                 String translationKey = slot.getStack().getItem().getTranslationKey();

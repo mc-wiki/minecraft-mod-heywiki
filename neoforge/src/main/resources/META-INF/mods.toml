@@ -9,9 +9,13 @@ version = "${version}"
 displayName = "Hey Wiki"
 authors = "Me!"
 description = '''
-This is an example description! Tell everyone what your mod is about!
+Press H to open the Minecraft Wiki page of the block/item/entity you're aiming at.
 '''
-logoFile = "heywiki/icon.png"
+logoFile = "assets/heywiki/icon.png"
+
+[[mixins]]
+#config = "heywiki.mixins.json"
+config = "heywiki-common.mixins.json"
 
 [[dependencies.heywiki]]
 modId = "neoforge"
@@ -35,8 +39,8 @@ ordering = "AFTER"
 side = "CLIENT"
 
 [[dependencies.heywiki]]
-modId = "yet_another_config_lib_v3"
+modId = "cloth-config"
 type = "required"
-versionRange = "[3.3.0,)"
+versionRange = "[13.0.112,)"
 ordering = "AFTER"
 side = "CLIENT"

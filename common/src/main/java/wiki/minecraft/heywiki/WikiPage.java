@@ -18,7 +18,6 @@ import java.util.List;
 
 public class WikiPage {
     private static final Logger LOGGER = LogUtils.getLogger();
-    private static final HeyWikiConfig config = HeyWikiConfig.HANDLER.instance();
     private static final MinecraftClient client = MinecraftClient.getInstance();
     private static String currentLang;
     private static TranslationStorage translation;
@@ -58,7 +57,7 @@ public class WikiPage {
     }
 
     public static WikiPage fromTranslationKey(String translationKey) {
-        if (config.language.equals("auto")) {
+        if (HeyWikiConfig.language.equals("auto")) {
             String resolvedLanguage = resolveWikiLanguage(client.options.language);
             if (!resolvedLanguage.equals("en")) {
                 return new WikiPage(I18n.translate(translationKey));
@@ -69,7 +68,7 @@ public class WikiPage {
             }
             return new WikiPage(translation.get(translationKey));
         } else {
-            String mappedConfigLanguage = getWikiLanguageGameLanguageMap().get(config.language);
+            String mappedConfigLanguage = getWikiLanguageGameLanguageMap().get(HeyWikiConfig.language);
             if (!mappedConfigLanguage.equals(currentLang)) {
                 loadTranslation(mappedConfigLanguage);
             }
@@ -106,7 +105,7 @@ public class WikiPage {
     }
 
     public @Nullable URI getUri() {
-        String resolvedLanguage = config.language.equals("auto") ? resolveWikiLanguage(client.options.language) : config.language;
+        String resolvedLanguage = HeyWikiConfig.language.equals("auto") ? resolveWikiLanguage(client.options.language) : HeyWikiConfig.language;
 
         try {
             if (resolvedLanguage.equals("en"))
@@ -127,7 +126,7 @@ public class WikiPage {
     public void openInBrowser(Boolean skipConfirmation) {
         var uri = getUri();
         if (uri != null) {
-            if (config.requiresConfirmation && !skipConfirmation) {
+            if (HeyWikiConfig.requiresConfirmation && !skipConfirmation) {
                 HeyWikiConfirmLinkScreen.open(null, uri.toString());
             } else {
                 Util.getOperatingSystem().open(uri);

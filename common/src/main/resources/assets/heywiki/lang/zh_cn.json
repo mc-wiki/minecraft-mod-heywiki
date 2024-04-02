@@ -1,5 +1,5 @@
 {
-  "category.heywiki.heywiki": "Hey Wiki",
+  "key.categories.heywiki": "Hey Wiki",
   "commands.whatisthis.no_target": "你什么也没有瞄准。",
   "commands.whatisthisitem.no_item_held": "你没有拿持物品。",
   "key.heywiki.open": "打开wiki条目",
@@ -19,8 +19,6 @@
   "options.heywiki.language.th": "th：ภาษาไทย",
   "options.heywiki.language.uk": "uk：Українська",
   "options.heywiki.language.zh": "zh：中文",
-  "options.heywiki.open_keybinds.description": "打开按键绑定设置来配置Hey Wiki的键位。",
-  "options.heywiki.open_keybinds.name": "前往按键绑定设置",
   "options.heywiki.requires_confirmation.description": "在打开wiki页面前先打开确认页面，避免误触。",
   "options.heywiki.requires_confirmation.name": "需要确认",
   "options.heywiki.title": "Hey Wiki设置"

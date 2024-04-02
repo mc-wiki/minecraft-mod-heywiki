@@ -8,7 +8,9 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     // Remove the next line if you don't want to depend on the API
     modApi "dev.architectury:architectury:${rootProject.architectury_version}"
-    modApi "dev.isxander.yacl:yet-another-config-lib-common:${rootProject.yacl_version}"
+    modApi "me.shedaniel.cloth:cloth-config:13.0.121"
+
+    implementation 'com.google.code.gson:gson:2.10.1'
 }
 
 publishing {
