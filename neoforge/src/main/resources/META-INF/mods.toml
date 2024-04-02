@@ -1,0 +1,42 @@
+modLoader = "javafml"
+loaderVersion = "[2,)"
+#issueTrackerURL = ""
+license = "LGPL-3.0"
+
+[[mods]]
+modId = "heywiki"
+version = "${version}"
+displayName = "Hey Wiki"
+authors = "Me!"
+description = '''
+This is an example description! Tell everyone what your mod is about!
+'''
+logoFile = "heywiki/icon.png"
+
+[[dependencies.heywiki]]
+modId = "neoforge"
+type = "required"
+versionRange = "[20.4,)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.heywiki]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.20.4,)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.heywiki]]
+modId = "architectury"
+type = "required"
+versionRange = "[9.2.14,)"
+ordering = "AFTER"
+side = "CLIENT"
+
+[[dependencies.heywiki]]
+modId = "yet_another_config_lib_v3"
+type = "required"
+versionRange = "[3.3.0,)"
+ordering = "AFTER"
+side = "CLIENT"

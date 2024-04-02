@@ -1,0 +1,32 @@
+package wiki.minecraft.heywiki.command;
+
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
+import com.mojang.brigadier.tree.LiteralCommandNode;
+import dev.architectury.event.events.client.ClientCommandRegistrationEvent.ClientCommandSourceStack;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
+import wiki.minecraft.heywiki.WikiPage;
+
+import static dev.architectury.event.events.client.ClientCommandRegistrationEvent.literal;
+
+public class WhatIsThisItemCommand {
+    public static final SimpleCommandExceptionType NO_ITEM_HELD = new SimpleCommandExceptionType(Text.translatable("commands.whatisthisitem.no_item_held"));
+    private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
+
+    @SuppressWarnings("UnusedReturnValue")
+    public static LiteralCommandNode<ClientCommandSourceStack> register(CommandDispatcher<ClientCommandSourceStack> dispatcher) {
+        return dispatcher.register(literal("whatisthisitem")
+                .executes(ctx -> {
+                    if (CLIENT.player == null) return 1;
+                    ItemStack stack = CLIENT.player.getInventory().getMainHandStack();
+                    if (stack.isEmpty()) {
+                        throw NO_ITEM_HELD.create();
+                    }
+                    String translationKey = stack.getItem().getTranslationKey();
+                    WikiPage.fromTranslationKey(translationKey).openInBrowser(true);
+                    return 0;
+                }));
+    }
+}

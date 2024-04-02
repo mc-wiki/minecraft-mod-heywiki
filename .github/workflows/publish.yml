@@ -31,8 +31,8 @@ jobs:
       - name: publish
         uses: Kir-Antipov/mc-publish@v3.3
         with:
-          # curseforge-id: 123456
-          # curseforge-token: "${{ secrets.CURSEFORGE_TOKEN }}"
+          # curseneoforge-id: 123456
+          # curseneoforge-token: "${{ secrets.CURSEneoforge_TOKEN }}"
 
           modrinth-id: 6DnswkCZ
           modrinth-token: "${{ secrets.MODRINTH_TOKEN }}"

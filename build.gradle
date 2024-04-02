@@ -1,99 +1,66 @@
 plugins {
-    id 'fabric-loom' version '1.5-SNAPSHOT'
-    id 'maven-publish'
+    id "architectury-plugin" version "3.4-SNAPSHOT"
+    id "dev.architectury.loom" version "1.5-SNAPSHOT" apply false
 }
 
-version = project.mod_version
-group = project.maven_group
-
-base {
-    archivesName = project.archives_base_name
+architectury {
+    minecraft = rootProject.minecraft_version
 }
 
-repositories {
-    // Add repositories to retrieve artifacts from in here.
-    // You should only use this when depending on other mods because
-    // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-    // See https://docs.gradle.org/current/userguide/declaring_repositories.html
-    // for more information about repositories.
+subprojects {
+    apply plugin: "dev.architectury.loom"
 
-    maven {
-        name 'Xander Maven'
-        url 'https://maven.isxander.dev/releases'
+    loom {
+        silentMojangMappingsLicense()
     }
 
-    maven {
-        name 'TerraformersMC Maven'
-        url 'https://maven.terraformersmc.com/releases'
+    dependencies {
+        minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
+        mappings "net.fabricmc:yarn:${rootProject.yarn_mappings}:v2"
     }
 }
 
-dependencies {
-    // To change the versions see the gradle.properties file
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+allprojects {
+    apply plugin: "java"
+    apply plugin: "architectury-plugin"
+    apply plugin: "maven-publish"
 
-    // Fabric API. This is technically optional, but you probably want it anyway.
-    Set<String> apiModules = [
-            "fabric-api-base",
-            "fabric-key-binding-api-v1",
-            "fabric-command-api-v2",
-            "fabric-lifecycle-events-v1",
-            "fabric-resource-loader-v0"
-    ]
-
-    // Add each module as a dependency
-    apiModules.forEach {
-        modImplementation fabricApi.module(it, project.fabric_version)
+    base {
+        archivesName = rootProject.archives_base_name
     }
 
-    // https://docs.isxander.dev/yet-another-config-lib
-    modImplementation "dev.isxander.yacl:yet-another-config-lib-fabric:3.3.2+1.20.4"
-    modApi "com.terraformersmc:modmenu:9.0.0"
-}
+    version = rootProject.mod_version
+    group = rootProject.maven_group
 
-processResources {
-    inputs.property "version", project.version
+    repositories {
+        // Add repositories to retrieve artifacts from in here.
+        // You should only use this when depending on other mods because
+        // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
+        // See https://docs.gradle.org/current/userguide/declaring_repositories.html
+        // for more information about repositories.
 
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version
-    }
-}
+        maven {
+            name 'Xander Maven'
+            url 'https://maven.isxander.dev/releases'
+        }
 
-tasks.withType(JavaCompile).configureEach {
-    it.options.release = 17
-}
+        maven {
+            name 'Terraformers Maven'
+            url 'https://maven.terraformersmc.com/releases'
+        }
 
-java {
-    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-    // if it is present.
-    // If you remove this line, sources will not be generated.
-    withSourcesJar()
-
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
-}
-
-jar {
-    from("LICENSE") {
-        rename { "${it}_${project.base.archivesName.get()}" }
-    }
-}
-
-// configure the maven publication
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
+        maven {
+            name 'Neoforged Maven'
+            url "https://maven.neoforged.net/releases"
         }
     }
 
-    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-    repositories {
-        // Add repositories to publish to here.
-        // Notice: This block does NOT have the same function as the block in the top level.
-        // The repositories here will be used for publishing your artifact, not for
-        // retrieving dependencies.
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+        options.release = 17
+    }
+
+    java {
+        withSourcesJar()
     }
 }
