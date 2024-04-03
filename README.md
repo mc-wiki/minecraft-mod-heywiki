@@ -1,4 +1,7 @@
-# Hey Wiki
+# ![](./fabric/src/main/resources/icon.png)<br>Hey Wiki
+
+[![CurseForge](https://img.shields.io/curseforge/dt/997027?label=CurseForge&color=orange&logoColor=orange&labelColor=black&logo=curseforge)](https://curseforge.com/minecraft/mc-mods/hey-wiki)
+[![Modrinth](https://img.shields.io/modrinth/dt/6DnswkCZ?label=Modrinth&color=darkgreen&labelColor=black&logo=modrinth)](https://modrinth.com/mod/hey-wiki)
 
 Hey Wiki is an official Fabric/NeoForge Minecraft mod by [the Minecraft Wiki](https://minecraft.wiki)
 that allows you to press H (customizable) to open the Minecraft Wiki page of the block/item/entity you're aiming at.
