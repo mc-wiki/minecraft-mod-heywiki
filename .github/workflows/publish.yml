@@ -34,7 +34,7 @@ jobs:
       - name: make gradle wrapper executable
         run: chmod +x ./gradlew
       - name: build
-        run: ./gradlew ${{ matrix.loader.name }}:build
+        run: "./gradlew ${{ matrix.loader.name }}:build"
       - name: publish
         uses: Kir-Antipov/mc-publish@v3.3
         with:
