@@ -11,6 +11,13 @@ env:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        loader:
+          - name: fabric
+            formatted: Fabric
+          - name: neoforge
+            formatted: NeoForge
     runs-on: ubuntu-22.04
     permissions:
       contents: write
@@ -29,20 +36,23 @@ jobs:
       - name: build
         run: ./gradlew build
       - name: publish
+        if: ${{ matrix.loader == 'fabric' }}
         uses: Kir-Antipov/mc-publish@v3.3
         with:
-          # curseneoforge-id: 123456
-          # curseneoforge-token: "${{ secrets.CURSEneoforge_TOKEN }}"
+          curseforge-id: 997027
+          curseforge-token: "${{ secrets.CURSEFORGE_TOKEN }}"
 
           modrinth-id: 6DnswkCZ
           modrinth-token: "${{ secrets.MODRINTH_TOKEN }}"
 
           github-token: "${{ secrets.GITHUB_TOKEN }}"
 
-          name: "Hey Wiki ${{ github.ref_name }} for Minecraft ${{ env.MINECRAFT_VERSION }}"
-          version: "${{ github.ref_name }}+${{ env.MINECRAFT_VERSION }}"
+          name: "Hey Wiki ${{ github.ref_name }} for Minecraft ${{ env.MINECRAFT_VERSION }} with ${{ matrix.loader.formatted }}"
+          version: "${{ github.ref_name }}+${{ env.MINECRAFT_VERSION }}+${{ matrix.loader.name }}"
           version-type: release
           changelog-file: CHANGELOG.md
+          loaders: ${{ matrix.loader.name }}
+          files: ${{ matrix.loader.name }}/build/libs/!(*-@(dev\|sources\|javadoc)).jar
       - name: capture build artifacts
         uses: actions/upload-artifact@v3
         with:
