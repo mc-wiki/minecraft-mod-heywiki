@@ -1,0 +1,46 @@
+modLoader = "javafml"
+loaderVersion = "[2,)"
+issueTrackerURL = "https://github.com/mc-wiki/minecraft-mod-heywiki/issues"
+license = "LGPL-3.0"
+
+[[mods]]
+modId = "heywiki"
+version = "${version}"
+displayName = "Hey Wiki"
+authors = "Me!"
+description = '''
+Press H to open the Minecraft Wiki page of the block/item/entity you're aiming at.
+'''
+logoFile = "icon.png"
+
+[[mixins]]
+#config = "heywiki.mixins.json"
+config = "heywiki-common.mixins.json"
+
+[[dependencies.heywiki]]
+modId = "neoforge"
+type = "required"
+versionRange = "[20.4,)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.heywiki]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.20.4,)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.heywiki]]
+modId = "architectury"
+type = "required"
+versionRange = "[9.2.14,)"
+ordering = "AFTER"
+side = "CLIENT"
+
+[[dependencies.heywiki]]
+modId = "cloth_config"
+type = "required"
+versionRange = "[13.0.112,)"
+ordering = "AFTER"
+side = "CLIENT"
