@@ -8,7 +8,7 @@ architectury {
 }
 
 base {
-    archivesName = rootProject.archives_base_name + "+neoforge"
+    archivesName = rootProject.archives_base_name + "-neoforge"
 }
 
 configurations {

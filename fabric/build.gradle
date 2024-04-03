@@ -8,7 +8,7 @@ architectury {
 }
 
 base {
-    archivesName = rootProject.archives_base_name + "+fabric"
+    archivesName = rootProject.archives_base_name + "-fabric"
 }
 
 configurations {

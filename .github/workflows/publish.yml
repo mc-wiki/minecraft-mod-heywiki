@@ -55,9 +55,9 @@ jobs:
           version-type: release
           changelog-file: CHANGELOG.md
           loaders: ${{ matrix.loader.name }}
-          files: ${{ matrix.loader.name }}/build/libs/!(*-@(dev\|sources\|javadoc)).jar
+          files: ${{ matrix.loader.name }}/build/libs/!(*-sources|*-dev-shadow).jar
       - name: capture build artifacts
         uses: actions/upload-artifact@v3
         with:
           name: Artifacts
-          path: build/libs/
+          path: ${{ matrix.loader.name }}/build/libs/

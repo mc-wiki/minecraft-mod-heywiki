@@ -1,8 +1,6 @@
-# v1.2.0
+# v1.2.1
 
-## Changes
+## Fixes
 
-- Now supports NeoForge.
-- Now depends on Cloth Config instead of YACL.
-- Now depends on Architectury API.
-- Added French (fr_fr) translation.
+- Fixes issue with featured file on Modrinth.
+- .jar file name now includes loader.
