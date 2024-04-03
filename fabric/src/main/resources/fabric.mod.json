@@ -63,6 +63,7 @@
     },
     "mc-publish": {
       "dependencies": [
+        "architectury-api",
         "fabric-api"
       ]
     }

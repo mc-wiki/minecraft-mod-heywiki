@@ -37,6 +37,9 @@ type = "required"
 versionRange = "[9.2.14,)"
 ordering = "AFTER"
 side = "CLIENT"
+[dependencies.heywiki.mc-publish]
+modrinth = "architectury-api"
+curseforge = "architectury-api"
 
 [[dependencies.heywiki]]
 modId = "cloth_config"
@@ -44,3 +47,6 @@ type = "required"
 versionRange = "[13.0.112,)"
 ordering = "AFTER"
 side = "CLIENT"
+[dependencies.heywiki.mc-publish]
+modrinth = "cloth-config"
+curseforge = "cloth-config"
