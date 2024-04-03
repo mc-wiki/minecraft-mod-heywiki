@@ -22,7 +22,7 @@ that allows you to press H (customizable) to open the Minecraft Wiki page of the
 Optionally, you can change these behaviors in the config menu:
 
 > [!TIP]
-> You need to install [Mod Menu](https://modrinth.com/mod/mod-menu) to access the config menu on Fabric.
+> You need to install [Mod Menu](https://modrinth.com/mod/modmenu) to access the config menu on Fabric.
 
 - If confirmation is required to open the wiki page: default is true
 - Which wiki language you prefer, overriding your game language: default is your game language
