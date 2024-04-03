@@ -22,7 +22,7 @@ dependencies {
     modApi "me.shedaniel.cloth:cloth-config-neoforge:13.0.121"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 }
 
 processResources {
