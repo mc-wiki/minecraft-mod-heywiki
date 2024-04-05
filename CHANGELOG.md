@@ -1,6 +1,8 @@
-# v1.2.1
+# v1.3.0
 
-## Fixes
+## Changes
 
-- Fixes issue with featured file on Modrinth.
-- .jar file name now includes loader.
+- Now supports other wikis than Minecraft Wiki.
+- [Experimental] Added JSON config for wiki support at `wiki_family/*.json` in resource packs.
+  Please note that the JSON schema is not stable and is not semantically versioned yet.
+  We very well might break it in minor versions.

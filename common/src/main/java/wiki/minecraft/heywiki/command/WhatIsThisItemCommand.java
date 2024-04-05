@@ -7,7 +7,10 @@ import dev.architectury.event.events.client.ClientCommandRegistrationEvent.Clien
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
-import wiki.minecraft.heywiki.WikiPage;
+import net.minecraft.util.Identifier;
+import wiki.minecraft.heywiki.wiki.WikiPage;
+
+import java.util.Objects;
 
 import static dev.architectury.event.events.client.ClientCommandRegistrationEvent.literal;
 
@@ -24,8 +27,11 @@ public class WhatIsThisItemCommand {
                     if (stack.isEmpty()) {
                         throw NO_ITEM_HELD.create();
                     }
-                    String translationKey = stack.getItem().getTranslationKey();
-                    WikiPage.fromTranslationKey(translationKey).openInBrowser(true);
+                    String translationKey = stack.getTranslationKey();
+                    Identifier identifier = stack.getItem().arch$registryName();
+                    if (identifier != null) {
+                        Objects.requireNonNull(WikiPage.fromIdentifier(identifier, translationKey)).openInBrowser(true);
+                    }
                     return 0;
                 }));
     }

@@ -3,8 +3,9 @@ package wiki.minecraft.heywiki.command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent.ClientCommandSourceStack;
-import wiki.minecraft.heywiki.WikiPage;
 import wiki.minecraft.heywiki.command.suggestion.CommandNameSuggestionProvider;
+import wiki.minecraft.heywiki.resource.WikiFamilyConfigManager;
+import wiki.minecraft.heywiki.wiki.WikiPage;
 
 import static com.mojang.brigadier.arguments.StringArgumentType.getString;
 import static com.mojang.brigadier.arguments.StringArgumentType.string;
@@ -18,7 +19,8 @@ public class WhatCommandCommand {
                 .then(argument("command", string())
                         .suggests(new CommandNameSuggestionProvider())
                         .executes(ctx -> {
-                            new WikiPage("/" + getString(ctx, "command")).openInBrowser(true);
+                            // Unfortunately, I don't think we can check where the command comes from
+                            new WikiPage("/" + getString(ctx, "command"), WikiFamilyConfigManager.getFamilyByNamespace("minecraft")).openInBrowser(true);
                             return 0;
                         })));
     }

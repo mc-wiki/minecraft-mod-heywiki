@@ -1,14 +1,18 @@
 package wiki.minecraft.heywiki;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonWriter;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.DropdownMenuBuilder;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -37,10 +41,11 @@ public class HeyWikiConfig {
                 .build());
         general.addEntry(entryBuilder
                 .startDropdownMenu(Text.translatable("options.heywiki.language.name"),
-                        DropdownMenuBuilder.TopCellElementBuilder.of(language, Language::fromName, lang -> Text.translatable("options.heywiki.language." + lang)),
+                        DropdownMenuBuilder.TopCellElementBuilder.of(language, Language::fromNameOrTranslated, lang -> Text.translatable("options.heywiki.language." + lang.toString().toLowerCase())),
                         DropdownMenuBuilder.CellCreatorBuilder.of(lang -> Text.translatable("options.heywiki.language." + ((Language) lang).getName())))
                 .setSelections(Arrays.stream(Language.values()).collect(Collectors.toList()))
                 .setDefaultValue(Language.AUTO)
+                .setSuggestionMode(false)
                 .setTooltip(Text.translatable("options.heywiki.language.description"))
                 .setSaveConsumer(newValue -> HeyWikiConfig.language = ((Language) newValue).getName())
                 .build());
@@ -54,38 +59,26 @@ public class HeyWikiConfig {
         return builder.build();
     }
 
-    public enum Language {
-        AUTO("auto"),
-        DE("de"),
-        EN("en"),
-        ES("es"),
-        FR("fr"),
-        JA("ja"),
-        KO("ko"),
-        LZH("lzh"),
-        PT("pt"),
-        RU("ru"),
-        TH("th"),
-        UK("uk"),
-        ZH("zh");
+    public static void save() {
+        MinecraftClient.getInstance().reloadResourcesConcurrently();
+        Path configPath = getConfigFolder().resolve("heywiki.json");
+        try {
+            Files.createDirectories(configPath.getParent());
+            BufferedWriter writer = Files.newBufferedWriter(configPath);
 
-        private final String name;
-
-        Language(String name) {
-            this.name = name;
-        }
-
-        public static Language fromName(String name) {
-            for (Language lang : values()) {
-                if (lang.getName().equals(name)) {
-                    return lang;
-                }
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            JsonWriter jsonWriter = gson.newJsonWriter(writer);
+            try {
+                jsonWriter.beginObject()
+                          .name("requiresConfirmation").value(requiresConfirmation)
+                          .name("language").value(language)
+                          .endObject().close();
+            } catch (IOException e) {
+                jsonWriter.close();
+                throw new RuntimeException("Failed to write config file", e);
             }
-            return AUTO;
-        }
-
-        public String getName() {
-            return name;
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to write config file", e);
         }
     }
 
@@ -110,16 +103,49 @@ public class HeyWikiConfig {
         }
     }
 
-    public static void save() {
-        Path configPath = getConfigFolder().resolve("heywiki.json");
-        try {
-            Files.createDirectories(configPath.getParent());
-            new Gson().newJsonWriter(Files.newBufferedWriter(configPath)).beginObject()
-                      .name("requiresConfirmation").value(requiresConfirmation)
-                      .name("language").value(language)
-                      .endObject().close();
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to write config file", e);
+    public enum Language {
+        AUTO("auto"),
+        DE("de"),
+        EN("en"),
+        ES("es"),
+        FR("fr"),
+        JA("ja"),
+        KO("ko"),
+        LZH("lzh"),
+        PT("pt"),
+        RU("ru"),
+        TH("th"),
+        UK("uk"),
+        ZH("zh");
+
+        private final String name;
+
+        Language(String name) {
+            this.name = name;
+        }
+
+        public static Language fromNameOrTranslated(String string) {
+            String name = string.toLowerCase().split(":")[0];
+            for (Language lang : values()) {
+                if (lang.getName().equals(name)) {
+                    return lang;
+                }
+            }
+            return AUTO;
+        }
+
+        @SuppressWarnings("unused")
+        public static Language fromName(String name) {
+            for (Language lang : values()) {
+                if (lang.getName().equals(name)) {
+                    return lang;
+                }
+            }
+            return AUTO;
+        }
+
+        public String getName() {
+            return name;
         }
     }
 }

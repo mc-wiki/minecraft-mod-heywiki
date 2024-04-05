@@ -4,7 +4,10 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent.ClientCommandSourceStack;
 import net.minecraft.client.MinecraftClient;
-import wiki.minecraft.heywiki.WikiPage;
+import net.minecraft.util.Identifier;
+import wiki.minecraft.heywiki.wiki.WikiPage;
+
+import java.util.Objects;
 
 import static dev.architectury.event.events.client.ClientCommandRegistrationEvent.literal;
 
@@ -18,10 +21,10 @@ public class WhatBiomeCommand {
                     if (CLIENT.player == null || CLIENT.world == null) return 1;
 
                     var block = CLIENT.player.getBlockPos();
-                    var biomeKey = CLIENT.world.getBiome(block).getKey();
-                    if (biomeKey.isEmpty()) return 1;
-                    String translationKey = biomeKey.get().getValue().toTranslationKey("biome");
-                    WikiPage.fromTranslationKey(translationKey).openInBrowser(true);
+                    var biome = CLIENT.world.getBiome(block);
+                    if (biome.getKey().isEmpty()) return 1;
+                    Identifier identifier = biome.getKey().get().getValue();
+                    Objects.requireNonNull(WikiPage.fromIdentifier(identifier, identifier.toTranslationKey("biome"))).openInBrowser(true);
                     return 0;
                 }));
     }

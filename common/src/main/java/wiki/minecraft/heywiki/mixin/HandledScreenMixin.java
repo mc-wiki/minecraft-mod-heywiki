@@ -1,7 +1,9 @@
 package wiki.minecraft.heywiki.mixin;
 
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.item.Item;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -9,7 +11,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import wiki.minecraft.heywiki.HeyWikiClient;
-import wiki.minecraft.heywiki.WikiPage;
+import wiki.minecraft.heywiki.wiki.WikiPage;
+
+import java.util.Objects;
 
 @Mixin(HandledScreen.class)
 public class HandledScreenMixin {
@@ -22,8 +26,10 @@ public class HandledScreenMixin {
         if (HeyWikiClient.openWikiKey.matchesKey(keyCode, scanCode)) {
             Slot slot = this.focusedSlot;
             if (slot != null && slot.hasStack()) {
-                String translationKey = slot.getStack().getItem().getTranslationKey();
-                WikiPage.fromTranslationKey(translationKey).openInBrowser();
+                Item item = slot.getStack().getItem();
+                Identifier registryName = item.arch$registryName();
+                if (registryName == null) return;
+                Objects.requireNonNull(WikiPage.fromIdentifier(registryName, item.getTranslationKey())).openInBrowser();
             }
         }
     }

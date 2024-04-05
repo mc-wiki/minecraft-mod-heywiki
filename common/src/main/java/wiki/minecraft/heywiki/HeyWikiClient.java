@@ -11,13 +11,19 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.resource.ResourceType;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 import wiki.minecraft.heywiki.command.*;
+import wiki.minecraft.heywiki.resource.WikiFamilyConfigManager;
+import wiki.minecraft.heywiki.resource.WikiTranslationManager;
+import wiki.minecraft.heywiki.wiki.IdentifierTranslationKey;
+import wiki.minecraft.heywiki.wiki.WikiPage;
 
-import java.util.concurrent.CompletableFuture;
+import java.util.List;
+import java.util.Objects;
 
 import static dev.architectury.event.events.client.ClientCommandRegistrationEvent.literal;
 
@@ -30,7 +36,7 @@ public class HeyWikiClient {
             "key.categories.heywiki" // The translation key of the keybinding's category.
     );
 
-    public static @Nullable String getTranslationKeyByRaycast() {
+    public static @Nullable IdentifierTranslationKey getIdentifierByRaycast() {
         var client = MinecraftClient.getInstance();
         var hit = client.crosshairTarget;
 
@@ -45,13 +51,13 @@ public class HeyWikiClient {
                 if (client.world != null) {
                     var blockState = client.world.getBlockState(blockPos);
                     var block = blockState.getBlock();
-                    return block.getTranslationKey();
+                    return new IdentifierTranslationKey(block.arch$registryName(), block.getTranslationKey());
                 }
                 break;
             case ENTITY:
                 var entityHit = (EntityHitResult) hit;
                 var entity = entityHit.getEntity();
-                return entity.getType().getTranslationKey();
+                return new IdentifierTranslationKey(entity.getType().arch$registryName(), entity.getType().getTranslationKey());
         }
 
         return null;
@@ -77,19 +83,15 @@ public class HeyWikiClient {
 
         ClientTickEvent.CLIENT_POST.register(client -> {
             while (openWikiKey.wasPressed()) {
-                String translationKey = getTranslationKeyByRaycast();
+                IdentifierTranslationKey identifier = getIdentifierByRaycast();
 
-                if (translationKey != null) {
-                    WikiPage.fromTranslationKey(translationKey).openInBrowser();
+                if (identifier != null) {
+                    Objects.requireNonNull(WikiPage.fromIdentifier(identifier)).openInBrowser();
                 }
             }
         });
 
-        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES,
-                (synchronizer, manager, prepareProfiler, applyProfiler, prepareExecutor, applyExecutor) ->
-                        CompletableFuture
-                                .completedFuture(null)
-                                .thenCompose(synchronizer::whenPrepared)
-                                .thenCompose(t -> CompletableFuture.runAsync(() -> WikiPage.fromTranslationKey(""), applyExecutor)));
+        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, new WikiFamilyConfigManager(), new Identifier("heywiki:family"));
+        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, new WikiTranslationManager(), new Identifier("heywiki:translation"), List.of(new Identifier("heywiki:family")));
     }
 }
