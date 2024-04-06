@@ -9,7 +9,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.command.CommandSource;
 import wiki.minecraft.heywiki.resource.WikiFamilyConfigManager;
 
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
@@ -18,10 +17,9 @@ public class NamespaceSuggestionProvider implements SuggestionProvider<ClientCom
     @Override
     public CompletableFuture<Suggestions> getSuggestions(CommandContext<ClientCommandSourceStack> context, SuggestionsBuilder builder) {
         Set<String> namespaces = MinecraftClient.getInstance().getResourceManager().getAllNamespaces();
-        List<String> availableNamespaces = WikiFamilyConfigManager.getAvailableNamespaces();
+        Set<String> availableNamespaces = WikiFamilyConfigManager.getAvailableNamespaces();
 
         Stream<String> intersect = namespaces.stream().filter(availableNamespaces::contains);
-        // FIXME: Why is the colon not showing up?
         return CommandSource.suggestMatching(intersect.map(ns -> ns + ":"), builder);
     }
 }

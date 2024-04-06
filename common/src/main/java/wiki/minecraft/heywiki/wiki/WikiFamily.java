@@ -15,16 +15,16 @@ public class WikiFamily {
             builder
                     .group(
                             Codec.STRING.fieldOf("id").forGetter(family -> family.id),
-                            Codec.STRING.fieldOf("namespace").forGetter(family -> family.namespace),
+                            Codec.STRING.listOf().fieldOf("namespace").forGetter(family -> family.namespace),
                             IndividualWiki.CODEC.listOf().fieldOf("wikis").forGetter(family -> family.wikis)
                           )
                     .apply(builder, WikiFamily::new));
 
     public String id;
-    public String namespace;
+    public List<String> namespace;
     public List<IndividualWiki> wikis;
 
-    public WikiFamily(String id, String namespace, List<IndividualWiki> wikis) {
+    public WikiFamily(String id, List<String> namespace, List<IndividualWiki> wikis) {
         this.id = id;
         this.namespace = namespace;
         this.wikis = wikis;

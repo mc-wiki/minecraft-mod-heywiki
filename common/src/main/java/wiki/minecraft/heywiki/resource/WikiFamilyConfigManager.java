@@ -29,7 +29,7 @@ public class WikiFamilyConfigManager extends JsonDataLoader {
 
     public static WikiFamily getFamilyByNamespace(String namespace) {
         for (WikiFamily family : WIKI_FAMILY_MAP.values()) {
-            if (family.namespace.equals(namespace)) {
+            if (family.namespace.contains(namespace)) {
                 return family;
             }
         }
@@ -48,8 +48,8 @@ public class WikiFamilyConfigManager extends JsonDataLoader {
         return getFamily(id).wikis.stream().map(wiki -> wiki.language.wikiLanguage).toList();
     }
 
-    public static List<String> getAvailableNamespaces() {
-        return new ArrayList<>(WIKI_FAMILY_MAP.keySet());
+    public static Set<String> getAvailableNamespaces() {
+        return WIKI_FAMILY_MAP.values().stream().map(family -> family.namespace).collect(HashSet::new, Set::addAll, Set::addAll);
     }
 
     public static Set<String> getAllMainLanguages() {

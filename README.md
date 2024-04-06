@@ -11,7 +11,7 @@ Hey Wiki supports Fabric and NeoForge.
 
 ## Features
 
-- Press H (customizable) to open the wiki page (Minecraft Wiki or the respective mod wiki)  of the block/item/entity
+- Press H (customizable) to open the wiki page (Minecraft Wiki or the respective mod wiki) of the block/item/entity
   you're aiming at.
 - Adds several [commands](#commands).
 
@@ -59,10 +59,12 @@ create a JSON file in the `assets/<namespace>/wiki_family` folder in your resour
 
 ```json
 {
-  // The namespace that is bound to the wiki family
-  "id": "minecraft",
   // A unique identifier for the wiki family
-  "namespace": "minecraft",
+  "id": "minecraft",
+  // The namespaces that is bound to the wiki family
+  "namespace": [
+    "minecraft"
+  ],
   // List of different language wikis
   "wikis": [
     {
@@ -71,9 +73,9 @@ create a JSON file in the `assets/<namespace>/wiki_family` folder in your resour
       "language": {
         // The language code of the wiki
         "wiki_language": "en",
-        // Whether this is the main language. This will be fallback if no other language matches
+        // Whether this is the main language. If true, this language will be fallback if no other language matches
         "main": true,
-        // The default in-game language that the wiki supports.  This will be fallback if no other language matches
+        // The default in-game language that the wiki supports. This will be fallback if the in-game language is not supported by the wiki
         "default": "en_us",
         // If the regex matches the in-game language, this wiki will be used when config is auto
         "regex": "^en_.*",

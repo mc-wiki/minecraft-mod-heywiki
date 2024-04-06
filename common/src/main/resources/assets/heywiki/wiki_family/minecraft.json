@@ -1,6 +1,8 @@
 {
   "id": "minecraft",
-  "namespace": "minecraft",
+  "namespace": [
+    "minecraft"
+  ],
   "wikis": [
     {
       "url_pattern": "https://minecraft.wiki/?search=%s",
