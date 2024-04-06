@@ -24,7 +24,12 @@ dependencies {
     // Remove the next line if you don't want to depend on the API
     modApi "dev.architectury:architectury-neoforge:${rootProject.architectury_version}"
     modApi "me.shedaniel.cloth:cloth-config-neoforge:${rootProject.cloth_config_version}"
-    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-neoforge:${rootProject.rei_version}"
+    if (rootProject.hasProperty("with_rei") && rootProject.property("with_rei")) {
+        modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-neoforge:${rootProject.rei_version}"
+    }
+    if (rootProject.hasProperty("with_emi") && rootProject.property("with_emi")) {
+        modRuntimeOnly "dev.emi:emi-neoforge:${rootProject.emi_version}"
+    }
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }

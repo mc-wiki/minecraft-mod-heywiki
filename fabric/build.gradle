@@ -26,7 +26,12 @@ dependencies {
     modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
     modApi "com.terraformersmc:modmenu:9.0.0"
     modApi "me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}"
-    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rootProject.rei_version}"
+    if (rootProject.hasProperty("with_rei") && rootProject.property("with_rei") == "true") {
+        modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rootProject.rei_version}"
+    }
+    if (rootProject.hasProperty("with_emi") && rootProject.property("with_emi") == "true") {
+        modRuntimeOnly "dev.emi:emi-fabric:${rootProject.emi_version}"
+    }
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }

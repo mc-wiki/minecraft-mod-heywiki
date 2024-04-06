@@ -6,10 +6,7 @@
   "description": "Press H to open the Minecraft Wiki page of the block/item/entity you're aiming at.",
   "authors": [
     "Minecraft Wiki",
-    {
-      "name": "Dianliang233",
-      "email": "dianliang233@gmail.com"
-    }
+    "Dianliang233"
   ],
   "contributors": [
     "eduardoaddad"
@@ -49,7 +46,8 @@
     "modmenu": "*"
   },
   "suggests": {
-    "roughlyenoughitems": ">=14.0.0"
+    "roughlyenoughitems": ">=14.0.0",
+    "emi": ">=1.1.0"
   },
   "custom": {
     "modmenu": {

@@ -7,7 +7,9 @@
     "defaultRequire": 1
   },
   "client": [
+    "EmiScreenManagerMixin",
     "HandledScreenMixin",
+    "RecipeScreenMixin",
     "ScreenOverlayImplMixin"
   ]
 }

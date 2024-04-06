@@ -60,3 +60,10 @@ side = "CLIENT"
 [dependencies.heywiki.mc-publish]
 modrinth = "rei"
 curseforge = "roughly-enough-items"
+
+[[dependencies.heywiki]]
+modId = "emi"
+type = "optional"
+versionRange = "[1.1.0,)"
+ordering = "AFTER"
+side = "CLIENT"

@@ -7,3 +7,4 @@
   Please note that the JSON schema is not stable and is not semantically versioned yet.
   We very well might break it in minor versions.
 - Added integration for Roughly Enough Items (REI).
+- Added integration for EMI.

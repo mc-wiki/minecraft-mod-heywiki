@@ -109,9 +109,11 @@ For Fabric:
 - (Required) [Cloth Config](https://modrinth.com/mod/cloth-config): for configuration
 - (Recommended) [Mod Menu](https://modrinth.com/mod/modmenu): to access the config menu
 - (Optional) [Roughly Enough Items (REI)](https://modrinth.com/mod/roughly-enough-items): for REI integration
+- (Optional) [EMI](https://modrinth.com/mod/emi): for EMI integration
 
 For NeoForge:
 
 - (Required) [Architectury API](https://modrinth.com/mod/architectury-api): for multi-modloader compatibility
 - (Required) [Cloth Config](https://modrinth.com/mod/cloth-config): for configuration
 - (Optional) [Roughly Enough Items (REI)](https://modrinth.com/mod/roughly-enough-items): for REI integration
+- (Optional) [EMI](https://modrinth.com/mod/emi): for EMI integration

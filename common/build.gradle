@@ -11,6 +11,7 @@ dependencies {
     modApi "me.shedaniel.cloth:cloth-config:${rootProject.cloth_config_version}"
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-api:${rootProject.rei_version}"
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-runtime-fabric:${rootProject.rei_version}"
+    modCompileOnly "dev.emi:emi-xplat-intermediary:${rootProject.emi_version}"
 
     implementation 'com.google.code.gson:gson:2.10.1'
 }
