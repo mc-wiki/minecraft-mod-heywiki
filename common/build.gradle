@@ -8,7 +8,9 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     // Remove the next line if you don't want to depend on the API
     modApi "dev.architectury:architectury:${rootProject.architectury_version}"
-    modApi "me.shedaniel.cloth:cloth-config:13.0.121"
+    modApi "me.shedaniel.cloth:cloth-config:${rootProject.cloth_config_version}"
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api:${rootProject.rei_version}"
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-runtime-fabric:${rootProject.rei_version}"
 
     implementation 'com.google.code.gson:gson:2.10.1'
 }

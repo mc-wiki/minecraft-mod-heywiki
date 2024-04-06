@@ -3,7 +3,7 @@
   "namespace": "minecraft",
   "wikis": [
     {
-      "url_pattern": "http://minecraft.wiki/?search=%s",
+      "url_pattern": "https://minecraft.wiki/?search=%s",
       "language": {
         "wiki_language": "en",
         "main": true,
@@ -13,7 +13,7 @@
       }
     },
     {
-      "url_pattern": "http://de.minecraft.wiki/?search=%s",
+      "url_pattern": "https://de.minecraft.wiki/?search=%s",
       "language": {
         "wiki_language": "de",
         "default": "de_de",
@@ -22,7 +22,7 @@
       }
     },
     {
-      "url_pattern": "http://es.minecraft.wiki/?search=%s",
+      "url_pattern": "https://es.minecraft.wiki/?search=%s",
       "language": {
         "wiki_language": "es",
         "default": "es_es",
@@ -31,7 +31,7 @@
       }
     },
     {
-      "url_pattern": "http://fr.minecraft.wiki/?search=%s",
+      "url_pattern": "https://fr.minecraft.wiki/?search=%s",
       "language": {
         "wiki_language": "fr",
         "default": "fr_fr",
@@ -40,7 +40,7 @@
       }
     },
     {
-      "url_pattern": "http://ja.minecraft.wiki/?search=%s",
+      "url_pattern": "https://ja.minecraft.wiki/?search=%s",
       "language": {
         "wiki_language": "ja",
         "default": "ja_jp",
@@ -49,7 +49,7 @@
       }
     },
     {
-      "url_pattern": "http://ko.minecraft.wiki/?search=%s",
+      "url_pattern": "https://ko.minecraft.wiki/?search=%s",
       "language": {
         "wiki_language": "ko",
         "default": "ko_kr",
@@ -58,7 +58,7 @@
       }
     },
     {
-      "url_pattern": "http://lzh.minecraft.wiki/?search=%s",
+      "url_pattern": "https://lzh.minecraft.wiki/?search=%s",
       "language": {
         "wiki_language": "lzh",
         "default": "lzh",
@@ -67,7 +67,7 @@
       }
     },
     {
-      "url_pattern": "http://pt.minecraft.wiki/?search=%s",
+      "url_pattern": "https://pt.minecraft.wiki/?search=%s",
       "language": {
         "wiki_language": "pt",
         "default": "pt_br",
@@ -76,7 +76,7 @@
       }
     },
     {
-      "url_pattern": "http://ru.minecraft.wiki/?search=%s",
+      "url_pattern": "https://ru.minecraft.wiki/?search=%s",
       "language": {
         "wiki_language": "ru",
         "default": "ru_ru",
@@ -85,7 +85,7 @@
       }
     },
     {
-      "url_pattern": "http://th.minecraft.wiki/?search=%s",
+      "url_pattern": "https://th.minecraft.wiki/?search=%s",
       "language": {
         "wiki_language": "th",
         "default": "th_th",
@@ -94,7 +94,7 @@
       }
     },
     {
-      "url_pattern": "http://uk.minecraft.wiki/?search=%s",
+      "url_pattern": "https://uk.minecraft.wiki/?search=%s",
       "language": {
         "wiki_language": "uk",
         "default": "uk_ua",
@@ -103,7 +103,7 @@
       }
     },
     {
-      "url_pattern": "http://zh.minecraft.wiki/?search=%s",
+      "url_pattern": "https://zh.minecraft.wiki/?search=%s",
       "language": {
         "wiki_language": "zh",
         "default": "zh_cn",
