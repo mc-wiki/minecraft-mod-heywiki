@@ -48,6 +48,9 @@
   "recommends": {
     "modmenu": "*"
   },
+  "suggests": {
+    "roughlyenoughitems": ">=14.0.0"
+  },
   "custom": {
     "modmenu": {
       "links": {
@@ -60,7 +63,8 @@
     },
     "mc-publish": {
       "dependencies": [
-        "architectury-api"
+        "architectury-api",
+        "roughlyenoughitems(optional){modrinth:rei}{curseforge:roughly-enough-items}"
       ]
     }
   }

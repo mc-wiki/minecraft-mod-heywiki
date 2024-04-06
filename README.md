@@ -1,14 +1,18 @@
+<!-- Don't forget to update the page on Minecraft Wiki! -->
+
 # ![](https://github.com/mc-wiki/minecraft-mod-heywiki/blob/master/fabric/src/main/resources/icon.png?raw=true) <br> Hey Wiki
 
 [![CurseForge](https://img.shields.io/curseforge/dt/997027?label=CurseForge&color=orange&logoColor=orange&labelColor=black&logo=curseforge)](https://curseforge.com/minecraft/mc-mods/hey-wiki)
 [![Modrinth](https://img.shields.io/modrinth/dt/6DnswkCZ?label=Modrinth&color=darkgreen&labelColor=black&logo=modrinth)](https://modrinth.com/mod/hey-wiki)
 
 Hey Wiki is an client mod made by [the Minecraft Wiki](https://minecraft.wiki) that allows you to press H (customizable)
-to open the Minecraft Wiki page of the block/item/entity you're aiming at. Hey Wiki supports Fabric and NeoForge.
+to open the wiki page of the block/item/entity you're aiming at, no matter it's from vanilla or a mod.
+Hey Wiki supports Fabric and NeoForge.
 
 ## Features
 
-- Press H (customizable) to open the Minecraft Wiki page of the block/item/entity you're aiming at.
+- Press H (customizable) to open the wiki page (Minecraft Wiki or the respective mod wiki)  of the block/item/entity
+  you're aiming at.
 - Adds several [commands](#commands).
 
 ### How to use
@@ -44,6 +48,53 @@ These commands are available:
 
 Note that if you open a page with a command, the confirmation screen will not appear.
 
+## Resource pack
+
+> [!WARNING]  
+> Please note that the JSON schema is not stable and is not semantically versioned yet.
+> We very well might break it in minor versions.
+
+Hey Wiki supports resource packs (or mod resource packs) to add support for other wikis than Minecraft Wiki. To do so,
+create a JSON file in the `assets/<namespace>/wiki_family` folder in your resource pack with the following format:
+
+```json
+{
+  // The namespace that is bound to the wiki family
+  "id": "minecraft",
+  // A unique identifier for the wiki family
+  "namespace": "minecraft",
+  // List of different language wikis
+  "wikis": [
+    {
+      // The URL pattern. %s will be replaced with the query
+      "url_pattern": "https://minecraft.wiki/?search=%s",
+      "language": {
+        // The language code of the wiki
+        "wiki_language": "en",
+        // Whether this is the main language. This will be fallback if no other language matches
+        "main": true,
+        // The default in-game language that the wiki supports.  This will be fallback if no other language matches
+        "default": "en_us",
+        // If the regex matches the in-game language, this wiki will be used when config is auto
+        "regex": "^en_.*",
+        // Ditto, but for exclusion
+        "exclude": null
+      }
+    },
+    {
+      // Another language
+      "url_pattern": "https://de.minecraft.wiki/?search=%s",
+      "language": {
+        "wiki_language": "de",
+        "default": "de_de",
+        "regex": "^de_.*",
+        "exclude": null
+      }
+    }
+  ]
+}
+```
+
 ## Dependencies
 
 For Fabric:
@@ -52,8 +103,10 @@ For Fabric:
 - (Required) [Architectury API](https://modrinth.com/mod/architectury-api): for multi-modloader compatibility
 - (Required) [Cloth Config](https://modrinth.com/mod/cloth-config): for configuration
 - (Recommended) [Mod Menu](https://modrinth.com/mod/modmenu): to access the config menu
+- (Optional) [Roughly Enough Items (REI)](https://modrinth.com/mod/roughly-enough-items): for REI integration
 
 For NeoForge:
 
 - (Required) [Architectury API](https://modrinth.com/mod/architectury-api): for multi-modloader compatibility
 - (Required) [Cloth Config](https://modrinth.com/mod/cloth-config): for configuration
+- (Optional) [Roughly Enough Items (REI)](https://modrinth.com/mod/roughly-enough-items): for REI integration

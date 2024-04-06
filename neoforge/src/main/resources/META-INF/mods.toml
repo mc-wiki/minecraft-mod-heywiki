@@ -50,3 +50,13 @@ side = "CLIENT"
 [dependencies.heywiki.mc-publish]
 modrinth = "cloth-config"
 curseforge = "cloth-config"
+
+[[dependencies.heywiki]]
+modId = "roughlyenoughitems"
+type = "optional"
+versionRange = "[14.0.0,)"
+ordering = "AFTER"
+side = "CLIENT"
+[dependencies.heywiki.mc-publish]
+modrinth = "rei"
+curseforge = "roughly-enough-items"
