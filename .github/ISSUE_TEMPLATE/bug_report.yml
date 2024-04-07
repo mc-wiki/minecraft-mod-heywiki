@@ -1,0 +1,90 @@
+name: Bug report
+description: File a bug report to help us improve
+labels: [ "bug", "triage needed" ]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Please provide a clear and concise description of what actions you took to encounter this bug.
+      placeholder: 1. Open the game 2. Go to this menu 3. Click the button 4. See the error
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: Please provide a clear and concise description of what the problem is.
+      placeholder: This button doesn't work when [...]
+    validations:
+      required: true
+  - type: textarea
+    id: expectation
+    attributes:
+      label: Expected behavior
+      description: Please provide a clear and concise description of what you expected to happen.
+      placeholder: The button should take me to [...]
+  - type: input
+    id: mod-version
+    attributes:
+      label: Mod version
+      description: What is the version of Hey Wiki you are using?
+      placeholder: 1.0.0
+    validations:
+      required: true
+  - type: input
+    id: game-version
+    attributes:
+      label: Game version
+      description: What is the version of Minecraft you are using?
+      placeholder: 1.20.4
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      description: What is the operating system you are using? Which version? If you are using a mobile device to play Java Edition, please specify the launcher you are using.
+      placeholder: Windows 11
+    validations:
+      required: true
+  - type: dropdown
+    id: mod-loader
+    attributes:
+      label: Mod loader
+      description: Which mod loader are you using?
+      options:
+        - Fabric
+        - NeoForge
+        - Quilt
+      multiple: true
+    validations:
+      required: true
+  - type: input
+    id: loader-version
+    attributes:
+      label: Mod loader version
+      description: What is the version of the mod loader you are using?
+      placeholder: 1.4.0
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log/crash report output
+      description: Please copy and paste or upload any relevant log output. If you have a crash report, please include that as well.
+  - type: input
+    id: rating
+    attributes:
+      label: How frustrating is this bug?
+      description: On a scale of 1 to 10, how frustrating is this bug for you?
+      placeholder: "8"
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional information and screenshots
+      description: Is there anything else you would like to add? Please include any screenshots or additional information that may be helpful in diagnosing the issue.

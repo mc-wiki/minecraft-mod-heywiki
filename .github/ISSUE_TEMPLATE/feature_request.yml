@@ -1,0 +1,33 @@
+name: Feature request
+description: Suggest an idea for Hey Wiki
+labels: [ "enhancement", "triage needed" ]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this feature request!
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the feature
+      description: Please provide a clear and concise description of what you are suggesting.
+      placeholder: We should add a button that [...]
+    validations:
+      required: true
+  - type: textarea
+    id: reason
+    attributes:
+      label: Reason for the feature
+      description: Please provide your rationale for why this feature should be added.
+      placeholder: The button can help users [...]
+  - type: input
+    id: rating
+    attributes:
+      label: How important is this feature to you?
+      description: On a scale of 1 to 10, how important is this feature to you?
+      placeholder: "7"
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional information and screenshots
+      description: Is there anything else you would like to add? Please include any screenshots or additional information that may be helpful in understanding your feature request.
