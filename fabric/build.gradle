@@ -32,6 +32,9 @@ dependencies {
     if (rootProject.hasProperty("with_emi") && rootProject.property("with_emi") == "true") {
         modRuntimeOnly "dev.emi:emi-fabric:${rootProject.emi_version}"
     }
+    if (rootProject.hasProperty("with_jei") && rootProject.property("with_jei") == "true") {
+        modRuntimeOnly "mezz.jei:jei-${rootProject.minecraft_version}-fabric:${rootProject.jei_version}"
+    }
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
@@ -54,7 +57,7 @@ shadowJar {
 
 remapJar {
     injectAccessWidener = true
-    input.set shadowJar.archiveFile
+    getInputFile().set shadowJar.archiveFile
     dependsOn shadowJar
 }
 

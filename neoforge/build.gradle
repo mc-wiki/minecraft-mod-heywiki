@@ -30,6 +30,9 @@ dependencies {
     if (rootProject.hasProperty("with_emi") && rootProject.property("with_emi")) {
         modRuntimeOnly "dev.emi:emi-neoforge:${rootProject.emi_version}"
     }
+    if (rootProject.hasProperty("with_jei") && rootProject.property("with_jei") == "true") {
+        modRuntimeOnly "mezz.jei:jei-${rootProject.minecraft_version}-neoforge:${rootProject.jei_version}"
+    }
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
@@ -52,7 +55,7 @@ shadowJar {
 }
 
 remapJar {
-    input.set shadowJar.archiveFile
+    getInputFile().set shadowJar.archiveFile
     dependsOn shadowJar
 }
 

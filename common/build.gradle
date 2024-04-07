@@ -12,6 +12,7 @@ dependencies {
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-api:${rootProject.rei_version}"
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-runtime-fabric:${rootProject.rei_version}"
     modCompileOnly "dev.emi:emi-xplat-intermediary:${rootProject.emi_version}"
+    modCompileOnly "mezz.jei:jei-${rootProject.minecraft_version}-neoforge:${rootProject.jei_version}"
 
     implementation 'com.google.code.gson:gson:2.10.1'
 }

@@ -8,6 +8,7 @@
   },
   "client": [
     "EmiScreenManagerMixin",
+    "FocusInputHandlerMixin",
     "HandledScreenMixin",
     "RecipeScreenMixin",
     "ScreenOverlayImplMixin"
