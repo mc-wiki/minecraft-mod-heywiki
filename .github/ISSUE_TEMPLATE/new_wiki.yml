@@ -33,6 +33,9 @@ body:
       description: Official wikis are endorsed by the mod authors or sometimes maintained by them.
       options:
         - label: This wiki is an official wiki for the mod.
+        - label: This wiki is not an official wiki for the mod and is community-run.
+    validations:
+      required: true
   - type: checkboxes
     id: is-forked
     attributes:
@@ -41,6 +44,8 @@ body:
       options:
         - label: This wiki is a fork of another wiki and it has more information.
         - label: This wiki is has never been forked.
+    validations:
+      required: true
   - type: checkboxes
     id: is-comprehensive
     attributes:
@@ -50,6 +55,8 @@ body:
         - label: This wiki is comprehensive and has a page for every item, block, entity, etc.
         - label: This wiki is not comprehensive and is missing pages.
         - label: This wiki is not very comprehensive yet, but it is being actively worked on to include a page for every item, block, entity, etc.
+    validations:
+      required: true
   - type: checkboxes
     id: supports-heywiki
     attributes:
@@ -58,6 +65,8 @@ body:
       options:
         - label: Yes, the mod is compatible with Hey Wiki.
         - label: No, the mod is not compatible with Hey Wiki.
+    validations:
+      required: true
   - type: textarea
     id: additional-languages
     attributes:
