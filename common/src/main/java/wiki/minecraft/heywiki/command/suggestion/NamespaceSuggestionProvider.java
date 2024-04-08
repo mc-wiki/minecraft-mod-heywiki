@@ -14,12 +14,24 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
 public class NamespaceSuggestionProvider implements SuggestionProvider<ClientCommandSourceStack> {
+    private final boolean colon;
+
+    public NamespaceSuggestionProvider(boolean colon) {
+        this.colon = colon;
+    }
+
+    public NamespaceSuggestionProvider() {
+        this(true);
+    }
+
     @Override
     public CompletableFuture<Suggestions> getSuggestions(CommandContext<ClientCommandSourceStack> context, SuggestionsBuilder builder) {
         Set<String> namespaces = MinecraftClient.getInstance().getResourceManager().getAllNamespaces();
         Set<String> availableNamespaces = WikiFamilyConfigManager.getAvailableNamespaces();
 
         Stream<String> intersect = namespaces.stream().filter(availableNamespaces::contains);
-        return CommandSource.suggestMatching(intersect.map(ns -> ns + ":"), builder);
+
+        if (this.colon) return CommandSource.suggestMatching(intersect.map(ns -> ns + ":"), builder);
+        return CommandSource.suggestMatching(intersect, builder);
     }
 }

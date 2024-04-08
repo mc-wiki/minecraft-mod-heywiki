@@ -64,6 +64,7 @@ public class HeyWikiClient {
     }
 
     private static void registerCommands(CommandDispatcher<ClientCommandSourceStack> dispatcher, CommandRegistryAccess registryAccess) {
+        ImFeelingLuckyCommand.register(dispatcher);
         WhatBiomeCommand.register(dispatcher);
         var whatCommandCommand = WhatCommandCommand.register(dispatcher);
         WhatIsThisCommand.register(dispatcher);
