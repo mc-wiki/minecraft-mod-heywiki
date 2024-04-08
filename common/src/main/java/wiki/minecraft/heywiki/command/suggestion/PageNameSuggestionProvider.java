@@ -18,6 +18,8 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 
@@ -51,7 +53,7 @@ public class PageNameSuggestionProvider implements SuggestionProvider<ClientComm
 
         String buffer;
         StringBuffer response = new StringBuffer();
-        BufferedReader inputReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        BufferedReader inputReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
         while ((buffer = inputReader.readLine()) != null)
             response.append(buffer);
         return response;
@@ -73,7 +75,7 @@ public class PageNameSuggestionProvider implements SuggestionProvider<ClientComm
             try {
                 String remaining = builder.getRemaining();
                 if (remaining.isEmpty()) return builder.build();
-                URI uri = uriWithQuery(this.uriProvider.call(), String.format(SUGGESTION_URL, remaining));
+                URI uri = uriWithQuery(this.uriProvider.call(), String.format(SUGGESTION_URL, URLEncoder.encode(remaining, StandardCharsets.UTF_8)));
 
                 StringBuffer response = requestUri(uri);
 
