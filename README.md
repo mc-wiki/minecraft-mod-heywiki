@@ -73,8 +73,12 @@ create a JSON file in the `assets/<namespace>/wiki_family` folder in your resour
   // List of different language wikis
   "wikis": [
     {
-      // The URL pattern. %s will be replaced with the query
-      "url_pattern": "https://minecraft.wiki/?search=%s",
+      // The URL pattern for articles. %s will be replaced with the query
+      "article_url": "https://minecraft.wiki/?search=%s",
+      // If the wiki is a MediaWiki wiki, the API URL
+      "mw_api_url": "https://ja.minecraft.wiki/api.php",
+      // The page name for the random article
+      "random_article": "Special:RandomRootPage/Main",
       "language": {
         // The language code of the wiki
         "wiki_language": "en",
@@ -90,7 +94,7 @@ create a JSON file in the `assets/<namespace>/wiki_family` folder in your resour
     },
     {
       // Another language
-      "url_pattern": "https://de.minecraft.wiki/?search=%s",
+      "article_url": "https://de.minecraft.wiki/?search=%s",
       "language": {
         "wiki_language": "de",
         "default": "de_de",
