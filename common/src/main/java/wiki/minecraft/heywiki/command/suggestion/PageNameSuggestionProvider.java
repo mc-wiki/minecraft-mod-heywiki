@@ -44,7 +44,6 @@ public class PageNameSuggestionProvider implements SuggestionProvider<ClientComm
 
     @NotNull
     private static StringBuffer requestUri(URI uri) throws IOException {
-        // FIXME: Add debounce
         HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
         connection.setDoOutput(true);
         connection.setRequestMethod("GET");
