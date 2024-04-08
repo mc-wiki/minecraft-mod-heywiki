@@ -65,15 +65,21 @@ public class WikiFamily {
         public static Codec<IndividualWiki> CODEC = RecordCodecBuilder.create(builder ->
                 builder
                         .group(
-                                Codec.STRING.fieldOf("url_pattern").forGetter(wiki -> wiki.urlPattern),
+                                Codec.STRING.fieldOf("article_url").forGetter(wiki -> wiki.articleUrl),
+                                Codec.STRING.fieldOf("mw_api_url").forGetter(wiki -> wiki.mwApiUrl),
+                                Codec.STRING.fieldOf("random_article").forGetter(wiki -> wiki.randomArticle),
                                 LanguageMatcher.CODEC.fieldOf("language").forGetter(wiki -> wiki.language)
                               )
                         .apply(builder, IndividualWiki::new));
-        public String urlPattern;
+        public String articleUrl;
+        public String mwApiUrl;
+        public String randomArticle;
         public LanguageMatcher language;
 
-        public IndividualWiki(String urlPattern, LanguageMatcher language) {
-            this.urlPattern = urlPattern;
+        public IndividualWiki(String articleUrl, String mwApiUrl, String randomArticle, LanguageMatcher language) {
+            this.articleUrl = articleUrl;
+            this.mwApiUrl = mwApiUrl;
+            this.randomArticle = randomArticle;
             this.language = language;
         }
     }

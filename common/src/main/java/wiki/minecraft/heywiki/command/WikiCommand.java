@@ -3,7 +3,7 @@ package wiki.minecraft.heywiki.command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent.ClientCommandSourceStack;
-import wiki.minecraft.heywiki.command.suggestion.NamespaceSuggestionProvider;
+import wiki.minecraft.heywiki.command.suggestion.NSPageCombinedSuggestionProvider;
 import wiki.minecraft.heywiki.resource.WikiFamilyConfigManager;
 import wiki.minecraft.heywiki.wiki.WikiPage;
 
@@ -15,7 +15,7 @@ import static dev.architectury.event.events.client.ClientCommandRegistrationEven
 public class WikiCommand {
     public static LiteralCommandNode<ClientCommandSourceStack> register(CommandDispatcher<ClientCommandSourceStack> dispatcher) {
         return dispatcher.register(literal("wiki").then(argument("page", greedyString())
-                .suggests(new NamespaceSuggestionProvider())
+                .suggests(new NSPageCombinedSuggestionProvider())
                 .executes(ctx -> {
                     String page = getString(ctx, "page");
                     String[] pageSplitted = page.split(":");

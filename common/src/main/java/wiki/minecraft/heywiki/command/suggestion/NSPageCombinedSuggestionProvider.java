@@ -1,0 +1,41 @@
+package wiki.minecraft.heywiki.command.suggestion;
+
+import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.context.StringRange;
+import com.mojang.brigadier.suggestion.Suggestion;
+import com.mojang.brigadier.suggestion.SuggestionProvider;
+import com.mojang.brigadier.suggestion.Suggestions;
+import com.mojang.brigadier.suggestion.SuggestionsBuilder;
+import dev.architectury.event.events.client.ClientCommandRegistrationEvent.ClientCommandSourceStack;
+import wiki.minecraft.heywiki.resource.WikiFamilyConfigManager;
+import wiki.minecraft.heywiki.wiki.WikiPage;
+
+import java.net.URI;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+
+public class NSPageCombinedSuggestionProvider implements SuggestionProvider<ClientCommandSourceStack> {
+    @Override
+    public CompletableFuture<Suggestions> getSuggestions(CommandContext<ClientCommandSourceStack> context, SuggestionsBuilder builder) {
+        String remaining = builder.getRemaining();
+        if (!remaining.contains(":")) {
+            return new PageNameSuggestionProvider(() -> URI.create(Objects.requireNonNull(WikiPage.getWiki(WikiFamilyConfigManager.getFamilyByNamespace("minecraft"))).mwApiUrl))
+                    .getSuggestions(context, builder)
+                    .thenApplyAsync(suggestions -> {
+                        List<Suggestion> list = new NamespaceSuggestionProvider().getSuggestions(context, builder).join().getList();
+                        list.addAll(suggestions.getList());
+                        return new Suggestions(StringRange.at(builder.getStart()), list);
+                    });
+        }
+
+        String[] split = remaining.split(":", 2);
+        if (WikiFamilyConfigManager.getAvailableNamespaces().contains(split[0])) {
+            SuggestionsBuilder fakeBuilder = new SuggestionsBuilder(builder.getInput(), builder.getStart() + split[0].length());
+            return new PageNameSuggestionProvider(() -> URI.create(Objects.requireNonNull(WikiPage.getWiki(WikiFamilyConfigManager.getFamilyByNamespace(split[0]))).mwApiUrl))
+                    .getSuggestions(context, fakeBuilder);
+        }
+
+        return new NamespaceSuggestionProvider().getSuggestions(context, builder);
+    }
+}

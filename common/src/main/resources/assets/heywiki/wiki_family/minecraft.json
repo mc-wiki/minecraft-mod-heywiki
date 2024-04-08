@@ -5,7 +5,9 @@
   ],
   "wikis": [
     {
-      "url_pattern": "https://minecraft.wiki/?search=%s",
+      "article_url": "https://minecraft.wiki/?search=%s",
+      "mw_api_url": "https://minecraft.wiki/api.php",
+      "random_article": "Special:RandomRootPage/Main",
       "language": {
         "wiki_language": "en",
         "main": true,
@@ -15,7 +17,9 @@
       }
     },
     {
-      "url_pattern": "https://de.minecraft.wiki/?search=%s",
+      "article_url": "https://de.minecraft.wiki/?search=%s",
+      "mw_api_url": "https://de.minecraft.wiki/api.php",
+      "random_article": "Special:RandomRootPage/Main",
       "language": {
         "wiki_language": "de",
         "default": "de_de",
@@ -24,7 +28,9 @@
       }
     },
     {
-      "url_pattern": "https://es.minecraft.wiki/?search=%s",
+      "article_url": "https://es.minecraft.wiki/?search=%s",
+      "mw_api_url": "https://es.minecraft.wiki/api.php",
+      "random_article": "Special:RandomRootPage/Main",
       "language": {
         "wiki_language": "es",
         "default": "es_es",
@@ -33,7 +39,9 @@
       }
     },
     {
-      "url_pattern": "https://fr.minecraft.wiki/?search=%s",
+      "article_url": "https://fr.minecraft.wiki/?search=%s",
+      "mw_api_url": "https://fr.minecraft.wiki/api.php",
+      "random_article": "Special:RandomRootPage/Main",
       "language": {
         "wiki_language": "fr",
         "default": "fr_fr",
@@ -42,7 +50,9 @@
       }
     },
     {
-      "url_pattern": "https://ja.minecraft.wiki/?search=%s",
+      "article_url": "https://ja.minecraft.wiki/?search=%s",
+      "mw_api_url": "https://ja.minecraft.wiki/api.php",
+      "random_article": "Special:RandomRootPage/Main",
       "language": {
         "wiki_language": "ja",
         "default": "ja_jp",
@@ -51,7 +61,9 @@
       }
     },
     {
-      "url_pattern": "https://ko.minecraft.wiki/?search=%s",
+      "article_url": "https://ko.minecraft.wiki/?search=%s",
+      "mw_api_url": "https://ko.minecraft.wiki/api.php",
+      "random_article": "Special:RandomRootPage/Main",
       "language": {
         "wiki_language": "ko",
         "default": "ko_kr",
@@ -60,7 +72,9 @@
       }
     },
     {
-      "url_pattern": "https://lzh.minecraft.wiki/?search=%s",
+      "article_url": "https://lzh.minecraft.wiki/?search=%s",
+      "mw_api_url": "https://lzh.minecraft.wiki/api.php",
+      "random_article": "Special:RandomRootPage/Main",
       "language": {
         "wiki_language": "lzh",
         "default": "lzh",
@@ -69,7 +83,9 @@
       }
     },
     {
-      "url_pattern": "https://pt.minecraft.wiki/?search=%s",
+      "article_url": "https://pt.minecraft.wiki/?search=%s",
+      "mw_api_url": "https://pt.minecraft.wiki/api.php",
+      "random_article": "Special:RandomRootPage/Main",
       "language": {
         "wiki_language": "pt",
         "default": "pt_br",
@@ -78,7 +94,9 @@
       }
     },
     {
-      "url_pattern": "https://ru.minecraft.wiki/?search=%s",
+      "article_url": "https://ru.minecraft.wiki/?search=%s",
+      "mw_api_url": "https://ru.minecraft.wiki/api.php",
+      "random_article": "Special:RandomRootPage/Main",
       "language": {
         "wiki_language": "ru",
         "default": "ru_ru",
@@ -87,7 +105,9 @@
       }
     },
     {
-      "url_pattern": "https://th.minecraft.wiki/?search=%s",
+      "article_url": "https://th.minecraft.wiki/?search=%s",
+      "mw_api_url": "https://th.minecraft.wiki/api.php",
+      "random_article": "Special:RandomRootPage/Main",
       "language": {
         "wiki_language": "th",
         "default": "th_th",
@@ -96,7 +116,9 @@
       }
     },
     {
-      "url_pattern": "https://uk.minecraft.wiki/?search=%s",
+      "article_url": "https://uk.minecraft.wiki/?search=%s",
+      "mw_api_url": "https://uk.minecraft.wiki/api.php",
+      "random_article": "Special:RandomRootPage/Main",
       "language": {
         "wiki_language": "uk",
         "default": "uk_ua",
@@ -105,7 +127,9 @@
       }
     },
     {
-      "url_pattern": "https://zh.minecraft.wiki/?search=%s",
+      "article_url": "https://zh.minecraft.wiki/?search=%s",
+      "mw_api_url": "https://zh.minecraft.wiki/api.php",
+      "random_article": "Special:RandomRootPage/Main",
       "language": {
         "wiki_language": "zh",
         "default": "zh_cn",

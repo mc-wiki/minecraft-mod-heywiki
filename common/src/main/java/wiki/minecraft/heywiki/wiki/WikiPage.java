@@ -21,8 +21,8 @@ import java.util.Objects;
 public class WikiPage {
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final MinecraftClient client = MinecraftClient.getInstance();
-    String pageName;
-    WikiFamily family;
+    public String pageName;
+    public WikiFamily family;
 
     public WikiPage(String pageName, WikiFamily family) {
         this.pageName = pageName;
@@ -63,7 +63,7 @@ public class WikiPage {
                 .get(translationKey), family);
     }
 
-    public @Nullable URI getUri() {
+    public static WikiFamily.IndividualWiki getWiki(WikiFamily family) {
         WikiFamily.IndividualWiki wiki;
 
         if (HeyWikiConfig.language.equals("auto")) {
@@ -81,8 +81,16 @@ public class WikiPage {
             return null;
         }
 
+        return wiki;
+    }
+
+    public static WikiPage random(WikiFamily family) {
+        return new WikiPage(Objects.requireNonNull(getWiki(family)).randomArticle, family);
+    }
+
+    public @Nullable URI getUri() {
         try {
-            return new URI(wiki.urlPattern.formatted(URLEncoder.encode(this.pageName.replaceAll(" ", "_"), StandardCharsets.UTF_8)));
+            return new URI(Objects.requireNonNull(getWiki(family)).articleUrl.formatted(URLEncoder.encode(this.pageName.replaceAll(" ", "_"), StandardCharsets.UTF_8)));
         } catch (URISyntaxException e) {
             LOGGER.error("Failed to create URI for wiki page", e);
             return null;

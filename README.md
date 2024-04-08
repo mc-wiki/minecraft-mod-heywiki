@@ -8,7 +8,7 @@
 [<img alt="fabric" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/fabric_vector.svg">](https://fabricmc.net/)
 [<img alt="neoforge" height="56" src="https://github.com/mc-wiki/minecraft-mod-heywiki/blob/master/docs/supports_neoforge.svg?raw=true">](https://neoforged.net/)
 
-Hey Wiki is an client mod made by [the Minecraft Wiki](https://minecraft.wiki) that allows you to press H (customizable)
+Hey Wiki is a client mod made by [the Minecraft Wiki](https://minecraft.wiki) that allows you to press H (customizable)
 to open the wiki page of the block/item/entity you're aiming at, no matter it's from vanilla or a mod.
 Hey Wiki supports Fabric and NeoForge.
 

@@ -17,14 +17,14 @@ public class ImFeelingLuckyCommand {
     public static LiteralCommandNode<ClientCommandSourceStack> register(CommandDispatcher<ClientCommandSourceStack> dispatcher) {
         return dispatcher.register(literal("imfeelinglucky")
                 .executes(ctx -> {
-                    new WikiPage("Special:RandomRootPage", WikiFamilyConfigManager.getFamilyByNamespace("minecraft")).openInBrowser(true);
+                    WikiPage.random(WikiFamilyConfigManager.getFamilyByNamespace("minecraft")).openInBrowser(true);
                     return 0;
                 })
                 .then(argument("namespace", string())
                         .suggests(new NamespaceSuggestionProvider(false))
                         .executes(ctx -> {
                             String namespace = getString(ctx, "namespace");
-                            new WikiPage("Special:RandomRootPage", WikiFamilyConfigManager.getFamilyByNamespace(namespace)).openInBrowser(true);
+                            WikiPage.random(WikiFamilyConfigManager.getFamilyByNamespace(namespace)).openInBrowser(true);
                             return 0;
                         })));
     }
