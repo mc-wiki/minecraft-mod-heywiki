@@ -31,7 +31,7 @@ public class NSPageCombinedSuggestionProvider implements SuggestionProvider<Clie
 
         String[] split = remaining.split(":", 2);
         if (WikiFamilyConfigManager.getAvailableNamespaces().contains(split[0])) {
-            SuggestionsBuilder fakeBuilder = new SuggestionsBuilder(builder.getInput(), builder.getStart() + split[0].length());
+            SuggestionsBuilder fakeBuilder = new SuggestionsBuilder(builder.getInput(), builder.getStart() + split[0].length() + 1);
             return new PageNameSuggestionProvider(() -> URI.create(Objects.requireNonNull(WikiPage.getWiki(WikiFamilyConfigManager.getFamilyByNamespace(split[0]))).mwApiUrl))
                     .getSuggestions(context, fakeBuilder);
         }

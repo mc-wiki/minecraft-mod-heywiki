@@ -20,6 +20,7 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 
@@ -29,8 +30,7 @@ public class PageNameSuggestionProvider implements SuggestionProvider<ClientComm
     private static final Gson GSON = new Gson();
     private static final String SUGGESTION_URL = "action=opensearch&format=json&formatversion=2&limit=10&search=%s";
     private final Callable<URI> uriProvider;
-    private long lastRequest = 0;
-    private String lastInput = "";
+    private static volatile String lastInput = "";
 
     public PageNameSuggestionProvider(Callable<URI> uriProvider) {
         this.uriProvider = uriProvider;
@@ -62,14 +62,13 @@ public class PageNameSuggestionProvider implements SuggestionProvider<ClientComm
     @Override
     public CompletableFuture<Suggestions> getSuggestions(CommandContext<ClientCommandSourceStack> context, SuggestionsBuilder builder) {
         return CompletableFuture.supplyAsync(() -> {
-            lastRequest = System.currentTimeMillis();
             lastInput = builder.getInput();
             try {
                 Thread.sleep(TIMEOUT);
             } catch (InterruptedException e) {
                 LOGGER.warn("Interrupted while waiting for debounce", e);
             }
-            if (System.currentTimeMillis() - lastRequest < TIMEOUT && lastInput.equals(builder.getInput())) {
+            if (!builder.getInput().equals(lastInput)) {
                 return builder.build();
             }
             try {
@@ -83,9 +82,12 @@ public class PageNameSuggestionProvider implements SuggestionProvider<ClientComm
                 reader.beginArray();
                 reader.skipValue();
                 reader.beginArray();
+                HashSet<String> suggestions = new HashSet<>();
                 while (reader.hasNext()) {
-                    builder.suggest(reader.nextString());
+                    suggestions.add(reader.nextString());
                 }
+                reader.close();
+                suggestions.forEach(builder::suggest);
             } catch (Exception e) {
                 LOGGER.warn("Failed to get suggestions", e);
             }
