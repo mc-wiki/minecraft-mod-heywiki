@@ -1,0 +1,79 @@
+name: Wiki suggestion
+description: Suggest supporting another mod wiki
+labels: [ "enhancement", "triage needed" ]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this suggestion form!
+  - type: input
+    id: mod-name
+    attributes:
+      label: Mod name
+      description: Please provide the name of the mod the wiki documents.
+      placeholder: Aether
+    validations:
+      required: true
+  - type: input
+    id: wiki-url
+    attributes:
+      label: Wiki URL
+      description: Please provide the URL of the wiki.
+      placeholder: https://aether.wiki.gg/
+  - type: input
+    id: language
+    attributes:
+      label: Language
+      description: Please provide the language of the wiki.
+      placeholder: English
+  - type: checkboxes
+    id: is-official
+    attributes:
+      label: Official status
+      description: Official wikis are endorsed by the mod authors or sometimes maintained by them.
+      options:
+        - label: This wiki is an official wiki for the mod.
+  - type: checkboxes
+    id: is-forked
+    attributes:
+      label: Is the wiki a fork?
+      description: Forked wikis are copies of other wikis that have been modified or adapted, often because the original host is no longer the best place for the wiki. An example of this is the Minecraft Wiki, which was forked from Fandom. We prefer linking to the forked wiki if it is more up-to-date or has more information.
+      options:
+        - label: This wiki is a fork of another wiki and it has more information.
+        - label: This wiki is has never been forked.
+  - type: checkboxes
+    id: is-comprehensive
+    attributes:
+      label: Comprehensiveness
+      description: Comprehensive wikis have a lot of information and are well-maintained. The wiki is expected to have a page for every item, block, entity, etc. in the mod for Hey Wiki to support it.
+      options:
+        - label: This wiki is comprehensive and has a page for every item, block, entity, etc.
+        - label: This wiki is not comprehensive and is missing pages.
+        - label: This wiki is not very comprehensive yet, but it is being actively worked on to include a page for every item, block, entity, etc.
+  - type: checkboxes
+    id: supports-heywiki
+    attributes:
+      label: Does the mod support the mod loader and Minecraft version Hey Wiki supports?
+      description: Hey Wiki only supports mods that are compatible with the mod loader and Minecraft version it is built for. If the mod is not compatible, we cannot support the wiki.
+      options:
+        - label: Yes, the mod is compatible with Hey Wiki.
+        - label: No, the mod is not compatible with Hey Wiki.
+  - type: textarea
+    id: additional-languages
+    attributes:
+      label: Additional languages
+      description: Please provide a list of languages the wiki is available in, one per line. If the wiki is only available in one language, you can leave this blank.
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional information and screenshots
+      description: Is there anything else you would like to add? Please include any screenshots or additional information that may be helpful in understanding your feature request.
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation
+      options:
+        - label: I have searched for this wiki on Hey Wiki and it is not already supported.
+          required: true
+        - label: I have completed the above form to the best of my ability.
+          required: true
