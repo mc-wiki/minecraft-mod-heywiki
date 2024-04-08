@@ -1,6 +1,6 @@
 name: Wiki suggestion
 description: Suggest supporting another mod wiki
-labels: [ "enhancement", "triage needed" ]
+labels: [ "new wiki", "triage needed" ]
 body:
   - type: markdown
     attributes:
