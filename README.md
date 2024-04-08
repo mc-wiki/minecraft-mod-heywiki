@@ -39,9 +39,11 @@ Optionally, you can change these behaviors in the config menu:
 
 These commands are available:
 
-- `/wiki <pageName>` - Opens the Minecraft Wiki page of the specified page name.
-    - Example: `/wiki creeper` -> `https://minecraft.wiki/w/?search=creeper`
-    - Redirect: `/whatis`
+- `/imfeelinglucky <namespace>` - Takes you wherever the mod decides.
+    - Example: `/imfeelinglucky minecraft` -> `https://minecraft.wiki/????????`
+- `/wiki <pageName>` - Opens the Minecraft Wiki page of the specified page name. `pageName` can include a namespace.
+    - Example: `/wiki minecraft:creeper` -> `https://minecraft.wiki/w/?search=creeper`
+        - Redirect: `/whatis`
 - `/whatbiome` - Opens the Minecraft Wiki page of the biome you're currently in.
 - `/whatcommand <command>` - Opens the Minecraft Wiki page of the specified command.
     - Example: `/whatcommand give` -> `https://minecraft.wiki/w/?search=%2Fgive`
