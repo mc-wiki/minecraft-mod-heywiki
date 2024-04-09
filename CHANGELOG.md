@@ -4,6 +4,7 @@
 
 - Adds `/whatisthisitem offhand`
 - `/wiki` autocomplete is now cached locally to improve performance
+- Now prompts user when `H` is pressed but nothing is being aimed at
 
 ## Fixes
 

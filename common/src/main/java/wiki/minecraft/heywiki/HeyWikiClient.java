@@ -11,6 +11,7 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.resource.ResourceType;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
@@ -61,6 +62,7 @@ public class HeyWikiClient {
                 return new IdentifierTranslationKey(entity.getType().arch$registryName(), entity.getType().getTranslationKey());
         }
 
+        client.inGameHud.setOverlayMessage(Text.translatable("heywiki.too_far"), false);
         return null;
     }
 

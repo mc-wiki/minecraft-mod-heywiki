@@ -103,7 +103,7 @@ public class WikiPage {
     }
 
     public void openInBrowser(Boolean skipConfirmation) {
-        openInBrowser(skipConfirmation);
+        openInBrowser(skipConfirmation, null);
     }
 
     public void openInBrowser(Boolean skipConfirmation, Screen parent) {
