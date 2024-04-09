@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 import static dev.architectury.platform.Platform.getConfigFolder;
@@ -28,6 +29,7 @@ public class HeyWikiConfig {
     public static String language = Language.AUTO.getName();
 
     public static Screen createGui(Screen parent) {
+        AtomicReference<Boolean> requireReload = new AtomicReference<>(false);
         ConfigBuilder builder = ConfigBuilder.create()
                                              .setParentScreen(parent)
                                              .setTitle(Text.translatable("options.heywiki.title"));
@@ -61,20 +63,23 @@ public class HeyWikiConfig {
                 .setDefaultValue(Language.AUTO)
                 .setSuggestionMode(false)
                 .setTooltip(Text.translatable("options.heywiki.language.description"))
-                .setSaveConsumer(newValue -> HeyWikiConfig.language = ((Language) newValue).getName())
+                .setSaveConsumer(newValue -> {
+                    if (!((Language) newValue).getName().equals(HeyWikiConfig.language)) requireReload.set(true);
+                    HeyWikiConfig.language = ((Language) newValue).getName();
+                })
                 .build());
         general.addEntry(entryBuilder
                 .fillKeybindingField(Text.translatable("key.heywiki.open"), HeyWikiClient.openWikiKey)
                 .setTooltip(Text.translatable("options.heywiki.language.description"))
                 .build());
 
-        builder.setSavingRunnable(HeyWikiConfig::save);
+        builder.setSavingRunnable(() -> save(requireReload.get()));
 
         return builder.build();
     }
 
-    public static void save() {
-        MinecraftClient.getInstance().reloadResourcesConcurrently();
+    public static void save(Boolean requireReload) {
+        if (requireReload) MinecraftClient.getInstance().reloadResourcesConcurrently();
         Path configPath = getConfigFolder().resolve("heywiki.json");
         try {
             Files.createDirectories(configPath.getParent());
