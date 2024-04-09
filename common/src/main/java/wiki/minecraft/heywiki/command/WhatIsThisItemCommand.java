@@ -33,6 +33,19 @@ public class WhatIsThisItemCommand {
                         Objects.requireNonNull(WikiPage.fromIdentifier(identifier, translationKey)).openInBrowser(true);
                     }
                     return 0;
-                }));
+                }).then(literal("offhand")
+                        .executes(ctx -> {
+                            if (CLIENT.player == null) return 1;
+                            ItemStack stack = CLIENT.player.getInventory().offHand.get(0);
+                            if (stack.isEmpty()) {
+                                throw NO_ITEM_HELD.create();
+                            }
+                            String translationKey = stack.getTranslationKey();
+                            Identifier identifier = stack.getItem().arch$registryName();
+                            if (identifier != null) {
+                                Objects.requireNonNull(WikiPage.fromIdentifier(identifier, translationKey)).openInBrowser(true);
+                            }
+                            return 0;
+                        })));
     }
 }

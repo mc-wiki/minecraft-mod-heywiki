@@ -1,12 +1,12 @@
-# v1.3.0
+# v1.3.1
 
 ## Changes
 
-- Adds possibility to support other wikis than Minecraft Wiki.
-- Adds `/imfeelinglucky` command that takes you to a random page.
-- When using `/wiki`, page names are now autocompleted.
-- [Experimental] Added JSON config for wiki support at `wiki_family/*.json` in resource packs.
-  Please note that the JSON schema is not stable and is not semantically versioned yet.
-  We very well might break it in minor versions.
-- Added integration for Roughly Enough Items (REI).
-- Added integration for EMI.
+- Adds `/whatisthisitem offhand`
+- `/wiki` autocomplete is now cached locally to improve performance
+
+## Fixes
+
+- Fixes `/wiki` autocomplete showing duplicate entries
+- Fixes bad debouncing in `/wiki` autocomplete
+- Fixes bad encoding in `/wiki` autocomplete requests. Now forced to UTF-8
