@@ -1,5 +1,6 @@
 package wiki.minecraft.heywiki.mixin;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.item.Item;
 import net.minecraft.screen.slot.Slot;
@@ -29,7 +30,7 @@ public class HandledScreenMixin {
                 Item item = slot.getStack().getItem();
                 Identifier registryName = item.arch$registryName();
                 if (registryName == null) return;
-                Objects.requireNonNull(WikiPage.fromIdentifier(registryName, item.getTranslationKey())).openInBrowser();
+                Objects.requireNonNull(WikiPage.fromIdentifier(registryName, item.getTranslationKey())).openInBrowser(false, MinecraftClient.getInstance().currentScreen);
             }
         }
     }

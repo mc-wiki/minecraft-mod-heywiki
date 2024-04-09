@@ -2,6 +2,7 @@ package wiki.minecraft.heywiki.wiki;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
@@ -102,10 +103,14 @@ public class WikiPage {
     }
 
     public void openInBrowser(Boolean skipConfirmation) {
+        openInBrowser(skipConfirmation);
+    }
+
+    public void openInBrowser(Boolean skipConfirmation, Screen parent) {
         var uri = getUri();
         if (uri != null) {
             if (HeyWikiConfig.requiresConfirmation && !skipConfirmation) {
-                HeyWikiConfirmLinkScreen.open(null, uri.toString());
+                HeyWikiConfirmLinkScreen.open(parent, uri.toString());
             } else {
                 Util.getOperatingSystem().open(uri);
             }
