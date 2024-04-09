@@ -7,7 +7,6 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
 import java.util.List;
-import java.util.Optional;
 
 public class WikiFamily {
     private static final Logger LOGGER = LogUtils.getLogger();
@@ -16,22 +15,22 @@ public class WikiFamily {
                     .group(
                             Codec.STRING.fieldOf("id").forGetter(family -> family.id),
                             Codec.STRING.listOf().fieldOf("namespace").forGetter(family -> family.namespace),
-                            IndividualWiki.CODEC.listOf().fieldOf("wikis").forGetter(family -> family.wikis)
+                            WikiIndividual.CODEC.listOf().fieldOf("wikis").forGetter(family -> family.wikis)
                           )
                     .apply(builder, WikiFamily::new));
 
     public String id;
     public List<String> namespace;
-    public List<IndividualWiki> wikis;
+    public List<WikiIndividual> wikis;
 
-    public WikiFamily(String id, List<String> namespace, List<IndividualWiki> wikis) {
+    public WikiFamily(String id, List<String> namespace, List<WikiIndividual> wikis) {
         this.id = id;
         this.namespace = namespace;
         this.wikis = wikis;
     }
 
-    public @Nullable IndividualWiki getLanguageWikiByWikiLanguage(String wikiLanguage) {
-        for (IndividualWiki wiki : this.wikis) {
+    public @Nullable WikiIndividual getLanguageWikiByWikiLanguage(String wikiLanguage) {
+        for (WikiIndividual wiki : this.wikis) {
             if (wiki.language.wikiLanguage.equals(wikiLanguage)) {
                 return wiki;
             }
@@ -40,8 +39,8 @@ public class WikiFamily {
         return null;
     }
 
-    public @Nullable IndividualWiki getLanguageWikiByGameLanguage(String gameLanguage) {
-        for (IndividualWiki wiki : this.wikis) {
+    public @Nullable WikiIndividual getLanguageWikiByGameLanguage(String gameLanguage) {
+        for (WikiIndividual wiki : this.wikis) {
             if (wiki.language.matchLanguage(gameLanguage)) {
                 return wiki;
             }
@@ -50,8 +49,8 @@ public class WikiFamily {
         return null;
     }
 
-    public @Nullable IndividualWiki getMainLanguageWiki() {
-        for (IndividualWiki wiki : this.wikis) {
+    public @Nullable WikiIndividual getMainLanguageWiki() {
+        for (WikiIndividual wiki : this.wikis) {
             if (wiki.language.main) {
                 return wiki;
             }
@@ -59,62 +58,5 @@ public class WikiFamily {
 
         LOGGER.error("Failed to find main language wiki for family {}", this.id);
         return null;
-    }
-
-    public static class IndividualWiki {
-        public static Codec<IndividualWiki> CODEC = RecordCodecBuilder.create(builder ->
-                builder
-                        .group(
-                                Codec.STRING.fieldOf("article_url").forGetter(wiki -> wiki.articleUrl),
-                                Codec.STRING.fieldOf("mw_api_url").forGetter(wiki -> wiki.mwApiUrl),
-                                Codec.STRING.fieldOf("random_article").forGetter(wiki -> wiki.randomArticle),
-                                LanguageMatcher.CODEC.fieldOf("language").forGetter(wiki -> wiki.language)
-                              )
-                        .apply(builder, IndividualWiki::new));
-        public String articleUrl;
-        public String mwApiUrl;
-        public String randomArticle;
-        public LanguageMatcher language;
-
-        public IndividualWiki(String articleUrl, String mwApiUrl, String randomArticle, LanguageMatcher language) {
-            this.articleUrl = articleUrl;
-            this.mwApiUrl = mwApiUrl;
-            this.randomArticle = randomArticle;
-            this.language = language;
-        }
-    }
-
-    public static class LanguageMatcher {
-        public static Codec<LanguageMatcher> CODEC = RecordCodecBuilder.create(builder ->
-                builder
-                        .group(
-                                Codec.STRING.fieldOf("wiki_language").forGetter(matcher -> matcher.wikiLanguage),
-                                Codec.BOOL.fieldOf("main").orElse(false).forGetter(matcher -> matcher.main),
-                                Codec.STRING.fieldOf("default").forGetter(matcher -> matcher.defaultLanguage),
-                                Codec.STRING.fieldOf("regex").forGetter(matcher -> matcher.regex),
-                                Codec.STRING.optionalFieldOf("exclude").forGetter(matcher -> matcher.exclude)
-                              )
-                        .apply(builder, LanguageMatcher::new));
-
-        public String wikiLanguage;
-        public Boolean main;
-        public String defaultLanguage;
-        public String regex;
-        @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-        public Optional<String> exclude;
-
-        @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-        public LanguageMatcher(String wikiLanguage, Boolean main, String defaultLanguage, String regex, Optional<String> exclude) {
-            this.wikiLanguage = wikiLanguage;
-            this.main = main;
-            this.defaultLanguage = defaultLanguage;
-            this.regex = regex;
-            this.exclude = exclude;
-        }
-
-        public Boolean matchLanguage(String language) {
-            if (this.exclude.isEmpty()) return language.matches(this.regex);
-            return language.matches(this.regex) && !language.matches(String.valueOf(this.exclude));
-        }
     }
 }

@@ -64,8 +64,8 @@ public class WikiPage {
                 .get(translationKey), family);
     }
 
-    public static WikiFamily.IndividualWiki getWiki(WikiFamily family) {
-        WikiFamily.IndividualWiki wiki;
+    public static WikiIndividual getWiki(WikiFamily family) {
+        WikiIndividual wiki;
 
         if (HeyWikiConfig.language.equals("auto")) {
             var language = client.options.language;
