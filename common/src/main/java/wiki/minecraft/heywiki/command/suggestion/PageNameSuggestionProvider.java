@@ -65,9 +65,6 @@ public class PageNameSuggestionProvider implements SuggestionProvider<ClientComm
     public CompletableFuture<Suggestions> getSuggestions(CommandContext<ClientCommandSourceStack> context, SuggestionsBuilder builder) {
         return CompletableFuture.supplyAsync(() -> {
             lastInput = builder.getInput();
-            if (suggestionsCache.containsKey(builder.getInput())) {
-                return suggestionsCache.get(builder.getInput());
-            }
             try {
                 Thread.sleep(TIMEOUT);
             } catch (InterruptedException e) {
@@ -75,6 +72,9 @@ public class PageNameSuggestionProvider implements SuggestionProvider<ClientComm
             }
             if (!builder.getInput().equals(lastInput)) {
                 return builder.build();
+            }
+            if (suggestionsCache.containsKey(builder.getInput())) {
+                return suggestionsCache.get(builder.getInput());
             }
             try {
                 String remaining = builder.getRemaining();
@@ -93,6 +93,7 @@ public class PageNameSuggestionProvider implements SuggestionProvider<ClientComm
                 }
                 reader.close();
                 suggestions.forEach(builder::suggest);
+                suggestionsCache.put(builder.getInput(), builder.build());
             } catch (Exception e) {
                 LOGGER.warn("Failed to get suggestions", e);
             }
