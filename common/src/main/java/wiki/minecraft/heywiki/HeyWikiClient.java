@@ -17,6 +17,7 @@ import net.minecraft.util.hit.EntityHitResult;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 import wiki.minecraft.heywiki.command.*;
+import wiki.minecraft.heywiki.resource.PageNameSuggestionCacheManager;
 import wiki.minecraft.heywiki.resource.WikiFamilyConfigManager;
 import wiki.minecraft.heywiki.resource.WikiTranslationManager;
 import wiki.minecraft.heywiki.wiki.IdentifierTranslationKey;
@@ -94,5 +95,6 @@ public class HeyWikiClient {
 
         ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, new WikiFamilyConfigManager(), new Identifier("heywiki:family"));
         ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, new WikiTranslationManager(), new Identifier("heywiki:translation"), List.of(new Identifier("heywiki:family")));
+        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, new PageNameSuggestionCacheManager(), new Identifier("heywiki:page_name_suggestions"));
     }
 }

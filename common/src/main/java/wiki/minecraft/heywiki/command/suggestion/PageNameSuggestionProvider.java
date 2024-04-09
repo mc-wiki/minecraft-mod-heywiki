@@ -24,6 +24,8 @@ import java.util.HashSet;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 
+import static wiki.minecraft.heywiki.resource.PageNameSuggestionCacheManager.suggestionsCache;
+
 public class PageNameSuggestionProvider implements SuggestionProvider<ClientCommandSourceStack> {
     public static final long TIMEOUT = 400;
     private static final Logger LOGGER = LogUtils.getLogger();
@@ -63,6 +65,9 @@ public class PageNameSuggestionProvider implements SuggestionProvider<ClientComm
     public CompletableFuture<Suggestions> getSuggestions(CommandContext<ClientCommandSourceStack> context, SuggestionsBuilder builder) {
         return CompletableFuture.supplyAsync(() -> {
             lastInput = builder.getInput();
+            if (suggestionsCache.containsKey(builder.getInput())) {
+                return suggestionsCache.get(builder.getInput());
+            }
             try {
                 Thread.sleep(TIMEOUT);
             } catch (InterruptedException e) {
