@@ -11,7 +11,7 @@ import wiki.minecraft.heywiki.wiki.WikiPage;
 import java.util.Objects;
 
 import static dev.architectury.event.events.client.ClientCommandRegistrationEvent.literal;
-import static wiki.minecraft.heywiki.Raycast.getIdentifierByRaycast;
+import static wiki.minecraft.heywiki.CrosshairRaycast.getIdentifierByRaycast;
 
 public class WhatIsThisCommand {
     public static final SimpleCommandExceptionType NO_TARGET = new SimpleCommandExceptionType(Text.translatable("commands.whatisthis.no_target"));

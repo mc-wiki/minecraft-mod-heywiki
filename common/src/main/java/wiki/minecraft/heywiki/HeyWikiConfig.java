@@ -23,6 +23,8 @@ import static dev.architectury.platform.Platform.getConfigFolder;
 
 public class HeyWikiConfig {
     public static boolean requiresConfirmation = true;
+    public static double raycastMaxReach = 5.2D; // Use creative mode reach distance
+    public static boolean raycastAllowFluid = false;
     public static String language = Language.AUTO.getName();
 
     public static Screen createGui(Screen parent) {
@@ -38,6 +40,18 @@ public class HeyWikiConfig {
                 .setDefaultValue(true)
                 .setTooltip(Text.translatable("options.heywiki.requires_confirmation.description"))
                 .setSaveConsumer(newValue -> HeyWikiConfig.requiresConfirmation = newValue)
+                .build());
+        general.addEntry(entryBuilder
+                .startDoubleField(Text.translatable("options.heywiki.raycast_max_reach.name"), HeyWikiConfig.raycastMaxReach)
+                .setDefaultValue(5.2D)
+                .setTooltip(Text.translatable("options.heywiki.raycast_max_reach.description"))
+                .setSaveConsumer(newValue -> HeyWikiConfig.raycastMaxReach = newValue)
+                .build());
+        general.addEntry(entryBuilder
+                .startBooleanToggle(Text.translatable("options.heywiki.raycast_allow_fluid.name"), HeyWikiConfig.raycastAllowFluid)
+                .setDefaultValue(false)
+                .setTooltip(Text.translatable("options.heywiki.raycast_allow_fluid.description"))
+                .setSaveConsumer(newValue -> HeyWikiConfig.raycastAllowFluid = newValue)
                 .build());
         general.addEntry(entryBuilder
                 .startDropdownMenu(Text.translatable("options.heywiki.language.name"),

@@ -26,6 +26,8 @@ Hey Wiki supports Fabric and NeoForge.
 3. Press the keybind (default: H).
 4. Either confirm the action or copy the link to your clipboard in the screen that pops up.
 
+### Configuration
+
 Optionally, you can change these behaviors in the config menu:
 
 > [!TIP]
@@ -34,6 +36,8 @@ Optionally, you can change these behaviors in the config menu:
 - If confirmation is required to open the wiki page: default is true
 - Which wiki language you prefer, overriding your game language: default is your game language
 - The keybind to open the wiki page: default is H
+- Reach distance: default is 5.2 blocks (same as creative mode reach)
+- Whether fluid is allowed: default is false
 
 ### Commands
 

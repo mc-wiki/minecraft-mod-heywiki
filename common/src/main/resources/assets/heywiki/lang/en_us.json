@@ -19,8 +19,12 @@
   "options.heywiki.language.th": "th: ภาษาไทย",
   "options.heywiki.language.uk": "uk: Українська",
   "options.heywiki.language.zh": "zh: 中文",
-  "options.heywiki.requires_confirmation.description": "Open confirmation screen before opening the wiki article. This is useful to avoid accidentally triggering the feature.",
+  "options.heywiki.requires_confirmation.description": "Open confirmation screen before opening the wiki article.\nThis is useful to avoid accidentally triggering the feature.",
   "options.heywiki.requires_confirmation.name": "Requires confirmation",
+  "options.heywiki.raycast_max_reach.name": "Max reach",
+  "options.heywiki.raycast_max_reach.description": "Maximum distance you can aim at to trigger the wiki feature.\nNote that higher values may cause performance issues.",
+  "options.heywiki.raycast_allow_fluid.name": "Allow fluid",
+  "options.heywiki.raycast_allow_fluid.description": "Allow aiming at fluid blocks to trigger the wiki feature.",
   "options.heywiki.title": "Hey Wiki Options",
   "heywiki.too_far": "You are not aiming at anything. Maybe get closer?"
 }

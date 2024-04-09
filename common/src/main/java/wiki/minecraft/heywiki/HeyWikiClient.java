@@ -49,7 +49,7 @@ public class HeyWikiClient {
 
         ClientCommandRegistrationEvent.EVENT.register(HeyWikiClient::registerCommands);
 
-        ClientTickEvent.CLIENT_POST.register(Raycast::onClientTickPost);
+        ClientTickEvent.CLIENT_POST.register(CrosshairRaycast::onClientTickPost);
 
         ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, new WikiFamilyConfigManager(), new Identifier("heywiki:family"));
         ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, new WikiTranslationManager(), new Identifier("heywiki:translation"), List.of(new Identifier("heywiki:family")));
