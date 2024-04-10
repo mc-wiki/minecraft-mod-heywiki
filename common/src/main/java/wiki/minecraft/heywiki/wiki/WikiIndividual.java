@@ -5,8 +5,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import java.util.Optional;
 
-@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-public class WikiIndividual {
+public record WikiIndividual(String articleUrl, Optional<String> mwApiUrl, String randomArticle,
+                             LanguageMatcher language) {
     public static Codec<WikiIndividual> CODEC = RecordCodecBuilder.create(builder ->
             builder
                     .group(
@@ -16,15 +16,4 @@ public class WikiIndividual {
                             LanguageMatcher.CODEC.fieldOf("language").forGetter(wiki -> wiki.language)
                           )
                     .apply(builder, WikiIndividual::new));
-    public String articleUrl;
-    public Optional<String> mwApiUrl;
-    public String randomArticle;
-    public LanguageMatcher language;
-
-    public WikiIndividual(String articleUrl, Optional<String> mwApiUrl, String randomArticle, LanguageMatcher language) {
-        this.articleUrl = articleUrl;
-        this.mwApiUrl = mwApiUrl;
-        this.randomArticle = randomArticle;
-        this.language = language;
-    }
 }

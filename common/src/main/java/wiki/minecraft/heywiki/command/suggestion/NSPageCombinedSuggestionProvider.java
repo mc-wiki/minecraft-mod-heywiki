@@ -21,7 +21,7 @@ public class NSPageCombinedSuggestionProvider implements SuggestionProvider<Clie
         String remaining = builder.getRemaining();
         WikiIndividual wiki = WikiPage.getWiki(WikiFamilyConfigManager.getFamilyByNamespace("minecraft"));
         if (wiki == null) return new NamespaceSuggestionProvider().getSuggestions(context, builder);
-        String apiUrl = wiki.mwApiUrl.orElse(null);
+        String apiUrl = wiki.mwApiUrl().orElse(null);
         if (apiUrl == null) return new NamespaceSuggestionProvider().getSuggestions(context, builder);
 
         if (!remaining.contains(":")) {

@@ -29,7 +29,7 @@ public class WikiFamilyConfigManager extends JsonDataLoader {
 
     public static WikiFamily getFamilyByNamespace(String namespace) {
         for (WikiFamily family : WIKI_FAMILY_MAP.values()) {
-            if (family.namespace.contains(namespace)) {
+            if (family.namespace().contains(namespace)) {
                 return family;
             }
         }
@@ -45,17 +45,17 @@ public class WikiFamilyConfigManager extends JsonDataLoader {
 
     @SuppressWarnings("unused")
     public static List<String> getAvailableLanguages(String id) {
-        return getFamily(id).wikis.stream().map(wiki -> wiki.language.wikiLanguage).toList();
+        return getFamily(id).wikis().stream().map(wiki -> wiki.language().wikiLanguage()).toList();
     }
 
     public static Set<String> getAvailableNamespaces() {
-        return WIKI_FAMILY_MAP.values().stream().map(family -> family.namespace).collect(HashSet::new, Set::addAll, Set::addAll);
+        return WIKI_FAMILY_MAP.values().stream().map(WikiFamily::namespace).collect(HashSet::new, Set::addAll, Set::addAll);
     }
 
     public static Set<String> getAllMainLanguages() {
         Set<String> languages = new HashSet<>();
-        WIKI_FAMILY_MAP.forEach((key, value) -> value.wikis.forEach(wiki -> {
-            if (wiki.language.main) languages.add(wiki.language.defaultLanguage);
+        WIKI_FAMILY_MAP.forEach((key, value) -> value.wikis().forEach(wiki -> {
+            if (wiki.language().main()) languages.add(wiki.language().defaultLanguage());
         }));
 
         return languages;
@@ -63,8 +63,8 @@ public class WikiFamilyConfigManager extends JsonDataLoader {
 
     public static Set<String> getAllDefaultLanguagesFromWikiLanguage(String wikiLanguage) {
         Set<String> languages = new HashSet<>();
-        WIKI_FAMILY_MAP.forEach((key, value) -> value.wikis.forEach(wiki -> {
-            if (wiki.language.wikiLanguage.equals(wikiLanguage)) languages.add(wiki.language.defaultLanguage);
+        WIKI_FAMILY_MAP.forEach((key, value) -> value.wikis().forEach(wiki -> {
+            if (wiki.language().wikiLanguage().equals(wikiLanguage)) languages.add(wiki.language().defaultLanguage());
         }));
 
         return languages;
@@ -73,8 +73,8 @@ public class WikiFamilyConfigManager extends JsonDataLoader {
     public static Set<String> getLangOverride() {
         Set<String> languages = new HashSet<>();
         WIKI_FAMILY_MAP.forEach((key, value) -> {
-            for (var wiki : value.wikis) {
-                wiki.language.langOverride.ifPresent(languages::add);
+            for (var wiki : value.wikis()) {
+                wiki.language().langOverride().ifPresent(languages::add);
             }
 
         });
@@ -88,7 +88,7 @@ public class WikiFamilyConfigManager extends JsonDataLoader {
         prepared.forEach((key, value) -> {
             try {
                 WikiFamily wikiFamily = WikiFamily.CODEC.parse(JsonOps.INSTANCE, value).resultOrPartial(LOGGER::error).orElseThrow();
-                WIKI_FAMILY_MAP.put(wikiFamily.id, wikiFamily);
+                WIKI_FAMILY_MAP.put(wikiFamily.id(), wikiFamily);
             } catch (Exception e) {
                 LOGGER.error("Failed to load wiki family config from {}", key, e);
             }

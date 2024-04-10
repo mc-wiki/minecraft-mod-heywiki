@@ -35,7 +35,7 @@ public class WikiPage {
     }
 
     private static @Nullable String getOverride(WikiIndividual wiki, String translationKey) {
-        return wiki.language.langOverride.map(s -> {
+        return wiki.language().langOverride().map(s -> {
             if (WikiTranslationManager.translations.get(s).hasTranslation(translationKey)) {
                 return WikiTranslationManager.translations.get(s).get(translationKey);
             } else {
@@ -62,7 +62,7 @@ public class WikiPage {
             var language = HeyWikiConfig.language;
             var wiki = family.getLanguageWikiByWikiLanguage(language);
             if (wiki != null) {
-                if (wiki.language.matchLanguage(client.options.language)) {
+                if (wiki.language().matchLanguage(client.options.language)) {
                     String override = getOverride(wiki, translationKey);
                     if (override != null) {
                         return new WikiPage(override, family);
@@ -74,14 +74,14 @@ public class WikiPage {
                         return new WikiPage(override, family);
                     }
                     return new WikiPage(WikiTranslationManager.translations
-                            .get(wiki.language.defaultLanguage)
+                            .get(wiki.language().defaultLanguage())
                             .get(translationKey), family);
                 }
             }
         }
 
         return new WikiPage(WikiTranslationManager.translations
-                .get(Objects.requireNonNull(family.getMainLanguageWiki()).language.defaultLanguage)
+                .get(Objects.requireNonNull(family.getMainLanguageWiki()).language().defaultLanguage())
                 .get(translationKey), family);
     }
 
@@ -107,12 +107,12 @@ public class WikiPage {
     }
 
     public static WikiPage random(WikiFamily family) {
-        return new WikiPage(Objects.requireNonNull(getWiki(family)).randomArticle, family);
+        return new WikiPage(Objects.requireNonNull(getWiki(family)).randomArticle(), family);
     }
 
     public @Nullable URI getUri() {
         try {
-            return new URI(Objects.requireNonNull(getWiki(family)).articleUrl.formatted(URLEncoder.encode(this.pageName.replaceAll(" ", "_"), StandardCharsets.UTF_8)));
+            return new URI(Objects.requireNonNull(getWiki(family)).articleUrl().formatted(URLEncoder.encode(this.pageName.replaceAll(" ", "_"), StandardCharsets.UTF_8)));
         } catch (URISyntaxException e) {
             LOGGER.error("Failed to create URI for wiki page", e);
             return null;
