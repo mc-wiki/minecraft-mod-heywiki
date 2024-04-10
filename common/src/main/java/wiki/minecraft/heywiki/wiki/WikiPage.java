@@ -34,15 +34,28 @@ public class WikiPage {
         return fromIdentifier(identifierTranslationKey.identifier, identifierTranslationKey.translationKey);
     }
 
+    private static @Nullable String getOverride(WikiIndividual wiki, String translationKey) {
+        return wiki.language.langOverride.map(s -> {
+            if (WikiTranslationManager.translations.get(s).hasTranslation(translationKey)) {
+                return WikiTranslationManager.translations.get(s).get(translationKey);
+            } else {
+                return null;
+            }
+        }).orElse(null);
+    }
+
     public static @Nullable WikiPage fromIdentifier(Identifier identifier, String translationKey) {
         var family = WikiFamilyConfigManager.getFamilyByNamespace(identifier.getNamespace());
-
         if (family == null) return null;
 
         if (HeyWikiConfig.language.equals("auto")) {
             var language = client.options.language;
             var wiki = family.getLanguageWikiByGameLanguage(language);
             if (wiki != null) {
+                String override = getOverride(wiki, translationKey);
+                if (override != null) {
+                    return new WikiPage(override, family);
+                }
                 return new WikiPage(I18n.translate(translationKey), family);
             }
         } else {
@@ -50,8 +63,16 @@ public class WikiPage {
             var wiki = family.getLanguageWikiByWikiLanguage(language);
             if (wiki != null) {
                 if (wiki.language.matchLanguage(client.options.language)) {
+                    String override = getOverride(wiki, translationKey);
+                    if (override != null) {
+                        return new WikiPage(override, family);
+                    }
                     return new WikiPage(I18n.translate(translationKey), family);
                 } else {
+                    String override = getOverride(wiki, translationKey);
+                    if (override != null) {
+                        return new WikiPage(override, family);
+                    }
                     return new WikiPage(WikiTranslationManager.translations
                             .get(wiki.language.defaultLanguage)
                             .get(translationKey), family);

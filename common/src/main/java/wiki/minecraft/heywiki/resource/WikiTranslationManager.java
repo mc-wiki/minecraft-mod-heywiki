@@ -10,8 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static wiki.minecraft.heywiki.resource.WikiFamilyConfigManager.getAllDefaultLanguagesFromWikiLanguage;
-import static wiki.minecraft.heywiki.resource.WikiFamilyConfigManager.getAllMainLanguages;
+import static wiki.minecraft.heywiki.resource.WikiFamilyConfigManager.*;
 
 public class WikiTranslationManager implements SynchronousResourceReloader {
     public static Map<String, TranslationStorage> translations;
@@ -31,11 +30,11 @@ public class WikiTranslationManager implements SynchronousResourceReloader {
         }
     }
 
-    public static TranslationStorage loadTranslation(String language, ResourceManager resourceManager) {
-        return language.equals("en_us")
+    public static TranslationStorage loadTranslation(String language, ResourceManager resourceManager, boolean fallbackEnUs) {
+        return language.equals("en_us") || !fallbackEnUs
                 ? TranslationStorage.load(
                 resourceManager,
-                List.of("en_us"), false)
+                List.of(language), false)
                 : TranslationStorage.load(
                 resourceManager,
                 List.of("en_us", language), false);
@@ -45,7 +44,10 @@ public class WikiTranslationManager implements SynchronousResourceReloader {
     public void reload(ResourceManager manager) {
         Map<String, TranslationStorage> translationsNew = new HashMap<>();
         for (String language : decideLanguage()) {
-            translationsNew.put(language, loadTranslation(language, manager));
+            translationsNew.put(language, loadTranslation(language, manager, true));
+        }
+        for (String language : getLangOverride()) {
+            translationsNew.put(language, loadTranslation(language, manager, false));
         }
 
         translations = translationsNew;

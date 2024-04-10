@@ -24,7 +24,8 @@
         "wiki_language": "de",
         "default": "de_de",
         "regex": "^de_.*",
-        "exclude": null
+        "exclude": null,
+        "lang_override": "minecraft_de"
       }
     },
     {

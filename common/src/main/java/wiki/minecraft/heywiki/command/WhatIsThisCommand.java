@@ -14,7 +14,7 @@ import static dev.architectury.event.events.client.ClientCommandRegistrationEven
 import static wiki.minecraft.heywiki.CrosshairRaycast.getIdentifierByRaycast;
 
 public class WhatIsThisCommand {
-    public static final SimpleCommandExceptionType NO_TARGET = new SimpleCommandExceptionType(Text.translatable("commands.whatisthis.no_target"));
+    public static final SimpleCommandExceptionType NO_TARGET = new SimpleCommandExceptionType(Text.translatable("heywiki.too_far"));
 
     @SuppressWarnings("UnusedReturnValue")
     public static LiteralCommandNode<ClientCommandSourceStack> register(CommandDispatcher<ClientCommandSourceStack> dispatcher) {

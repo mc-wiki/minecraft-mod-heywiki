@@ -2,7 +2,9 @@ package wiki.minecraft.heywiki;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
@@ -43,7 +45,7 @@ public class CrosshairRaycast {
         Vec3d startVec = camera.getCameraPosVec(tickDelta);
         Vec3d endVec = startVec.add(rotationVec.multiply(maxReach));
         Box box = camera.getBoundingBox().stretch(rotationVec.multiply(maxReach)).expand(1.0, 1.0, 1.0);
-        EntityHitResult entityHit = ProjectileUtil.raycast(camera, startVec, endVec, box, (entity) -> !entity.isSpectator() && entity.canHit(), maxReach * maxReach);
+        EntityHitResult entityHit = ProjectileUtil.raycast(camera, startVec, endVec, box, (entity) -> (!entity.isSpectator() && entity.canHit()) || entity instanceof ItemEntity, maxReach * maxReach);
 
         BlockHitResult blockHit = client.world.raycast(new RaycastContext(startVec, endVec, RaycastContext.ShapeType.OUTLINE,
                 HeyWikiConfig.raycastAllowFluid ? RaycastContext.FluidHandling.ANY : RaycastContext.FluidHandling.NONE, camera));
@@ -53,6 +55,10 @@ public class CrosshairRaycast {
 
         if (entityHit != null && !shouldUseBlock) {
             var entity = entityHit.getEntity();
+            if (entity instanceof ItemEntity itemEntity) {
+                ItemStack stack = itemEntity.getStack();
+                return new IdentifierTranslationKey(stack.getItem().arch$registryName(), stack.getTranslationKey());
+            }
             return new IdentifierTranslationKey(entity.getType().arch$registryName(), entity.getType().getTranslationKey());
         }
         if (blockHit != null) {

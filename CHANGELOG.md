@@ -7,6 +7,8 @@
 - Now prompts user when `H` is pressed but nothing is being aimed at
 - Added configuration options for reach distance and whether fluid is allowed
 - Setting configurations other than wiki language no longer requires a resource reload
+- Looking up item entities now leads to the page of the item
+- Add possibility to overwrite translation keys to specific pages (Solves #14)
 
 ## Fixes
 

@@ -93,7 +93,9 @@ create a JSON file in the `assets/<namespace>/wiki_family` folder in your resour
         // If the regex matches the in-game language, this wiki will be used when config is auto
         "regex": "^en_.*",
         // Ditto, but for exclusion
-        "exclude": null
+        "exclude": null,
+        // A custom language code that allows you to override translation keys to specific pages. A translation file should exist at assets/<namespace>/lang/<lang_override>.json
+        "lang_override": "minecraft_en"
       }
     },
     {

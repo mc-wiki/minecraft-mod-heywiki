@@ -70,6 +70,18 @@ public class WikiFamilyConfigManager extends JsonDataLoader {
         return languages;
     }
 
+    public static Set<String> getLangOverride() {
+        Set<String> languages = new HashSet<>();
+        WIKI_FAMILY_MAP.forEach((key, value) -> {
+            for (var wiki : value.wikis) {
+                wiki.language.langOverride.ifPresent(languages::add);
+            }
+
+        });
+
+        return languages;
+    }
+
     @Override
     protected void apply(Map<Identifier, JsonElement> prepared, ResourceManager manager, Profiler profiler) {
         WIKI_FAMILY_MAP.clear();
