@@ -12,13 +12,14 @@ import net.minecraft.util.Util;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.net.HttpURLConnection;
+import java.net.ProxySelector;
 import java.net.URI;
 import java.net.URLEncoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.concurrent.Callable;
@@ -47,18 +48,19 @@ public class PageNameSuggestionProvider implements SuggestionProvider<ClientComm
     }
 
     @NotNull
-    private static StringBuffer requestUri(URI uri) throws IOException {
-        HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
-        connection.setDoOutput(true);
-        connection.setRequestMethod("GET");
-        connection.connect();
+    private static String requestUri(URI uri) throws IOException, InterruptedException {
+        HttpClient client = HttpClient.newBuilder()
+                                      .proxy(ProxySelector.getDefault())
+                                      .followRedirects(HttpClient.Redirect.ALWAYS)
+                                      .build();
+        HttpRequest request = HttpRequest.newBuilder(uri).GET().build();
 
-        String buffer;
-        StringBuffer response = new StringBuffer();
-        BufferedReader inputReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
-        while ((buffer = inputReader.readLine()) != null)
-            response.append(buffer);
-        return response;
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+        if (response.statusCode() != 200) {
+            throw new IOException("HTTP " + response.statusCode() + " " + response.body());
+        }
+
+        return response.body();
     }
 
     @Override
@@ -76,14 +78,14 @@ public class PageNameSuggestionProvider implements SuggestionProvider<ClientComm
             if (!builder.getInput().equals(lastInput)) {
                 return builder.build();
             }
+            String remaining = builder.getRemaining();
+            if (remaining.isEmpty()) return builder.build();
             try {
-                String remaining = builder.getRemaining();
-                if (remaining.isEmpty()) return builder.build();
                 URI uri = uriWithQuery(this.uriProvider.call(), String.format(SUGGESTION_URL, URLEncoder.encode(remaining, StandardCharsets.UTF_8)));
 
-                StringBuffer response = requestUri(uri);
+                String response = requestUri(uri);
 
-                JsonReader reader = GSON.newJsonReader(new StringReader(response.toString()));
+                JsonReader reader = GSON.newJsonReader(new StringReader(response));
                 reader.beginArray();
                 reader.skipValue();
                 reader.beginArray();
@@ -92,7 +94,7 @@ public class PageNameSuggestionProvider implements SuggestionProvider<ClientComm
                 if (!builder.getInput().equals(lastInput)) {
                     return builder.build();
                 }
-                
+
                 while (reader.hasNext()) {
                     suggestions.add(reader.nextString());
                 }
