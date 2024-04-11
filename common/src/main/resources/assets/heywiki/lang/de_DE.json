@@ -18,12 +18,12 @@
   "options.heywiki.language.th": "th: ภาษาไทย",
   "options.heywiki.language.uk": "uk: Українська",
   "options.heywiki.language.zh": "zh: 中文",
-  "options.heywiki.requires_confirmation.description": "Open confirmation screen before opening the wiki article.\nThis is useful to avoid accidentally triggering the feature.",
+  "options.heywiki.requires_confirmation.description": "Öffne den Bestätigungsbildschirm bevor sich der Wiki-Artikel öffnet.\nDies ist nützlich, um versehentliches auslösen der Funktion zu vermeiden.",
   "options.heywiki.requires_confirmation.name": "Bestätigung wird erfordert",
   "options.heywiki.raycast_max_reach.name": "Max. Reichweite",
-  "options.heywiki.raycast_max_reach.description": "Maximum distance you can aim at to trigger the wiki feature.\nNote that higher values may cause performance issues.",
-  "options.heywiki.raycast_allow_fluid.name": "Allow fluid",
-  "options.heywiki.raycast_allow_fluid.description": "Allow aiming at fluid blocks to trigger the wiki feature.",
+  "options.heywiki.raycast_max_reach.description": "Maximale Reichweite auf die du die Wiki-Funktion auslösen kannst.\nBeachte, dass größere Werte zu Einbußen in der Performanz führen können.",
+  "options.heywiki.raycast_allow_fluid.name": "Flüssigkeiten zulassen",
+  "options.heywiki.raycast_allow_fluid.description": "Erlaube es, auf Flüssigkeiten zu zeigen, um diese Wiki-Funktion auszulösen.",
   "options.heywiki.title": "Hallo-Wiki-Optionen",
   "heywiki.too_far": "Du bist nicht nah genug. Willst du vielleicht näher kommen?"
 }
