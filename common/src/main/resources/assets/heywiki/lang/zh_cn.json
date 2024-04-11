@@ -1,6 +1,5 @@
 {
   "key.categories.heywiki": "Hey Wiki",
-  "commands.whatisthis.no_target": "你什么也没有瞄准。",
   "commands.whatisthisitem.no_item_held": "你没有拿持物品。",
   "key.heywiki.open": "打开wiki条目",
   "options.heywiki.general": "一般",
@@ -21,5 +20,10 @@
   "options.heywiki.language.zh": "zh: 中文",
   "options.heywiki.requires_confirmation.description": "在打开wiki页面前先打开确认页面，避免误触。",
   "options.heywiki.requires_confirmation.name": "需要确认",
-  "options.heywiki.title": "Hey Wiki设置"
+  "options.heywiki.raycast_max_reach.name": "Max reach",
+  "options.heywiki.raycast_max_reach.description": "Maximum distance you can aim at to trigger the wiki feature.\nNote that higher values may cause performance issues.",
+  "options.heywiki.raycast_allow_fluid.name": "Allow fluid",
+  "options.heywiki.raycast_allow_fluid.description": "Allow aiming at fluid blocks to trigger the wiki feature.",
+  "options.heywiki.title": "Hey Wiki设置",
+  "heywiki.too_far": "You are not aiming at anything. Maybe get closer?"
 }
