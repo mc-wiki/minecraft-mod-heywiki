@@ -1,6 +1,5 @@
 {
   "key.categories.heywiki": "Hey Wiki",
-  "commands.whatisthis.no_target": "Nada está sendo olhado.",
   "commands.whatisthisitem.no_item_held": "Nenhum item está sendo segurado.",
   "key.heywiki.open": "Abrir artigo na wiki",
   "options.heywiki.general": "Geral",
@@ -21,5 +20,10 @@
   "options.heywiki.language.zh": "zh: 中文",
   "options.heywiki.requires_confirmation.description": "Abra a tela de confirmação antes de abrir o artigo na wiki. Isso é útil para evitar o acionamento acidental do recurso.",
   "options.heywiki.requires_confirmation.name": "Requer confirmação",
-  "options.heywiki.title": "Opções do Hey Wiki"
+  "options.heywiki.raycast_max_reach.name": "Max reach",
+  "options.heywiki.raycast_max_reach.description": "Maximum distance you can aim at to trigger the wiki feature.\nNote that higher values may cause performance issues.",
+  "options.heywiki.raycast_allow_fluid.name": "Allow fluid",
+  "options.heywiki.raycast_allow_fluid.description": "Allow aiming at fluid blocks to trigger the wiki feature.",
+  "options.heywiki.title": "Opções do Hey Wiki",
+  "heywiki.too_far": "You are not aiming at anything. Maybe get closer?"
 }
