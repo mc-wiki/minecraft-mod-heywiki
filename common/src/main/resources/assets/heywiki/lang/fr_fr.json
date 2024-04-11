@@ -1,6 +1,6 @@
 {
   "key.categories.heywiki": "Hey Wiki",
-  "commands.whatisthisitem.no_item_held": "Vous ne tenez aucun objet.",
+  "commands.whatisthisitem.no_item_held": "No item is being held",
   "key.heywiki.open": "Ouvrir la page wiki",
   "options.heywiki.general": "Général",
   "options.heywiki.language.auto": "auto: Utiliser la langue du jeu",
