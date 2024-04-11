@@ -1,6 +1,7 @@
 package wiki.minecraft.heywiki.command;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent.ClientCommandSourceStack;
@@ -24,28 +25,24 @@ public class WhatIsThisItemCommand {
                 .executes(ctx -> {
                     if (CLIENT.player == null) return 1;
                     ItemStack stack = CLIENT.player.getInventory().getMainHandStack();
-                    if (stack.isEmpty()) {
-                        throw NO_ITEM_HELD.create();
-                    }
-                    String translationKey = stack.getTranslationKey();
-                    Identifier identifier = stack.getItem().arch$registryName();
-                    if (identifier != null) {
-                        Objects.requireNonNull(WikiPage.fromIdentifier(identifier, translationKey)).openInBrowser(true);
-                    }
-                    return 0;
+                    return openBrowserForStack(stack);
                 }).then(literal("offhand")
                         .executes(ctx -> {
                             if (CLIENT.player == null) return 1;
                             ItemStack stack = CLIENT.player.getInventory().offHand.get(0);
-                            if (stack.isEmpty()) {
-                                throw NO_ITEM_HELD.create();
-                            }
-                            String translationKey = stack.getTranslationKey();
-                            Identifier identifier = stack.getItem().arch$registryName();
-                            if (identifier != null) {
-                                Objects.requireNonNull(WikiPage.fromIdentifier(identifier, translationKey)).openInBrowser(true);
-                            }
-                            return 0;
+                            return openBrowserForStack(stack);
                         })));
+    }
+
+    private static int openBrowserForStack(ItemStack stack) throws CommandSyntaxException {
+        if (stack.isEmpty()) {
+            throw NO_ITEM_HELD.create();
+        }
+        String translationKey = stack.getTranslationKey();
+        Identifier identifier = stack.getItem().arch$registryName();
+        if (identifier != null) {
+            Objects.requireNonNull(WikiPage.fromIdentifier(identifier, translationKey)).openInBrowser(true);
+        }
+        return 0;
     }
 }
