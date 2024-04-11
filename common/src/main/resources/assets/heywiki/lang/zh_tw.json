@@ -1,6 +1,6 @@
 {
   "key.categories.heywiki": "Hey Wiki",
-  "commands.whatisthisitem.no_item_held": "您的手中未持有物品",
+  "commands.whatisthisitem.no_item_held": "手中未持有物品",
   "key.heywiki.open": "開啟 wiki 條目",
   "options.heywiki.general": "一般",
   "options.heywiki.language.auto": "auto: 採用遊戲語言",
