@@ -1,6 +1,6 @@
 {
   "key.categories.heywiki": "Hey Wiki",
-  "commands.whatisthisitem.no_item_held": "Nenhum item está sendo segurado.",
+  "commands.whatisthisitem.no_item_held": "No item is being held",
   "key.heywiki.open": "Abrir artigo na wiki",
   "options.heywiki.general": "Geral",
   "options.heywiki.language.auto": "auto: Usar idioma do jogo",
