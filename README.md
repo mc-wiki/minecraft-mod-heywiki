@@ -7,6 +7,7 @@
 
 [<img alt="fabric" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/fabric_vector.svg">](https://fabricmc.net/)
 [<img alt="neoforge" height="56" src="https://github.com/mc-wiki/minecraft-mod-heywiki/blob/master/docs/supports_neoforge.svg?raw=true">](https://neoforged.net/)
+[<img alt="crowdin" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/translate/crowdin_vector.svg">](https://crowdin.com/project/hey-wiki)
 
 Hey Wiki is a client mod made by [the Minecraft Wiki](https://minecraft.wiki) that allows you to press H (customizable)
 to open the wiki page of the block/item/entity you're aiming at, no matter it's from vanilla or a mod.
@@ -43,7 +44,7 @@ Optionally, you can change these behaviors in the config menu:
 
 These commands are available:
 
-- `/imfeelinglucky <namespace>` - Takes you wherever the mod decides.
+- `/imfeelinglucky [<namespace>]` - Takes you wherever the mod decides.
     - Example: `/imfeelinglucky minecraft` -> `https://minecraft.wiki/????????`
 - `/wiki <pageName>` - Opens the Minecraft Wiki page of the specified page name. `pageName` can include a namespace.
     - Example: `/wiki minecraft:creeper` -> `https://minecraft.wiki/w/?search=creeper`
@@ -54,6 +55,7 @@ These commands are available:
     - Redirect: `/whatcmd`
 - `/whatisthis` - Opens the Minecraft Wiki page of the block/item/entity you're aiming at.
 - `/whatisthisitem` - Opens the Minecraft Wiki page of the item you're holding in you main hand.
+    - `whatisthisitem offhand` - Same, but for the offhand.
 
 Note that if you open a page with a command, the confirmation screen will not appear.
 
