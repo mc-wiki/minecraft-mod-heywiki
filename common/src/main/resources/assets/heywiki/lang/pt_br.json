@@ -21,9 +21,9 @@
   "options.heywiki.requires_confirmation.description": "Abra a tela de confirmação antes de abrir o artigo na wiki. Isso é útil para evitar o acionamento acidental do recurso.",
   "options.heywiki.requires_confirmation.name": "Requer confirmação",
   "options.heywiki.raycast_max_reach.name": "Máximo alcance",
-  "options.heywiki.raycast_max_reach.description": "Maximum distance you can aim at to trigger the wiki feature.\nNote that higher values may cause performance issues.",
-  "options.heywiki.raycast_allow_fluid.name": "Allow fluid",
-  "options.heywiki.raycast_allow_fluid.description": "Allow aiming at fluid blocks to trigger the wiki feature.",
+  "options.heywiki.raycast_max_reach.description": "Distância máxima para acionar o recurso da wiki.\nIsto pode causar problemas de desempenho.",
+  "options.heywiki.raycast_allow_fluid.name": "Permitir em fluidos",
+  "options.heywiki.raycast_allow_fluid.description": "Permitir o recurso da wiki em blocos fluidos.",
   "options.heywiki.title": "Opções do Hey Wiki",
-  "heywiki.too_far": "You are not aiming at anything. Maybe get closer?"
+  "heywiki.too_far": "Você está muito longe, que tal ficar mais próximo?"
 }
