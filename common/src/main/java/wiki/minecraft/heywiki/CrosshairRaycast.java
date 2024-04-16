@@ -1,17 +1,14 @@
 package wiki.minecraft.heywiki;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.RaycastContext;
+import net.minecraft.util.hit.HitResult;
 import org.jetbrains.annotations.Nullable;
+import wiki.minecraft.heywiki.mixin.GameRendererMixin;
 import wiki.minecraft.heywiki.wiki.IdentifierTranslationKey;
 import wiki.minecraft.heywiki.wiki.WikiPage;
 
@@ -35,33 +32,22 @@ public class CrosshairRaycast {
     }
 
     public static @Nullable IdentifierTranslationKey getIdentifierByRaycast(MinecraftClient client, boolean showTooFarMessage) {
-        float tickDelta = 1.0F;
-        double maxReach = HeyWikiConfig.raycastMaxReach;
-        Entity camera = client.cameraEntity;
+        assert client.player != null;
+        assert client.world != null;
 
-        if (client.cameraEntity == null || client.world == null) return null;
+        double maxReach = HeyWikiConfig.raycastReach;
+        double blockReach = Math.max(client.player.getBlockInteractionRange(), maxReach);
+        double entityReach = Math.max(client.player.getEntityInteractionRange(), maxReach);
+        HitResult hit = ((GameRendererMixin) client.gameRenderer).invokeFindCrosshairTarget(client.cameraEntity, blockReach, entityReach, 1f);
 
-        Vec3d rotationVec = camera.getRotationVec(tickDelta);
-        Vec3d startVec = camera.getCameraPosVec(tickDelta);
-        Vec3d endVec = startVec.add(rotationVec.multiply(maxReach));
-        Box box = camera.getBoundingBox().stretch(rotationVec.multiply(maxReach)).expand(1.0, 1.0, 1.0);
-        EntityHitResult entityHit = ProjectileUtil.raycast(camera, startVec, endVec, box, (entity) -> (!entity.isSpectator() && entity.canHit()) || entity instanceof ItemEntity, maxReach * maxReach);
-
-        BlockHitResult blockHit = client.world.raycast(new RaycastContext(startVec, endVec, RaycastContext.ShapeType.OUTLINE,
-                HeyWikiConfig.raycastAllowFluid ? RaycastContext.FluidHandling.ANY : RaycastContext.FluidHandling.NONE, camera));
-
-        boolean shouldUseBlock = entityHit != null && blockHit != null &&
-                entityHit.getPos().distanceTo(startVec) > blockHit.getPos().distanceTo(startVec);
-
-        if (entityHit != null && !shouldUseBlock) {
+        if (hit instanceof EntityHitResult entityHit) {
             var entity = entityHit.getEntity();
             if (entity instanceof ItemEntity itemEntity) {
                 ItemStack stack = itemEntity.getStack();
                 return new IdentifierTranslationKey(stack.getItem().arch$registryName(), stack.getTranslationKey());
             }
             return new IdentifierTranslationKey(entity.getType().arch$registryName(), entity.getType().getTranslationKey());
-        }
-        if (blockHit != null) {
+        } else if (hit instanceof BlockHitResult blockHit) {
             var blockPos = blockHit.getBlockPos();
             var blockState = client.world.getBlockState(blockPos);
             var block = blockState.getBlock();
