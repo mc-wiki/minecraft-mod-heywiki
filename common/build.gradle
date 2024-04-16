@@ -1,5 +1,9 @@
 architectury {
-    common(rootProject.enabled_platforms.split(","))
+    if (getProperty("snapshot") == "false") {
+        common(rootProject.enabled_platforms.split(","))
+    } else {
+        common(rootProject.enabled_platforms_snapshot.split(","))
+    }
 }
 
 dependencies {
