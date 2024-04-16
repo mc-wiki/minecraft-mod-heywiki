@@ -6,8 +6,8 @@ on:
   workflow_dispatch:
 
 env:
-  MINECRAFT_VERSION: 1.20.4
-  JAVA_VERSION: 17
+  MINECRAFT_VERSION: 1.20.5
+  JAVA_VERSION: 21
 
 jobs:
   build:
