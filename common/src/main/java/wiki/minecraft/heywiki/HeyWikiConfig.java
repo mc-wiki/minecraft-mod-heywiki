@@ -24,7 +24,7 @@ import static dev.architectury.platform.Platform.getConfigFolder;
 
 public class HeyWikiConfig {
     public static boolean requiresConfirmation = true;
-    public static double raycastMaxReach = 5.2D; // Use creative mode reach distance
+    public static double raycastReach = 5.2D; // Use creative mode reach distance
     public static boolean raycastAllowFluid = false;
     public static String language = Language.AUTO.getName();
 
@@ -44,10 +44,12 @@ public class HeyWikiConfig {
                 .setSaveConsumer(newValue -> HeyWikiConfig.requiresConfirmation = newValue)
                 .build());
         general.addEntry(entryBuilder
-                .startDoubleField(Text.translatable("options.heywiki.raycast_max_reach.name"), HeyWikiConfig.raycastMaxReach)
+                .startDoubleField(Text.translatable("options.heywiki.raycast_reach.name"), HeyWikiConfig.raycastReach)
                 .setDefaultValue(5.2D)
-                .setTooltip(Text.translatable("options.heywiki.raycast_max_reach.description"))
-                .setSaveConsumer(newValue -> HeyWikiConfig.raycastMaxReach = newValue)
+                .setMin(0D)
+                .setMax(64D)
+                .setTooltip(Text.translatable("options.heywiki.raycast_reach.description"))
+                .setSaveConsumer(newValue -> HeyWikiConfig.raycastReach = newValue)
                 .build());
         general.addEntry(entryBuilder
                 .startBooleanToggle(Text.translatable("options.heywiki.raycast_allow_fluid.name"), HeyWikiConfig.raycastAllowFluid)
@@ -91,6 +93,8 @@ public class HeyWikiConfig {
                 jsonWriter.beginObject()
                           .name("requiresConfirmation").value(requiresConfirmation)
                           .name("language").value(language)
+                          .name("raycastReach").value(raycastReach)
+                          .name("raycastAllowFluid").value(raycastAllowFluid)
                           .endObject().close();
             } catch (IOException e) {
                 jsonWriter.close();
@@ -114,6 +118,12 @@ public class HeyWikiConfig {
                         break;
                     case "language":
                         language = entry.getValue().getAsString();
+                        break;
+                    case "raycastReach":
+                        raycastReach = entry.getValue().getAsDouble();
+                        break;
+                    case "raycastAllowFluid":
+                        raycastAllowFluid = entry.getValue().getAsBoolean();
                         break;
                 }
             });

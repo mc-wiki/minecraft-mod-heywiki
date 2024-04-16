@@ -8,6 +8,7 @@
   },
   "client": [
     "EmiScreenManagerMixin",
+    "GameRendererMixin",
     "HandledScreenMixin",
     "RecipeScreenMixin",
     "ScreenOverlayImplMixin"
