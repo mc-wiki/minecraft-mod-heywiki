@@ -24,6 +24,6 @@
   "options.heywiki.raycast_max_reach.description": "Maximale Reichweite auf die du die Wiki-Funktion auslösen kannst.\nBeachte, dass größere Werte zu Einbußen in der Performanz führen können.",
   "options.heywiki.raycast_allow_fluid.name": "Flüssigkeiten zulassen",
   "options.heywiki.raycast_allow_fluid.description": "Erlaube es, auf Flüssigkeiten zu zeigen, um diese Wiki-Funktion auszulösen.",
-  "options.heywiki.title": "Hallo-Wiki-Optionen",
+  "options.heywiki.title": "Hey-Wiki-Optionen",
   "heywiki.too_far": "Du bist nicht nah genug. Willst du vielleicht näher kommen?"
 }
