@@ -1,5 +1,5 @@
 {
-  "key.categories.heywiki": "Hallo Wiki",
+  "key.categories.heywiki": "Hey Wiki",
   "commands.whatisthisitem.no_item_held": "Kein Gegenstand wird gehalten",
   "key.heywiki.open": "Wiki-Artikel öffnen",
   "options.heywiki.general": "Allgemein",
@@ -24,6 +24,6 @@
   "options.heywiki.raycast_max_reach.description": "Maximale Reichweite auf die du die Wiki-Funktion auslösen kannst.\nBeachte, dass größere Werte zu Einbußen in der Performanz führen können.",
   "options.heywiki.raycast_allow_fluid.name": "Flüssigkeiten zulassen",
   "options.heywiki.raycast_allow_fluid.description": "Erlaube es, auf Flüssigkeiten zu zeigen, um diese Wiki-Funktion auszulösen.",
-  "options.heywiki.title": "Hallo-Wiki-Optionen",
-  "heywiki.too_far": "Du bist nicht nah genug. Willst du vielleicht näher kommen?"
+  "options.heywiki.title": "Hey-Wiki-Optionen",
+  "heywiki.too_far": "Du visierst nichts an. Vielleicht solltest du ein wenig näher kommen?"
 }
