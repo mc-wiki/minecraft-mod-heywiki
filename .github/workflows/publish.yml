@@ -25,6 +25,7 @@ jobs:
   build:
     needs: properties
     strategy:
+      fail-fast: false
       matrix:
         loader:
           - name: fabric
@@ -33,7 +34,7 @@ jobs:
             formatted: NeoForge
         exclude:
           - loader:
-              name: ${{ needs.properties.outputs.snapshot == 'false' && 'neoforge' }}
+              name: ${{ needs.properties.outputs.snapshot == 'true' && 'neoforge' }}
     runs-on: ubuntu-22.04
     permissions:
       contents: write
