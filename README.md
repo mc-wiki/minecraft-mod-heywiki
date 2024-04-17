@@ -132,3 +132,24 @@ For NeoForge:
 - (Required) [Cloth Config](https://modrinth.com/mod/cloth-config): for configuration
 - (Optional) [Roughly Enough Items (REI)](https://modrinth.com/mod/roughly-enough-items): for REI integration
 - (Optional) [EMI](https://modrinth.com/mod/emi): for EMI integration
+
+## Version support
+
+Hey Wiki supports multiple versions of Minecraft.
+
+The current release and the master branches receive all new features and bug fixes. Pull requests should almost always
+go to `master`. If they're accepted, they should be cherry-picked to the current stable release branch.
+
+When a new snapshot releases, master branch is updated to that snapshot. Snapshots might receive only one version or no
+version at all. Only Fabric is supported for snapshots.
+
+Some select old MC versions receive LTS – they may or may not receive new bug fixes and new features, but they will
+receive critical bug fixes. Old snapshots are not supported.
+
+The following table shows which versions are supported:
+
+| Git branch  | Minecraft version    | Supported?            | Is LTS? | Modloader        |
+|-------------|----------------------|-----------------------|---------|------------------|
+| `master`    | 1.20.5               | Yes (latest snapshot) | TBD     | Fabric           |
+| `mc/1.20.4` | 1.20.4               | Yes (latest release)  | TBD     | Fabric, Neoforge |
+| N/A         | *Outdated snapshots* | No                    | N/A     | Fabric           |
