@@ -20,8 +20,8 @@ jobs:
       - name: read gradle.properties
         id: gradle-properties
         run: |
-          echo "snapshot=$(grep '^snapshot=' gradle.properties | cut -d'=' -f2)" >> $GITHUB_OUTPUT
-          echo "minecraft_version=$(grep '^minecraft_version=' gradle.properties | cut -d'=' -f2)" >> $GITHUB_OUTPUT
+          echo "snapshot=$(grep '^snapshot=' gradle.properties | cut -d'=' -f2)" >> "$GITHUB_OUTPUT"
+          echo "minecraft_version=$(grep '^minecraft_version=' gradle.properties | cut -d'=' -f2)" >> "$GITHUB_OUTPUT"
   build:
     needs: properties
     strategy:

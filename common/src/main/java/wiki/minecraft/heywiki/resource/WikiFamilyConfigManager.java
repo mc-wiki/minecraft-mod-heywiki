@@ -43,9 +43,8 @@ public class WikiFamilyConfigManager extends JsonDataLoader {
         return getFamilyByNamespace("minecraft");
     }
 
-    @SuppressWarnings("unused")
-    public static List<String> getAvailableLanguages(String id) {
-        return getFamily(id).wikis().stream().map(wiki -> wiki.language().wikiLanguage()).toList();
+    public static List<String> getAllAvailableLanguages() {
+        return WIKI_FAMILY_MAP.values().stream().flatMap(family -> family.wikis().stream().map(wiki -> wiki.language().wikiLanguage())).toList();
     }
 
     public static Set<String> getAvailableNamespaces() {
