@@ -16,20 +16,27 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
 
 import static dev.architectury.platform.Platform.getConfigFolder;
+import static wiki.minecraft.heywiki.resource.WikiFamilyConfigManager.getAllAvailableLanguages;
 
 public class HeyWikiConfig {
     public static boolean requiresConfirmation = true;
     public static double raycastMaxReach = 5.2D; // Use creative mode reach distance
     public static boolean raycastAllowFluid = false;
-    public static String language = Language.AUTO.getName();
+    public static String language = "auto";
 
     public static Screen createGui(Screen parent) {
         AtomicReference<Boolean> requireReload = new AtomicReference<>(false);
+
+        List<String> languages = new ArrayList<>(getAllAvailableLanguages());
+        languages.addFirst("auto");
+
         ConfigBuilder builder = ConfigBuilder.create()
                                              .setParentScreen(parent)
                                              .setTitle(Text.translatable("options.heywiki.title"));
@@ -57,15 +64,16 @@ public class HeyWikiConfig {
                 .build());
         general.addEntry(entryBuilder
                 .startDropdownMenu(Text.translatable("options.heywiki.language.name"),
-                        DropdownMenuBuilder.TopCellElementBuilder.of(language, Language::fromNameOrTranslated, lang -> Text.translatable("options.heywiki.language." + lang.toString().toLowerCase())),
-                        DropdownMenuBuilder.CellCreatorBuilder.of(lang -> Text.translatable("options.heywiki.language." + ((Language) lang).getName())))
-                .setSelections(Arrays.stream(Language.values()).collect(Collectors.toList()))
-                .setDefaultValue(Language.AUTO)
+                        DropdownMenuBuilder.TopCellElementBuilder.of(language, HeyWikiConfig::normalizeLanguageName, HeyWikiConfig::languageDescription),
+                        DropdownMenuBuilder.CellCreatorBuilder.of(HeyWikiConfig::languageDescription))
+                .setSelections(languages)
+                .setDefaultValue("auto")
                 .setSuggestionMode(false)
                 .setTooltip(Text.translatable("options.heywiki.language.description"))
                 .setSaveConsumer(newValue -> {
-                    if (!((Language) newValue).getName().equals(HeyWikiConfig.language)) requireReload.set(true);
-                    HeyWikiConfig.language = ((Language) newValue).getName();
+                    if (!(newValue).equals(HeyWikiConfig.language))
+                        requireReload.set(true);
+                    HeyWikiConfig.language = newValue;
                 })
                 .build());
         general.addEntry(entryBuilder
@@ -76,6 +84,27 @@ public class HeyWikiConfig {
         builder.setSavingRunnable(() -> save(requireReload.get()));
 
         return builder.build();
+    }
+
+    private static String normalizeLanguageName(String name) {
+        return name.split(":")[0];
+    }
+
+    private static Text languageDescription(String lang) {
+        if (lang.equals("auto")) return Text.translatable("options.heywiki.language.auto");
+
+        return Text.literal(lang + ": " + getLanguageName(lang));
+    }
+
+    private static String getLanguageName(String lang) {
+        Map<String, String> languageNames =
+                Map.of(
+                        "lzh", "文言"
+                      );
+        if (languageNames.containsKey(lang)) return languageNames.get(lang);
+
+        var locale = Locale.of(lang);
+        return locale.getDisplayLanguage(locale);
     }
 
     public static void save(Boolean requireReload) {
@@ -119,52 +148,6 @@ public class HeyWikiConfig {
             });
         } catch (IOException e) {
             throw new RuntimeException("Failed to read config file", e);
-        }
-    }
-
-    public enum Language {
-        AUTO("auto"),
-        DE("de"),
-        EN("en"),
-        ES("es"),
-        FR("fr"),
-        JA("ja"),
-        KO("ko"),
-        LZH("lzh"),
-        PT("pt"),
-        RU("ru"),
-        TH("th"),
-        UK("uk"),
-        ZH("zh");
-
-        private final String name;
-
-        Language(String name) {
-            this.name = name;
-        }
-
-        public static Language fromNameOrTranslated(String string) {
-            String name = string.toLowerCase().split(":")[0];
-            for (Language lang : values()) {
-                if (lang.getName().equals(name)) {
-                    return lang;
-                }
-            }
-            return AUTO;
-        }
-
-        @SuppressWarnings("unused")
-        public static Language fromName(String name) {
-            for (Language lang : values()) {
-                if (lang.getName().equals(name)) {
-                    return lang;
-                }
-            }
-            return AUTO;
-        }
-
-        public String getName() {
-            return name;
         }
     }
 }
