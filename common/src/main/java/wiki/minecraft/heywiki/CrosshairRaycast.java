@@ -1,5 +1,6 @@
 package wiki.minecraft.heywiki;
 
+import net.minecraft.block.AirBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.ItemStack;
@@ -40,22 +41,26 @@ public class CrosshairRaycast {
         double entityReach = Math.max(client.player.getEntityInteractionRange(), maxReach);
         HitResult hit = ((GameRendererMixin) client.gameRenderer).invokeFindCrosshairTarget(client.cameraEntity, blockReach, entityReach, 1f);
 
-        if (hit instanceof EntityHitResult entityHit) {
-            var entity = entityHit.getEntity();
-            if (entity instanceof ItemEntity itemEntity) {
-                ItemStack stack = itemEntity.getStack();
-                return new IdentifierTranslationKey(stack.getItem().arch$registryName(), stack.getTranslationKey());
+        switch (hit) {
+            case EntityHitResult entityHit -> {
+                var entity = entityHit.getEntity();
+                if (entity instanceof ItemEntity itemEntity) {
+                    ItemStack stack = itemEntity.getStack();
+                    return new IdentifierTranslationKey(stack.getItem().arch$registryName(), stack.getTranslationKey());
+                }
+                return new IdentifierTranslationKey(entity.getType().arch$registryName(), entity.getType().getTranslationKey());
             }
-            return new IdentifierTranslationKey(entity.getType().arch$registryName(), entity.getType().getTranslationKey());
-        } else if (hit instanceof BlockHitResult blockHit) {
-            var blockPos = blockHit.getBlockPos();
-            var blockState = client.world.getBlockState(blockPos);
-            var block = blockState.getBlock();
-            if (!Objects.requireNonNull(block.arch$registryName()).toString().equals("minecraft:air"))
+            case BlockHitResult blockHit -> {
+                var blockPos = blockHit.getBlockPos();
+                var blockState = client.world.getBlockState(blockPos);
+                var block = blockState.getBlock();
+                if (block instanceof AirBlock) return null;
                 return new IdentifierTranslationKey(block.arch$registryName(), block.getTranslationKey());
+            }
+            default -> {
+                if (showTooFarMessage) client.inGameHud.setOverlayMessage(Text.translatable("heywiki.too_far"), false);
+            }
         }
-
-        if (showTooFarMessage) client.inGameHud.setOverlayMessage(Text.translatable("heywiki.too_far"), false);
         return null;
     }
 }
