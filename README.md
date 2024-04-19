@@ -60,14 +60,25 @@ These commands are available:
 
 Note that if you open a page with a command, the confirmation screen will not appear.
 
-## Resource pack
+## Supported wikis
+
+Currently, Hey Wiki supports the following wikis:
+
+- [Minecraft Wiki](https://minecraft.wiki)
+- [Aether Wiki](https://aether.wiki.gg)
+
+If you want to add support for other wikis, you can
+[file an issue](https://github.com/mc-wiki/minecraft-mod-heywiki/issues/new?labels=new+wiki%2Ctriage+needed&template=new_wiki.yml).
+In addition, you can also add support for other wikis by using a resource pack.
+
+### Resource pack
 
 > [!WARNING]  
 > Please note that the JSON schema is not stable and is not semantically versioned yet.
 > We very well might break it in minor versions.
 
-Hey Wiki supports resource packs (or mod resource packs) to add support for other wikis than Minecraft Wiki. To do so,
-create a JSON file in the `assets/<namespace>/wiki_family` folder in your resource pack with the following format:
+Hey Wiki supports using resource pack to add support for other wikis. To do so, create a JSON file in the
+`assets/<namespace>/wiki_family/` folder in your resource pack with the following format:
 
 ```json
 {
