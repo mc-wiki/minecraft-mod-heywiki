@@ -35,7 +35,7 @@ public class HeyWikiConfig {
         AtomicReference<Boolean> requireReload = new AtomicReference<>(false);
 
         List<String> languages = new ArrayList<>(getAllAvailableLanguages());
-        languages.addFirst("auto");
+        languages.add(0, "auto");
 
         ConfigBuilder builder = ConfigBuilder.create()
                                              .setParentScreen(parent)
@@ -103,7 +103,7 @@ public class HeyWikiConfig {
                       );
         if (languageNames.containsKey(lang)) return languageNames.get(lang);
 
-        var locale = Locale.of(lang);
+        var locale = new Locale(lang);
         return locale.getDisplayLanguage(locale);
     }
 
@@ -120,6 +120,8 @@ public class HeyWikiConfig {
                 jsonWriter.beginObject()
                           .name("requiresConfirmation").value(requiresConfirmation)
                           .name("language").value(language)
+                          .name("raycastMaxReach").value(raycastMaxReach)
+                          .name("raycastAllowFluid").value(raycastAllowFluid)
                           .endObject().close();
             } catch (IOException e) {
                 jsonWriter.close();
@@ -143,6 +145,12 @@ public class HeyWikiConfig {
                         break;
                     case "language":
                         language = entry.getValue().getAsString();
+                        break;
+                    case "raycastMaxReach":
+                        raycastMaxReach = entry.getValue().getAsDouble();
+                        break;
+                    case "raycastAllowFluid":
+                        raycastAllowFluid = entry.getValue().getAsBoolean();
                         break;
                 }
             });
