@@ -2,7 +2,7 @@
 
 ## Changes
 
--
+- Add support for Aether wiki
 
 ## Fixes
 
