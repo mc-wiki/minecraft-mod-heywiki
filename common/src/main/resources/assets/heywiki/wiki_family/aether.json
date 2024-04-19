@@ -1,0 +1,20 @@
+{
+  "id": "aether",
+  "namespace": [
+    "aether"
+  ],
+  "wikis": [
+    {
+      "article_url": "https://aether.wiki.gg/?search=The_Aether/%s",
+      "mw_api_url": "https://aether.wiki.gg/api.php",
+      "random_article": "Special:RandomPage",
+      "language": {
+        "wiki_language": "en",
+        "main": true,
+        "default": "en_us",
+        "regex": "^en_.*",
+        "exclude": null
+      }
+    }
+  ]
+}
