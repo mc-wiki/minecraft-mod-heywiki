@@ -20,7 +20,7 @@ public abstract class RecipeScreenMixin {
     @Shadow(remap = false)
     public abstract EmiIngredient getHoveredStack();
 
-    @Inject(method = "keyPressed", at = @At("HEAD"), remap = false)
+    @Inject(method = "keyPressed", at = @At("HEAD"))
     @SuppressWarnings("UnstableApiUsage")
     private void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
         EmiIngredient ingredient = this.getHoveredStack();
