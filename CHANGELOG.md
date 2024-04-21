@@ -2,9 +2,9 @@
 
 ## Changes
 
-- Supports Minecraft 1.20.5-pre4
+- Supports Minecraft 1.20.5-rc2
 - Add support for Aether wiki
 
 ## Fixes
 
-- 
+- Fixes compatibility issue with EMI (#23)
