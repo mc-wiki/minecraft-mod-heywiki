@@ -8,7 +8,7 @@ import dev.architectury.event.events.client.ClientCommandRegistrationEvent.Clien
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import wiki.minecraft.heywiki.wiki.Target;
 import wiki.minecraft.heywiki.wiki.WikiPage;
 
 import java.util.Objects;
@@ -35,14 +35,11 @@ public class WhatIsThisItemCommand {
     }
 
     private static int openBrowserForStack(ItemStack stack) throws CommandSyntaxException {
-        if (stack.isEmpty()) {
+        var target = Target.of(stack);
+        if (target == null) {
             throw NO_ITEM_HELD.create();
         }
-        String translationKey = stack.getTranslationKey();
-        Identifier identifier = stack.getItem().arch$registryName();
-        if (identifier != null) {
-            Objects.requireNonNull(WikiPage.fromIdentifier(identifier, translationKey)).openInBrowser(true);
-        }
+        Objects.requireNonNull(WikiPage.fromTarget(target)).openInBrowser(true);
         return 0;
     }
 }

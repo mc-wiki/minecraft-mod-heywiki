@@ -4,7 +4,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
-import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
@@ -12,7 +11,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import org.jetbrains.annotations.Nullable;
-import wiki.minecraft.heywiki.wiki.IdentifierTranslationKey;
+import wiki.minecraft.heywiki.wiki.Target;
 import wiki.minecraft.heywiki.wiki.WikiPage;
 
 import java.util.Objects;
@@ -22,19 +21,19 @@ import static wiki.minecraft.heywiki.HeyWikiClient.openWikiKey;
 public class CrosshairRaycast {
     public static void onClientTickPost(MinecraftClient client) {
         while (openWikiKey.wasPressed()) {
-            IdentifierTranslationKey identifier = CrosshairRaycast.getIdentifierByRaycast(client, true);
+            Target identifier = CrosshairRaycast.getIdentifierByRaycast(client, true);
 
             if (identifier != null) {
-                Objects.requireNonNull(WikiPage.fromIdentifier(identifier)).openInBrowser();
+                Objects.requireNonNull(WikiPage.fromTarget(identifier)).openInBrowser();
             }
         }
     }
 
-    public static @Nullable IdentifierTranslationKey getIdentifierByRaycast() {
+    public static @Nullable Target getIdentifierByRaycast() {
         return getIdentifierByRaycast(MinecraftClient.getInstance(), false);
     }
 
-    public static @Nullable IdentifierTranslationKey getIdentifierByRaycast(MinecraftClient client, boolean showTooFarMessage) {
+    public static @Nullable Target getIdentifierByRaycast(MinecraftClient client, boolean showTooFarMessage) {
         float tickDelta = 1.0F;
         double maxReach = HeyWikiConfig.raycastMaxReach;
         Entity camera = client.cameraEntity;
@@ -55,18 +54,13 @@ public class CrosshairRaycast {
 
         if (entityHit != null && !shouldUseBlock) {
             var entity = entityHit.getEntity();
-            if (entity instanceof ItemEntity itemEntity) {
-                ItemStack stack = itemEntity.getStack();
-                return new IdentifierTranslationKey(stack.getItem().arch$registryName(), stack.getTranslationKey());
-            }
-            return new IdentifierTranslationKey(entity.getType().arch$registryName(), entity.getType().getTranslationKey());
+            return Target.of(entity);
         }
         if (blockHit != null) {
             var blockPos = blockHit.getBlockPos();
             var blockState = client.world.getBlockState(blockPos);
             var block = blockState.getBlock();
-            if (!Objects.requireNonNull(block.arch$registryName()).toString().equals("minecraft:air"))
-                return new IdentifierTranslationKey(block.arch$registryName(), block.getTranslationKey());
+            return Target.of(block);
         }
 
         if (showTooFarMessage) client.inGameHud.setOverlayMessage(Text.translatable("heywiki.too_far"), false);
