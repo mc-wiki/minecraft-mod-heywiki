@@ -1,6 +1,5 @@
 {
   "key.categories.heywiki": "Hey Wiki",
-  "commands.whatisthisitem.no_item_held": "Жоден предмет не утримується.",
   "key.heywiki.open": "Відкрити вікі-статтю",
   "options.heywiki.general": "Загальне",
   "options.heywiki.language.auto": "авто: Використовувати мову гри",
@@ -13,5 +12,6 @@
   "options.heywiki.raycast_allow_fluid.name": "Дозвіл рідини",
   "options.heywiki.raycast_allow_fluid.description": "Дозволити наведення на блоки рідини для запуску вікі-функції.",
   "options.heywiki.title": "Налаштування Hey Wiki",
+  "heywiki.no_item_held": "Жоден предмет не утримується.",
   "heywiki.too_far": "Ви ні на що не цілитеся. Може, підійти ближче?"
 }
