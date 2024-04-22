@@ -4,6 +4,7 @@
 
 - Supports Minecraft 1.20.5-rc2
 - Add support for Aether wiki
+- Ctrl+H or Cmd+H now opens the wiki page of the current item in your main hand
 
 ## Fixes
 

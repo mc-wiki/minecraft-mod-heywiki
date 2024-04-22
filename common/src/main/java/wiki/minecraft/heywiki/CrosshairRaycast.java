@@ -1,6 +1,7 @@
 package wiki.minecraft.heywiki;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
@@ -17,10 +18,16 @@ import static wiki.minecraft.heywiki.HeyWikiClient.openWikiKey;
 public class CrosshairRaycast {
     public static void onClientTickPost(MinecraftClient client) {
         while (openWikiKey.wasPressed()) {
-            Target identifier = CrosshairRaycast.raycast(client, true);
+            Target target;
+            if (Screen.hasControlDown()) {
+                assert client.player != null;
+                target = Target.of(client.player.getInventory().getMainHandStack());
+            } else {
+                target = CrosshairRaycast.raycast(client, true);
+            }
 
-            if (identifier != null) {
-                Objects.requireNonNull(WikiPage.fromTarget(identifier)).openInBrowser();
+            if (target != null) {
+                Objects.requireNonNull(WikiPage.fromTarget(target)).openInBrowser();
             }
         }
     }
