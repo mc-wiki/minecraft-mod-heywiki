@@ -1,6 +1,5 @@
 {
   "key.categories.heywiki": "Hey Wiki",
-  "commands.whatisthisitem.no_item_held": "Vous ne tenez aucun objet",
   "key.heywiki.open": "Ouvrir la page wiki",
   "options.heywiki.general": "Général",
   "options.heywiki.language.auto": "auto: Utiliser la langue du jeu",
@@ -13,5 +12,6 @@
   "options.heywiki.raycast_allow_fluid.name": "Autoriser les fluides",
   "options.heywiki.raycast_allow_fluid.description": "Permet de déclencher la fonctionnalité wiki en visant des fluides.",
   "options.heywiki.title": "Options de Hey Wiki",
+  "heywiki.no_item_held": "Vous ne tenez aucun objet",
   "heywiki.too_far": "Vous ne visez rien. Essayez peut-être de vous approcher ?"
 }
