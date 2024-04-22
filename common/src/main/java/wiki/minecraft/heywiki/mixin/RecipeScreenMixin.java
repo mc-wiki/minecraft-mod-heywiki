@@ -23,7 +23,7 @@ public abstract class RecipeScreenMixin {
     @SuppressWarnings("UnstableApiUsage")
     private void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
         EmiIngredient ingredient = this.getHoveredStack();
-        if (!ingredient.isEmpty() && ingredient.getEmiStacks().get(0) instanceof ItemEmiStack itemEmiStack) {
+        if (!ingredient.isEmpty() && ingredient.getEmiStacks().getFirst() instanceof ItemEmiStack itemEmiStack) {
             if (HeyWikiClient.openWikiKey.matchesKey(keyCode, scanCode)) {
                 if (HeyWikiClient.openWikiKey.matchesKey(keyCode, scanCode)) {
                     var target = Target.of((itemEmiStack.getItemStack()));

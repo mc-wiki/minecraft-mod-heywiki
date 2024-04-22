@@ -29,7 +29,7 @@ public class WhatIsThisItemCommand {
                 }).then(literal("offhand")
                         .executes(ctx -> {
                             if (CLIENT.player == null) return 1;
-                            ItemStack stack = CLIENT.player.getInventory().offHand.get(0);
+                            ItemStack stack = CLIENT.player.getInventory().offHand.getFirst();
                             return openBrowserForStack(stack);
                         })));
     }
