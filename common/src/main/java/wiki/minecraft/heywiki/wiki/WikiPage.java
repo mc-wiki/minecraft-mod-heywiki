@@ -30,8 +30,8 @@ public class WikiPage {
         this.family = family;
     }
 
-    public static @Nullable WikiPage fromIdentifier(IdentifierTranslationKey identifierTranslationKey) {
-        return fromIdentifier(identifierTranslationKey.identifier, identifierTranslationKey.translationKey);
+    public static @Nullable WikiPage fromTarget(Target target) {
+        return fromTarget(target.identifier, target.translationKey);
     }
 
     private static @Nullable String getOverride(WikiIndividual wiki, String translationKey) {
@@ -44,7 +44,7 @@ public class WikiPage {
         }).orElse(null);
     }
 
-    public static @Nullable WikiPage fromIdentifier(Identifier identifier, String translationKey) {
+    public static @Nullable WikiPage fromTarget(Identifier identifier, String translationKey) {
         var family = WikiFamilyConfigManager.getFamilyByNamespace(identifier.getNamespace());
         if (family == null) return null;
 

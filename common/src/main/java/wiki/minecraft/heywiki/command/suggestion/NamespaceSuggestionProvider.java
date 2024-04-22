@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 
 public class NamespaceSuggestionProvider implements SuggestionProvider<ClientCommandSourceStack> {
     private final boolean colon;
+    private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
 
     public NamespaceSuggestionProvider(boolean colon) {
         this.colon = colon;
@@ -26,7 +27,7 @@ public class NamespaceSuggestionProvider implements SuggestionProvider<ClientCom
 
     @Override
     public CompletableFuture<Suggestions> getSuggestions(CommandContext<ClientCommandSourceStack> context, SuggestionsBuilder builder) {
-        Set<String> namespaces = MinecraftClient.getInstance().getResourceManager().getAllNamespaces();
+        Set<String> namespaces = CLIENT.getResourceManager().getAllNamespaces();
         Set<String> availableNamespaces = WikiFamilyConfigManager.getAvailableNamespaces();
 
         Stream<String> intersect = namespaces.stream().filter(availableNamespaces::contains);

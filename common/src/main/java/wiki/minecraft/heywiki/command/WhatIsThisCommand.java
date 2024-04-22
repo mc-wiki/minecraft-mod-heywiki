@@ -5,13 +5,13 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent.ClientCommandSourceStack;
 import net.minecraft.text.Text;
-import wiki.minecraft.heywiki.wiki.IdentifierTranslationKey;
+import wiki.minecraft.heywiki.CrosshairRaycast;
+import wiki.minecraft.heywiki.wiki.Target;
 import wiki.minecraft.heywiki.wiki.WikiPage;
 
 import java.util.Objects;
 
 import static dev.architectury.event.events.client.ClientCommandRegistrationEvent.literal;
-import static wiki.minecraft.heywiki.CrosshairRaycast.getIdentifierByRaycast;
 
 public class WhatIsThisCommand {
     public static final SimpleCommandExceptionType NO_TARGET = new SimpleCommandExceptionType(Text.translatable("heywiki.too_far"));
@@ -19,9 +19,9 @@ public class WhatIsThisCommand {
     @SuppressWarnings("UnusedReturnValue")
     public static LiteralCommandNode<ClientCommandSourceStack> register(CommandDispatcher<ClientCommandSourceStack> dispatcher) {
         return dispatcher.register(literal("whatisthis").executes(ctx -> {
-            IdentifierTranslationKey identifier = getIdentifierByRaycast();
+            Target identifier = CrosshairRaycast.raycast();
             if (identifier == null) throw NO_TARGET.create();
-            Objects.requireNonNull(WikiPage.fromIdentifier(identifier)).openInBrowser(true);
+            Objects.requireNonNull(WikiPage.fromTarget(identifier)).openInBrowser(true);
             return 0;
         }));
     }
