@@ -1,6 +1,7 @@
 package wiki.minecraft.heywiki;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
@@ -16,24 +17,26 @@ import wiki.minecraft.heywiki.wiki.WikiPage;
 
 import java.util.Objects;
 
-import static wiki.minecraft.heywiki.HeyWikiClient.openWikiKey;
-
 public class CrosshairRaycast {
     public static void onClientTickPost(MinecraftClient client) {
-        while (openWikiKey.wasPressed()) {
-            Target identifier = CrosshairRaycast.getIdentifierByRaycast(client, true);
+        Target target;
+        if (Screen.hasControlDown()) {
+            assert client.player != null;
+            target = Target.of(client.player.getInventory().getMainHandStack());
+        } else {
+            target = CrosshairRaycast.raycast(client, true);
+        }
 
-            if (identifier != null) {
-                Objects.requireNonNull(WikiPage.fromTarget(identifier)).openInBrowser();
-            }
+        if (target != null) {
+            Objects.requireNonNull(WikiPage.fromTarget(target)).openInBrowser();
         }
     }
 
-    public static @Nullable Target getIdentifierByRaycast() {
-        return getIdentifierByRaycast(MinecraftClient.getInstance(), false);
+    public static @Nullable Target raycast() {
+        return raycast(MinecraftClient.getInstance(), false);
     }
 
-    public static @Nullable Target getIdentifierByRaycast(MinecraftClient client, boolean showTooFarMessage) {
+    public static @Nullable Target raycast(MinecraftClient client, boolean showTooFarMessage) {
         float tickDelta = 1.0F;
         double maxReach = HeyWikiConfig.raycastMaxReach;
         Entity camera = client.cameraEntity;

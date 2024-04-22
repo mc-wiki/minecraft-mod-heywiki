@@ -16,7 +16,7 @@ import java.util.Objects;
 import static dev.architectury.event.events.client.ClientCommandRegistrationEvent.literal;
 
 public class WhatIsThisItemCommand {
-    public static final SimpleCommandExceptionType NO_ITEM_HELD = new SimpleCommandExceptionType(Text.translatable("commands.whatisthisitem.no_item_held"));
+    public static final SimpleCommandExceptionType NO_ITEM_HELD = new SimpleCommandExceptionType(Text.translatable("heywiki.no_item_held"));
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
 
     @SuppressWarnings("UnusedReturnValue")
