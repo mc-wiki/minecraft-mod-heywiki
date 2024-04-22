@@ -1,6 +1,5 @@
 {
   "key.categories.heywiki": "Hey Wiki",
-  "commands.whatisthisitem.no_item_held": "手中未持有物品",
   "key.heywiki.open": "開啟 wiki 條目",
   "options.heywiki.general": "一般",
   "options.heywiki.language.auto": "auto: 採用遊戲語言",
@@ -13,5 +12,6 @@
   "options.heywiki.raycast_allow_fluid.name": "允許流體",
   "options.heywiki.raycast_allow_fluid.description": "允許在瞄準流體方塊時觸發 wiki 功能。",
   "options.heywiki.title": "Hey Wiki 選項",
+  "heywiki.no_item_held": "No item is being held",
   "heywiki.too_far": "您未瞄準任何目標。或許該靠近一點？"
 }
