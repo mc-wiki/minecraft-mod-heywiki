@@ -12,6 +12,6 @@
   "options.heywiki.raycast_allow_fluid.name": "Permitir em fluidos",
   "options.heywiki.raycast_allow_fluid.description": "Permitir o recurso da wiki em blocos fluidos.",
   "options.heywiki.title": "Opções do Hey Wiki",
-  "heywiki.no_item_held": "Nenhum item está em sua mão",
+  "heywiki.no_item_held": "No item is being held",
   "heywiki.too_far": "Você está muito longe, que tal ficar mais próximo?"
 }
