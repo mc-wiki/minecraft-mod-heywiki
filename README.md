@@ -18,8 +18,10 @@ Hey Wiki supports Fabric and NeoForge.
 
 - Press H (customizable) to open the wiki page (Minecraft Wiki or the respective mod wiki) of the block/item/entity
   you're aiming at.
-- Press Ctrl+H or Cmd+H to open the wiki page of the item in your main hand.
+- Press Alt+H or Opt+H to open the wiki page of the item in your main hand.
 - Adds several [commands](#commands).
+
+~~I didn't know that this mod is kinda like *Lexica Botania* but it is.~~
 
 ### How to use
 

@@ -3,7 +3,7 @@
 ## Changes
 
 - Add support for Aether wiki
-- Ctrl+H or Cmd+H now opens the wiki page of the current item in your main hand
+- Alt+H or Opt+H now opens the wiki page of the current item in your main hand
 
 ## Fixes
 

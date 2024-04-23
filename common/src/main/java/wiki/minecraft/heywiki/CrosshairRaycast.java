@@ -20,7 +20,7 @@ import java.util.Objects;
 public class CrosshairRaycast {
     public static void onClientTickPost(MinecraftClient client) {
         Target target;
-        if (Screen.hasControlDown()) {
+        if (Screen.hasAltDown()) {
             assert client.player != null;
             target = Target.of(client.player.getInventory().getMainHandStack());
         } else {
