@@ -12,6 +12,6 @@
   "options.heywiki.raycast_allow_fluid.name": "Дозвіл рідини",
   "options.heywiki.raycast_allow_fluid.description": "Дозволити наведення на блоки рідини для запуску вікі-функції.",
   "options.heywiki.title": "Налаштування Hey Wiki",
-  "heywiki.no_item_held": "Жоден предмет не утримується.",
+  "heywiki.no_item_held": "No item is being held",
   "heywiki.too_far": "Ви ні на що не цілитеся. Може, підійти ближче?"
 }
