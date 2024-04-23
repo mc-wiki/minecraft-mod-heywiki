@@ -12,6 +12,6 @@
   "options.heywiki.raycast_allow_fluid.name": "允许液体",
   "options.heywiki.raycast_allow_fluid.description": "允许在对准液体方块时触发查询wiki功能",
   "options.heywiki.title": "嘿Wiki设置",
-  "heywiki.no_item_held": "未持有物品",
+  "heywiki.no_item_held": "No item is being held",
   "heywiki.too_far": "你什么也没有对准。或许该靠近一点？"
 }
