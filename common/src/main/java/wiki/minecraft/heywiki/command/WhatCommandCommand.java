@@ -20,7 +20,7 @@ public class WhatCommandCommand {
                         .suggests(new CommandNameSuggestionProvider())
                         .executes(ctx -> {
                             // Unfortunately, I don't think we can check where the command comes from
-                            new WikiPage("/" + getString(ctx, "command"), WikiFamilyConfigManager.getFamilyByNamespace("minecraft")).openInBrowser(true);
+                            new WikiPage("/" + getString(ctx, "command"), WikiPage.getWiki(WikiFamilyConfigManager.getFamilyByNamespace("minecraft"))).openInBrowser(true);
                             return 0;
                         })));
     }

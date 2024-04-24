@@ -20,6 +20,7 @@ Hey Wiki supports Fabric and NeoForge.
   you're aiming at.
 - Press Alt+H or Opt+H to open the wiki page of the item in your main hand.
 - Adds several [commands](#commands).
+- [Link to a wiki page in chat](#wiki-links-in-chat) using `[[wiki link]]` syntax.
 
 ~~I didn't know that this mod is kinda like *Lexica Botania* but it is.~~
 
@@ -62,6 +63,17 @@ These commands are available:
     - `whatisthisitem offhand` - Same, but for the offhand.
 
 Note that if you open a page with a command, the confirmation screen will not appear.
+
+### `[[Wiki links]]` in chat
+
+Hey Wiki supports `[[wiki links]]` in chat. When you send a message with `[[wiki link]]` syntax, Hey Wiki will replace
+it with a clickable link. The page name can include a namespace.
+
+This also supports interwiki links. For example:
+
+- `[[aether:lore]]` will link to the Aether Wiki page of "lore" (interwiki)
+- `[[en:enderman]]` will link to the English Minecraft Wiki page of "enderman" (interlanguage)
+- `[[minecraft:en:enderman]]` will link to the English Minecraft Wiki page of "enderman" (interwiki and interlanguage)
 
 ## Supported wikis
 
@@ -162,8 +174,8 @@ receive critical bug fixes. Old snapshots are not supported.
 
 The following table shows which versions are supported:
 
-| Git branch  | Minecraft version    | Supported?            | Is LTS? | Modloader        |
-|-------------|----------------------|-----------------------|---------|------------------|
-| `master`    | 1.20.5               | Yes (latest snapshot) | TBD     | Fabric           |
-| `mc/1.20.4` | 1.20.4               | Yes (latest release)  | TBD     | Fabric, Neoforge |
-| N/A         | *Outdated snapshots* | No                    | N/A     | Fabric           |
+| Git branch  | Minecraft version    | Supported?           | Is LTS? | Modloader        |
+|-------------|----------------------|----------------------|---------|------------------|
+| `master`    | 1.20.5               | Yes (latest release) | TBD     | Fabric           |
+| `mc/1.20.4` | 1.20.4               | Yes (LTS)            | Yes     | Fabric, Neoforge |
+| N/A         | *Outdated snapshots* | EOL                  | No      | Fabric           |
