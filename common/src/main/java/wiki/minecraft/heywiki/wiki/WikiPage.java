@@ -23,11 +23,11 @@ public class WikiPage {
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final MinecraftClient client = MinecraftClient.getInstance();
     public String pageName;
-    public WikiFamily family;
+    public WikiIndividual wiki;
 
-    public WikiPage(String pageName, WikiFamily family) {
+    public WikiPage(String pageName, WikiIndividual wiki) {
         this.pageName = pageName;
-        this.family = family;
+        this.wiki = wiki;
     }
 
     public static @Nullable WikiPage fromTarget(Target target) {
@@ -54,9 +54,9 @@ public class WikiPage {
             if (wiki != null) {
                 String override = getOverride(wiki, translationKey);
                 if (override != null) {
-                    return new WikiPage(override, family);
+                    return new WikiPage(override, wiki);
                 }
-                return new WikiPage(I18n.translate(translationKey), family);
+                return new WikiPage(I18n.translate(translationKey), wiki);
             }
         } else {
             var language = HeyWikiConfig.language;
@@ -65,24 +65,59 @@ public class WikiPage {
                 if (wiki.language().matchLanguage(client.options.language)) {
                     String override = getOverride(wiki, translationKey);
                     if (override != null) {
-                        return new WikiPage(override, family);
+                        return new WikiPage(override, wiki);
                     }
-                    return new WikiPage(I18n.translate(translationKey), family);
+                    return new WikiPage(I18n.translate(translationKey), wiki);
                 } else {
                     String override = getOverride(wiki, translationKey);
                     if (override != null) {
-                        return new WikiPage(override, family);
+                        return new WikiPage(override, wiki);
                     }
                     return new WikiPage(WikiTranslationManager.translations
                             .get(wiki.language().defaultLanguage())
-                            .get(translationKey), family);
+                            .get(translationKey), wiki);
                 }
             }
         }
 
+        WikiIndividual wiki = Objects.requireNonNull(family.getMainLanguageWiki());
         return new WikiPage(WikiTranslationManager.translations
-                .get(Objects.requireNonNull(family.getMainLanguageWiki()).language().defaultLanguage())
-                .get(translationKey), family);
+                .get(wiki.language().defaultLanguage())
+                .get(translationKey), wiki);
+    }
+
+    public static WikiPage fromWikitextLink(String link) {
+        String[] split = link.split(":", 3);
+        if (split.length == 1) {
+            var family = WikiFamilyConfigManager.getFamilyByNamespace("minecraft");
+            // [[Grass]]
+            return new WikiPage(link, getWiki(family));
+        }
+
+        WikiIndividual languageWiki = Objects.requireNonNull(WikiFamilyConfigManager.getFamilyByNamespace("minecraft"))
+                                             .getLanguageWikiByWikiLanguage(split[0]);
+        if (languageWiki != null) {
+            // valid language: [[en:Grass]]
+            return new WikiPage(link.split(":", 2)[1], languageWiki);
+        }
+
+        if (WikiFamilyConfigManager.getAvailableNamespaces().contains(split[0])) {
+            // valid NS
+            if (split.length == 3) {
+                WikiFamily family = Objects.requireNonNull(WikiFamilyConfigManager.getFamilyByNamespace(split[0]));
+                WikiIndividual languageWiki1 = family.getLanguageWikiByWikiLanguage(split[1]);
+                if (languageWiki1 != null) {
+                    // valid language: [[minecraft:en:Grass]]
+                    return new WikiPage(split[2], languageWiki1);
+                }
+            }
+            // invalid language: [[minecraft:Grass]]
+            return new WikiPage(link.split(":", 2)[1], getWiki(WikiFamilyConfigManager.getFamilyByNamespace(split[0])));
+        }
+
+        // [[Minecraft Legend:Grass]]
+        return new WikiPage(link, getWiki(WikiFamilyConfigManager.getFamilyByNamespace("minecraft")));
+
     }
 
     public static WikiIndividual getWiki(WikiFamily family) {
@@ -107,12 +142,13 @@ public class WikiPage {
     }
 
     public static WikiPage random(WikiFamily family) {
-        return new WikiPage(Objects.requireNonNull(getWiki(family)).randomArticle(), family);
+        WikiIndividual wiki = Objects.requireNonNull(getWiki(family));
+        return new WikiPage(wiki.randomArticle(), wiki);
     }
 
     public @Nullable URI getUri() {
         try {
-            return new URI(Objects.requireNonNull(getWiki(family)).articleUrl().formatted(URLEncoder.encode(this.pageName.replaceAll(" ", "_"), StandardCharsets.UTF_8)));
+            return new URI(this.wiki.articleUrl().formatted(URLEncoder.encode(this.pageName.replaceAll(" ", "_"), StandardCharsets.UTF_8)));
         } catch (URISyntaxException e) {
             LOGGER.error("Failed to create URI for wiki page", e);
             return null;

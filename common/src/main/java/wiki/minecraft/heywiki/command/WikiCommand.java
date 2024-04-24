@@ -20,10 +20,10 @@ public class WikiCommand {
                     String page = getString(ctx, "page");
                     String[] pageSplitted = page.split(":");
                     if (pageSplitted.length == 1) {
-                        new WikiPage(page, WikiFamilyConfigManager.getFamilyByNamespace("minecraft")).openInBrowser(true);
+                        new WikiPage(page, WikiPage.getWiki(WikiFamilyConfigManager.getFamilyByNamespace("minecraft"))).openInBrowser(true);
                         return 0;
                     }
-                    new WikiPage(pageSplitted[1], WikiFamilyConfigManager.getFamilyByNamespace(pageSplitted[0])).openInBrowser(true);
+                    new WikiPage(pageSplitted[1], WikiPage.getWiki(WikiFamilyConfigManager.getFamilyByNamespace(pageSplitted[0]))).openInBrowser(true);
                     return 0;
                 })));
     }

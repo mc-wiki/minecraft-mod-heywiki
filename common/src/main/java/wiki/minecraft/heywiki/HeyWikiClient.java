@@ -1,6 +1,7 @@
 package wiki.minecraft.heywiki;
 
 import com.mojang.brigadier.CommandDispatcher;
+import dev.architectury.event.events.client.ClientChatEvent;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent.ClientCommandSourceStack;
 import dev.architectury.event.events.client.ClientTickEvent;
@@ -48,6 +49,8 @@ public class HeyWikiClient {
         KeyMappingRegistry.register(openWikiKey);
 
         ClientCommandRegistrationEvent.EVENT.register(HeyWikiClient::registerCommands);
+
+        ClientChatEvent.RECEIVED.register(ChatWikiLinks::onClientChatReceived);
 
         ClientTickEvent.CLIENT_POST.register(CrosshairRaycast::onClientTickPost);
 

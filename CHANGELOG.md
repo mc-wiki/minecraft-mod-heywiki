@@ -4,6 +4,7 @@
 
 - Add support for Aether wiki
 - Alt+H or Opt+H now opens the wiki page of the current item in your main hand
+- Support `[[wiki link]]` syntax in chat
 
 ## Fixes
 
