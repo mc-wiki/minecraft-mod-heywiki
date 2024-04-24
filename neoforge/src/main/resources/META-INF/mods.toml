@@ -1,13 +1,14 @@
 modLoader = "javafml"
 loaderVersion = "[2,)"
-issueTrackerURL = "https://github.com/mc-wiki/minecraft-mod-heywiki/issues"
 license = "LGPL-3.0"
+issueTrackerURL = "https://github.com/mc-wiki/minecraft-mod-heywiki/issues"
 
 [[mods]]
 modId = "heywiki"
 version = "${version}"
 displayName = "Hey Wiki"
-authors = "Me!"
+displayUrl = "https://minecraft.wiki/w/MCW:Hey_Wiki"
+authors = "Minecraft Wiki"
 description = '''
 Press H to open the Minecraft Wiki page of the block/item/entity you're aiming at.
 '''

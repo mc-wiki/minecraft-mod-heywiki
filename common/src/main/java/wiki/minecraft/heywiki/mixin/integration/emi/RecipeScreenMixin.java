@@ -1,4 +1,4 @@
-package wiki.minecraft.heywiki.mixin;
+package wiki.minecraft.heywiki.mixin.integration.emi;
 
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.ItemEmiStack;
