@@ -7,10 +7,10 @@
     "defaultRequire": 1
   },
   "client": [
-    "EmiScreenManagerMixin",
     "GameRendererMixin",
     "HandledScreenMixin",
-    "RecipeScreenMixin",
-    "ScreenOverlayImplMixin"
+    "integration.emi.EmiScreenManagerMixin",
+    "integration.emi.RecipeScreenMixin",
+    "integration.rei.ScreenOverlayImplMixin"
   ]
 }

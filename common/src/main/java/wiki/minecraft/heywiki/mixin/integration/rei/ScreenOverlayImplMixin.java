@@ -1,4 +1,4 @@
-package wiki.minecraft.heywiki.mixin;
+package wiki.minecraft.heywiki.mixin.integration.rei;
 
 import me.shedaniel.rei.api.client.REIRuntime;
 import me.shedaniel.rei.api.common.entry.EntryStack;
