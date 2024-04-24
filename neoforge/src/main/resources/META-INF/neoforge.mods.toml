@@ -20,14 +20,14 @@ config = "heywiki-common.mixins.json"
 [[dependencies.heywiki]]
 modId = "neoforge"
 type = "required"
-versionRange = "[20.4,)"
+versionRange = "[20.5,)"
 ordering = "NONE"
 side = "CLIENT"
 
 [[dependencies.heywiki]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.20.4,)"
+versionRange = "[1.20.5,)"
 ordering = "NONE"
 side = "CLIENT"
 
