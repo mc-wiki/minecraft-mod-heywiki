@@ -3,9 +3,9 @@
 ## Changes
 
 - Supports Minecraft 1.20.5
-- Add support for Aether wiki
+- Adds support for Aether wiki
 - Alt+H or Opt+H now opens the wiki page of the current item in your main hand
-- Support `[[wiki link]]` syntax in chat
+- Transforms `[[wiki link]]` syntax into a clickable link in chat
 
 ## Fixes
 
