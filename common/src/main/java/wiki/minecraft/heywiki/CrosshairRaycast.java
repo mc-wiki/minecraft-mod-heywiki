@@ -15,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import wiki.minecraft.heywiki.wiki.Target;
 import wiki.minecraft.heywiki.wiki.WikiPage;
 
+import java.util.List;
 import java.util.Objects;
 
 public class CrosshairRaycast {
@@ -30,6 +31,17 @@ public class CrosshairRaycast {
         if (target != null) {
             Objects.requireNonNull(WikiPage.fromTarget(target)).openInBrowser();
         }
+    }
+
+    public static void onDebugTextRight(List<String> texts) {
+
+        var target = CrosshairRaycast.raycast();
+        if (target == null) {
+            texts.add("heywiki: null");
+            return;
+        }
+        var page = Objects.requireNonNull(WikiPage.fromTarget(target));
+        texts.add("heywiki: " + page.getUri());
     }
 
     public static @Nullable Target raycast() {
