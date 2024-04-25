@@ -8,6 +8,7 @@
       "article_url": "https://minecraft.wiki/?search=%s",
       "mw_api_url": "https://minecraft.wiki/api.php",
       "random_article": "Special:RandomRootPage/Main",
+      "version_article": "Java Edition %s",
       "language": {
         "wiki_language": "en",
         "main": true,
@@ -131,6 +132,7 @@
       "article_url": "https://zh.minecraft.wiki/?search=%s",
       "mw_api_url": "https://zh.minecraft.wiki/api.php",
       "random_article": "Special:RandomRootPage/Main",
+      "version_article": "Java版%s",
       "language": {
         "wiki_language": "zh",
         "default": "zh_cn",

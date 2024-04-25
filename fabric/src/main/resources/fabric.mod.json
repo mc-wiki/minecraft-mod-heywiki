@@ -30,6 +30,10 @@
   },
   "mixins": [
     {
+      "config": "heywiki.mixins.json",
+      "environment": "client"
+    },
+    {
       "config": "heywiki-common.mixins.json",
       "environment": "client"
     }

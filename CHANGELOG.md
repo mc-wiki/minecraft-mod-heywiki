@@ -7,8 +7,5 @@ duration, and it may end at any time.
 ## Changes
 
 - Alt+H or Opt+H now opens the wiki page of the current item in your main hand
-- Support `[[wiki link]]` syntax in chat
-
-## Fixes
-
-- 
+- Now transforms `[[wiki link]]` syntax into a clickable link in chat
+- Fabric: You can now click on the version in title screen to open the wiki page of the current version
