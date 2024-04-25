@@ -18,6 +18,7 @@ import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
+import java.util.Optional;
 
 public class WikiPage {
     private static final Logger LOGGER = LogUtils.getLogger();
@@ -30,10 +31,6 @@ public class WikiPage {
         this.wiki = wiki;
     }
 
-    public static @Nullable WikiPage fromTarget(Target target) {
-        return fromTarget(target.identifier, target.translationKey);
-    }
-
     private static @Nullable String getOverride(WikiIndividual wiki, String translationKey) {
         return wiki.language().langOverride().map(s -> {
             if (WikiTranslationManager.translations.get(s).hasTranslation(translationKey)) {
@@ -42,6 +39,10 @@ public class WikiPage {
                 return null;
             }
         }).orElse(null);
+    }
+
+    public static @Nullable WikiPage fromTarget(Target target) {
+        return fromTarget(target.identifier, target.translationKey);
     }
 
     public static @Nullable WikiPage fromTarget(Identifier identifier, String translationKey) {
@@ -144,6 +145,13 @@ public class WikiPage {
     public static WikiPage random(WikiFamily family) {
         WikiIndividual wiki = Objects.requireNonNull(getWiki(family));
         return new WikiPage(wiki.randomArticle(), wiki);
+    }
+
+    public static @Nullable WikiPage versionArticle(String version) {
+        var family = WikiFamilyConfigManager.getFamilyByNamespace("minecraft");
+        WikiIndividual wiki = Objects.requireNonNull(getWiki(family));
+        Optional<String> name = wiki.versionArticle();
+        return name.map(s -> new WikiPage(s.formatted(version), wiki)).orElse(null);
     }
 
     public @Nullable URI getUri() {
