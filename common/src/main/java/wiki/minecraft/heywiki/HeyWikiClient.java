@@ -4,6 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import dev.architectury.event.events.client.ClientChatEvent;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent.ClientCommandSourceStack;
+import dev.architectury.event.events.client.ClientGuiEvent;
 import dev.architectury.event.events.client.ClientTickEvent;
 import dev.architectury.registry.ReloadListenerRegistry;
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry;
@@ -51,6 +52,8 @@ public class HeyWikiClient {
         ClientCommandRegistrationEvent.EVENT.register(HeyWikiClient::registerCommands);
 
         ClientChatEvent.RECEIVED.register(ChatWikiLinks::onClientChatReceived);
+
+        ClientGuiEvent.DEBUG_TEXT_RIGHT.register(CrosshairRaycast::onDebugTextRight);
 
         ClientTickEvent.CLIENT_POST.register(CrosshairRaycast::onClientTickPost);
 

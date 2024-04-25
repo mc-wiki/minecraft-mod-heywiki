@@ -11,6 +11,7 @@ import wiki.minecraft.heywiki.mixin.GameRendererMixin;
 import wiki.minecraft.heywiki.wiki.Target;
 import wiki.minecraft.heywiki.wiki.WikiPage;
 
+import java.util.List;
 import java.util.Objects;
 
 import static wiki.minecraft.heywiki.HeyWikiClient.openWikiKey;
@@ -30,6 +31,17 @@ public class CrosshairRaycast {
                 Objects.requireNonNull(WikiPage.fromTarget(target)).openInBrowser();
             }
         }
+    }
+
+    public static void onDebugTextRight(List<String> texts) {
+
+        var target = CrosshairRaycast.raycast();
+        if (target == null) {
+            texts.add("heywiki: null");
+            return;
+        }
+        var page = Objects.requireNonNull(WikiPage.fromTarget(target));
+        texts.add("heywiki: " + page.getUri());
     }
 
     public static @Nullable Target raycast() {
