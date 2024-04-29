@@ -71,7 +71,7 @@ jobs:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
 
           name: "Hey Wiki ${{ github.ref_name }} for Minecraft ${{ needs.properties.outputs.minecraft_version }} with ${{ matrix.loader.formatted }}"
-          version: "${{ github.ref_name }}+${{ needs.properties.outputs.minecraft_version }}-${{ matrix.loader.name }}"
+          version: "${{ github.ref_name }}+${{ matrix.loader.name }}"
           version-type: release
           changelog-file: CHANGELOG.md
           loaders: ${{ matrix.loader.name }}
