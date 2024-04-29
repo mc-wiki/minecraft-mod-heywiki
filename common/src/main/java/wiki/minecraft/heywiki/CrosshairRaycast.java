@@ -18,18 +18,22 @@ import wiki.minecraft.heywiki.wiki.WikiPage;
 import java.util.List;
 import java.util.Objects;
 
+import static wiki.minecraft.heywiki.HeyWikiClient.openWikiKey;
+
 public class CrosshairRaycast {
     public static void onClientTickPost(MinecraftClient client) {
-        Target target;
-        if (Screen.hasAltDown()) {
-            assert client.player != null;
-            target = Target.of(client.player.getInventory().getMainHandStack());
-        } else {
-            target = CrosshairRaycast.raycast(client, true);
-        }
+        while (openWikiKey.wasPressed()) {
+            Target target;
+            if (Screen.hasAltDown()) {
+                assert client.player != null;
+                target = Target.of(client.player.getInventory().getMainHandStack());
+            } else {
+                target = CrosshairRaycast.raycast(client, true);
+            }
 
-        if (target != null) {
-            Objects.requireNonNull(WikiPage.fromTarget(target)).openInBrowser();
+            if (target != null) {
+                Objects.requireNonNull(WikiPage.fromTarget(target)).openInBrowser();
+            }
         }
     }
 
