@@ -1,5 +1,7 @@
 # v1.4.0+1.20.6
 
+**Note**: Support for 1.20.5 is immediately dropped.
+
 ## Changes
 
-- Supports Minecraft 1.20.6-rc1
+- Supports Minecraft 1.20.6
