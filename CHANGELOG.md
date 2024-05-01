@@ -5,3 +5,7 @@
 ## Changes
 
 - Supports Minecraft 1.20.6
+
+## Fixes
+
+- Fix performance issues with TitleScreen (Fabric)
