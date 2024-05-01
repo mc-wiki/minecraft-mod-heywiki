@@ -8,18 +8,25 @@ import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.widget.PressableTextWidget;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import wiki.minecraft.heywiki.fabric.TitleScreenInterface;
 import wiki.minecraft.heywiki.wiki.WikiPage;
 
 @Mixin(TitleScreen.class)
-public class TitleScreenMixin extends Screen {
+public class TitleScreenMixin extends Screen implements TitleScreenInterface {
     protected TitleScreenMixin(Text title) {
         super(title);
     }
 
+    @Unique
+    private static boolean isInitialized = false;
+
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Ljava/lang/String;III)I"))
     private int drawTextWithShadow(DrawContext drawContext, TextRenderer textRenderer, String text, int x, int y, int color) {
+        if (isInitialized) return 0;
+
         var article = WikiPage.versionArticle(SharedConstants.getGameVersion().getName());
         if (article == null) return drawContext.drawTextWithShadow(textRenderer, text, x, y, color);
 
@@ -27,6 +34,12 @@ public class TitleScreenMixin extends Screen {
         this.addDrawableChild(new PressableTextWidget(x, y, width, 10, Text.literal(text),
                 (button) -> article.openInBrowser(false, this), this.textRenderer));
 
+        isInitialized = true;
         return 0;
+    }
+
+    @Unique
+    public void heywiki$resetInitialized() {
+        isInitialized = false;
     }
 }
