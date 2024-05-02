@@ -174,9 +174,9 @@ receive critical bug fixes. Old snapshots are not supported.
 
 The following table shows which versions are supported:
 
-| Git branch  | Minecraft version    | Supported?            | Is LTS? | Modloader        |
-|-------------|----------------------|-----------------------|---------|------------------|
-| `master`    | 1.20.6               | Yes (latest snapshot) | TBD     | Fabric           |
-| `mc/1.20.5` | 1.20.5               | Yes (latest release)  | No      | Fabric, Neoforge |
-| `mc/1.20.4` | 1.20.4               | Yes (LTS)             | Yes     | Fabric, Neoforge |
-| N/A         | *Outdated snapshots* | EOL                   | No      | Fabric           |
+| Git branch  | Minecraft version    | Supported?           | Is LTS? | Modloader        |
+|-------------|----------------------|----------------------|---------|------------------|
+| `master`    | 1.20.6               | Yes (latest release) | TBD     | Fabric, Neoforge |
+| `mc/1.20.5` | 1.20.5               | No                   | No      | Fabric, Neoforge |
+| `mc/1.20.4` | 1.20.4               | Yes (LTS)            | Yes     | Fabric, Neoforge |
+| N/A         | *Outdated snapshots* | EOL                  | No      | Fabric           |
