@@ -6,18 +6,38 @@ on:
   workflow_dispatch:
 
 env:
-  MINECRAFT_VERSION: 1.20.4
   JAVA_VERSION: 17
 
 jobs:
+  properties:
+    # Read gradle.properties and get snapshot property
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+    outputs:
+      snapshot: ${{ steps.gradle-properties.outputs.snapshot }}
+      minecraft_version: ${{ steps.gradle-properties.outputs.minecraft_version }}
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+      - name: read gradle.properties
+        id: gradle-properties
+        run: |
+          echo "snapshot=$(grep '^snapshot=' gradle.properties | cut -d'=' -f2)" >> "$GITHUB_OUTPUT"
+          echo "minecraft_version=$(grep '^minecraft_version=' gradle.properties | cut -d'=' -f2)" >> "$GITHUB_OUTPUT"
   build:
+    needs: properties
     strategy:
+      fail-fast: false
       matrix:
         loader:
           - name: fabric
             formatted: Fabric
           - name: neoforge
             formatted: NeoForge
+        exclude:
+          - loader:
+              name: ${{ needs.properties.outputs.snapshot == 'true' && 'neoforge' }}
     runs-on: ubuntu-22.04
     permissions:
       contents: write
@@ -50,8 +70,8 @@ jobs:
 
           github-token: "${{ secrets.GITHUB_TOKEN }}"
 
-          name: "Hey Wiki ${{ github.ref_name }} for Minecraft ${{ env.MINECRAFT_VERSION }} with ${{ matrix.loader.formatted }}"
-          version: "${{ github.ref_name }}+${{ env.MINECRAFT_VERSION }}+${{ matrix.loader.name }}"
+          name: "Hey Wiki ${{ github.ref_name }} for Minecraft ${{ needs.properties.outputs.minecraft_version }} with ${{ matrix.loader.formatted }}"
+          version: "${{ github.ref_name }}+${{ matrix.loader.name }}"
           version-type: release
           changelog-file: CHANGELOG.md
           loaders: ${{ matrix.loader.name }}
