@@ -7,11 +7,11 @@
   "options.heywiki.language.name": "wiki 語言",
   "options.heywiki.requires_confirmation.description": "在開啟 wiki 條目前開啟確認畫面，以免誤觸。",
   "options.heywiki.requires_confirmation.name": "需要確認",
-  "options.heywiki.raycast_reach.name": "Reach",
-  "options.heywiki.raycast_reach.description": "Maximum distance you can aim at to trigger the wiki feature.\nNote that higher values may cause performance issues.\nIf interaction range attribute is higher, it will be used instead.",
+  "options.heywiki.raycast_reach.name": "觸及距離",
+  "options.heywiki.raycast_reach.description": "能瞄準觸發 wiki 功能的最大距離。\n注意，較高的值可能會影響效能。\n若互動距離屬性大於本值，其將取代此處的設定。",
   "options.heywiki.raycast_allow_fluid.name": "允許流體",
   "options.heywiki.raycast_allow_fluid.description": "允許在瞄準流體方塊時觸發 wiki 功能。",
   "options.heywiki.title": "Hey Wiki 選項",
-  "heywiki.no_item_held": "No item is being held",
+  "heywiki.no_item_held": "手中未持有物品",
   "heywiki.too_far": "您未瞄準任何目標。或許該靠近一點？"
 }
