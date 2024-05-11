@@ -44,7 +44,7 @@ public class WikiTranslationManager implements SynchronousResourceReloader {
             try (InputStream inputStream = resource.getInputStream()) {
                 Language.load(inputStream, translations::put);
             } catch (IOException e) {
-                LOGGER.warn("Failed to load translations for {} from pack {}", langCode, resource.getPackId(), e);
+                LOGGER.warn("Failed to load translations for {} from pack {}", langCode, resource.getResourcePackName(), e);
             }
         }
     }
