@@ -2,4 +2,4 @@
 
 ## Fixes
 
-- Fix performance issues with TitleScreen (Fabric)
+- Fix Iris unable to read the shaderpack's language file (#31)

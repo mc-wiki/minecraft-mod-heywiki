@@ -8,6 +8,7 @@
   },
   "client": [
     "HandledScreenMixin",
+    "TranslationStorageFactory",
     "integration.emi.EmiScreenManagerMixin",
     "integration.emi.RecipeScreenMixin",
     "integration.rei.ScreenOverlayImplMixin"
