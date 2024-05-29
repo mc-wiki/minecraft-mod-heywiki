@@ -56,6 +56,7 @@
   "custom": {
     "modmenu": {
       "links": {
+        "modmenu.curseforge": "https://curseforge.com/minecraft/mc-mods/hey-wiki",
         "modmenu.discord": "https://discord.gg/fGdE5ZE",
         "modmenu.github_releases": "https://github.com/mc-wiki/minecraft-mod-heywiki/releases",
         "modmenu.mastodon": "https://wikis.world/@MinecraftWikiEN",

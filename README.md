@@ -10,9 +10,10 @@
 [<img alt="neoforge" height="56" src="https://github.com/mc-wiki/minecraft-mod-heywiki/blob/master/docs/supports_neoforge.svg?raw=true">](https://neoforged.net/)
 [<img alt="crowdin" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/translate/crowdin_vector.svg">](https://crowdin.com/project/hey-wiki)
 
-Hey Wiki is a client mod made by [the Minecraft Wiki](https://minecraft.wiki) that allows you to press H (customizable)
+Hey Wiki is a client mod made by the [Minecraft Wiki](https://minecraft.wiki) community that allows you to press H (
+customizable)
 to open the wiki page of the block/item/entity you're aiming at, no matter it's from vanilla or a mod.
-Hey Wiki supports Fabric and NeoForge.
+It supports Fabric and NeoForge.
 
 ## Features
 
@@ -23,6 +24,8 @@ Hey Wiki supports Fabric and NeoForge.
 - [Link to a wiki page in chat](#wiki-links-in-chat) using `[[wiki link]]` syntax.
 
 ~~I didn't know that this mod is kinda like *Lexica Botania* but it is.~~
+
+https://github.com/mc-wiki/minecraft-mod-heywiki/assets/45287180/9e59d397-07b7-4fd0-8835-70b1569f8079
 
 ### How to use
 
@@ -71,9 +74,12 @@ it with a clickable link. The page name can include a namespace.
 
 This also supports interwiki links. For example:
 
-- `[[aether:lore]]` will link to the Aether Wiki page of "lore" (interwiki)
-- `[[en:enderman]]` will link to the English Minecraft Wiki page of "enderman" (interlanguage)
-- `[[minecraft:en:enderman]]` will link to the English Minecraft Wiki page of "enderman" (interwiki and interlanguage)
+- `[[aether:The Aether]]` will link to the Aether Wiki page of "[The Aether](https://aether.wiki.gg/wiki/The_Aether)" (
+  interwiki)
+- `[[en:enderman]]` will link to the English Minecraft Wiki page of "[enderman](https://minecraft.wiki/w/Enderman)" (
+  interlanguage)
+- `[[minecraft:en:enderman]]` will link to the English Minecraft Wiki page
+  of "[enderman](https://minecraft.wiki/w/Enderman)" (interwiki and interlanguage)
 
 ## Supported wikis
 
@@ -82,8 +88,8 @@ Currently, Hey Wiki supports the following wikis:
 - [Minecraft Wiki](https://minecraft.wiki)
 - [Aether Wiki](https://aether.wiki.gg)
 
-If you want to add support for other wikis, you can
-[file an issue](https://github.com/mc-wiki/minecraft-mod-heywiki/issues/new?labels=new+wiki%2Ctriage+needed&template=new_wiki.yml).
+If you want to add support for other wikis, you
+can [file an issue](https://github.com/mc-wiki/minecraft-mod-heywiki/issues/new?labels=new+wiki%2Ctriage+needed&template=new_wiki.yml).
 In addition, you can also add support for other wikis by using a resource pack.
 
 ### Resource pack
