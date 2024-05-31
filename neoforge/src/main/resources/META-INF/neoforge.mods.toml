@@ -21,7 +21,7 @@ config = "heywiki-common.mixins.json"
 [[dependencies.heywiki]]
 modId = "neoforge"
 type = "required"
-versionRange = "[20.5.0-beta,)"
+versionRange = "[20.6.98-beta,)"
 ordering = "NONE"
 side = "CLIENT"
 
@@ -35,7 +35,7 @@ side = "CLIENT"
 [[dependencies.heywiki]]
 modId = "architectury"
 type = "required"
-versionRange = "[9.2.14,)"
+versionRange = "[12.1.3,)"
 ordering = "AFTER"
 side = "CLIENT"
 [dependencies.heywiki.mc-publish]
@@ -45,7 +45,7 @@ curseforge = "architectury-api"
 [[dependencies.heywiki]]
 modId = "cloth_config"
 type = "required"
-versionRange = "[13.0.112,)"
+versionRange = "[14.0.0,)"
 ordering = "AFTER"
 side = "CLIENT"
 [dependencies.heywiki.mc-publish]
@@ -55,7 +55,7 @@ curseforge = "cloth-config"
 [[dependencies.heywiki]]
 modId = "roughlyenoughitems"
 type = "optional"
-versionRange = "[14.0.0,)"
+versionRange = "[15.0.0,)"
 ordering = "AFTER"
 side = "CLIENT"
 [dependencies.heywiki.mc-publish]
