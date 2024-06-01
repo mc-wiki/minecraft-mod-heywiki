@@ -1,7 +1,7 @@
 {
   "key.categories.heywiki": "Hey Wiki",
-  "key.heywiki.open": "Open wiki article",
-  "options.heywiki.general": "General",
+  "key.heywiki.open": "위키 문서 열기",
+  "options.heywiki.general": "일반",
   "options.heywiki.language.auto": "auto: Use game language",
   "options.heywiki.language.description": "Set your preferred language, overriding game language setting.",
   "options.heywiki.language.name": "Wiki language",
