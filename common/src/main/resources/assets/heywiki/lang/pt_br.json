@@ -3,7 +3,7 @@
   "key.heywiki.open": "Abrir artigo na wiki",
   "options.heywiki.general": "Geral",
   "options.heywiki.language.auto": "auto: Usar idioma do jogo",
-  "options.heywiki.language.description": "Defina seu idioma de preferência, substituindo a definição de idioma do jogo.",
+  "options.heywiki.language.description": "Define seu idioma de preferência, substituindo a definição de idioma do jogo.",
   "options.heywiki.language.name": "Idioma da wiki",
   "options.heywiki.requires_confirmation.description": "Abre a tela de confirmação antes de abrir o artigo na wiki. Isso é útil para evitar a ativação acidental do recurso.",
   "options.heywiki.requires_confirmation.name": "Requer confirmação",
