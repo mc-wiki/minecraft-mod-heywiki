@@ -10,9 +10,8 @@
 [<img alt="neoforge" height="56" src="https://github.com/mc-wiki/minecraft-mod-heywiki/blob/master/docs/supports_neoforge.svg?raw=true">](https://neoforged.net/)
 [<img alt="crowdin" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/translate/crowdin_vector.svg">](https://crowdin.com/project/hey-wiki)
 
-Hey Wiki is a client mod made by the [Minecraft Wiki](https://minecraft.wiki) community that allows you to press H (
-customizable)
-to open the wiki page of the block/item/entity you're aiming at, no matter it's from vanilla or a mod.
+Hey Wiki is a client mod made by the [Minecraft Wiki](https://minecraft.wiki) community that allows you to press H (customizable)
+to open the wiki page of the block/item/entity you're aiming at, no matter if it's from vanilla or a mod.
 It supports Fabric and NeoForge.
 
 ## Features
@@ -74,10 +73,8 @@ it with a clickable link. The page name can include a namespace.
 
 This also supports interwiki links. For example:
 
-- `[[aether:The Aether]]` will link to the Aether Wiki page of "[The Aether](https://aether.wiki.gg/wiki/The_Aether)" (
-  interwiki)
-- `[[en:enderman]]` will link to the English Minecraft Wiki page of "[enderman](https://minecraft.wiki/w/Enderman)" (
-  interlanguage)
+- `[[aether:The Aether]]` will link to the Aether Wiki page of "[The Aether](https://aether.wiki.gg/wiki/The_Aether)" (interwiki)
+- `[[en:enderman]]` will link to the English Minecraft Wiki page of "[enderman](https://minecraft.wiki/w/Enderman)" (interlanguage)
 - `[[minecraft:en:enderman]]` will link to the English Minecraft Wiki page
   of "[enderman](https://minecraft.wiki/w/Enderman)" (interwiki and interlanguage)
 
@@ -101,7 +98,7 @@ In addition, you can also add support for other wikis by using a resource pack.
 Hey Wiki supports using resource pack to add support for other wikis. To do so, create a JSON file in the
 `assets/<namespace>/wiki_family/` folder in your resource pack with the following format:
 
-```json
+```json5
 {
   // A unique identifier for the wiki family
   "id": "minecraft",
