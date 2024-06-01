@@ -1,8 +1,8 @@
 {
   "key.categories.heywiki": "Hey Wiki",
-  "key.heywiki.open": "Open wiki article",
-  "options.heywiki.general": "General",
-  "options.heywiki.language.auto": "auto: Use game language",
+  "key.heywiki.open": "위키 문서 열기",
+  "options.heywiki.general": "일반",
+  "options.heywiki.language.auto": "자동: 게임 언어 사용",
   "options.heywiki.language.description": "Set your preferred language, overriding game language setting.",
   "options.heywiki.language.name": "Wiki language",
   "options.heywiki.requires_confirmation.description": "Open confirmation screen before opening the wiki article.\nThis is useful to avoid accidentally triggering the feature.",
