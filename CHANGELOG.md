@@ -1,5 +1,5 @@
-# v1.4.2+1.20.4
+# v1.4.3+1.20.4
 
 ## Fixes
 
-- Fix Iris unable to read the shaderpack's language file (#31)
+- Fix incorrect links for Japanese Minecraft Wiki
