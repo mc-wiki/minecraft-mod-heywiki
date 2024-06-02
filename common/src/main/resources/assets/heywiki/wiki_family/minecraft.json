@@ -59,7 +59,8 @@
         "wiki_language": "ja",
         "default": "ja_jp",
         "regex": "^ja_.*",
-        "exclude": null
+        "exclude": null,
+        "lang_override": "minecraft_ja"
       }
     },
     {
