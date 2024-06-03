@@ -41,6 +41,7 @@ import static wiki.minecraft.heywiki.HeyWikiClient.openWikiKey;
 public class HeyWikiConfirmLinkScreen extends Screen {
     private static final Text COPY = Text.translatable("chat.copy");
     private static final Logger LOGGER = LogUtils.getLogger();
+    private static final TextureManager textureManager = MinecraftClient.getInstance().getTextureManager();
     protected final BooleanConsumer callback;
     private final String link;
     private final Text message;
@@ -50,6 +51,7 @@ public class HeyWikiConfirmLinkScreen extends Screen {
     private SimplePositioningWidget layout;
     @Nullable
     private NarratedMultilineTextWidget textWidget;
+    private Identifier textureId = Identifier.of("minecraft", "textures/misc/unknown_server.png");
     private volatile PageExcerpt excerpt;
     private volatile boolean hasExcerpt = false;
     private volatile byte[] image = null;
@@ -147,7 +149,6 @@ public class HeyWikiConfirmLinkScreen extends Screen {
 
             DirectionalLayoutWidget excerptLayout = mainLayout.add(DirectionalLayoutWidget.horizontal().spacing(8));
 
-            Identifier id = Identifier.of("minecraft", "textures/misc/unknown_server.png");
             int height = 100;
             int realWidth = this.excerpt != null ? this.excerpt.imageWidth() : 0;
             int realHeight = this.excerpt != null ? this.excerpt.imageHeight() : 0;
@@ -175,16 +176,15 @@ public class HeyWikiConfirmLinkScreen extends Screen {
                     InputStream is = new ByteArrayInputStream(os.toByteArray());
 
                     NativeImageBackedTexture texture = new NativeImageBackedTexture(NativeImage.read(is));
-                    id = Identifier.of("heywiki", this.link);
+                    this.textureId = Identifier.of("heywiki", this.link);
 
-                    TextureManager manager = client.getTextureManager();
-                    manager.registerTexture(id, texture);
+                    textureManager.registerTexture(this.textureId, texture);
                 } catch (Exception e) {
                     LOGGER.error("Failed to load image", e);
                 }
             }
 
-            var widget = IconWidget.create(width, height, id, width, height);
+            var widget = IconWidget.create(width, height, this.textureId, width, height);
             imageWidth = width;
             excerptLayout.add(widget, positioner -> positioner.margin(5));
 
@@ -253,6 +253,12 @@ public class HeyWikiConfirmLinkScreen extends Screen {
         }
 
         return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    @Override
+    public void close() {
+        textureManager.destroyTexture(this.textureId);
+        super.close();
     }
 
     public void copyToClipboard() {
