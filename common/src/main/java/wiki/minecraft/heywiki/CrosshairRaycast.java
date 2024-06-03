@@ -34,7 +34,6 @@ public class CrosshairRaycast {
     }
 
     public static void onDebugTextRight(List<String> texts) {
-
         var target = CrosshairRaycast.raycast();
         if (target == null) {
             texts.add("heywiki: null");

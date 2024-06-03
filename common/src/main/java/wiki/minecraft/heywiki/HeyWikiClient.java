@@ -15,11 +15,13 @@ import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 import wiki.minecraft.heywiki.command.*;
+import wiki.minecraft.heywiki.resource.PageExcerptCacheManager;
 import wiki.minecraft.heywiki.resource.PageNameSuggestionCacheManager;
 import wiki.minecraft.heywiki.resource.WikiFamilyConfigManager;
 import wiki.minecraft.heywiki.resource.WikiTranslationManager;
 
 import java.util.List;
+import java.util.Objects;
 
 import static dev.architectury.event.events.client.ClientCommandRegistrationEvent.literal;
 
@@ -57,8 +59,9 @@ public class HeyWikiClient {
 
         ClientTickEvent.CLIENT_POST.register(CrosshairRaycast::onClientTickPost);
 
-        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, new WikiFamilyConfigManager(), new Identifier("heywiki:family"));
-        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, new WikiTranslationManager(), new Identifier("heywiki:translation"), List.of(new Identifier("heywiki:family")));
-        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, new PageNameSuggestionCacheManager(), new Identifier("heywiki:page_name_suggestions"));
+        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, new WikiFamilyConfigManager(), Identifier.of("heywiki", "family"));
+        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, new WikiTranslationManager(), Identifier.of("heywiki", "translation"), List.of(Objects.requireNonNull(Identifier.of("heywiki", "family"))));
+        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, new PageNameSuggestionCacheManager(), Identifier.of("heywiki", "page_name_suggestions"));
+        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, new PageExcerptCacheManager(), Identifier.of("heywiki", "page_excerpts"));
     }
 }
