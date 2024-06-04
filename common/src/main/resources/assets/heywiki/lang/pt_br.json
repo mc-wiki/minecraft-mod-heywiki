@@ -1,4 +1,5 @@
 {
+  "command.imfeelinglucky.not_supported": "The specified wiki family does not support the random article feature.",
   "key.categories.heywiki": "Hey Wiki",
   "key.heywiki.open": "Abrir artigo na wiki",
   "options.heywiki.general": "Geral",
@@ -13,5 +14,6 @@
   "options.heywiki.raycast_allow_fluid.description": "Permite a ativação do recurso da wiki em blocos fluidos.",
   "options.heywiki.title": "Opções do Hey Wiki",
   "heywiki.no_item_held": "Nenhum item está em sua mão",
-  "heywiki.too_far": "Você está muito longe, que tal ficar mais próximo?"
+  "heywiki.too_far": "Você está muito longe, que tal ficar mais próximo?",
+  "screen.heywiki_confirm_link.loading_excerpt": "Loading page description..."
 }
