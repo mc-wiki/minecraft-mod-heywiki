@@ -136,7 +136,7 @@ public class HeyWikiConfirmLinkScreen extends Screen {
         mainLayout.getMainPositioner().alignHorizontalCenter();
         mainLayout.add(new TextWidget(this.title, this.textRenderer));
         mainLayout
-                .add(new NarratedMultilineTextWidget(this.width, this.message, this.textRenderer, false, 3),
+                .add(new NarratedMultilineTextWidget(this.width, this.message, this.textRenderer, false),
                         positioner -> positioner.marginY(3))
                 .setCentered(false);
 
@@ -194,7 +194,7 @@ public class HeyWikiConfirmLinkScreen extends Screen {
                                     this.excerpt != null
                                             ? Text.of(this.excerpt.excerpt())
                                             : Text.translatable("screen.heywiki_confirm_link.loading_excerpt"),
-                                    this.textRenderer, 5),
+                                    this.textRenderer, true),
                             positioner -> positioner.margin(5)).setCentered(false);
         }
 

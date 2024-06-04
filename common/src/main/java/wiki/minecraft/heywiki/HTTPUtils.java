@@ -17,18 +17,17 @@ public class HTTPUtils {
 
     @NotNull
     public static <T> T requestUri(URI uri, HttpResponse.BodyHandler<T> handler) throws IOException, InterruptedException {
-        try (HttpClient client = HttpClient.newBuilder()
-                                           .proxy(ProxySelector.getDefault())
-                                           .followRedirects(HttpClient.Redirect.ALWAYS)
-                                           .build()) {
-            HttpRequest request = HttpRequest.newBuilder(uri).GET().build();
+        HttpClient client = HttpClient.newBuilder()
+                                      .proxy(ProxySelector.getDefault())
+                                      .followRedirects(HttpClient.Redirect.ALWAYS)
+                                      .build();
+        HttpRequest request = HttpRequest.newBuilder(uri).GET().build();
 
-            HttpResponse<T> response = client.send(request, handler);
-            if (response.statusCode() != 200) {
-                throw new IOException("HTTP " + response.statusCode() + " " + response.body());
-            }
-
-            return response.body();
+        HttpResponse<T> response = client.send(request, handler);
+        if (response.statusCode() != 200) {
+            throw new IOException("HTTP " + response.statusCode() + " " + response.body());
         }
+
+        return response.body();
     }
 }
