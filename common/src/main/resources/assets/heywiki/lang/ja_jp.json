@@ -1,4 +1,5 @@
 {
+  "command.imfeelinglucky.not_supported": "The specified wiki family does not support the random article feature.",
   "key.categories.heywiki": "Hey Wiki",
   "key.heywiki.open": "Wikiの記事を開く",
   "options.heywiki.general": "全般",
@@ -13,5 +14,6 @@
   "options.heywiki.raycast_allow_fluid.description": "液体ブロックに対してWiki機能を起動できるようにします。",
   "options.heywiki.title": "Hey Wikiの設定",
   "heywiki.no_item_held": "何もアイテムを持っていません。",
-  "heywiki.too_far": "照準が何にも合っていません。もっと近くに寄ってください。"
+  "heywiki.too_far": "照準が何にも合っていません。もっと近くに寄ってください。",
+  "screen.heywiki_confirm_link.loading_excerpt": "Loading page description..."
 }
