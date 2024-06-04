@@ -1,4 +1,5 @@
 {
+  "command.imfeelinglucky.not_supported": "The specified wiki family does not support the random article feature.",
   "key.categories.heywiki": "Hey Wiki",
   "key.heywiki.open": "위키 문서 열기",
   "options.heywiki.general": "일반",
@@ -13,5 +14,6 @@
   "options.heywiki.raycast_allow_fluid.description": "액체 블록을 조준할 때 위키 기능이 작동하도록 허용합니다.",
   "options.heywiki.title": "Hey Wiki 옵션",
   "heywiki.no_item_held": "들고 있는 아이템이 없습니다",
-  "heywiki.too_far": "아무것도 조준하지 않고 있습니다. 더 가까이 가보세요."
+  "heywiki.too_far": "아무것도 조준하지 않고 있습니다. 더 가까이 가보세요.",
+  "screen.heywiki_confirm_link.loading_excerpt": "Loading page description..."
 }
