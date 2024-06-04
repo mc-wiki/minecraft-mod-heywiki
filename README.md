@@ -108,10 +108,13 @@ Hey Wiki supports using resource pack to add support for other wikis. To do so, 
     {
       // The URL pattern for articles. %s will be replaced with the query
       "article_url": "https://minecraft.wiki/?search=%s",
-      // If the wiki is a MediaWiki wiki, the API URL
+      // (Optional) If the wiki is a MediaWiki wiki, the API URL
       "mw_api_url": "https://ja.minecraft.wiki/api.php",
-      // The page name for the random article
+      // (Optional) The page name for the random article
       "random_article": "Special:RandomRootPage/Main",
+      // (Optional) How Hey Wiki should fetch excerpts from the wiki. Either "text_extracts" or "none".
+      // "text_extracts" only works for MediaWiki sites with the TextExtracts extension installed. You can check this by visiting Special:Version on the wiki.
+      "excerpt": "text_extracts",
       "language": {
         // The language code of the wiki
         "wiki_language": "en",
@@ -121,9 +124,9 @@ Hey Wiki supports using resource pack to add support for other wikis. To do so, 
         "default": "en_us",
         // If the regex matches the in-game language, this wiki will be used when config is auto
         "regex": "^en_.*",
-        // Ditto, but for exclusion
+        // (Optional) Ditto, but for exclusion
         "exclude": null,
-        // A custom language code that allows you to override translation keys to specific pages. A translation file should exist at assets/<namespace>/lang/<lang_override>.json
+        // (Optional) A custom language code that allows you to override translation keys to specific pages. A translation file should exist at assets/<namespace>/lang/<lang_override>.json
         "lang_override": "minecraft_en"
       }
     },
