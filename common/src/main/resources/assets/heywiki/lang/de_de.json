@@ -1,5 +1,5 @@
 {
-  "command.imfeelinglucky.not_supported": "The specified wiki family does not support the random article feature.",
+  "command.imfeelinglucky.not_supported": "Die angegebene Wiki-Familie unterstützt die zufällige Artikelfunktion nicht.",
   "key.categories.heywiki": "Hey Wiki",
   "key.heywiki.open": "Wiki-Artikel öffnen",
   "options.heywiki.general": "Allgemein",
@@ -15,5 +15,5 @@
   "options.heywiki.title": "Hey-Wiki-Optionen",
   "heywiki.no_item_held": "Es wird kein Gegenstand gehalten",
   "heywiki.too_far": "Du visierst nichts an. Vielleicht solltest du ein wenig näher kommen?",
-  "screen.heywiki_confirm_link.loading_excerpt": "Loading page description..."
+  "screen.heywiki_confirm_link.loading_excerpt": "Lade Seitenbeschreibung..."
 }
