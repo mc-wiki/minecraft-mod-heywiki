@@ -15,7 +15,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.FileUtils;
-import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import wiki.minecraft.heywiki.wiki.PageExcerpt;
@@ -48,9 +47,7 @@ public class HeyWikiConfirmLinkScreen extends Screen {
     private final WikiPage page;
     protected Text yesText;
     protected Text noText;
-    private SimplePositioningWidget layout;
-    @Nullable
-    private NarratedMultilineTextWidget textWidget;
+    private SimplePositioningWidget layout = new SimplePositioningWidget(0, 0, this.width, this.height);
     private Identifier textureId = Identifier.of("minecraft", "textures/misc/unknown_server.png");
     private volatile PageExcerpt excerpt;
     private volatile boolean hasExcerpt = false;
@@ -62,7 +59,6 @@ public class HeyWikiConfirmLinkScreen extends Screen {
 
     private HeyWikiConfirmLinkScreen(BooleanConsumer callback, Text title, Text message, String link, Text noText, CompletableFuture<PageExcerpt> excerpt, WikiPage page) {
         super(title);
-        this.layout = new SimplePositioningWidget(0, 0, this.width, this.height);
         this.callback = callback;
         this.message = message;
         this.yesText = Text.translatable("chat.link.open");
@@ -139,10 +135,10 @@ public class HeyWikiConfirmLinkScreen extends Screen {
         DirectionalLayoutWidget mainLayout = this.layout.add(DirectionalLayoutWidget.vertical().spacing(10));
         mainLayout.getMainPositioner().alignHorizontalCenter();
         mainLayout.add(new TextWidget(this.title, this.textRenderer));
-        this.textWidget = mainLayout
+        mainLayout
                 .add(new NarratedMultilineTextWidget(this.width, this.message, this.textRenderer, false, 3),
-                        positioner -> positioner.marginY(3));
-        this.textWidget.setCentered(false);
+                        positioner -> positioner.marginY(3))
+                .setCentered(false);
 
         if (hasExcerpt) {
             int imageWidth;
@@ -213,10 +209,6 @@ public class HeyWikiConfirmLinkScreen extends Screen {
 
     @Override
     protected void initTabNavigation() {
-        if (this.textWidget != null) {
-            this.textWidget.setMaxWidth(this.width - 100);
-        }
-
         this.layout.refreshPositions();
         SimplePositioningWidget.setPos(this.layout, this.getNavigationFocus());
     }

@@ -118,7 +118,6 @@ public class WikiPage {
 
         // [[Minecraft Legend:Grass]]
         return new WikiPage(link, getWiki(WikiFamilyConfigManager.getFamilyByNamespace("minecraft")));
-
     }
 
     public static WikiIndividual getWiki(WikiFamily family) {
