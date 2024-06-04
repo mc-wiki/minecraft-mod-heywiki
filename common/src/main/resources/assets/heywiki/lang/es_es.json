@@ -1,4 +1,5 @@
 {
+  "command.imfeelinglucky.not_supported": "The specified wiki family does not support the random article feature.",
   "key.categories.heywiki": "Hey Wiki",
   "key.heywiki.open": "Open wiki article",
   "options.heywiki.general": "General",
@@ -13,5 +14,6 @@
   "options.heywiki.raycast_allow_fluid.description": "Allow aiming at fluid blocks to trigger the wiki feature.",
   "options.heywiki.title": "Hey Wiki Options",
   "heywiki.no_item_held": "No item is being held",
-  "heywiki.too_far": "You are not aiming at anything. Maybe get closer?"
+  "heywiki.too_far": "You are not aiming at anything. Maybe get closer?",
+  "screen.heywiki_confirm_link.loading_excerpt": "Loading page description..."
 }
