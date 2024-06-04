@@ -9,22 +9,17 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import com.mojang.logging.LogUtils;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent.ClientCommandSourceStack;
 import net.minecraft.util.Util;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
-import java.io.IOException;
 import java.io.StringReader;
-import java.net.ProxySelector;
 import java.net.URI;
 import java.net.URLEncoder;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 
+import static wiki.minecraft.heywiki.HTTPUtils.requestUri;
 import static wiki.minecraft.heywiki.resource.PageNameSuggestionCacheManager.suggestionsCache;
 
 public class PageNameSuggestionProvider implements SuggestionProvider<ClientCommandSourceStack> {
@@ -45,22 +40,6 @@ public class PageNameSuggestionProvider implements SuggestionProvider<ClientComm
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @NotNull
-    private static String requestUri(URI uri) throws IOException, InterruptedException {
-        HttpClient client = HttpClient.newBuilder()
-                                      .proxy(ProxySelector.getDefault())
-                                      .followRedirects(HttpClient.Redirect.ALWAYS)
-                                      .build();
-        HttpRequest request = HttpRequest.newBuilder(uri).GET().build();
-
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
-        if (response.statusCode() != 200) {
-            throw new IOException("HTTP " + response.statusCode() + " " + response.body());
-        }
-
-        return response.body();
     }
 
     @Override

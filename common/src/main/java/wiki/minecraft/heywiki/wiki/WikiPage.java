@@ -9,9 +9,9 @@ import net.minecraft.util.Util;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import wiki.minecraft.heywiki.HeyWikiConfig;
+import wiki.minecraft.heywiki.gui.screen.HeyWikiConfirmLinkScreen;
 import wiki.minecraft.heywiki.resource.WikiFamilyConfigManager;
 import wiki.minecraft.heywiki.resource.WikiTranslationManager;
-import wiki.minecraft.heywiki.screen.HeyWikiConfirmLinkScreen;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -118,7 +118,6 @@ public class WikiPage {
 
         // [[Minecraft Legend:Grass]]
         return new WikiPage(link, getWiki(WikiFamilyConfigManager.getFamilyByNamespace("minecraft")));
-
     }
 
     public static WikiIndividual getWiki(WikiFamily family) {
@@ -142,9 +141,10 @@ public class WikiPage {
         return wiki;
     }
 
-    public static WikiPage random(WikiFamily family) {
+    public static @Nullable WikiPage random(WikiFamily family) {
         WikiIndividual wiki = Objects.requireNonNull(getWiki(family));
-        return new WikiPage(wiki.randomArticle(), wiki);
+        if (wiki.randomArticle().isEmpty()) return null;
+        return new WikiPage(wiki.randomArticle().get(), wiki);
     }
 
     public static @Nullable WikiPage versionArticle(String version) {
@@ -175,7 +175,7 @@ public class WikiPage {
         var uri = getUri();
         if (uri != null) {
             if (HeyWikiConfig.requiresConfirmation && !skipConfirmation) {
-                HeyWikiConfirmLinkScreen.open(parent, uri.toString());
+                HeyWikiConfirmLinkScreen.open(parent, uri.toString(), PageExcerpt.fromPage(this), this);
             } else {
                 Util.getOperatingSystem().open(uri);
             }
