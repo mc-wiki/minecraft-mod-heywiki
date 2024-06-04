@@ -8,6 +8,7 @@
       "article_url": "https://aether.wiki.gg/?search=The_Aether/%s",
       "mw_api_url": "https://aether.wiki.gg/api.php",
       "random_article": "Special:RandomPage",
+      "excerpt": "text_extracts",
       "language": {
         "wiki_language": "en",
         "main": true,
