@@ -1,4 +1,5 @@
 {
+  "command.imfeelinglucky.not_supported": "The specified wiki family does not support the random article feature.",
   "key.categories.heywiki": "Hallo Wiki",
   "key.heywiki.open": "Wiki-Artikel öffnen",
   "options.heywiki.general": "Allgemein",
@@ -13,5 +14,6 @@
   "options.heywiki.raycast_allow_fluid.description": "Erlaube es, auf Flüssigkeiten zu zeigen, um diese Wiki-Funktion auszulösen.",
   "options.heywiki.title": "Hey-Wiki-Optionen",
   "heywiki.no_item_held": "Es wird kein Gegenstand gehalten",
-  "heywiki.too_far": "Du visierst nichts an. Vielleicht solltest du ein wenig näher kommen?"
+  "heywiki.too_far": "Du visierst nichts an. Vielleicht solltest du ein wenig näher kommen?",
+  "screen.heywiki_confirm_link.loading_excerpt": "Loading page description..."
 }
