@@ -1,5 +1,5 @@
 {
-  "command.imfeelinglucky.not_supported": "The specified wiki family does not support the random article feature.",
+  "command.imfeelinglucky.not_supported": "指定的wiki不支持随机页面",
   "key.categories.heywiki": "嘿Wiki",
   "key.heywiki.open": "打开wiki条目",
   "options.heywiki.general": "通用",
@@ -15,5 +15,5 @@
   "options.heywiki.title": "嘿Wiki设置",
   "heywiki.no_item_held": "未持有物品",
   "heywiki.too_far": "你什么也没有对准。或许该靠近一点？",
-  "screen.heywiki_confirm_link.loading_excerpt": "Loading page description..."
+  "screen.heywiki_confirm_link.loading_excerpt": "载入页面描述..."
 }
