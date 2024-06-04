@@ -1,4 +1,5 @@
 {
+  "command.imfeelinglucky.not_supported": "The specified wiki family does not support the random article feature.",
   "key.categories.heywiki": "Hey Wiki",
   "key.heywiki.open": "Apri l'articolo wiki",
   "options.heywiki.general": "Generale",
@@ -13,5 +14,6 @@
   "options.heywiki.raycast_allow_fluid.description": "Consente di puntare sui blocchi fluidi per attivare la funzione wiki.",
   "options.heywiki.title": "Opzioni Hey Wiki",
   "heywiki.no_item_held": "Nessun elemento in attesa",
-  "heywiki.too_far": "Non stai puntando a niente. Forse devi avvicinarti?"
+  "heywiki.too_far": "Non stai puntando a niente. Forse devi avvicinarti?",
+  "screen.heywiki_confirm_link.loading_excerpt": "Loading page description..."
 }
