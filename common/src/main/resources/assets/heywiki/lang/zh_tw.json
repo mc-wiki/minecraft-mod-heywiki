@@ -1,5 +1,5 @@
 {
-  "command.imfeelinglucky.not_supported": "The specified wiki family does not support the random article feature",
+  "command.imfeelinglucky.not_supported": "指定的 wiki 不支援隨機條目功能",
   "key.categories.heywiki": "Hey Wiki",
   "key.heywiki.open": "開啟 wiki 條目",
   "options.heywiki.general": "一般",
