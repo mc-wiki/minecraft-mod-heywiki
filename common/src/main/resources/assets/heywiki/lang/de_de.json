@@ -1,5 +1,5 @@
 {
-  "command.imfeelinglucky.not_supported": "Die angegebene Wiki-Familie unterstützt die zufällige Artikelfunktion nicht.",
+  "command.imfeelinglucky.not_supported": "The specified wiki family does not support the random article feature",
   "key.categories.heywiki": "Hey Wiki",
   "key.heywiki.open": "Wiki-Artikel öffnen",
   "options.heywiki.general": "Allgemein",
