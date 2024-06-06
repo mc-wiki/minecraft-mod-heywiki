@@ -1,5 +1,5 @@
 {
-  "command.imfeelinglucky.not_supported": "The specified wiki family does not support the random article feature",
+  "command.imfeelinglucky.not_supported": "指定したWikiファミリーではおまかせ記事機能を利用できません",
   "key.categories.heywiki": "Hey Wiki",
   "key.heywiki.open": "Wikiの記事を開く",
   "options.heywiki.general": "全般",
@@ -15,5 +15,5 @@
   "options.heywiki.title": "Hey Wikiの設定",
   "heywiki.no_item_held": "何もアイテムを持っていません。",
   "heywiki.too_far": "照準が何にも合っていません。もっと近くに寄ってください。",
-  "screen.heywiki_confirm_link.loading_excerpt": "Loading page description..."
+  "screen.heywiki_confirm_link.loading_excerpt": "ページの説明をロード中..."
 }
