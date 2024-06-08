@@ -1,4 +1,5 @@
 {
+  "command.imfeelinglucky.not_supported": "指定的 wiki 不支援隨機條目功能",
   "key.categories.heywiki": "Hey Wiki",
   "key.heywiki.open": "開啟 wiki 條目",
   "options.heywiki.general": "一般",
@@ -13,5 +14,6 @@
   "options.heywiki.raycast_allow_fluid.description": "允許在瞄準流體方塊時觸發 wiki 功能。",
   "options.heywiki.title": "Hey Wiki 選項",
   "heywiki.no_item_held": "手中未持有物品",
-  "heywiki.too_far": "您未瞄準任何目標。或許該靠近一點？"
+  "heywiki.too_far": "您未瞄準任何目標。或許該靠近一點？",
+  "screen.heywiki_confirm_link.loading_excerpt": "正在載入頁面描述..."
 }

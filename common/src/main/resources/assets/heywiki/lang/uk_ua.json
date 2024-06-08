@@ -1,17 +1,19 @@
 {
+  "command.imfeelinglucky.not_supported": "Вказане сімейство вікі не підтримує функцію випадкових статей",
   "key.categories.heywiki": "Hey Wiki",
   "key.heywiki.open": "Відкрити вікі-статтю",
-  "options.heywiki.general": "Загальне",
+  "options.heywiki.general": "Загальні",
   "options.heywiki.language.auto": "авто: Використовувати мову гри",
-  "options.heywiki.language.description": "Встановіть бажану мову, перевизначивши налаштування мови гри.",
+  "options.heywiki.language.description": "Установити бажану мову, змінивши налаштування мови гри.",
   "options.heywiki.language.name": "Мова вікі",
   "options.heywiki.requires_confirmation.description": "Відкривати вікно підтвердження перед відкриттям вікі-статті.\nЦе корисно, щоб уникнути випадкового запуску функції.",
   "options.heywiki.requires_confirmation.name": "Потребує підтвердження",
   "options.heywiki.raycast_reach.name": "Відстань націлення",
   "options.heywiki.raycast_reach.description": "Максимальна відстань, на яку ви можете націлитися, щоб запустити вікі-функцію. \nЗауважте, що більші значення можуть спричинити проблеми з продуктивністю. \nЯкщо атрибут діапазону взаємодії більший, він буде використаний замість нього.",
-  "options.heywiki.raycast_allow_fluid.name": "Дозвіл рідини",
+  "options.heywiki.raycast_allow_fluid.name": "Дозволити рідини",
   "options.heywiki.raycast_allow_fluid.description": "Дозволити наведення на блоки рідини для запуску вікі-функції.",
-  "options.heywiki.title": "Налаштування Hey Wiki",
+  "options.heywiki.title": "Параметри Hey Wiki",
   "heywiki.no_item_held": "Жоден предмет не утримується",
-  "heywiki.too_far": "Ви ні на що не цілитеся. Може, підійти ближче?"
+  "heywiki.too_far": "Ви ні на що не цілитеся. Може, підійти ближче?",
+  "screen.heywiki_confirm_link.loading_excerpt": "Завантаження опису сторінки..."
 }
