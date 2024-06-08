@@ -4,6 +4,7 @@ import net.minecraft.block.AirBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
@@ -43,5 +44,13 @@ public class Target {
         Identifier identifier = key.get().getValue();
 
         return new Target(identifier, identifier.toTranslationKey("biome"));
+    }
+
+    public static Target of(StatusEffectInstance effect) {
+        var key = effect.getEffectType().getKey();
+        if (key.isEmpty()) return null;
+        Identifier identifier = key.get().getValue();
+
+        return new Target(identifier, effect.getTranslationKey());
     }
 }

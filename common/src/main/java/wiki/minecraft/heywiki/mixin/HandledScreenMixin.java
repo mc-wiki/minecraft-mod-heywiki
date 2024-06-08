@@ -16,10 +16,16 @@ import wiki.minecraft.heywiki.wiki.WikiPage;
 import java.util.Objects;
 
 @Mixin(HandledScreen.class)
-public class HandledScreenMixin {
+public class HandledScreenMixin extends ScreenMixin {
     @Shadow
     @Nullable
     protected Slot focusedSlot;
+    @Shadow
+    protected int x;
+    @Shadow
+    protected int y;
+    @Shadow
+    protected int backgroundWidth;
 
     @Inject(method = "keyPressed", at = @At("HEAD"))
     public void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {

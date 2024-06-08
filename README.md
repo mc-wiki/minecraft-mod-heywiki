@@ -16,8 +16,8 @@ Hey Wiki supports Fabric and NeoForge.
 
 ## Features
 
-- Press H (customizable) to open the wiki page (Minecraft Wiki or the respective mod wiki) of the block/item/entity
-  you're aiming at.
+- Press H (customizable) to open the wiki page (Minecraft Wiki or the respective mod wiki) of the
+  block/item/entity/status effect you're aiming at or hovering over.
 - Press Alt+H or Opt+H to open the wiki page of the item in your main hand.
 - Adds several [commands](#commands).
 - [Link to a wiki page in chat](#wiki-links-in-chat) using `[[wiki link]]` syntax.
