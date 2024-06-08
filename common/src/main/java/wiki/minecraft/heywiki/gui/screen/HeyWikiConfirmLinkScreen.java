@@ -66,6 +66,8 @@ public class HeyWikiConfirmLinkScreen extends Screen {
         this.link = link;
         this.page = page;
 
+        assert this.client != null;
+
         if (excerpt != null) {
             this.hasExcerpt = true;
             excerpt.thenAccept(result -> {
@@ -95,13 +97,13 @@ public class HeyWikiConfirmLinkScreen extends Screen {
                                     LOGGER.error("Failed to fetch image", e);
                                 }
 
-                                this.init();
+                                this.client.execute(this::init);
                             }, Util.getDownloadWorkerExecutor());
                     } catch (Exception e) {
                         LOGGER.error("Failed to fetch image", e);
                     }
                 }
-                this.init();
+                this.client.execute(this::init);
             });
         }
     }
