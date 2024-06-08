@@ -7,7 +7,9 @@
     "defaultRequire": 1
   },
   "client": [
+    "AbstractInventoryScreenMixin",
     "HandledScreenMixin",
+    "ScreenMixin",
     "TranslationStorageFactory",
     "integration.emi.EmiScreenManagerMixin",
     "integration.emi.RecipeScreenMixin",
