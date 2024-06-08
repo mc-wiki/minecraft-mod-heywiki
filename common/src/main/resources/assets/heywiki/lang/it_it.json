@@ -1,0 +1,19 @@
+{
+  "command.imfeelinglucky.not_supported": "La famiglia wiki specificata non supporta la funzione articolo casuale",
+  "key.categories.heywiki": "Hey Wiki",
+  "key.heywiki.open": "Apri l'articolo wiki",
+  "options.heywiki.general": "Generale",
+  "options.heywiki.language.auto": "auto: Usa la lingua del gioco",
+  "options.heywiki.language.description": "Imposta la tua lingua preferita, ignorando le impostazioni della lingua del gioco.",
+  "options.heywiki.language.name": "Lingua Wiki",
+  "options.heywiki.requires_confirmation.description": "Apri la schermata di conferma prima di aprire l'articolo wiki.\nQuesto è utile per evitare di attivare accidentalmente la funzione.",
+  "options.heywiki.requires_confirmation.name": "Richiedi conferma",
+  "options.heywiki.raycast_max_reach.name": "Resa massima",
+  "options.heywiki.raycast_max_reach.description": "Distanza massima a cui puoi mirare per attivare la funzione wiki.\nNota che valori più alti possono causare problemi di prestazioni.\nSe l'attributo di intervallo di interazione è più alto, verrà utilizzato questo.",
+  "options.heywiki.raycast_allow_fluid.name": "Permetti i fluidi",
+  "options.heywiki.raycast_allow_fluid.description": "Consente di puntare sui blocchi fluidi per attivare la funzione wiki.",
+  "options.heywiki.title": "Opzioni Hey Wiki",
+  "heywiki.no_item_held": "Nessun elemento in attesa",
+  "heywiki.too_far": "Non stai puntando a niente. Forse devi avvicinarti?",
+  "screen.heywiki_confirm_link.loading_excerpt": "Caricamento descrizione pagina..."
+}
