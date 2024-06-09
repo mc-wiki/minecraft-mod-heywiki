@@ -21,7 +21,10 @@ public class HTTPUtils {
                                       .proxy(ProxySelector.getDefault())
                                       .followRedirects(HttpClient.Redirect.ALWAYS)
                                       .build();
-        HttpRequest request = HttpRequest.newBuilder(uri).GET().build();
+        HttpRequest request = HttpRequest.newBuilder(uri)
+                                         .GET()
+                                         .header("User-Agent", "HeyWikiMod (+https://github.com/mc-wiki/minecraft-mod-heywiki)")
+                                         .build();
 
         HttpResponse<T> response = client.send(request, handler);
         if (response.statusCode() != 200) {
