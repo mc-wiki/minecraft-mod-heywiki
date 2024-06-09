@@ -1,5 +1,5 @@
 {
-  "command.imfeelinglucky.not_supported": "指定したWikiファミリーではおまかせ記事機能を利用できません",
+  "command.imfeelinglucky.not_supported": "指定のWikiにはおまかせ表示機能がありません",
   "key.categories.heywiki": "Hey Wiki",
   "key.heywiki.open": "Wikiの記事を開く",
   "options.heywiki.general": "全般",
