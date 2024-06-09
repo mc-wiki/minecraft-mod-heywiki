@@ -1,6 +1,7 @@
 package wiki.minecraft.heywiki.mixin;
 
 import com.google.common.collect.Ordering;
+import dev.architectury.platform.Platform;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
@@ -33,7 +34,7 @@ public abstract class AbstractInventoryScreenMixin extends HandledScreenMixin {
 
     @Override
     public void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
-        if (HeyWikiClient.openWikiKey.matchesKey(keyCode, scanCode)) {
+        if (HeyWikiClient.openWikiKey.matchesKey(keyCode, scanCode) && !Platform.isModLoaded("emi")) {
             var client = MinecraftClient.getInstance();
             assert client != null;
 

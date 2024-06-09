@@ -3,6 +3,7 @@
 ## Changes
 
 - Now supports triggering open wiki by hovering over status effects in the inventory screen
+    - For now this does not work with EMI enabled
 
 ## Fixes
 
