@@ -194,7 +194,9 @@ public class HeyWikiConfirmLinkScreen extends Screen {
                     .add(new NarratedMultilineTextWidget(
                                     this.width - 65 - (imageWidth + 13),
                                     this.excerpt != null
-                                            ? Text.of(this.excerpt.excerpt())
+                                            ? Text.of(this.excerpt.excerpt()
+                                                                  .replace("\u200B", "")
+                                                     )
                                             : Text.translatable("screen.heywiki_confirm_link.loading_excerpt"),
                                     this.textRenderer, true),
                             positioner -> positioner.margin(5)).setCentered(false);
