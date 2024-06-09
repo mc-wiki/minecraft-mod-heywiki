@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.biome.Biome;
@@ -47,7 +48,8 @@ public class Target {
     }
 
     public static Target of(StatusEffectInstance effect) {
-        var key = effect.getEffectType().getKey();
+        var entry = Registries.STATUS_EFFECT.getEntry(effect.getEffectType());
+        var key = entry.getKey();
         if (key.isEmpty()) return null;
         Identifier identifier = key.get().getValue();
 
