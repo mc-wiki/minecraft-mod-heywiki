@@ -12,7 +12,7 @@
   "options.heywiki.raycast_max_reach.description": "触发查询wiki功能的最大视野距离。\n请注意，较高的值会影响性能。",
   "options.heywiki.raycast_allow_fluid.name": "允许液体",
   "options.heywiki.raycast_allow_fluid.description": "允许在对准液体方块时触发查询wiki功能",
-  "options.heywiki.title": "嘿Wiki设置",
+  "options.heywiki.title": "Hey Wiki选项",
   "heywiki.no_item_held": "未持有物品",
   "heywiki.too_far": "你什么也没有对准。或许该靠近一点？",
   "screen.heywiki_confirm_link.loading_excerpt": "正在加载页面描述…"
