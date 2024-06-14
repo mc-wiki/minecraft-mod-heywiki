@@ -24,6 +24,8 @@ Hey Wiki supports Fabric and NeoForge.
 
 ~~I didn't know that this mod is kinda like *Lexica Botania* but it is.~~
 
+https://github.com/mc-wiki/minecraft-mod-heywiki/assets/45287180/b0650362-1fe9-46ff-83a1-48219d5fcc05
+
 ### How to use
 
 1. Install the mod. You can download it from [CurseForge](https://curseforge.com/minecraft/mc-mods/hey-wiki)
@@ -177,10 +179,10 @@ receive critical bug fixes. Old snapshots are not supported.
 
 The following table shows which versions are supported:
 
-| Git branch  | Minecraft version    | Supported?            | Is LTS? | Modloader        |
-|-------------|----------------------|-----------------------|---------|------------------|
-| `master`    | 1.21                 | Yes (latest snapshot) | TBD     | Fabric           |
-| `mc/1.20.6` | 1.20.6               | Yes (latest release)  | TBD     | Fabric, Neoforge |
-| `mc/1.20.5` | 1.20.5               | No                    | No      | Fabric, Neoforge |
-| `mc/1.20.4` | 1.20.4               | Yes (LTS)             | Yes     | Fabric, Neoforge |
-| N/A         | *Outdated snapshots* | EOL                   | No      | Fabric           |
+| Git branch  | Minecraft version    | Supported?           | Is LTS? | Modloader        |
+|-------------|----------------------|----------------------|---------|------------------|
+| `master`    | 1.21                 | Yes (latest release) | TBD     | Fabric, Neoforge |
+| `mc/1.20.6` | 1.20.6               | No                   | No      | Fabric, Neoforge |
+| `mc/1.20.5` | 1.20.5               | No                   | No      | Fabric, Neoforge |
+| `mc/1.20.4` | 1.20.4               | Yes (LTS)            | Yes     | Fabric, Neoforge |
+| N/A         | *Outdated snapshots* | EOL                  | No      | Fabric           |

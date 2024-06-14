@@ -174,7 +174,7 @@ public class HeyWikiConfirmLinkScreen extends Screen {
                     InputStream is = new ByteArrayInputStream(os.toByteArray());
 
                     NativeImageBackedTexture texture = new NativeImageBackedTexture(NativeImage.read(is));
-                    this.textureId = Identifier.of("heywiki", this.link);
+                    this.textureId = Identifier.of("heywiki", String.valueOf(this.link.hashCode()));
 
                     textureManager.registerTexture(this.textureId, texture);
                 } catch (Exception e) {

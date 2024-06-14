@@ -39,11 +39,11 @@
     }
   ],
   "depends": {
-    "fabricloader": ">=0.15.10",
-    "minecraft": ">=1.20.5",
+    "fabricloader": ">=0.15.11",
+    "minecraft": ">=1.21",
     "java": ">=21",
     "fabric-api": "*",
-    "architectury": ">=12.0.0",
+    "architectury": ">=13.0.0",
     "cloth-config": "*"
   },
   "recommends": {

@@ -1,10 +1,7 @@
-# v1.5.1+1.20.6
+# v1.5.1+1.21
 
 ## Changes
 
-- Now supports triggering open wiki by hovering over status effects in the inventory screen
-    - For now this does not work with EMI enabled
+- 1.21 support
 
-## Fixes
-
-- Fixed `java.util.ConcurrentModificationException` when opening the confirm screen
+Note that 1.20.6 support has been dropped. 1.20.4 support is still available.

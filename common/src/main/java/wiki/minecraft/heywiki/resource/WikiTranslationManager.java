@@ -49,7 +49,7 @@ public class WikiTranslationManager implements SynchronousResourceReloader {
         }
     }
 
-    private static TranslationStorage loadTranslationFrom(ResourceManager resourceManager, List<String> definitions, boolean rightToLeft) {
+    private static TranslationStorage loadTranslationFrom(ResourceManager resourceManager, List<String> definitions) {
         Map<String, String> map = Maps.newHashMap();
 
         for (String definition : definitions) {
@@ -57,7 +57,7 @@ public class WikiTranslationManager implements SynchronousResourceReloader {
 
             for (String namespace : resourceManager.getAllNamespaces()) {
                 try {
-                    Identifier identifier = new Identifier(namespace, path);
+                    Identifier identifier = Identifier.of(namespace, path);
                     appendTranslationFrom(definition, resourceManager.getAllResources(identifier), map);
                 } catch (Exception e) {
                     LOGGER.warn("Skipped language file: {}:{} ({})", namespace, path, e.toString());
@@ -65,13 +65,13 @@ public class WikiTranslationManager implements SynchronousResourceReloader {
             }
         }
 
-        return TranslationStorageFactory.create(ImmutableMap.copyOf(map), rightToLeft);
+        return TranslationStorageFactory.create(ImmutableMap.copyOf(map), false);
     }
 
     public static TranslationStorage loadTranslation(String language, ResourceManager resourceManager, boolean fallbackEnUs) {
         return language.equals("en_us") || !fallbackEnUs
-                ? loadTranslationFrom(resourceManager, List.of(language), false)
-                : loadTranslationFrom(resourceManager, List.of("en_us", language), false);
+                ? loadTranslationFrom(resourceManager, List.of(language))
+                : loadTranslationFrom(resourceManager, List.of("en_us", language));
     }
 
     @Override
