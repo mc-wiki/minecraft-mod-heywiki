@@ -1,0 +1,19 @@
+{
+  "command.imfeelinglucky.not_supported": "Указанная вики-семья не поддерживает функцию открытия случайной статьи",
+  "key.categories.heywiki": "Hey Wiki",
+  "key.heywiki.open": "Открыть статью на вики",
+  "options.heywiki.general": "Общие",
+  "options.heywiki.language.auto": "Автоматически: Использовать язык игры",
+  "options.heywiki.language.description": "Укажите свой предпочтительный язык, который не будет зависеть от языка игры.",
+  "options.heywiki.language.name": "Язык вики",
+  "options.heywiki.requires_confirmation.description": "Показывать окно подтверждения перед открытием статьи на вики.\nБывает полезно при нечаянных вызовах функции.",
+  "options.heywiki.requires_confirmation.name": "Требовать подтверждения",
+  "options.heywiki.raycast_reach.name": "Расстояние",
+  "options.heywiki.raycast_reach.description": "Максимальное значение расстояния, при котором будет возможно использовать функцию вики.\nОбратите внимание, что слишком высокие значения могут негативно сказаться на производительности.\nЕсли расстояние взаимодействия выше данного значения, оно будет иметь приоритет.",
+  "options.heywiki.raycast_allow_fluid.name": "Учитывать жидкости",
+  "options.heywiki.raycast_allow_fluid.description": "Включить функцию вики и для жидкостей.",
+  "options.heywiki.title": "Настройки Hey Wiki",
+  "heywiki.no_item_held": "Вы ничего не держите",
+  "heywiki.too_far": "Вы ни на что не навелись. Может быть, нужно подойти ближе?",
+  "screen.heywiki_confirm_link.loading_excerpt": "Загрузка описания..."
+}
