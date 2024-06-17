@@ -6,6 +6,8 @@
   "options.heywiki.language.auto": "Автоматически: Использовать язык игры",
   "options.heywiki.language.description": "Укажите свой предпочтительный язык, который не будет зависеть от языка игры.",
   "options.heywiki.language.name": "Язык вики",
+  "options.heywiki.zh_variant.name": "Chinese variant",
+  "options.heywiki.zh_variant.description": "Choose between different Chinese variants.\nSafely ignore this if you don't speak Chinese.",
   "options.heywiki.requires_confirmation.description": "Показывать окно подтверждения перед открытием статьи на вики.\nБывает полезно при нечаянных вызовах функции.",
   "options.heywiki.requires_confirmation.name": "Требовать подтверждения",
   "options.heywiki.raycast_max_reach.name": "Максимальное расстояние",
