@@ -1,0 +1,21 @@
+{
+  "id": "mekanism",
+  "namespace": [
+    "mekanism"
+  ],
+  "wikis": [
+    {
+      "article_url": "https://wiki.aidancbrady.com/wiki/?search=%s",
+      "mw_api_url": "https://wiki.aidancbrady.com/w/api.php",
+      "random_article": "Special:RandomPage",
+      "excerpt": "none",
+      "language": {
+        "wiki_language": "en",
+        "main": true,
+        "default": "en_us",
+        "regex": "^en_.*",
+        "exclude": null
+      }
+    }
+  ]
+}
