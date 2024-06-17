@@ -4,6 +4,7 @@ import com.google.gson.JsonParser;
 import com.mojang.logging.LogUtils;
 import net.minecraft.util.Util;
 import org.slf4j.Logger;
+import wiki.minecraft.heywiki.HeyWikiConfig;
 
 import java.net.URI;
 import java.net.URLEncoder;
@@ -31,7 +32,7 @@ public record PageExcerpt(String title, String excerpt, String imageUrl, int ima
                 if (excerptCache.containsKey(apiUrl.get() + " " + page.pageName)) {
                     yield CompletableFuture.completedFuture(excerptCache.get(apiUrl.get() + " " + page.pageName));
                 }
-                yield fromTextExtracts(apiUrl.get(), page.pageName);
+                yield fromTextExtracts(apiUrl.get(), page.pageName, wiki.language().wikiLanguage());
             }
             case "none" -> null;
             default -> {
@@ -41,12 +42,13 @@ public record PageExcerpt(String title, String excerpt, String imageUrl, int ima
         }).orElse(null);
     }
 
-    private static CompletableFuture<PageExcerpt> fromTextExtracts(String apiUrl, String pageName) {
+    private static CompletableFuture<PageExcerpt> fromTextExtracts(String apiUrl, String pageName, String language) {
         URI uri = URI.create(apiUrl +
                 "?action=query&format=json&prop=info%7Cextracts%7Cpageimages%7Crevisions%7Cinfo&formatversion=2" +
                 "&redirects=true&exintro=true&exchars=525&explaintext=true&exsectionformat=plain&piprop=thumbnail" +
                 "&pithumbsize=640&pilicense=any&rvprop=timestamp&inprop=url&uselang=content&titles=" +
-                URLEncoder.encode(pageName, StandardCharsets.UTF_8));
+                URLEncoder.encode(pageName, StandardCharsets.UTF_8) +
+                (language.equals("zh") ? "&variant=" + HeyWikiConfig.zhVariant : ""));
         var executor = Util.getDownloadWorkerExecutor();
 
         return CompletableFuture.supplyAsync(() -> {

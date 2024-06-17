@@ -6,6 +6,8 @@
   "options.heywiki.language.auto": "auto: Use game language",
   "options.heywiki.language.description": "Set your preferred language, overriding game language setting.",
   "options.heywiki.language.name": "Wiki language",
+  "options.heywiki.zh_variant.name": "Chinese variant",
+  "options.heywiki.zh_variant.description": "Choose between different Chinese variants.\nSafely ignore this if you don't know Chinese.",
   "options.heywiki.requires_confirmation.description": "Open confirmation screen before opening the wiki article.\nThis is useful to avoid accidentally triggering the feature.",
   "options.heywiki.requires_confirmation.name": "Requires confirmation",
   "options.heywiki.raycast_max_reach.name": "Max reach",

@@ -4,13 +4,13 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent.ClientCommandSourceStack;
 import wiki.minecraft.heywiki.command.suggestion.NSPageCombinedSuggestionProvider;
-import wiki.minecraft.heywiki.resource.WikiFamilyConfigManager;
 import wiki.minecraft.heywiki.wiki.WikiPage;
 
 import static com.mojang.brigadier.arguments.StringArgumentType.getString;
 import static com.mojang.brigadier.arguments.StringArgumentType.greedyString;
 import static dev.architectury.event.events.client.ClientCommandRegistrationEvent.argument;
 import static dev.architectury.event.events.client.ClientCommandRegistrationEvent.literal;
+import static wiki.minecraft.heywiki.resource.WikiFamilyConfigManager.activeWikis;
 
 public class WikiCommand {
     public static LiteralCommandNode<ClientCommandSourceStack> register(CommandDispatcher<ClientCommandSourceStack> dispatcher) {
@@ -20,10 +20,10 @@ public class WikiCommand {
                     String page = getString(ctx, "page");
                     String[] pageSplitted = page.split(":");
                     if (pageSplitted.length == 1) {
-                        new WikiPage(page, WikiPage.getWiki(WikiFamilyConfigManager.getFamilyByNamespace("minecraft"))).openInBrowser(true);
+                        new WikiPage(page, activeWikis.get("minecraft")).openInBrowser(true);
                         return 0;
                     }
-                    new WikiPage(pageSplitted[1], WikiPage.getWiki(WikiFamilyConfigManager.getFamilyByNamespace(pageSplitted[0]))).openInBrowser(true);
+                    new WikiPage(pageSplitted[1], activeWikis.get(pageSplitted[0])).openInBrowser(true);
                     return 0;
                 })));
     }

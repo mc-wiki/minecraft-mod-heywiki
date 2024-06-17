@@ -9,17 +9,18 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent.ClientCommandSourceStack;
 import wiki.minecraft.heywiki.resource.WikiFamilyConfigManager;
 import wiki.minecraft.heywiki.wiki.WikiIndividual;
-import wiki.minecraft.heywiki.wiki.WikiPage;
 
 import java.net.URI;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import static wiki.minecraft.heywiki.resource.WikiFamilyConfigManager.activeWikis;
+
 public class NSPageCombinedSuggestionProvider implements SuggestionProvider<ClientCommandSourceStack> {
     @Override
     public CompletableFuture<Suggestions> getSuggestions(CommandContext<ClientCommandSourceStack> context, SuggestionsBuilder builder) {
         String remaining = builder.getRemaining();
-        WikiIndividual wiki = WikiPage.getWiki(WikiFamilyConfigManager.getFamilyByNamespace("minecraft"));
+        WikiIndividual wiki = activeWikis.get("minecraft");
         if (wiki == null) return new NamespaceSuggestionProvider().getSuggestions(context, builder);
         String apiUrl = wiki.mwApiUrl().orElse(null);
         if (apiUrl == null) return new NamespaceSuggestionProvider().getSuggestions(context, builder);

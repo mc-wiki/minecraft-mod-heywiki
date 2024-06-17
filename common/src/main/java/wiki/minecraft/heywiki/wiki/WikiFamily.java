@@ -3,13 +3,18 @@ package wiki.minecraft.heywiki.wiki;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.client.MinecraftClient;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
+import wiki.minecraft.heywiki.HeyWikiConfig;
 
 import java.util.List;
 
+import static wiki.minecraft.heywiki.resource.WikiFamilyConfigManager.activeWikis;
+
 public record WikiFamily(String id, List<String> namespace, List<WikiIndividual> wikis) {
     private static final Logger LOGGER = LogUtils.getLogger();
+    private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
     public static Codec<WikiFamily> CODEC = RecordCodecBuilder.create(builder ->
             builder
                     .group(
@@ -48,5 +53,30 @@ public record WikiFamily(String id, List<String> namespace, List<WikiIndividual>
 
         LOGGER.error("Failed to find main language wiki for family {}", this.id);
         return null;
+    }
+
+
+    public WikiIndividual getWiki() {
+        WikiIndividual wiki;
+
+        if (HeyWikiConfig.language.equals("auto")) {
+            var language = CLIENT.options.language;
+            wiki = this.getLanguageWikiByGameLanguage(language);
+        } else {
+            var language = HeyWikiConfig.language;
+            wiki = this.getLanguageWikiByWikiLanguage(language);
+        }
+
+        if (wiki == null) wiki = this.getMainLanguageWiki();
+        if (wiki == null) {
+            LOGGER.error("Failed to find wiki for language {}", HeyWikiConfig.language);
+            return null;
+        }
+
+        for (String namespace : this.namespace()) {
+            activeWikis.put(namespace, wiki);
+        }
+
+        return wiki;
     }
 }
