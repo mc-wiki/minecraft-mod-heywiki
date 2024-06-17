@@ -2,6 +2,7 @@ package wiki.minecraft.heywiki.wiki;
 
 import com.google.gson.JsonParser;
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Util;
 import org.slf4j.Logger;
 import wiki.minecraft.heywiki.HeyWikiConfig;
@@ -16,6 +17,7 @@ import static wiki.minecraft.heywiki.resource.PageExcerptCacheManager.excerptCac
 
 public record PageExcerpt(String title, String excerpt, String imageUrl, int imageWidth, int imageHeight) {
     private static final Logger LOGGER = LogUtils.getLogger();
+    private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
 
     public static CompletableFuture<PageExcerpt> fromPage(WikiPage page) {
         var wiki = page.wiki;
@@ -42,13 +44,25 @@ public record PageExcerpt(String title, String excerpt, String imageUrl, int ima
         }).orElse(null);
     }
 
+    private static String resolveZhVariant(String variant) {
+        if (variant.equals("auto")) {
+            return switch (CLIENT.options.language) {
+                case "zh_cn" -> "zh-cn";
+                case "zh_tw" -> "zh-tw";
+                case "zh_hk" -> "zh-hk";
+                default -> "zh";
+            };
+        }
+        return variant;
+    }
+
     private static CompletableFuture<PageExcerpt> fromTextExtracts(String apiUrl, String pageName, String language) {
         URI uri = URI.create(apiUrl +
                 "?action=query&format=json&prop=info%7Cextracts%7Cpageimages%7Crevisions%7Cinfo&formatversion=2" +
                 "&redirects=true&exintro=true&exchars=525&explaintext=true&exsectionformat=plain&piprop=thumbnail" +
                 "&pithumbsize=640&pilicense=any&rvprop=timestamp&inprop=url&uselang=content&titles=" +
                 URLEncoder.encode(pageName, StandardCharsets.UTF_8) +
-                (language.equals("zh") ? "&variant=" + HeyWikiConfig.zhVariant : ""));
+                (language.equals("zh") ? "&variant=" + resolveZhVariant(HeyWikiConfig.zhVariant) : ""));
         var executor = Util.getDownloadWorkerExecutor();
 
         return CompletableFuture.supplyAsync(() -> {
