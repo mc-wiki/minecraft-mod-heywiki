@@ -10,6 +10,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
 import org.slf4j.Logger;
 import wiki.minecraft.heywiki.wiki.WikiFamily;
+import wiki.minecraft.heywiki.wiki.WikiIndividual;
 
 import java.util.*;
 
@@ -18,6 +19,7 @@ public class WikiFamilyConfigManager extends JsonDataLoader {
     private static final String PATH = "wiki_family";
     private static final Gson GSON = new Gson();
     private static final Map<String, WikiFamily> WIKI_FAMILY_MAP = new HashMap<>();
+    public static Map<String, WikiIndividual> activeWikis = new HashMap<>();
 
     public WikiFamilyConfigManager() {
         super(GSON, PATH);
@@ -81,6 +83,20 @@ public class WikiFamilyConfigManager extends JsonDataLoader {
         return languages;
     }
 
+    public static Map<String, WikiIndividual> resolveActiveWikis() {
+        Map<String, WikiIndividual> activeWikis = new HashMap<>();
+        for (var entry : WikiFamilyConfigManager.WIKI_FAMILY_MAP.entrySet()) {
+            var family = entry.getValue();
+            var wiki = family.getWiki();
+
+            for (String namespace : family.namespace()) {
+                activeWikis.put(namespace, wiki);
+            }
+        }
+
+        return activeWikis;
+    }
+
     @Override
     protected void apply(Map<Identifier, JsonElement> prepared, ResourceManager manager, Profiler profiler) {
         WIKI_FAMILY_MAP.clear();
@@ -92,6 +108,7 @@ public class WikiFamilyConfigManager extends JsonDataLoader {
                 LOGGER.error("Failed to load wiki family config from {}", key, e);
             }
         });
+        activeWikis = resolveActiveWikis();
 
         LOGGER.info("Loaded {} wiki families", WIKI_FAMILY_MAP.size());
     }

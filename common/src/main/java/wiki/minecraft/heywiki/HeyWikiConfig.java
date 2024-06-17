@@ -11,6 +11,7 @@ import me.shedaniel.clothconfig2.impl.builders.DropdownMenuBuilder;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
+import wiki.minecraft.heywiki.wiki.WikiIndividual;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -24,12 +25,14 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static dev.architectury.platform.Platform.getConfigFolder;
 import static wiki.minecraft.heywiki.resource.WikiFamilyConfigManager.getAllAvailableLanguages;
+import static wiki.minecraft.heywiki.resource.WikiFamilyConfigManager.resolveActiveWikis;
 
 public class HeyWikiConfig {
     public static boolean requiresConfirmation = true;
     public static double raycastReach = 5.2D; // Use creative mode reach distance
     public static boolean raycastAllowFluid = false;
     public static String language = "auto";
+    public static String zhVariant = "auto";
 
     public static Screen createGui(Screen parent) {
         AtomicReference<Boolean> requireReload = new AtomicReference<>(false);
@@ -79,6 +82,25 @@ public class HeyWikiConfig {
                 })
                 .build());
         general.addEntry(entryBuilder
+                .startDropdownMenu(Text.translatable("options.heywiki.zh_variant.name"),
+                        DropdownMenuBuilder.TopCellElementBuilder.of(zhVariant, HeyWikiConfig::normalizeLanguageName, HeyWikiConfig::zhVariantDescription),
+                        DropdownMenuBuilder.CellCreatorBuilder.of(HeyWikiConfig::zhVariantDescription))
+                .setDisplayRequirement(() -> {
+                    Map<String, WikiIndividual> activeWikis = resolveActiveWikis();
+                    for (var wiki : activeWikis.values()) {
+                        if (wiki.language().wikiLanguage().startsWith("zh")) {
+                            return true;
+                        }
+                    }
+                    return false;
+                })
+                .setSelections(List.of("auto", "zh", "zh-cn", "zh-tw", "zh-hk"))
+                .setDefaultValue("auto")
+                .setSuggestionMode(false)
+                .setTooltip(Text.translatable("options.heywiki.zh_variant.description"))
+                .setSaveConsumer(newValue -> HeyWikiConfig.zhVariant = newValue)
+                .build());
+        general.addEntry(entryBuilder
                 .fillKeybindingField(Text.translatable("key.heywiki.open"), HeyWikiClient.openWikiKey)
                 .setTooltip(Text.translatable("options.heywiki.language.description"))
                 .build());
@@ -109,6 +131,18 @@ public class HeyWikiConfig {
         return locale.getDisplayLanguage(locale);
     }
 
+    private static Text zhVariantDescription(String lang) {
+        return switch (lang) {
+            case "auto" -> Text.translatable("options.heywiki.language.auto");
+            case "zh" -> Text.literal("zh: 不转换");
+            case "zh-cn" -> Text.literal("zh-cn: 大陆简体");
+            case "zh-tw" -> Text.literal("zh-tw: 臺灣正體");
+            case "zh-hk" -> Text.literal("zh-hk: 香港繁體");
+            default -> throw new IllegalStateException("Unexpected value: " + lang);
+        };
+    }
+
+
     public static void save(Boolean requireReload) {
         if (requireReload) MinecraftClient.getInstance().reloadResourcesConcurrently();
         Path configPath = getConfigFolder().resolve("heywiki.json");
@@ -122,6 +156,7 @@ public class HeyWikiConfig {
                 jsonWriter.beginObject()
                           .name("requiresConfirmation").value(requiresConfirmation)
                           .name("language").value(language)
+                          .name("zhVariant").value(language)
                           .name("raycastReach").value(raycastReach)
                           .name("raycastAllowFluid").value(raycastAllowFluid)
                           .endObject().close();
@@ -147,6 +182,9 @@ public class HeyWikiConfig {
                         break;
                     case "language":
                         language = entry.getValue().getAsString();
+                        break;
+                    case "zhVariant":
+                        zhVariant = entry.getValue().getAsString();
                         break;
                     case "raycastReach":
                         raycastReach = entry.getValue().getAsDouble();

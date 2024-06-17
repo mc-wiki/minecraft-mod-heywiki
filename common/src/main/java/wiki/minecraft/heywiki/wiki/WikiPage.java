@@ -20,6 +20,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Optional;
 
+import static wiki.minecraft.heywiki.resource.WikiFamilyConfigManager.activeWikis;
+
 public class WikiPage {
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final MinecraftClient client = MinecraftClient.getInstance();
@@ -90,9 +92,8 @@ public class WikiPage {
     public static WikiPage fromWikitextLink(String link) {
         String[] split = link.split(":", 3);
         if (split.length == 1) {
-            var family = WikiFamilyConfigManager.getFamilyByNamespace("minecraft");
             // [[Grass]]
-            return new WikiPage(link, getWiki(family));
+            return new WikiPage(link, activeWikis.get("minecraft"));
         }
 
         WikiIndividual languageWiki = Objects.requireNonNull(WikiFamilyConfigManager.getFamilyByNamespace("minecraft"))
@@ -113,43 +114,21 @@ public class WikiPage {
                 }
             }
             // invalid language: [[minecraft:Grass]]
-            return new WikiPage(link.split(":", 2)[1], getWiki(WikiFamilyConfigManager.getFamilyByNamespace(split[0])));
+            return new WikiPage(link.split(":", 2)[1], activeWikis.get(split[0]));
         }
 
         // [[Minecraft Legend:Grass]]
-        return new WikiPage(link, getWiki(WikiFamilyConfigManager.getFamilyByNamespace("minecraft")));
+        return new WikiPage(link, activeWikis.get("minecraft"));
     }
 
-    public static WikiIndividual getWiki(WikiFamily family) {
-        WikiIndividual wiki;
-
-        if (HeyWikiConfig.language.equals("auto")) {
-            var language = client.options.language;
-            wiki = family.getLanguageWikiByGameLanguage(language);
-        } else {
-            var language = HeyWikiConfig.language;
-            wiki = family.getLanguageWikiByWikiLanguage(language);
-        }
-
-        if (wiki == null) wiki = family.getLanguageWikiByGameLanguage("en_us");
-
-        if (wiki == null) {
-            LOGGER.error("Failed to find wiki for language {}", HeyWikiConfig.language);
-            return null;
-        }
-
-        return wiki;
-    }
-
-    public static @Nullable WikiPage random(WikiFamily family) {
-        WikiIndividual wiki = Objects.requireNonNull(getWiki(family));
+    public static @Nullable WikiPage random(String namespace) {
+        WikiIndividual wiki = activeWikis.get(namespace);
         if (wiki.randomArticle().isEmpty()) return null;
         return new WikiPage(wiki.randomArticle().get(), wiki);
     }
 
     public static @Nullable WikiPage versionArticle(String version) {
-        var family = WikiFamilyConfigManager.getFamilyByNamespace("minecraft");
-        WikiIndividual wiki = Objects.requireNonNull(getWiki(family));
+        var wiki = activeWikis.get("minecraft");
         Optional<String> name = wiki.versionArticle();
         return name.map(s -> new WikiPage(s.formatted(version), wiki)).orElse(null);
     }
