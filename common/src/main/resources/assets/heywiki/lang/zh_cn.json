@@ -7,7 +7,7 @@
   "options.heywiki.language.description": "设置你的语言偏好，并覆盖游戏语言设置。",
   "options.heywiki.language.name": "wiki语言",
   "options.heywiki.zh_variant.name": "中文变体",
-  "options.heywiki.zh_variant.description": "Choose between different Chinese variants.\nSafely ignore this if you don't speak Chinese.",
+  "options.heywiki.zh_variant.description": "切换不同的中文变体。\n非使用中文者可以忽略。",
   "options.heywiki.requires_confirmation.description": "在打开wiki页面前先打开确认页面，避免误触。",
   "options.heywiki.requires_confirmation.name": "需要确认",
   "options.heywiki.raycast_max_reach.name": "最大交互距离",
