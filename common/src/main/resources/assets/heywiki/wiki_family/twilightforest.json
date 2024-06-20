@@ -1,0 +1,21 @@
+{
+  "id": "twilightforest",
+  "namespace": [
+    "twilightforest"
+  ],
+  "wikis": [
+    {
+      "article_url": "http://benimatic.com/tfwiki/index.php?search=%s",
+      "mw_api_url": "http://benimatic.com/tfwiki/api.php",
+      "random_article": "Special:RandomPage",
+      "excerpt": "none",
+      "language": {
+        "wiki_language": "en",
+        "main": true,
+        "default": "en_us",
+        "regex": "^en_.*",
+        "exclude": null
+      }
+    }
+  ]
+}

@@ -84,6 +84,7 @@ Currently, Hey Wiki supports the following wikis:
 - [Minecraft Wiki](https://minecraft.wiki)
 - [Aether Wiki](https://aether.wiki.gg)
 - [Mekanism Wiki](https://wiki.aidancbrady.com)
+- [The Twilight Forest Wiki](http://benimatic.com/tfwiki/)
 
 If you want to add support for other wikis, you can
 [file an issue](https://github.com/mc-wiki/minecraft-mod-heywiki/issues/new?labels=new+wiki%2Ctriage+needed&template=new_wiki.yml).
