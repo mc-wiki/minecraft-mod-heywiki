@@ -24,6 +24,8 @@ Hey Wiki supports Fabric and NeoForge.
 
 ~~I didn't know that this mod is kinda like *Lexica Botania* but it is.~~
 
+https://github.com/mc-wiki/minecraft-mod-heywiki/assets/45287180/b0650362-1fe9-46ff-83a1-48219d5fcc05
+
 ### How to use
 
 1. Install the mod. You can download it from [CurseForge](https://curseforge.com/minecraft/mc-mods/hey-wiki)
@@ -81,6 +83,8 @@ Currently, Hey Wiki supports the following wikis:
 
 - [Minecraft Wiki](https://minecraft.wiki)
 - [Aether Wiki](https://aether.wiki.gg)
+- [Mekanism Wiki](https://wiki.aidancbrady.com)
+- [The Twilight Forest Wiki](http://benimatic.com/tfwiki/)
 
 If you want to add support for other wikis, you can
 [file an issue](https://github.com/mc-wiki/minecraft-mod-heywiki/issues/new?labels=new+wiki%2Ctriage+needed&template=new_wiki.yml).
@@ -108,10 +112,13 @@ Hey Wiki supports using resource pack to add support for other wikis. To do so, 
     {
       // The URL pattern for articles. %s will be replaced with the query
       "article_url": "https://minecraft.wiki/?search=%s",
-      // If the wiki is a MediaWiki wiki, the API URL
+      // (Optional) If the wiki is a MediaWiki wiki, the API URL
       "mw_api_url": "https://ja.minecraft.wiki/api.php",
-      // The page name for the random article
+      // (Optional) The page name for the random article
       "random_article": "Special:RandomRootPage/Main",
+      // (Optional) How Hey Wiki should fetch excerpts from the wiki. Either "text_extracts" or "none".
+      // "text_extracts" only works for MediaWiki sites with the TextExtracts extension installed. You can check this by visiting Special:Version on the wiki.
+      "excerpt": "text_extracts",
       "language": {
         // The language code of the wiki
         "wiki_language": "en",
@@ -121,9 +128,9 @@ Hey Wiki supports using resource pack to add support for other wikis. To do so, 
         "default": "en_us",
         // If the regex matches the in-game language, this wiki will be used when config is auto
         "regex": "^en_.*",
-        // Ditto, but for exclusion
+        // (Optional) Ditto, but for exclusion
         "exclude": null,
-        // A custom language code that allows you to override translation keys to specific pages. A translation file should exist at assets/<namespace>/lang/<lang_override>.json
+        // (Optional) A custom language code that allows you to override translation keys to specific pages. A translation file should exist at assets/<namespace>/lang/<lang_override>.json
         "lang_override": "minecraft_en"
       }
     },
@@ -174,10 +181,10 @@ receive critical bug fixes. Old snapshots are not supported.
 
 The following table shows which versions are supported:
 
-| Git branch  | Minecraft version    | Supported?            | Is LTS? | Modloader        |
-|-------------|----------------------|-----------------------|---------|------------------|
-| `master`    | 1.21                 | Yes (latest snapshot) | TBD     | Fabric           |
-| `mc/1.20.6` | 1.20.6               | Yes (latest release)  | TBD     | Fabric, Neoforge |
-| `mc/1.20.5` | 1.20.5               | No                    | No      | Fabric, Neoforge |
-| `mc/1.20.4` | 1.20.4               | Yes (LTS)             | Yes     | Fabric, Neoforge |
-| N/A         | *Outdated snapshots* | EOL                   | No      | Fabric           |
+| Git branch  | Minecraft version    | Supported?           | Is LTS? | Modloader        |
+|-------------|----------------------|----------------------|---------|------------------|
+| `master`    | 1.21                 | Yes (latest release) | TBD     | Fabric, Neoforge |
+| `mc/1.20.6` | 1.20.6               | No                   | No      | Fabric, Neoforge |
+| `mc/1.20.5` | 1.20.5               | No                   | No      | Fabric, Neoforge |
+| `mc/1.20.4` | 1.20.4               | Yes (LTS)            | Yes     | Fabric, Neoforge |
+| N/A         | *Outdated snapshots* | EOL                  | No      | Fabric           |
