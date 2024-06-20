@@ -6,6 +6,8 @@
   "options.heywiki.language.auto": "automatisch: Benutze Spielsprache",
   "options.heywiki.language.description": "Lege die bevorzugte Sprache fest, die die Spielsprache überschreibt.",
   "options.heywiki.language.name": "Wiki-Sprache",
+  "options.heywiki.zh_variant.name": "Chinesische Variante",
+  "options.heywiki.zh_variant.description": "Wähle zwischen verschiedenen chinesischen Varianten.\nWenn du kein Chinesisch sprichst, kannst du dies getrost ignorieren.",
   "options.heywiki.requires_confirmation.description": "Öffne den Bestätigungsbildschirm bevor sich der Wiki-Artikel öffnet.\nDies ist nützlich, um versehentliches auslösen der Funktion zu vermeiden.",
   "options.heywiki.requires_confirmation.name": "Bestätigung wird erfordert",
   "options.heywiki.raycast_max_reach.name": "Max. Reichweite",
