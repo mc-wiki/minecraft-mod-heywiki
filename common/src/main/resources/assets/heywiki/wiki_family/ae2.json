@@ -1,0 +1,23 @@
+{
+  "id": "ae2",
+  "namespace": [
+    "ae2"
+  ],
+  "wikis": [
+    {
+      "article_url": "https://guide.appliedenergistics.org/1.21/items-blocks-machines/%s",
+      "excerpt": "none",
+      "language": {
+        "wiki_language": "en",
+        "main": true,
+        "default": "en_us",
+        "regex": "^en_.*",
+        "exclude": null
+      },
+      "title": {
+        "letter": "lower",
+        "space": "underscore"
+      }
+    }
+  ]
+}
