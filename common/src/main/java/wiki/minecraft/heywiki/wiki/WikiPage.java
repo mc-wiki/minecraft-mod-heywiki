@@ -135,7 +135,7 @@ public class WikiPage {
 
     public @Nullable URI getUri() {
         try {
-            return new URI(this.wiki.articleUrl().formatted(URLEncoder.encode(this.pageName.replaceAll(" ", "_"), StandardCharsets.UTF_8)));
+            return new URI(this.wiki.articleUrl().formatted(URLEncoder.encode(this.wiki.title().formatTitle(this.pageName), StandardCharsets.UTF_8)));
         } catch (URISyntaxException e) {
             LOGGER.error("Failed to create URI for wiki page", e);
             return null;

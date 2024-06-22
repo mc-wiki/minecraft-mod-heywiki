@@ -6,7 +6,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.Optional;
 
 public record WikiIndividual(String articleUrl, Optional<String> mwApiUrl, Optional<String> randomArticle,
-                             Optional<String> versionArticle, Optional<String> excerpt, LanguageMatcher language) {
+                             Optional<String> versionArticle, Optional<String> excerpt, LanguageMatcher language,
+                             TitleFormatter title) {
     public static Codec<WikiIndividual> CODEC = RecordCodecBuilder.create(builder ->
             builder
                     .group(
@@ -15,7 +16,8 @@ public record WikiIndividual(String articleUrl, Optional<String> mwApiUrl, Optio
                             Codec.STRING.optionalFieldOf("random_article").forGetter(wiki -> wiki.randomArticle),
                             Codec.STRING.optionalFieldOf("version_article").forGetter(wiki -> wiki.versionArticle),
                             Codec.STRING.optionalFieldOf("excerpt").forGetter(wiki -> wiki.excerpt),
-                            LanguageMatcher.CODEC.fieldOf("language").forGetter(wiki -> wiki.language)
+                            LanguageMatcher.CODEC.fieldOf("language").forGetter(wiki -> wiki.language),
+                            TitleFormatter.CODEC.fieldOf("title").orElse(TitleFormatter.DEFAULT).forGetter(wiki -> wiki.title)
                           )
                     .apply(builder, WikiIndividual::new));
 }
