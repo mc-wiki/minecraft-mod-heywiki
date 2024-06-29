@@ -26,18 +26,18 @@ public class ChatWikiLinks {
 
             int lastEnd = 0;
             while (matcher.find()) {
-                text.append(Text.of(string.substring(lastEnd, matcher.start() + 2)));
+                text.append(Text.literal(string.substring(lastEnd, matcher.start() + 2)).setStyle(style));
 
                 String link = matcher.group(1);
-                text.append(((MutableText) Text.of(link)).setStyle(
-                        Style.EMPTY
+                text.append(Text.literal(link).setStyle(
+                        style
                                 .withClickEvent(new ClickEvent(OPEN_URL, Objects.requireNonNull(WikiPage.fromWikitextLink(link).getUri()).toString()))
                                 .withUnderline(true)));
 
                 lastEnd = matcher.end() - 2;
             }
 
-            text.append(Text.of(string.substring(lastEnd)));
+            text.append(Text.literal(string.substring(lastEnd)).setStyle(style));
 
             return Optional.empty();
         }, Style.EMPTY);
