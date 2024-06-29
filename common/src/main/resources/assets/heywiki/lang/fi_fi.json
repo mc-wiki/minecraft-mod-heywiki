@@ -1,7 +1,7 @@
 {
   "command.imfeelinglucky.not_supported": "Määritetty wikiperhe ei tue satunnaisartikkeliominaisuutta",
-  "key.categories.heywiki": "Hey Wiki",
-  "key.heywiki.open": "Open wiki article",
+  "key.categories.heywiki": "Hei Wiki",
+  "key.heywiki.open": "Avaa wiki-artikkeli",
   "options.heywiki.general": "General",
   "options.heywiki.language.auto": "auto: Use game language",
   "options.heywiki.language.description": "Set your preferred language, overriding game language setting.",
