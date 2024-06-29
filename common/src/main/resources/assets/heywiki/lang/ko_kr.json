@@ -15,5 +15,5 @@
   "options.heywiki.title": "Hey Wiki 옵션",
   "heywiki.no_item_held": "들고 있는 아이템이 없습니다",
   "heywiki.too_far": "아무것도 조준하지 않고 있습니다. 더 가까이 가보세요.",
-  "screen.heywiki_confirm_link.loading_excerpt": "Loading page description..."
+  "screen.heywiki_confirm_link.loading_excerpt": "문서 설명 불러오는 중..."
 }
