@@ -6,8 +6,8 @@
   "options.heywiki.language.auto": "auto: Usa o idioma do jogo",
   "options.heywiki.language.description": "Define o teu idioma preferido, sobrepondo a definição de idioma do jogo.",
   "options.heywiki.language.name": "Idioma da wiki",
-  "options.heywiki.zh_variant.name": "Chinese variant",
-  "options.heywiki.zh_variant.description": "Choose between different Chinese variants.\nSafely ignore this if you don't speak Chinese.",
+  "options.heywiki.zh_variant.name": "Variante chinesa",
+  "options.heywiki.zh_variant.description": "Escolha entre diferentes variantes chinesas. U\nignore isso com segurança se você não falar chinês.",
   "options.heywiki.requires_confirmation.description": "Abre um ecrã de confirmação antes de abrir o artigo na wiki. Isto é útil para evitar ativar a função acidentalmente.",
   "options.heywiki.requires_confirmation.name": "Requer confirmação",
   "options.heywiki.raycast_reach.name": "Alcance",
@@ -17,5 +17,5 @@
   "options.heywiki.title": "Opções do Hey Wiki",
   "heywiki.no_item_held": "Nenhum item está a ser segurado",
   "heywiki.too_far": "Não estás a mirar em nada, que tal te aproximares?",
-  "screen.heywiki_confirm_link.loading_excerpt": "Loading page description..."
+  "screen.heywiki_confirm_link.loading_excerpt": "Carregando descrição da página..."
 }

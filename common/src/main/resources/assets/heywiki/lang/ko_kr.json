@@ -1,21 +1,21 @@
 {
-  "command.imfeelinglucky.not_supported": "The specified wiki family does not support the random article feature.",
+  "command.imfeelinglucky.not_supported": "지정한 위키 계열은 임의의 문서 기능을 지원하지 않습니다.",
   "key.categories.heywiki": "Hey Wiki",
   "key.heywiki.open": "위키 문서 열기",
   "options.heywiki.general": "일반",
   "options.heywiki.language.auto": "자동: 게임 언어 사용",
   "options.heywiki.language.description": "게임 언어 설정을 덮어쓰는 선호 언어를 설정합니다.",
   "options.heywiki.language.name": "위키 언어",
-  "options.heywiki.zh_variant.name": "Chinese variant",
-  "options.heywiki.zh_variant.description": "Choose between different Chinese variants.\nSafely ignore this if you don't speak Chinese.",
+  "options.heywiki.zh_variant.name": "중국어 종류",
+  "options.heywiki.zh_variant.description": "사용할 중국어 종류를 골라주세요.\n중국어를 쓰지 않는 경우 무시해주세요.",
   "options.heywiki.requires_confirmation.description": "위키 문서를 열기 전에 확인 화면을 엽니다.\n기능을 실수로 작동시키는 것을 방지하는 데 유용합니다.",
   "options.heywiki.requires_confirmation.name": "확인 필요",
   "options.heywiki.raycast_reach.name": "범위",
-  "options.heywiki.raycast_reach.description": "위키 기능을 작동할 수 있는 최대 조준 거리입니다.\n값이 클수록 성능 문제가 발생할 수 있습니다.\n상호 작용 거리 속성이 더 높으면 그 속성이 대신 사용됩니다.",
+  "options.heywiki.raycast_reach.description": "위키 기능을 조준해 작동시킬 수 있는 최대 거리입니다.\n값이 클수록 성능 문제를 일으킬 수 있습니다.\n상호 작용 거리 특성이 더 높다면, 그 특성을 대신 사용합니다.",
   "options.heywiki.raycast_allow_fluid.name": "액체 허용",
   "options.heywiki.raycast_allow_fluid.description": "액체 블록을 조준할 때 위키 기능이 작동하도록 허용합니다.",
   "options.heywiki.title": "Hey Wiki 옵션",
   "heywiki.no_item_held": "들고 있는 아이템이 없습니다",
   "heywiki.too_far": "아무것도 조준하지 않고 있습니다. 더 가까이 가보세요.",
-  "screen.heywiki_confirm_link.loading_excerpt": "Loading page description..."
+  "screen.heywiki_confirm_link.loading_excerpt": "문서 설명 불러오는 중..."
 }
