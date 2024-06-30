@@ -1,0 +1,21 @@
+{
+  "command.imfeelinglucky.not_supported": "De opgegeven wiki familie ondersteunt geen willekeurige artikels",
+  "key.categories.heywiki": "Hey Wiki",
+  "key.heywiki.open": "Open wiki artikel",
+  "options.heywiki.general": "Algemeen",
+  "options.heywiki.language.auto": "automatisch: Gebruik de taal van het spel",
+  "options.heywiki.language.description": "Stel je voorkeurstaal in, dit overschrijft taalinstellingen van het spel.",
+  "options.heywiki.language.name": "Wiki taal",
+  "options.heywiki.zh_variant.name": "Chinese variant",
+  "options.heywiki.zh_variant.description": "Kies tussen verschillende Chinese talen.\nDit kan genegeerd worden als je geen Chinees spreekt.",
+  "options.heywiki.requires_confirmation.description": "Open het Confirmatiescherm voordat het wiki artikel wordt geopend.\nDit is handig om te voorkomen dat deze functie per ongeluk wordt geactiveerd.",
+  "options.heywiki.requires_confirmation.name": "Bevestiging nodig",
+  "options.heywiki.raycast_reach.name": "Bereik",
+  "options.heywiki.raycast_reach.description": "Maximale afstand waarop je kunt richten om de wiki functie te activeren.\nLet op dat dit met hogere waarden de spelprestaties kunnen verminderen.\nAls interactie bereik waarde hoger is, wordt deze in plaats daarvan gebruikt.",
+  "options.heywiki.raycast_allow_fluid.name": "Vloeistoffen toestaan",
+  "options.heywiki.raycast_allow_fluid.description": "Richten op vloeistof blokken toestaan om de wiki functie te triggeren.",
+  "options.heywiki.title": "Hey Wiki opties",
+  "heywiki.no_item_held": "Er wordt geen item vastgehouden",
+  "heywiki.too_far": "Je richt op niks. Misschien moet je iets dichter bij komen?",
+  "screen.heywiki_confirm_link.loading_excerpt": "Pagina beschrijving laden..."
+}
