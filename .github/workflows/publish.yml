@@ -42,6 +42,18 @@ jobs:
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
+      - name: Sync translations
+        uses: crowdin/github-action@v2
+        with:
+          upload_sources: false
+          upload_translations: false
+          download_sources: false
+          download_translations: true
+          push_translations: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CROWDIN_PROJECT_ID: 665004
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
       - name: validate gradle wrapper
         uses: gradle/wrapper-validation-action@v1
       - name: setup jdk ${{ env.JAVA_VERSION }}
