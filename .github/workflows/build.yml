@@ -18,14 +18,14 @@ jobs:
         # and run on both Linux and Windows
         os: [ ubuntu-22.04, windows-2022 ]
     runs-on: ${{ matrix.os }}
-    if: !contains(github.event.head_commit.message , '[skip ci]')
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     permissions:
       contents: write
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
       - name: Sync translations
-        if: github.repository == 'mc-wiki/mcw-calc' && (github.ref_name == 'master' || startsWith(github.ref_name, 'mc/'))
+        if: "github.repository == 'mc-wiki/mcw-calc' && (github.ref_name == 'master' || startsWith(github.ref_name, 'mc/'))"
         uses: crowdin/github-action@v2
         with:
           upload_sources: true
