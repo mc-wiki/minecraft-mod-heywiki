@@ -24,7 +24,7 @@ jobs:
       - name: checkout repository
         uses: actions/checkout@v4
       - name: Sync translations
-        if: "github.repository == 'mc-wiki/mcw-calc' && (github.ref_name == 'master' || startsWith(github.ref_name, 'mc/')) && runner.os == 'Linux' && matrix.java == '21'"
+        if: "github.repository == 'mc-wiki/minecraft-mod-heywiki' && (github.ref_name == 'master' || startsWith(github.ref_name, 'mc/')) && runner.os == 'Linux' && matrix.java == '21'"
         uses: crowdin/github-action@v2
         with:
           upload_sources: true
