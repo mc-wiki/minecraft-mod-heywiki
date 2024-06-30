@@ -24,7 +24,7 @@ jobs:
       - name: checkout repository
         uses: actions/checkout@v4
       - name: Sync translations
-        if: "github.repository == 'mc-wiki/mcw-calc' && (github.ref_name == 'master' || startsWith(github.ref_name, 'mc/')) && runner.os == 'ubuntu-22.04' && matrix.java == '21'"
+        if: "github.repository == 'mc-wiki/mcw-calc' && (github.ref_name == 'master' || startsWith(github.ref_name, 'mc/')) && runner.os == 'Linux' && matrix.java == '21'"
         uses: crowdin/github-action@v2
         with:
           upload_sources: true
@@ -57,7 +57,7 @@ jobs:
           arguments: build
           gradle-version: wrapper
       - name: capture build artifacts
-        if: ${{ runner.os == 'ubuntu-22.04' && matrix.java == '21' }} # Only upload artifacts built from latest java on one OS
+        if: ${{ runner.os == 'Linux' && matrix.java == '21' }} # Only upload artifacts built from latest java on one OS
         uses: actions/upload-artifact@v4
         with:
           name: Artifacts
