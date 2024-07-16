@@ -20,7 +20,7 @@ public record PageExcerpt(String title, String excerpt, String imageUrl, int ima
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
 
     public static CompletableFuture<PageExcerpt> fromPage(WikiPage page) {
-        var wiki = page.wiki;
+        var wiki = page.wiki();
         var apiUrl = wiki.mwApiUrl();
 
         var excerptType = wiki.excerpt();
@@ -31,10 +31,10 @@ public record PageExcerpt(String title, String excerpt, String imageUrl, int ima
                     LOGGER.error("No MediaWiki API provided for TextExtracts");
                     yield null;
                 }
-                if (excerptCache.containsKey(apiUrl.get() + " " + page.pageName)) {
-                    yield CompletableFuture.completedFuture(excerptCache.get(apiUrl.get() + " " + page.pageName));
+                if (excerptCache.containsKey(apiUrl.get() + " " + page.pageName())) {
+                    yield CompletableFuture.completedFuture(excerptCache.get(apiUrl.get() + " " + page.pageName()));
                 }
-                yield fromTextExtracts(apiUrl.get(), page.pageName, wiki.language().wikiLanguage());
+                yield fromTextExtracts(apiUrl.get(), page.pageName(), wiki.language().wikiLanguage());
             }
             case "none" -> null;
             default -> {

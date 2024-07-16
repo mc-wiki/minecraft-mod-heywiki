@@ -242,7 +242,7 @@ public class HeyWikiConfirmLinkScreen extends Screen {
 
             DirectionalLayoutWidget excerptTextLayout = excerptLayout.add(
                     DirectionalLayoutWidget.vertical().spacing(8));
-            var excerptTitle = Text.of(this.excerpt != null ? this.excerpt.title() : this.page.pageName)
+            var excerptTitle = Text.of(this.excerpt != null ? this.excerpt.title() : this.page.pageName())
                                    .copy().styled(style -> style.withBold(true).withUnderline(true));
             excerptTextLayout.add(new TextWidget(excerptTitle, this.textRenderer));
             excerptTextLayout
