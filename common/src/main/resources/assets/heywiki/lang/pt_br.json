@@ -14,8 +14,10 @@
   "options.heywiki.raycast_max_reach.description": "Distância máxima para acionar o recurso da wiki.\nIsto pode causar problemas de desempenho.",
   "options.heywiki.raycast_allow_fluid.name": "Permitir em fluidos",
   "options.heywiki.raycast_allow_fluid.description": "Permite a ativação do recurso da wiki em blocos fluidos.",
+  "options.heywiki.open_key.description": "Key bind to trigger wiki lookup.",
   "options.heywiki.title": "Opções do Hey Wiki",
   "heywiki.no_item_held": "Nenhum item está em sua mão",
+  "heywiki.no_family": "Sorry, we can't find a correct wiki for this",
   "heywiki.too_far": "Você está muito longe, que tal ficar mais próximo?",
   "screen.heywiki_confirm_link.loading_excerpt": "Carregando descrição da página..."
 }

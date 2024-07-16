@@ -14,8 +14,10 @@
   "options.heywiki.raycast_max_reach.description": "Suurin etäisyys, jonka voit pyrkiä käynnistämään wiki-ominaisuuden.\nHuomaa, että korkeammat arvot voivat aiheuttaa ongelmia suorituskyvyssä.",
   "options.heywiki.raycast_allow_fluid.name": "Anna nesteen",
   "options.heywiki.raycast_allow_fluid.description": "Salli tähtääminen joustaviin lohkoihin käynnistääksesi wikiominaisuuden.",
+  "options.heywiki.open_key.description": "Key bind to trigger wiki lookup.",
   "options.heywiki.title": "Hei Wikin asetukset",
   "heywiki.no_item_held": "Mitään kohdetta ei säilytetä",
+  "heywiki.no_family": "Sorry, we can't find a correct wiki for this",
   "heywiki.too_far": "Et tähtää mihinkään. Ehkä päästä lähemmäksi?",
   "screen.heywiki_confirm_link.loading_excerpt": "Ladataan sivun kuvausta..."
 }

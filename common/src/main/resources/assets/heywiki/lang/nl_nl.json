@@ -14,8 +14,10 @@
   "options.heywiki.raycast_max_reach.description": "Maximale afstand waarop de wiki functie gebruikt kan worden.\nLet op dat dit met hogere waarden de spelprestaties kunnen verminderen.",
   "options.heywiki.raycast_allow_fluid.name": "Vloeistoffen toestaan",
   "options.heywiki.raycast_allow_fluid.description": "Richten op vloeistof blokken toestaan om de wiki functie te triggeren.",
+  "options.heywiki.open_key.description": "Key bind to trigger wiki lookup.",
   "options.heywiki.title": "Hey Wiki opties",
   "heywiki.no_item_held": "Er wordt geen item vastgehouden",
+  "heywiki.no_family": "Sorry, we can't find a correct wiki for this",
   "heywiki.too_far": "Je richt op niks. Misschien moet je iets dichter bij komen?",
   "screen.heywiki_confirm_link.loading_excerpt": "Pagina beschrijving laden..."
 }
