@@ -17,7 +17,7 @@
   "options.heywiki.open_key.description": "Key bind to trigger wiki lookup.",
   "options.heywiki.title": "Hey Wiki Options",
   "heywiki.no_item_held": "No item is being held",
-  "heywiki.no_family": "Sorry, we can't find a correct wiki for this",
+  "heywiki.no_family": "Wiki not found",
   "heywiki.too_far": "You are not aiming at anything. Maybe get closer?",
   "screen.heywiki_confirm_link.loading_excerpt": "Loading page description..."
 }
