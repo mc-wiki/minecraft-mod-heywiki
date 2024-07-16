@@ -14,8 +14,10 @@
   "options.heywiki.raycast_reach.description": "La distance maximale de l'élément que vous pouvez viser pour déclencher la fonctionnalité wiki.\nNotez que des valeurs plus élevées peuvent causer des problèmes de performance.\nSi l'attribut d'intervalle d'interaction est plus élevé, il sera utilisé à la place.",
   "options.heywiki.raycast_allow_fluid.name": "Autoriser les fluides",
   "options.heywiki.raycast_allow_fluid.description": "Permet de déclencher la fonctionnalité wiki en visant des fluides.",
+  "options.heywiki.open_key.description": "Key bind to trigger wiki lookup.",
   "options.heywiki.title": "Options de Hey Wiki",
   "heywiki.no_item_held": "Vous ne tenez aucun objet",
+  "heywiki.no_family": "Sorry, we can't find a correct wiki for this",
   "heywiki.too_far": "Vous ne visez rien. Essayez peut-être de vous approcher ?",
   "screen.heywiki_confirm_link.loading_excerpt": "Chargement de la description de la page..."
 }

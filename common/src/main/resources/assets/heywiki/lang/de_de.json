@@ -14,8 +14,10 @@
   "options.heywiki.raycast_reach.description": "Maximale Entfernung, aus der du anvisieren kannst, um die Wiki-Funktion auszulösen. Bedenke, dass höhere Werte zu Performanceeinbußen führen können. Wenn das Interaktionsreichweiten-Attribut höher ist, wird dieses stattdessen genutzt.",
   "options.heywiki.raycast_allow_fluid.name": "Flüssigkeiten zulassen",
   "options.heywiki.raycast_allow_fluid.description": "Erlaube es, auf Flüssigkeiten zu zeigen, um diese Wiki-Funktion auszulösen.",
+  "options.heywiki.open_key.description": "Key bind to trigger wiki lookup.",
   "options.heywiki.title": "Hey-Wiki-Optionen",
   "heywiki.no_item_held": "Es wird kein Gegenstand gehalten",
+  "heywiki.no_family": "Sorry, we can't find a correct wiki for this",
   "heywiki.too_far": "Du visierst nichts an. Vielleicht solltest du ein wenig näher kommen?",
   "screen.heywiki_confirm_link.loading_excerpt": "Lade Seitenbeschreibung..."
 }

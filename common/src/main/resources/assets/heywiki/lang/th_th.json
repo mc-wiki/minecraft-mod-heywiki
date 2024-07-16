@@ -14,8 +14,10 @@
   "options.heywiki.raycast_reach.description": "Maximum distance you can aim at to trigger the wiki feature.\nNote that higher values may cause performance issues.\nIf interaction range attribute is higher, it will be used instead.",
   "options.heywiki.raycast_allow_fluid.name": "Allow fluid",
   "options.heywiki.raycast_allow_fluid.description": "Allow aiming at fluid blocks to trigger the wiki feature.",
+  "options.heywiki.open_key.description": "Key bind to trigger wiki lookup.",
   "options.heywiki.title": "Hey Wiki Options",
   "heywiki.no_item_held": "No item is being held",
+  "heywiki.no_family": "Sorry, we can't find a correct wiki for this",
   "heywiki.too_far": "You are not aiming at anything. Maybe get closer?",
   "screen.heywiki_confirm_link.loading_excerpt": "Loading page description..."
 }
