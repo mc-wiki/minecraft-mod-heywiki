@@ -129,6 +129,7 @@ public class WikiPage {
 
     public static @Nullable WikiPage versionArticle(String version) {
         var wiki = activeWikis.get("minecraft");
+        if (wiki.versionArticle().isEmpty()) return null;
         Optional<String> name = wiki.versionArticle();
         return name.map(s -> new WikiPage(s.formatted(version), wiki)).orElse(null);
     }
