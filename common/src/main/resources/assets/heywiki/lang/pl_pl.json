@@ -1,0 +1,21 @@
+{
+  "command.imfeelinglucky.not_supported": "The specified wiki family does not support the random article feature",
+  "key.categories.heywiki": "Hey Wiki",
+  "key.heywiki.open": "Open wiki article",
+  "options.heywiki.general": "General",
+  "options.heywiki.language.auto": "auto: Use game language",
+  "options.heywiki.language.description": "Set your preferred language, overriding game language setting.",
+  "options.heywiki.language.name": "Wiki language",
+  "options.heywiki.zh_variant.name": "Chinese variant",
+  "options.heywiki.zh_variant.description": "Choose between different Chinese variants.\nSafely ignore this if you don't speak Chinese.",
+  "options.heywiki.requires_confirmation.description": "Open confirmation screen before opening the wiki article.\nThis is useful to avoid accidentally triggering the feature.",
+  "options.heywiki.requires_confirmation.name": "Requires confirmation",
+  "options.heywiki.raycast_reach.name": "Reach",
+  "options.heywiki.raycast_reach.description": "Maximum distance you can aim at to trigger the wiki feature.\nNote that higher values may cause performance issues.\nIf interaction range attribute is higher, it will be used instead.",
+  "options.heywiki.raycast_allow_fluid.name": "Allow fluid",
+  "options.heywiki.raycast_allow_fluid.description": "Allow aiming at fluid blocks to trigger the wiki feature.",
+  "options.heywiki.title": "Hey Wiki Options",
+  "heywiki.no_item_held": "No item is being held",
+  "heywiki.too_far": "You are not aiming at anything. Maybe get closer?",
+  "screen.heywiki_confirm_link.loading_excerpt": "Loading page description..."
+}
