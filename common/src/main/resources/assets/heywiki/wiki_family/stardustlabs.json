@@ -1,0 +1,23 @@
+{
+  "id": "stardustlabs",
+  "namespace": [
+    "terralith",
+    "incendium",
+    "nullscape"
+  ],
+  "wikis": [
+    {
+      "article_url": "https://stardustlabs.miraheze.org/wiki/%s",
+      "mw_api_url": "https://stardustlabs.miraheze.org/w/api.php",
+      "random_article": "Special:RandomPage",
+      "excerpt": "text_extracts",
+      "language": {
+        "wiki_language": "en",
+        "main": true,
+        "default": "en_us",
+        "regex": "^en_.*",
+        "exclude": null
+      }
+    }
+  ]
+}

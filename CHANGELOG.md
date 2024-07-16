@@ -2,6 +2,7 @@
 
 ## Changes
 
+- New wiki: [Stardust Labs Wiki](https://stardustlabs.miraheze.org/)
 - If a wiki family is not found, an error message will be displayed instead of using Minecraft Wiki as fallback
 
 ## Fixes
