@@ -44,25 +44,13 @@ public record PageExcerpt(String title, String excerpt, String imageUrl, int ima
         }).orElse(null);
     }
 
-    private static String resolveZhVariant(String variant) {
-        if (variant.equals("auto")) {
-            return switch (CLIENT.options.language) {
-                case "zh_cn" -> "zh-cn";
-                case "zh_tw" -> "zh-tw";
-                case "zh_hk" -> "zh-hk";
-                default -> "zh";
-            };
-        }
-        return variant;
-    }
-
     private static CompletableFuture<PageExcerpt> fromTextExtracts(String apiUrl, String pageName, String language) {
         URI uri = URI.create(apiUrl +
-                "?action=query&format=json&prop=info%7Cextracts%7Cpageimages%7Crevisions%7Cinfo&formatversion=2" +
-                "&redirects=true&exintro=true&exchars=525&explaintext=true&exsectionformat=plain&piprop=thumbnail" +
-                "&pithumbsize=640&pilicense=any&rvprop=timestamp&inprop=url&uselang=content&titles=" +
-                URLEncoder.encode(pageName, StandardCharsets.UTF_8) +
-                (language.equals("zh") ? "&variant=" + resolveZhVariant(HeyWikiConfig.zhVariant) : ""));
+                             "?action=query&format=json&prop=info%7Cextracts%7Cpageimages%7Crevisions%7Cinfo&formatversion=2" +
+                             "&redirects=true&exintro=true&exchars=525&explaintext=true&exsectionformat=plain&piprop=thumbnail" +
+                             "&pithumbsize=640&pilicense=any&rvprop=timestamp&inprop=url&uselang=content&titles=" +
+                             URLEncoder.encode(pageName, StandardCharsets.UTF_8) +
+                             (language.equals("zh") ? "&variant=" + resolveZhVariant(HeyWikiConfig.zhVariant) : ""));
         var executor = Util.getDownloadWorkerExecutor();
 
         return CompletableFuture.supplyAsync(() -> {
@@ -76,10 +64,10 @@ public record PageExcerpt(String title, String excerpt, String imageUrl, int ima
                 var thumbnail = page.has("thumbnail") ? page.get("thumbnail").getAsJsonObject() : null;
 
                 var excerpt = new PageExcerpt(page.get("title").getAsString(),
-                        page.get("extract").getAsString(),
-                        thumbnail != null ? thumbnail.get("source").getAsString() : null,
-                        thumbnail != null ? thumbnail.get("width").getAsInt() : 0,
-                        thumbnail != null ? thumbnail.get("height").getAsInt() : 0);
+                                              page.get("extract").getAsString(),
+                                              thumbnail != null ? thumbnail.get("source").getAsString() : null,
+                                              thumbnail != null ? thumbnail.get("width").getAsInt() : 0,
+                                              thumbnail != null ? thumbnail.get("height").getAsInt() : 0);
 
                 excerptCache.put(apiUrl + " " + pageName, excerpt);
                 return excerpt;
@@ -88,5 +76,17 @@ public record PageExcerpt(String title, String excerpt, String imageUrl, int ima
                 return null;
             }
         }, executor);
+    }
+
+    private static String resolveZhVariant(String variant) {
+        if (variant.equals("auto")) {
+            return switch (CLIENT.options.language) {
+                case "zh_cn" -> "zh-cn";
+                case "zh_tw" -> "zh-tw";
+                case "zh_hk" -> "zh-hk";
+                default -> "zh";
+            };
+        }
+        return variant;
     }
 }

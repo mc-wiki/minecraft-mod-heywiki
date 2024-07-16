@@ -31,7 +31,8 @@ public class ChatWikiLinks {
                 String link = matcher.group(1);
                 text.append(Text.literal(link).setStyle(
                         style
-                                .withClickEvent(new ClickEvent(OPEN_URL, Objects.requireNonNull(WikiPage.fromWikitextLink(link).getUri()).toString()))
+                                .withClickEvent(new ClickEvent(OPEN_URL, Objects.requireNonNull(
+                                        WikiPage.fromWikitextLink(link).getUri()).toString()))
                                 .withUnderline(true)));
 
                 lastEnd = matcher.end() - 2;

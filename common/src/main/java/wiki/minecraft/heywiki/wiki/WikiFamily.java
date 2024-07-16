@@ -16,45 +16,23 @@ public record WikiFamily(String id, List<String> namespace, List<WikiIndividual>
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
     public static Codec<WikiFamily> CODEC = RecordCodecBuilder.create(builder ->
-            builder
-                    .group(
-                            Codec.STRING.fieldOf("id").forGetter(family -> family.id),
-                            Codec.STRING.listOf().fieldOf("namespace").forGetter(family -> family.namespace),
-                            WikiIndividual.CODEC.listOf().fieldOf("wikis").forGetter(family -> family.wikis)
-                          )
-                    .apply(builder, WikiFamily::new));
-
-    public @Nullable WikiIndividual getLanguageWikiByWikiLanguage(String wikiLanguage) {
-        for (WikiIndividual wiki : this.wikis) {
-            if (wiki.language().wikiLanguage().equals(wikiLanguage)) {
-                return wiki;
-            }
-        }
-
-        return null;
-    }
-
-    public @Nullable WikiIndividual getLanguageWikiByGameLanguage(String gameLanguage) {
-        for (WikiIndividual wiki : this.wikis) {
-            if (wiki.language().matchLanguage(gameLanguage)) {
-                return wiki;
-            }
-        }
-
-        return null;
-    }
-
-    public @Nullable WikiIndividual getMainLanguageWiki() {
-        for (WikiIndividual wiki : this.wikis) {
-            if (wiki.language().main()) {
-                return wiki;
-            }
-        }
-
-        LOGGER.error("Failed to find main language wiki for family {}", this.id);
-        return null;
-    }
-
+                                                                              builder
+                                                                                      .group(
+                                                                                              Codec.STRING.fieldOf("id")
+                                                                                                          .forGetter(
+                                                                                                                  family -> family.id),
+                                                                                              Codec.STRING.listOf()
+                                                                                                          .fieldOf(
+                                                                                                                  "namespace")
+                                                                                                          .forGetter(
+                                                                                                                  family -> family.namespace),
+                                                                                              WikiIndividual.CODEC.listOf()
+                                                                                                                  .fieldOf(
+                                                                                                                          "wikis")
+                                                                                                                  .forGetter(
+                                                                                                                          family -> family.wikis)
+                                                                                            )
+                                                                                      .apply(builder, WikiFamily::new));
 
     public WikiIndividual getWiki() {
         WikiIndividual wiki;
@@ -78,5 +56,36 @@ public record WikiFamily(String id, List<String> namespace, List<WikiIndividual>
         }
 
         return wiki;
+    }
+
+    public @Nullable WikiIndividual getLanguageWikiByGameLanguage(String gameLanguage) {
+        for (WikiIndividual wiki : this.wikis) {
+            if (wiki.language().matchLanguage(gameLanguage)) {
+                return wiki;
+            }
+        }
+
+        return null;
+    }
+
+    public @Nullable WikiIndividual getLanguageWikiByWikiLanguage(String wikiLanguage) {
+        for (WikiIndividual wiki : this.wikis) {
+            if (wiki.language().wikiLanguage().equals(wikiLanguage)) {
+                return wiki;
+            }
+        }
+
+        return null;
+    }
+
+    public @Nullable WikiIndividual getMainLanguageWiki() {
+        for (WikiIndividual wiki : this.wikis) {
+            if (wiki.language().main()) {
+                return wiki;
+            }
+        }
+
+        LOGGER.error("Failed to find main language wiki for family {}", this.id);
+        return null;
     }
 }

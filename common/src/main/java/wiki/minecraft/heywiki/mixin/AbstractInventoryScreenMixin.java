@@ -17,7 +17,8 @@ import wiki.minecraft.heywiki.wiki.Target;
 import wiki.minecraft.heywiki.wiki.WikiPage;
 
 import java.util.Collection;
-import java.util.Objects;
+
+import static wiki.minecraft.heywiki.wiki.WikiPage.NO_FAMILY_MESSAGE;
 
 @Mixin(AbstractInventoryScreen.class)
 public abstract class AbstractInventoryScreenMixin extends HandledScreenMixin {
@@ -67,7 +68,12 @@ public abstract class AbstractInventoryScreenMixin extends HandledScreenMixin {
                 if (effectFound != null) {
                     var target = Target.of(effectFound);
                     assert target != null;
-                    Objects.requireNonNull(WikiPage.fromTarget(target)).openInBrowser(false, MinecraftClient.getInstance().currentScreen);
+                    var page = WikiPage.fromTarget(target);
+                    if (page == null) {
+                        client.inGameHud.setOverlayMessage(NO_FAMILY_MESSAGE, false);
+                        return;
+                    }
+                    page.openInBrowser(false, MinecraftClient.getInstance().currentScreen);
                 }
             }
             super.keyPressed(keyCode, scanCode, modifiers, cir);

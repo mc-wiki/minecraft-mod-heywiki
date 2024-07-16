@@ -11,23 +11,10 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.biome.Biome;
 
-public class Target {
-    Identifier identifier;
-    String translationKey;
-
-    public Target(Identifier identifier, String translationKey) {
-        this.identifier = identifier;
-        this.translationKey = translationKey;
-    }
-
+public record Target(Identifier identifier, String translationKey) {
     public static Target of(Block block) {
         if (block instanceof AirBlock) return null;
         return new Target(block.arch$registryName(), block.getTranslationKey());
-    }
-
-    public static Target of(ItemStack stack) {
-        if (stack.isEmpty()) return null;
-        return new Target(stack.getItem().arch$registryName(), stack.getTranslationKey());
     }
 
     public static Target of(Entity entity) {
@@ -37,6 +24,11 @@ public class Target {
         }
 
         return new Target(entity.getType().arch$registryName(), entity.getType().getTranslationKey());
+    }
+
+    public static Target of(ItemStack stack) {
+        if (stack.isEmpty()) return null;
+        return new Target(stack.getItem().arch$registryName(), stack.getTranslationKey());
     }
 
     public static Target of(RegistryEntry<Biome> biomeRegistryEntry) {

@@ -18,7 +18,8 @@ import static wiki.minecraft.heywiki.resource.WikiFamilyConfigManager.activeWiki
 
 public class NSPageCombinedSuggestionProvider implements SuggestionProvider<ClientCommandSourceStack> {
     @Override
-    public CompletableFuture<Suggestions> getSuggestions(CommandContext<ClientCommandSourceStack> context, SuggestionsBuilder builder) {
+    public CompletableFuture<Suggestions> getSuggestions(CommandContext<ClientCommandSourceStack> context,
+                                                         SuggestionsBuilder builder) {
         String remaining = builder.getRemaining();
         WikiIndividual wiki = activeWikis.get("minecraft");
         if (wiki == null) return new NamespaceSuggestionProvider().getSuggestions(context, builder);
@@ -29,7 +30,8 @@ public class NSPageCombinedSuggestionProvider implements SuggestionProvider<Clie
             return new PageNameSuggestionProvider(() -> URI.create(apiUrl))
                     .getSuggestions(context, builder)
                     .thenApplyAsync(suggestions -> {
-                        List<Suggestion> list = new NamespaceSuggestionProvider().getSuggestions(context, builder).join().getList();
+                        List<Suggestion> list = new NamespaceSuggestionProvider().getSuggestions(context, builder)
+                                                                                 .join().getList();
                         list.addAll(suggestions.getList());
                         return new Suggestions(StringRange.at(builder.getStart()), list);
                     });
@@ -37,7 +39,8 @@ public class NSPageCombinedSuggestionProvider implements SuggestionProvider<Clie
 
         String[] split = remaining.split(":", 2);
         if (WikiFamilyConfigManager.getAvailableNamespaces().contains(split[0])) {
-            SuggestionsBuilder fakeBuilder = new SuggestionsBuilder(builder.getInput(), builder.getStart() + split[0].length() + 1);
+            SuggestionsBuilder fakeBuilder = new SuggestionsBuilder(builder.getInput(),
+                                                                    builder.getStart() + split[0].length() + 1);
             return new PageNameSuggestionProvider(() -> URI.create(apiUrl))
                     .getSuggestions(context, fakeBuilder);
         }

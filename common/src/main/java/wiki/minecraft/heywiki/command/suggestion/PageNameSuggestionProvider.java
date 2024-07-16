@@ -27,23 +27,16 @@ public class PageNameSuggestionProvider implements SuggestionProvider<ClientComm
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final Gson GSON = new Gson();
     private static final String SUGGESTION_URL = "action=opensearch&format=json&formatversion=2&limit=10&search=%s";
-    private final Callable<URI> uriProvider;
     private static volatile String lastInput = "";
+    private final Callable<URI> uriProvider;
 
     public PageNameSuggestionProvider(Callable<URI> uriProvider) {
         this.uriProvider = uriProvider;
     }
 
-    private static URI uriWithQuery(URI uri, String query) {
-        try {
-            return new URI(uri.getScheme(), uri.getAuthority(), uri.getPath(), query, uri.getFragment());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @Override
-    public CompletableFuture<Suggestions> getSuggestions(CommandContext<ClientCommandSourceStack> context, SuggestionsBuilder builder) {
+    public CompletableFuture<Suggestions> getSuggestions(CommandContext<ClientCommandSourceStack> context,
+                                                         SuggestionsBuilder builder) {
         return CompletableFuture.supplyAsync(() -> {
             lastInput = builder.getInput();
             if (suggestionsCache.containsKey(builder.getInput())) {
@@ -60,7 +53,9 @@ public class PageNameSuggestionProvider implements SuggestionProvider<ClientComm
             String remaining = builder.getRemaining();
             if (remaining.isEmpty()) return builder.build();
             try {
-                URI uri = uriWithQuery(this.uriProvider.call(), String.format(SUGGESTION_URL, URLEncoder.encode(remaining, StandardCharsets.UTF_8)));
+                URI uri = uriWithQuery(this.uriProvider.call(), String.format(SUGGESTION_URL,
+                                                                              URLEncoder.encode(remaining,
+                                                                                                StandardCharsets.UTF_8)));
 
                 String response = requestUri(uri);
 
@@ -85,5 +80,13 @@ public class PageNameSuggestionProvider implements SuggestionProvider<ClientComm
             }
             return builder.build();
         }, Util.getDownloadWorkerExecutor());
+    }
+
+    private static URI uriWithQuery(URI uri, String query) {
+        try {
+            return new URI(uri.getScheme(), uri.getAuthority(), uri.getPath(), query, uri.getFragment());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

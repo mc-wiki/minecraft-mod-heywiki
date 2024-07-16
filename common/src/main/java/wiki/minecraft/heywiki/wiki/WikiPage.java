@@ -1,9 +1,13 @@
 package wiki.minecraft.heywiki.wiki;
 
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resource.language.I18n;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 import org.jetbrains.annotations.Nullable;
@@ -23,6 +27,10 @@ import java.util.Optional;
 import static wiki.minecraft.heywiki.resource.WikiFamilyConfigManager.activeWikis;
 
 public class WikiPage {
+    public static final Text NO_FAMILY_MESSAGE = Text.translatable("heywiki.no_family")
+                                                     .setStyle(Style.EMPTY.withColor(Formatting.RED));
+    public static final SimpleCommandExceptionType NO_FAMILY_EXCEPTION = new SimpleCommandExceptionType(
+            Text.translatable("heywiki.no_family"));
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final MinecraftClient client = MinecraftClient.getInstance();
     public String pageName;
@@ -33,18 +41,8 @@ public class WikiPage {
         this.wiki = wiki;
     }
 
-    private static @Nullable String getOverride(WikiIndividual wiki, String translationKey) {
-        return wiki.language().langOverride().map(s -> {
-            if (WikiTranslationManager.translations.get(s).hasTranslation(translationKey)) {
-                return WikiTranslationManager.translations.get(s).get(translationKey);
-            } else {
-                return null;
-            }
-        }).orElse(null);
-    }
-
     public static @Nullable WikiPage fromTarget(Target target) {
-        return fromTarget(target.identifier, target.translationKey);
+        return fromTarget(target.identifier(), target.translationKey());
     }
 
     public static @Nullable WikiPage fromTarget(Identifier identifier, String translationKey) {
@@ -77,16 +75,26 @@ public class WikiPage {
                         return new WikiPage(override, wiki);
                     }
                     return new WikiPage(WikiTranslationManager.translations
-                            .get(wiki.language().defaultLanguage())
-                            .get(translationKey), wiki);
+                                                .get(wiki.language().defaultLanguage())
+                                                .get(translationKey), wiki);
                 }
             }
         }
 
         WikiIndividual wiki = Objects.requireNonNull(family.getMainLanguageWiki());
         return new WikiPage(WikiTranslationManager.translations
-                .get(wiki.language().defaultLanguage())
-                .get(translationKey), wiki);
+                                    .get(wiki.language().defaultLanguage())
+                                    .get(translationKey), wiki);
+    }
+
+    private static @Nullable String getOverride(WikiIndividual wiki, String translationKey) {
+        return wiki.language().langOverride().map(s -> {
+            if (WikiTranslationManager.translations.get(s).hasTranslation(translationKey)) {
+                return WikiTranslationManager.translations.get(s).get(translationKey);
+            } else {
+                return null;
+            }
+        }).orElse(null);
     }
 
     public static WikiPage fromWikitextLink(String link) {
@@ -134,15 +142,6 @@ public class WikiPage {
         return name.map(s -> new WikiPage(s.formatted(version), wiki)).orElse(null);
     }
 
-    public @Nullable URI getUri() {
-        try {
-            return new URI(this.wiki.articleUrl().formatted(URLEncoder.encode(this.wiki.title().formatTitle(this.pageName), StandardCharsets.UTF_8)));
-        } catch (URISyntaxException e) {
-            LOGGER.error("Failed to create URI for wiki page", e);
-            return null;
-        }
-    }
-
     public void openInBrowser() {
         openInBrowser(false);
     }
@@ -159,6 +158,16 @@ public class WikiPage {
             } else {
                 Util.getOperatingSystem().open(uri);
             }
+        }
+    }
+
+    public @Nullable URI getUri() {
+        try {
+            return new URI(this.wiki.articleUrl().formatted(
+                    URLEncoder.encode(this.wiki.title().formatTitle(this.pageName), StandardCharsets.UTF_8)));
+        } catch (URISyntaxException e) {
+            LOGGER.error("Failed to create URI for wiki page", e);
+            return null;
         }
     }
 }

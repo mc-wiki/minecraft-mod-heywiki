@@ -28,23 +28,14 @@ import static dev.architectury.event.events.client.ClientCommandRegistrationEven
 
 public class HeyWikiClient {
     public static final String MOD_ID = "heywiki";
-    public static KeyBinding openWikiKey = new KeyBinding("key.heywiki.open", // The translation key of the keybinding's name
-            InputUtil.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
-            GLFW.GLFW_KEY_H, // The keycode of the key
-            "key.categories.heywiki" // The translation key of the keybinding's category.
+    public static KeyBinding openWikiKey = new KeyBinding("key.heywiki.open",
+                                                          // The translation key of the keybinding's name
+                                                          InputUtil.Type.KEYSYM,
+                                                          // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
+                                                          GLFW.GLFW_KEY_H, // The keycode of the key
+                                                          "key.categories.heywiki"
+                                                          // The translation key of the keybinding's category.
     );
-
-    private static void registerCommands(CommandDispatcher<ClientCommandSourceStack> dispatcher, CommandRegistryAccess registryAccess) {
-        ImFeelingLuckyCommand.register(dispatcher);
-        WhatBiomeCommand.register(dispatcher);
-        var whatCommandCommand = WhatCommandCommand.register(dispatcher);
-        WhatIsThisCommand.register(dispatcher);
-        WhatIsThisItemCommand.register(dispatcher);
-        var wikiCommand = WikiCommand.register(dispatcher);
-
-        dispatcher.register(literal("whatis").redirect(wikiCommand));
-        dispatcher.register(literal("whatcmd").redirect(whatCommandCommand));
-    }
 
     public static void init() {
         HeyWikiConfig.load();
@@ -59,9 +50,27 @@ public class HeyWikiClient {
 
         ClientTickEvent.CLIENT_POST.register(CrosshairRaycast::onClientTickPost);
 
-        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, new WikiFamilyConfigManager(), Identifier.of("heywiki", "family"));
-        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, new WikiTranslationManager(), Identifier.of("heywiki", "translation"), List.of(Objects.requireNonNull(Identifier.of("heywiki", "family"))));
-        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, new PageNameSuggestionCacheManager(), Identifier.of("heywiki", "page_name_suggestions"));
-        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, new PageExcerptCacheManager(), Identifier.of("heywiki", "page_excerpts"));
+        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, new WikiFamilyConfigManager(),
+                                        Identifier.of("heywiki", "family"));
+        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, new WikiTranslationManager(),
+                                        Identifier.of("heywiki", "translation"),
+                                        List.of(Objects.requireNonNull(Identifier.of("heywiki", "family"))));
+        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, new PageNameSuggestionCacheManager(),
+                                        Identifier.of("heywiki", "page_name_suggestions"));
+        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, new PageExcerptCacheManager(),
+                                        Identifier.of("heywiki", "page_excerpts"));
+    }
+
+    private static void registerCommands(CommandDispatcher<ClientCommandSourceStack> dispatcher,
+                                         CommandRegistryAccess registryAccess) {
+        ImFeelingLuckyCommand.register(dispatcher);
+        WhatBiomeCommand.register(dispatcher);
+        var whatCommandCommand = WhatCommandCommand.register(dispatcher);
+        WhatIsThisCommand.register(dispatcher);
+        WhatIsThisItemCommand.register(dispatcher);
+        var wikiCommand = WikiCommand.register(dispatcher);
+
+        dispatcher.register(literal("whatis").redirect(wikiCommand));
+        dispatcher.register(literal("whatcmd").redirect(whatCommandCommand));
     }
 }

@@ -13,7 +13,7 @@ import wiki.minecraft.heywiki.HeyWikiClient;
 import wiki.minecraft.heywiki.wiki.Target;
 import wiki.minecraft.heywiki.wiki.WikiPage;
 
-import java.util.Objects;
+import static wiki.minecraft.heywiki.wiki.WikiPage.NO_FAMILY_MESSAGE;
 
 @Mixin(HandledScreen.class)
 public class HandledScreenMixin extends ScreenMixin {
@@ -33,8 +33,14 @@ public class HandledScreenMixin extends ScreenMixin {
             Slot slot = this.focusedSlot;
             if (slot != null && slot.hasStack()) {
                 var target = Target.of(slot.getStack());
-                if (target != null)
-                    Objects.requireNonNull(WikiPage.fromTarget(target)).openInBrowser(false, MinecraftClient.getInstance().currentScreen);
+                if (target != null) {
+                    var page = WikiPage.fromTarget(target);
+                    if (page == null) {
+                        MinecraftClient.getInstance().inGameHud.setOverlayMessage(NO_FAMILY_MESSAGE, false);
+                        return;
+                    }
+                    page.openInBrowser(false, MinecraftClient.getInstance().currentScreen);
+                }
             }
         }
     }

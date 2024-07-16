@@ -3,6 +3,7 @@ package wiki.minecraft.heywiki.mixin.integration.emi;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.ItemEmiStack;
 import dev.emi.emi.screen.RecipeScreen;
+import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -12,13 +13,10 @@ import wiki.minecraft.heywiki.HeyWikiClient;
 import wiki.minecraft.heywiki.wiki.Target;
 import wiki.minecraft.heywiki.wiki.WikiPage;
 
-import java.util.Objects;
+import static wiki.minecraft.heywiki.wiki.WikiPage.NO_FAMILY_MESSAGE;
 
 @Mixin(RecipeScreen.class)
 public abstract class RecipeScreenMixin {
-    @Shadow(remap = false)
-    public abstract EmiIngredient getHoveredStack();
-
     @Inject(method = "keyPressed", at = @At("HEAD"))
     @SuppressWarnings("UnstableApiUsage")
     private void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
@@ -27,10 +25,19 @@ public abstract class RecipeScreenMixin {
             if (HeyWikiClient.openWikiKey.matchesKey(keyCode, scanCode)) {
                 if (HeyWikiClient.openWikiKey.matchesKey(keyCode, scanCode)) {
                     var target = Target.of((itemEmiStack.getItemStack()));
-                    if (target != null)
-                        Objects.requireNonNull(WikiPage.fromTarget(target)).openInBrowser();
+                    if (target != null) {
+                        var page = WikiPage.fromTarget(target);
+                        if (page == null) {
+                            MinecraftClient.getInstance().inGameHud.setOverlayMessage(NO_FAMILY_MESSAGE, false);
+                            return;
+                        }
+                        page.openInBrowser();
+                    }
                 }
             }
         }
     }
+
+    @Shadow(remap = false)
+    public abstract EmiIngredient getHoveredStack();
 }

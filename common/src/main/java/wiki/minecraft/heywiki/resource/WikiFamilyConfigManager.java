@@ -8,6 +8,7 @@ import net.minecraft.resource.JsonDataLoader;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import wiki.minecraft.heywiki.wiki.WikiFamily;
 import wiki.minecraft.heywiki.wiki.WikiIndividual;
@@ -29,28 +30,25 @@ public class WikiFamilyConfigManager extends JsonDataLoader {
         return WIKI_FAMILY_MAP.get(id);
     }
 
-    public static WikiFamily getFamilyByNamespace(String namespace) {
+    public static @Nullable WikiFamily getFamilyByNamespace(String namespace) {
         for (WikiFamily family : WIKI_FAMILY_MAP.values()) {
             if (family.namespace().contains(namespace)) {
                 return family;
             }
         }
 
-        if (namespace.equals("minecraft")) {
-            // This should never happen
-            LOGGER.error("Failed to find family for namespace {}", namespace);
-            return null;
-        }
-
-        return getFamilyByNamespace("minecraft");
+        return null;
     }
 
     public static List<String> getAllAvailableLanguages() {
-        return WIKI_FAMILY_MAP.values().stream().flatMap(family -> family.wikis().stream().map(wiki -> wiki.language().wikiLanguage())).toList();
+        return WIKI_FAMILY_MAP.values().stream()
+                              .flatMap(family -> family.wikis().stream().map(wiki -> wiki.language().wikiLanguage()))
+                              .toList();
     }
 
     public static Set<String> getAvailableNamespaces() {
-        return WIKI_FAMILY_MAP.values().stream().map(WikiFamily::namespace).collect(HashSet::new, Set::addAll, Set::addAll);
+        return WIKI_FAMILY_MAP.values().stream().map(WikiFamily::namespace)
+                              .collect(HashSet::new, Set::addAll, Set::addAll);
     }
 
     public static Set<String> getAllMainLanguages() {
@@ -83,6 +81,23 @@ public class WikiFamilyConfigManager extends JsonDataLoader {
         return languages;
     }
 
+    @Override
+    protected void apply(Map<Identifier, JsonElement> prepared, ResourceManager manager, Profiler profiler) {
+        WIKI_FAMILY_MAP.clear();
+        prepared.forEach((key, value) -> {
+            try {
+                WikiFamily wikiFamily = WikiFamily.CODEC.parse(JsonOps.INSTANCE, value).resultOrPartial(LOGGER::error)
+                                                        .orElseThrow();
+                WIKI_FAMILY_MAP.put(wikiFamily.id(), wikiFamily);
+            } catch (Exception e) {
+                LOGGER.error("Failed to load wiki family config from {}", key, e);
+            }
+        });
+        activeWikis = resolveActiveWikis();
+
+        LOGGER.info("Loaded {} wiki families", WIKI_FAMILY_MAP.size());
+    }
+
     public static Map<String, WikiIndividual> resolveActiveWikis() {
         Map<String, WikiIndividual> activeWikis = new HashMap<>();
         for (var entry : WikiFamilyConfigManager.WIKI_FAMILY_MAP.entrySet()) {
@@ -95,21 +110,5 @@ public class WikiFamilyConfigManager extends JsonDataLoader {
         }
 
         return activeWikis;
-    }
-
-    @Override
-    protected void apply(Map<Identifier, JsonElement> prepared, ResourceManager manager, Profiler profiler) {
-        WIKI_FAMILY_MAP.clear();
-        prepared.forEach((key, value) -> {
-            try {
-                WikiFamily wikiFamily = WikiFamily.CODEC.parse(JsonOps.INSTANCE, value).resultOrPartial(LOGGER::error).orElseThrow();
-                WIKI_FAMILY_MAP.put(wikiFamily.id(), wikiFamily);
-            } catch (Exception e) {
-                LOGGER.error("Failed to load wiki family config from {}", key, e);
-            }
-        });
-        activeWikis = resolveActiveWikis();
-
-        LOGGER.info("Loaded {} wiki families", WIKI_FAMILY_MAP.size());
     }
 }
