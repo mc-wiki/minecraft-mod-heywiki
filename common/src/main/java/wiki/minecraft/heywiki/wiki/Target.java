@@ -4,6 +4,7 @@ import net.minecraft.block.AirBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -47,7 +48,8 @@ public class Target {
     }
 
     public static Target of(StatusEffectInstance effect) {
-        var key = effect.getEffectType().getKey();
+        RegistryEntry<StatusEffect> effectEntry = effect.getEffectType();
+        var key = effectEntry.getKey();
         if (key.isEmpty()) return null;
         Identifier identifier = key.get().getValue();
 

@@ -1,9 +1,6 @@
-# v1.5.3+1.21
-
-## Changes
-
-- Added Applied Energistics 2 Wiki (#49)
+# v1.5.4+1.21
 
 ## Fixes
 
-- Fix lost text style in some cases (#57)
+- No longer crashes when Hey Wiki, Zoomify and RRLS are installed together (#57)
+  - Note that this is a workaround and the root cause is still unknown
