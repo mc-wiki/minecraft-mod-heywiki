@@ -6,12 +6,21 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 public record TitleFormatter(String letter, String space) {
     public static final TitleFormatter DEFAULT = new TitleFormatter("ignore", "ignore");
     public static Codec<TitleFormatter> CODEC = RecordCodecBuilder.create(builder ->
-            builder
-                    .group(
-                            Codec.STRING.fieldOf("letter").forGetter(matcher -> matcher.letter), // lower, upper, ignore
-                            Codec.STRING.fieldOf("space").forGetter(matcher -> matcher.space) // underscore, dash, ignore
-                          )
-                    .apply(builder, TitleFormatter::new));
+                                                                                  builder
+                                                                                          .group(
+                                                                                                  Codec.STRING.fieldOf(
+                                                                                                               "letter")
+                                                                                                              .forGetter(
+                                                                                                                      matcher -> matcher.letter),
+                                                                                                  // lower, upper, ignore
+                                                                                                  Codec.STRING.fieldOf(
+                                                                                                               "space")
+                                                                                                              .forGetter(
+                                                                                                                      matcher -> matcher.space)
+                                                                                                  // underscore, dash, ignore
+                                                                                                )
+                                                                                          .apply(builder,
+                                                                                                 TitleFormatter::new));
 
     public String formatTitle(String title) {
         String titleLetter = switch (this.letter()) {

@@ -12,9 +12,9 @@ import wiki.minecraft.heywiki.wiki.Target;
 import wiki.minecraft.heywiki.wiki.WikiPage;
 
 import java.util.List;
-import java.util.Objects;
 
 import static wiki.minecraft.heywiki.HeyWikiClient.openWikiKey;
+import static wiki.minecraft.heywiki.wiki.WikiPage.NO_FAMILY_MESSAGE;
 
 public class CrosshairRaycast {
     public static void onClientTickPost(MinecraftClient client) {
@@ -28,23 +28,14 @@ public class CrosshairRaycast {
             }
 
             if (target != null) {
-                Objects.requireNonNull(WikiPage.fromTarget(target)).openInBrowser();
+                var page = WikiPage.fromTarget(target);
+                if (page == null) {
+                    client.inGameHud.setOverlayMessage(NO_FAMILY_MESSAGE, false);
+                    return;
+                }
+                page.openInBrowser();
             }
         }
-    }
-
-    public static void onDebugTextRight(List<String> texts) {
-        var target = CrosshairRaycast.raycast();
-        if (target == null) {
-            texts.add("heywiki: null");
-            return;
-        }
-        var page = Objects.requireNonNull(WikiPage.fromTarget(target));
-        texts.add("heywiki: " + page.getUri());
-    }
-
-    public static @Nullable Target raycast() {
-        return raycast(MinecraftClient.getInstance(), false);
     }
 
     public static @Nullable Target raycast(MinecraftClient client, boolean showTooFarMessage) {
@@ -54,7 +45,9 @@ public class CrosshairRaycast {
         double maxReach = HeyWikiConfig.raycastReach;
         double blockReach = Math.max(client.player.getBlockInteractionRange(), maxReach);
         double entityReach = Math.max(client.player.getEntityInteractionRange(), maxReach);
-        HitResult hit = ((GameRendererMixin) client.gameRenderer).invokeFindCrosshairTarget(client.cameraEntity, blockReach, entityReach, 1f);
+        HitResult hit = ((GameRendererMixin) client.gameRenderer).invokeFindCrosshairTarget(client.cameraEntity,
+                                                                                            blockReach, entityReach,
+                                                                                            1f);
 
         switch (hit) {
             case EntityHitResult entityHit -> {
@@ -72,5 +65,23 @@ public class CrosshairRaycast {
             }
         }
         return null;
+    }
+
+    public static void onDebugTextRight(List<String> texts) {
+        var target = CrosshairRaycast.raycast();
+        if (target == null) {
+            texts.add("heywiki: null");
+            return;
+        }
+        var page = WikiPage.fromTarget(target);
+        if (page == null) {
+            texts.add("heywiki: null");
+            return;
+        }
+        texts.add("heywiki: " + page.getUri());
+    }
+
+    public static @Nullable Target raycast() {
+        return raycast(MinecraftClient.getInstance(), false);
     }
 }

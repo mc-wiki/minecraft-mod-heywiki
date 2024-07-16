@@ -16,14 +16,16 @@ public class HTTPUtils {
     }
 
     @NotNull
-    public static <T> T requestUri(URI uri, HttpResponse.BodyHandler<T> handler) throws IOException, InterruptedException {
+    public static <T> T requestUri(URI uri, HttpResponse.BodyHandler<T> handler)
+            throws IOException, InterruptedException {
         try (HttpClient client = HttpClient.newBuilder()
                                            .proxy(ProxySelector.getDefault())
                                            .followRedirects(HttpClient.Redirect.ALWAYS)
                                            .build()) {
             HttpRequest request = HttpRequest.newBuilder(uri)
                                              .GET()
-                                             .header("User-Agent", "HeyWikiMod (+https://github.com/mc-wiki/minecraft-mod-heywiki)")
+                                             .header("User-Agent",
+                                                     "HeyWikiMod (+https://github.com/mc-wiki/minecraft-mod-heywiki)")
                                              .build();
 
             HttpResponse<T> response = client.send(request, handler);

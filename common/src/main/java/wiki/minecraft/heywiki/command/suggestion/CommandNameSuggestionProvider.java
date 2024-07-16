@@ -18,12 +18,14 @@ import java.util.stream.Collectors;
 public class CommandNameSuggestionProvider implements SuggestionProvider<ClientCommandSourceStack> {
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
 
-    static Set<String> getCommands(CommandDispatcher<?> dispatcher) {
-        return dispatcher.getRoot().getChildren().stream().map(CommandNode::getName).collect(Collectors.toSet());
+    @Override
+    public CompletableFuture<Suggestions> getSuggestions(CommandContext<ClientCommandSourceStack> context,
+                                                         SuggestionsBuilder builder) {
+        return CommandSource.suggestMatching(
+                getCommands(Objects.requireNonNull(CLIENT.getNetworkHandler()).getCommandDispatcher()), builder);
     }
 
-    @Override
-    public CompletableFuture<Suggestions> getSuggestions(CommandContext<ClientCommandSourceStack> context, SuggestionsBuilder builder) {
-        return CommandSource.suggestMatching(getCommands(Objects.requireNonNull(CLIENT.getNetworkHandler()).getCommandDispatcher()), builder);
+    static Set<String> getCommands(CommandDispatcher<?> dispatcher) {
+        return dispatcher.getRoot().getChildren().stream().map(CommandNode::getName).collect(Collectors.toSet());
     }
 }

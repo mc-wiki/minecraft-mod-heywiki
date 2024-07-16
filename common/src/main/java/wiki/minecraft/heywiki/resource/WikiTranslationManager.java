@@ -27,6 +27,19 @@ public class WikiTranslationManager implements SynchronousResourceReloader {
     public WikiTranslationManager() {
     }
 
+    @Override
+    public void reload(ResourceManager manager) {
+        Map<String, TranslationStorage> translationsNew = new HashMap<>();
+        for (String language : decideLanguage()) {
+            translationsNew.put(language, loadTranslation(language, manager, true));
+        }
+        for (String language : getLangOverride()) {
+            translationsNew.put(language, loadTranslation(language, manager, false));
+        }
+
+        translations = translationsNew;
+    }
+
     private static Set<String> decideLanguage() {
         var configLanguage = HeyWikiConfig.language;
         if (configLanguage.equals("auto")) {
@@ -39,14 +52,11 @@ public class WikiTranslationManager implements SynchronousResourceReloader {
         }
     }
 
-    private static void appendTranslationFrom(String langCode, List<Resource> resourceRefs, Map<String, String> translations) {
-        for (Resource resource : resourceRefs) {
-            try (InputStream inputStream = resource.getInputStream()) {
-                Language.load(inputStream, translations::put);
-            } catch (IOException e) {
-                LOGGER.warn("Failed to load translations for {} from pack {}", langCode, resource.getPackId(), e);
-            }
-        }
+    public static TranslationStorage loadTranslation(String language, ResourceManager resourceManager,
+                                                     boolean fallbackEnUs) {
+        return language.equals("en_us") || !fallbackEnUs
+                ? loadTranslationFrom(resourceManager, List.of(language))
+                : loadTranslationFrom(resourceManager, List.of("en_us", language));
     }
 
     private static TranslationStorage loadTranslationFrom(ResourceManager resourceManager, List<String> definitions) {
@@ -68,22 +78,14 @@ public class WikiTranslationManager implements SynchronousResourceReloader {
         return TranslationStorageFactory.create(ImmutableMap.copyOf(map), false);
     }
 
-    public static TranslationStorage loadTranslation(String language, ResourceManager resourceManager, boolean fallbackEnUs) {
-        return language.equals("en_us") || !fallbackEnUs
-                ? loadTranslationFrom(resourceManager, List.of(language))
-                : loadTranslationFrom(resourceManager, List.of("en_us", language));
-    }
-
-    @Override
-    public void reload(ResourceManager manager) {
-        Map<String, TranslationStorage> translationsNew = new HashMap<>();
-        for (String language : decideLanguage()) {
-            translationsNew.put(language, loadTranslation(language, manager, true));
+    private static void appendTranslationFrom(String langCode, List<Resource> resourceRefs,
+                                              Map<String, String> translations) {
+        for (Resource resource : resourceRefs) {
+            try (InputStream inputStream = resource.getInputStream()) {
+                Language.load(inputStream, translations::put);
+            } catch (IOException e) {
+                LOGGER.warn("Failed to load translations for {} from pack {}", langCode, resource.getPackId(), e);
+            }
         }
-        for (String language : getLangOverride()) {
-            translationsNew.put(language, loadTranslation(language, manager, false));
-        }
-
-        translations = translationsNew;
     }
 }

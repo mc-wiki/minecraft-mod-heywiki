@@ -14,19 +14,20 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
 public class NamespaceSuggestionProvider implements SuggestionProvider<ClientCommandSourceStack> {
-    private final boolean colon;
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
-
-    public NamespaceSuggestionProvider(boolean colon) {
-        this.colon = colon;
-    }
+    private final boolean colon;
 
     public NamespaceSuggestionProvider() {
         this(true);
     }
 
+    public NamespaceSuggestionProvider(boolean colon) {
+        this.colon = colon;
+    }
+
     @Override
-    public CompletableFuture<Suggestions> getSuggestions(CommandContext<ClientCommandSourceStack> context, SuggestionsBuilder builder) {
+    public CompletableFuture<Suggestions> getSuggestions(CommandContext<ClientCommandSourceStack> context,
+                                                         SuggestionsBuilder builder) {
         Set<String> namespaces = CLIENT.getResourceManager().getAllNamespaces();
         Set<String> availableNamespaces = WikiFamilyConfigManager.getAvailableNamespaces();
 

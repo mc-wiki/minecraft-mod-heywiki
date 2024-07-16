@@ -48,62 +48,71 @@ public class HeyWikiConfig {
 
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
         general.addEntry(entryBuilder
-                .startBooleanToggle(Text.translatable("options.heywiki.requires_confirmation.name"), HeyWikiConfig.requiresConfirmation)
-                .setDefaultValue(true)
-                .setTooltip(Text.translatable("options.heywiki.requires_confirmation.description"))
-                .setSaveConsumer(newValue -> HeyWikiConfig.requiresConfirmation = newValue)
-                .build());
+                                 .startBooleanToggle(Text.translatable("options.heywiki.requires_confirmation.name"),
+                                                     HeyWikiConfig.requiresConfirmation)
+                                 .setDefaultValue(true)
+                                 .setTooltip(Text.translatable("options.heywiki.requires_confirmation.description"))
+                                 .setSaveConsumer(newValue -> HeyWikiConfig.requiresConfirmation = newValue)
+                                 .build());
         general.addEntry(entryBuilder
-                .startDoubleField(Text.translatable("options.heywiki.raycast_reach.name"), HeyWikiConfig.raycastReach)
-                .setDefaultValue(5.2D)
-                .setMin(0D)
-                .setMax(64D)
-                .setTooltip(Text.translatable("options.heywiki.raycast_reach.description"))
-                .setSaveConsumer(newValue -> HeyWikiConfig.raycastReach = newValue)
-                .build());
+                                 .startDoubleField(Text.translatable("options.heywiki.raycast_reach.name"),
+                                                   HeyWikiConfig.raycastReach)
+                                 .setDefaultValue(5.2D)
+                                 .setMin(0D)
+                                 .setMax(64D)
+                                 .setTooltip(Text.translatable("options.heywiki.raycast_reach.description"))
+                                 .setSaveConsumer(newValue -> HeyWikiConfig.raycastReach = newValue)
+                                 .build());
         general.addEntry(entryBuilder
-                .startBooleanToggle(Text.translatable("options.heywiki.raycast_allow_fluid.name"), HeyWikiConfig.raycastAllowFluid)
-                .setDefaultValue(false)
-                .setTooltip(Text.translatable("options.heywiki.raycast_allow_fluid.description"))
-                .setSaveConsumer(newValue -> HeyWikiConfig.raycastAllowFluid = newValue)
-                .build());
+                                 .startBooleanToggle(Text.translatable("options.heywiki.raycast_allow_fluid.name"),
+                                                     HeyWikiConfig.raycastAllowFluid)
+                                 .setDefaultValue(false)
+                                 .setTooltip(Text.translatable("options.heywiki.raycast_allow_fluid.description"))
+                                 .setSaveConsumer(newValue -> HeyWikiConfig.raycastAllowFluid = newValue)
+                                 .build());
         general.addEntry(entryBuilder
-                .startDropdownMenu(Text.translatable("options.heywiki.language.name"),
-                        DropdownMenuBuilder.TopCellElementBuilder.of(language, HeyWikiConfig::normalizeLanguageName, HeyWikiConfig::languageDescription),
-                        DropdownMenuBuilder.CellCreatorBuilder.of(HeyWikiConfig::languageDescription))
-                .setSelections(languages)
-                .setDefaultValue("auto")
-                .setSuggestionMode(false)
-                .setTooltip(Text.translatable("options.heywiki.language.description"))
-                .setSaveConsumer(newValue -> {
-                    if (!(newValue).equals(HeyWikiConfig.language))
-                        requireReload.set(true);
-                    HeyWikiConfig.language = newValue;
-                })
-                .build());
+                                 .startDropdownMenu(Text.translatable("options.heywiki.language.name"),
+                                                    DropdownMenuBuilder.TopCellElementBuilder.of(language,
+                                                                                                 HeyWikiConfig::normalizeLanguageName,
+                                                                                                 HeyWikiConfig::languageDescription),
+                                                    DropdownMenuBuilder.CellCreatorBuilder.of(
+                                                            HeyWikiConfig::languageDescription))
+                                 .setSelections(languages)
+                                 .setDefaultValue("auto")
+                                 .setSuggestionMode(false)
+                                 .setTooltip(Text.translatable("options.heywiki.language.description"))
+                                 .setSaveConsumer(newValue -> {
+                                     if (!(newValue).equals(HeyWikiConfig.language))
+                                         requireReload.set(true);
+                                     HeyWikiConfig.language = newValue;
+                                 })
+                                 .build());
         general.addEntry(entryBuilder
-                .startDropdownMenu(Text.translatable("options.heywiki.zh_variant.name"),
-                        DropdownMenuBuilder.TopCellElementBuilder.of(zhVariant, HeyWikiConfig::normalizeLanguageName, HeyWikiConfig::zhVariantDescription),
-                        DropdownMenuBuilder.CellCreatorBuilder.of(HeyWikiConfig::zhVariantDescription))
-                .setDisplayRequirement(() -> {
-                    Map<String, WikiIndividual> activeWikis = resolveActiveWikis();
-                    for (var wiki : activeWikis.values()) {
-                        if (wiki.language().wikiLanguage().startsWith("zh")) {
-                            return true;
-                        }
-                    }
-                    return false;
-                })
-                .setSelections(List.of("auto", "zh", "zh-cn", "zh-tw", "zh-hk"))
-                .setDefaultValue("auto")
-                .setSuggestionMode(false)
-                .setTooltip(Text.translatable("options.heywiki.zh_variant.description"))
-                .setSaveConsumer(newValue -> HeyWikiConfig.zhVariant = newValue)
-                .build());
+                                 .startDropdownMenu(Text.translatable("options.heywiki.zh_variant.name"),
+                                                    DropdownMenuBuilder.TopCellElementBuilder.of(zhVariant,
+                                                                                                 HeyWikiConfig::normalizeLanguageName,
+                                                                                                 HeyWikiConfig::zhVariantDescription),
+                                                    DropdownMenuBuilder.CellCreatorBuilder.of(
+                                                            HeyWikiConfig::zhVariantDescription))
+                                 .setDisplayRequirement(() -> {
+                                     Map<String, WikiIndividual> activeWikis = resolveActiveWikis();
+                                     for (var wiki : activeWikis.values()) {
+                                         if (wiki.language().wikiLanguage().startsWith("zh")) {
+                                             return true;
+                                         }
+                                     }
+                                     return false;
+                                 })
+                                 .setSelections(List.of("auto", "zh", "zh-cn", "zh-tw", "zh-hk"))
+                                 .setDefaultValue("auto")
+                                 .setSuggestionMode(false)
+                                 .setTooltip(Text.translatable("options.heywiki.zh_variant.description"))
+                                 .setSaveConsumer(newValue -> HeyWikiConfig.zhVariant = newValue)
+                                 .build());
         general.addEntry(entryBuilder
-                .fillKeybindingField(Text.translatable("key.heywiki.open"), HeyWikiClient.openWikiKey)
-                .setTooltip(Text.translatable("options.heywiki.language.description"))
-                .build());
+                                 .fillKeybindingField(Text.translatable("key.heywiki.open"), HeyWikiClient.openWikiKey)
+                                 .setTooltip(Text.translatable("options.heywiki.open_key.description"))
+                                 .build());
 
         builder.setSavingRunnable(() -> save(requireReload.get()));
 
@@ -120,17 +129,6 @@ public class HeyWikiConfig {
         return Text.literal(lang + ": " + getLanguageName(lang));
     }
 
-    private static String getLanguageName(String lang) {
-        Map<String, String> languageNames =
-                Map.of(
-                        "lzh", "文言"
-                      );
-        if (languageNames.containsKey(lang)) return languageNames.get(lang);
-
-        var locale = Locale.of(lang);
-        return locale.getDisplayLanguage(locale);
-    }
-
     private static Text zhVariantDescription(String lang) {
         return switch (lang) {
             case "auto" -> Text.translatable("options.heywiki.language.auto");
@@ -141,7 +139,6 @@ public class HeyWikiConfig {
             default -> throw new IllegalStateException("Unexpected value: " + lang);
         };
     }
-
 
     public static void save(Boolean requireReload) {
         if (requireReload) MinecraftClient.getInstance().reloadResourcesConcurrently();
@@ -169,31 +166,43 @@ public class HeyWikiConfig {
         }
     }
 
+    private static String getLanguageName(String lang) {
+        Map<String, String> languageNames =
+                Map.of(
+                        "lzh", "文言"
+                      );
+        if (languageNames.containsKey(lang)) return languageNames.get(lang);
+
+        var locale = Locale.of(lang);
+        return locale.getDisplayLanguage(locale);
+    }
+
     public static void load() {
         Path configPath = getConfigFolder().resolve("heywiki.json");
         if (!configPath.toFile().exists()) {
             return;
         }
         try {
-            JsonParser.parseReader(new Gson().newJsonReader(Files.newBufferedReader(configPath))).getAsJsonObject().entrySet().forEach(entry -> {
-                switch (entry.getKey()) {
-                    case "requiresConfirmation":
-                        requiresConfirmation = entry.getValue().getAsBoolean();
-                        break;
-                    case "language":
-                        language = entry.getValue().getAsString();
-                        break;
-                    case "zhVariant":
-                        zhVariant = entry.getValue().getAsString();
-                        break;
-                    case "raycastReach":
-                        raycastReach = entry.getValue().getAsDouble();
-                        break;
-                    case "raycastAllowFluid":
-                        raycastAllowFluid = entry.getValue().getAsBoolean();
-                        break;
-                }
-            });
+            JsonParser.parseReader(new Gson().newJsonReader(Files.newBufferedReader(configPath))).getAsJsonObject()
+                      .entrySet().forEach(entry -> {
+                          switch (entry.getKey()) {
+                              case "requiresConfirmation":
+                                  requiresConfirmation = entry.getValue().getAsBoolean();
+                                  break;
+                              case "language":
+                                  language = entry.getValue().getAsString();
+                                  break;
+                              case "zhVariant":
+                                  zhVariant = entry.getValue().getAsString();
+                                  break;
+                              case "raycastReach":
+                                  raycastReach = entry.getValue().getAsDouble();
+                                  break;
+                              case "raycastAllowFluid":
+                                  raycastAllowFluid = entry.getValue().getAsBoolean();
+                                  break;
+                          }
+                      });
         } catch (IOException e) {
             throw new RuntimeException("Failed to read config file", e);
         }

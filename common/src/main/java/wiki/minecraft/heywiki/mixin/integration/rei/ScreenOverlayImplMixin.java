@@ -3,6 +3,7 @@ package wiki.minecraft.heywiki.mixin.integration.rei;
 import me.shedaniel.rei.api.client.REIRuntime;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.impl.client.gui.widget.EntryWidget;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -13,16 +14,14 @@ import wiki.minecraft.heywiki.HeyWikiClient;
 import wiki.minecraft.heywiki.wiki.Target;
 import wiki.minecraft.heywiki.wiki.WikiPage;
 
-import java.util.Objects;
+import static wiki.minecraft.heywiki.wiki.WikiPage.NO_FAMILY_MESSAGE;
 
 @Mixin(EntryWidget.class)
 public abstract class ScreenOverlayImplMixin {
-    @Shadow(remap = false)
-    public abstract EntryStack<?> getCurrentEntry();
-
     // This is so hacky
     @Inject(method = "keyPressedIgnoreContains", at = @At("HEAD"), remap = false)
-    public void keyPressedIgnoreContains(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
+    public void keyPressedIgnoreContains(int keyCode, int scanCode, int modifiers,
+                                         CallbackInfoReturnable<Boolean> cir) {
         if (REIRuntime.getInstance().isOverlayVisible()) {
             EntryStack<?> stack = this.getCurrentEntry();
             if (stack != null && !stack.isEmpty()) {
@@ -30,11 +29,20 @@ public abstract class ScreenOverlayImplMixin {
                 if (HeyWikiClient.openWikiKey.matchesKey(keyCode, scanCode)) {
                     if (stack.getValue() instanceof ItemStack itemStack) {
                         var target = Target.of(itemStack);
-                        if (target != null)
-                            Objects.requireNonNull(WikiPage.fromTarget(target)).openInBrowser();
+                        if (target != null) {
+                            var page = WikiPage.fromTarget(target);
+                            if (page == null) {
+                                MinecraftClient.getInstance().inGameHud.setOverlayMessage(NO_FAMILY_MESSAGE, false);
+                                return;
+                            }
+                            page.openInBrowser();
+                        }
                     }
                 }
             }
         }
     }
+
+    @Shadow(remap = false)
+    public abstract EntryStack<?> getCurrentEntry();
 }

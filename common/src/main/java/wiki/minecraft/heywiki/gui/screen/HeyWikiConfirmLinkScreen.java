@@ -53,11 +53,14 @@ public class HeyWikiConfirmLinkScreen extends Screen {
     private volatile boolean hasExcerpt = false;
     private volatile byte[] image = null;
 
-    public HeyWikiConfirmLinkScreen(BooleanConsumer callback, String link, CompletableFuture<PageExcerpt> excerpt, WikiPage page) {
-        this(callback, getConfirmText(), Text.literal(URLDecoder.decode(link, StandardCharsets.UTF_8)), link, ScreenTexts.CANCEL, excerpt, page);
+    public HeyWikiConfirmLinkScreen(BooleanConsumer callback, String link, CompletableFuture<PageExcerpt> excerpt,
+                                    WikiPage page) {
+        this(callback, getConfirmText(), Text.literal(URLDecoder.decode(link, StandardCharsets.UTF_8)), link,
+             ScreenTexts.CANCEL, excerpt, page);
     }
 
-    private HeyWikiConfirmLinkScreen(BooleanConsumer callback, Text title, Text message, String link, Text noText, CompletableFuture<PageExcerpt> excerpt, WikiPage page) {
+    private HeyWikiConfirmLinkScreen(BooleanConsumer callback, Text title, Text message, String link, Text noText,
+                                     CompletableFuture<PageExcerpt> excerpt, WikiPage page) {
         super(title);
         this.callback = callback;
         this.message = message;
@@ -71,6 +74,10 @@ public class HeyWikiConfirmLinkScreen extends Screen {
         if (excerpt != null) {
             this.hasExcerpt = true;
             excerpt.thenAccept(result -> {
+                if (result == null) {
+                    hasExcerpt = false;
+                    this.client.execute(this::init);
+                }
                 this.excerpt = result;
 
                 if (this.excerpt.imageUrl() != null) {
@@ -81,7 +88,8 @@ public class HeyWikiConfirmLinkScreen extends Screen {
                         throw new RuntimeException(e);
                     }
 
-                    String hash = Hex.encodeHexString(md.digest(this.excerpt.imageUrl().getBytes(StandardCharsets.UTF_8)));
+                    String hash = Hex.encodeHexString(
+                            md.digest(this.excerpt.imageUrl().getBytes(StandardCharsets.UTF_8)));
                     String tempDir = System.getProperty("java.io.tmpdir");
                     String path = tempDir + "/heywiki/" + hash;
                     File file = new File(path);
@@ -91,7 +99,8 @@ public class HeyWikiConfirmLinkScreen extends Screen {
                         } else
                             CompletableFuture.runAsync(() -> {
                                 try {
-                                    this.image = requestUri(URI.create(this.excerpt.imageUrl()), HttpResponse.BodyHandlers.ofByteArray());
+                                    this.image = requestUri(URI.create(this.excerpt.imageUrl()),
+                                                            HttpResponse.BodyHandlers.ofByteArray());
                                     FileUtils.writeByteArrayToFile(file, this.image);
                                 } catch (Exception e) {
                                     LOGGER.error("Failed to fetch image", e);
@@ -108,6 +117,28 @@ public class HeyWikiConfirmLinkScreen extends Screen {
         }
     }
 
+    protected static MutableText getConfirmText() {
+        return Text.translatable("chat.link.confirmTrusted");
+    }
+
+    protected DirectionalLayoutWidget buttonLayout() {
+        DirectionalLayoutWidget layout = DirectionalLayoutWidget.horizontal().spacing(8);
+
+        layout.add(ButtonWidget.builder(this.yesText, button -> this.callback.accept(true)).width(100).build());
+        layout.add(ButtonWidget.builder(COPY, button -> {
+            this.copyToClipboard();
+            this.callback.accept(false);
+        }).width(100).build());
+        layout.add(ButtonWidget.builder(this.noText, button -> this.callback.accept(false)).width(100).build());
+
+        return layout;
+    }
+
+    public void copyToClipboard() {
+        assert this.client != null;
+        this.client.keyboard.setClipboard(this.link);
+    }
+
     public static void open(Screen parent, String url, CompletableFuture<PageExcerpt> excerpt, WikiPage page) {
         MinecraftClient client = MinecraftClient.getInstance();
         client.setScreen(new HeyWikiConfirmLinkScreen((confirmed) -> {
@@ -119,13 +150,36 @@ public class HeyWikiConfirmLinkScreen extends Screen {
         }, url, excerpt, page));
     }
 
-    protected static MutableText getConfirmText() {
-        return Text.translatable("chat.link.confirmTrusted");
-    }
-
     @Override
     public Text getNarratedTitle() {
         return ScreenTexts.joinSentences(super.getNarratedTitle(), this.message);
+    }
+
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (keyCode == GLFW.GLFW_KEY_ENTER || openWikiKey.matchesKey(keyCode, scanCode)) {
+            this.callback.accept(true);
+            return true;
+        } else if (keyCode == GLFW.GLFW_KEY_C && hasControlDown() && !hasShiftDown() && !hasAltDown()) {
+            this.callback.accept(false);
+            this.copyToClipboard();
+            return false;
+        } else if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
+            this.callback.accept(false);
+            return true;
+        }
+
+        return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    @Override
+    public boolean shouldCloseOnEsc() {
+        return false;
+    }
+
+    @Override
+    public void close() {
+        textureManager.destroyTexture(this.textureId);
+        super.close();
     }
 
     @Override
@@ -139,7 +193,7 @@ public class HeyWikiConfirmLinkScreen extends Screen {
         mainLayout.add(new TextWidget(this.title, this.textRenderer));
         mainLayout
                 .add(new NarratedMultilineTextWidget(this.width, this.message, this.textRenderer, false, 3),
-                        positioner -> positioner.marginY(3))
+                     positioner -> positioner.marginY(3))
                 .setCentered(false);
 
         if (hasExcerpt) {
@@ -186,20 +240,21 @@ public class HeyWikiConfirmLinkScreen extends Screen {
             imageWidth = width;
             excerptLayout.add(widget, positioner -> positioner.margin(5));
 
-            DirectionalLayoutWidget excerptTextLayout = excerptLayout.add(DirectionalLayoutWidget.vertical().spacing(8));
+            DirectionalLayoutWidget excerptTextLayout = excerptLayout.add(
+                    DirectionalLayoutWidget.vertical().spacing(8));
             var excerptTitle = Text.of(this.excerpt != null ? this.excerpt.title() : this.page.pageName)
                                    .copy().styled(style -> style.withBold(true).withUnderline(true));
             excerptTextLayout.add(new TextWidget(excerptTitle, this.textRenderer));
             excerptTextLayout
                     .add(new NarratedMultilineTextWidget(
-                                    this.width - 65 - (imageWidth + 13),
-                                    this.excerpt != null
-                                            ? Text.of(this.excerpt.excerpt()
-                                                                  .replace("\u200B", "")
-                                                     )
-                                            : Text.translatable("screen.heywiki_confirm_link.loading_excerpt"),
-                                    this.textRenderer, 5),
-                            positioner -> positioner.margin(5)).setCentered(false);
+                                 this.width - 65 - (imageWidth + 13),
+                                 this.excerpt != null
+                                         ? Text.of(this.excerpt.excerpt()
+                                                               .replace("\u200B", "")
+                                                  )
+                                         : Text.translatable("screen.heywiki_confirm_link.loading_excerpt"),
+                                 this.textRenderer, 5),
+                         positioner -> positioner.margin(5)).setCentered(false);
         }
 
         DirectionalLayoutWidget buttonLayout = mainLayout.add(DirectionalLayoutWidget.vertical().spacing(8));
@@ -215,50 +270,5 @@ public class HeyWikiConfirmLinkScreen extends Screen {
     protected void initTabNavigation() {
         this.layout.refreshPositions();
         SimplePositioningWidget.setPos(this.layout, this.getNavigationFocus());
-    }
-
-    protected DirectionalLayoutWidget buttonLayout() {
-        DirectionalLayoutWidget layout = DirectionalLayoutWidget.horizontal().spacing(8);
-
-        layout.add(ButtonWidget.builder(this.yesText, button -> this.callback.accept(true)).width(100).build());
-        layout.add(ButtonWidget.builder(COPY, button -> {
-            this.copyToClipboard();
-            this.callback.accept(false);
-        }).width(100).build());
-        layout.add(ButtonWidget.builder(this.noText, button -> this.callback.accept(false)).width(100).build());
-
-        return layout;
-    }
-
-    @Override
-    public boolean shouldCloseOnEsc() {
-        return false;
-    }
-
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (keyCode == GLFW.GLFW_KEY_ENTER || openWikiKey.matchesKey(keyCode, scanCode)) {
-            this.callback.accept(true);
-            return true;
-        } else if (keyCode == GLFW.GLFW_KEY_C && hasControlDown() && !hasShiftDown() && !hasAltDown()) {
-            this.callback.accept(false);
-            this.copyToClipboard();
-            return false;
-        } else if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
-            this.callback.accept(false);
-            return true;
-        }
-
-        return super.keyPressed(keyCode, scanCode, modifiers);
-    }
-
-    @Override
-    public void close() {
-        textureManager.destroyTexture(this.textureId);
-        super.close();
-    }
-
-    public void copyToClipboard() {
-        assert this.client != null;
-        this.client.keyboard.setClipboard(this.link);
     }
 }
