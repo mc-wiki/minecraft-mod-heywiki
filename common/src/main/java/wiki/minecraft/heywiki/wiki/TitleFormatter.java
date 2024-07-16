@@ -21,15 +21,15 @@ public record TitleFormatter(Letter letter, Space space) {
 
     public String formatTitle(String title) {
         String titleLetter = switch (this.letter()) {
-            case Letter.LOWER -> title.toLowerCase();
-            case Letter.UPPER -> title.toUpperCase();
-            case Letter.IGNORE -> title;
+            case LOWER -> title.toLowerCase();
+            case UPPER -> title.toUpperCase();
+            case IGNORE -> title;
         };
 
         return switch (this.space()) {
-            case Space.UNDERSCORE -> titleLetter.replace(" ", "_");
-            case Space.DASH -> titleLetter.replace(" ", "-");
-            case Space.IGNORE -> titleLetter;
+            case UNDERSCORE -> titleLetter.replace(" ", "_");
+            case DASH -> titleLetter.replace(" ", "-");
+            case IGNORE -> titleLetter;
         };
     }
 
