@@ -4,11 +4,12 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.resource.language.TranslationStorage;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Language;
 import net.minecraft.util.Util;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -25,21 +26,15 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static wiki.minecraft.heywiki.resource.WikiFamilyConfigManager.activeWikis;
+import static wiki.minecraft.heywiki.resource.WikiTranslationManager.getTranslationOverride;
 
-public class WikiPage {
+public record WikiPage(String pageName, WikiIndividual wiki) {
     public static final Text NO_FAMILY_MESSAGE = Text.translatable("heywiki.no_family")
                                                      .setStyle(Style.EMPTY.withColor(Formatting.RED));
     public static final SimpleCommandExceptionType NO_FAMILY_EXCEPTION = new SimpleCommandExceptionType(
             Text.translatable("heywiki.no_family"));
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final MinecraftClient client = MinecraftClient.getInstance();
-    public String pageName;
-    public WikiIndividual wiki;
-
-    public WikiPage(String pageName, WikiIndividual wiki) {
-        this.pageName = pageName;
-        this.wiki = wiki;
-    }
 
     public static @Nullable WikiPage fromTarget(Target target) {
         return fromTarget(target.identifier(), target.translationKey());
@@ -53,30 +48,33 @@ public class WikiPage {
             var language = client.options.language;
             var wiki = family.getLanguageWikiByGameLanguage(language);
             if (wiki != null) {
-                String override = getOverride(wiki, translationKey);
-                if (override != null) {
+                TranslationStorage storage = getTranslationOverride(wiki);
+                if (storage != null && storage.hasTranslation(translationKey)) {
+                    String override = storage.get(translationKey, identifier.getPath());
                     return new WikiPage(override, wiki);
                 }
-                return new WikiPage(I18n.translate(translationKey), wiki);
+                return new WikiPage(Language.getInstance().get(translationKey, identifier.getPath()), wiki);
             }
         } else {
             var language = HeyWikiConfig.language;
             var wiki = family.getLanguageWikiByWikiLanguage(language);
             if (wiki != null) {
                 if (wiki.language().matchLanguage(client.options.language)) {
-                    String override = getOverride(wiki, translationKey);
-                    if (override != null) {
+                    TranslationStorage storage = getTranslationOverride(wiki);
+                    if (storage != null && storage.hasTranslation(translationKey)) {
+                        String override = storage.get(translationKey, identifier.getPath());
                         return new WikiPage(override, wiki);
                     }
-                    return new WikiPage(I18n.translate(translationKey), wiki);
+                    return new WikiPage(Language.getInstance().get(translationKey, identifier.getPath()), wiki);
                 } else {
-                    String override = getOverride(wiki, translationKey);
-                    if (override != null) {
+                    TranslationStorage storage = getTranslationOverride(wiki);
+                    if (storage != null && storage.hasTranslation(translationKey)) {
+                        String override = storage.get(translationKey, identifier.getPath());
                         return new WikiPage(override, wiki);
                     }
                     return new WikiPage(WikiTranslationManager.translations
                                                 .get(wiki.language().defaultLanguage())
-                                                .get(translationKey), wiki);
+                                                .get(translationKey, identifier.getPath()), wiki);
                 }
             }
         }
@@ -85,16 +83,6 @@ public class WikiPage {
         return new WikiPage(WikiTranslationManager.translations
                                     .get(wiki.language().defaultLanguage())
                                     .get(translationKey), wiki);
-    }
-
-    private static @Nullable String getOverride(WikiIndividual wiki, String translationKey) {
-        return wiki.language().langOverride().map(s -> {
-            if (WikiTranslationManager.translations.get(s).hasTranslation(translationKey)) {
-                return WikiTranslationManager.translations.get(s).get(translationKey);
-            } else {
-                return null;
-            }
-        }).orElse(null);
     }
 
     public static WikiPage fromWikitextLink(String link) {

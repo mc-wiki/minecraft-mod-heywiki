@@ -9,9 +9,11 @@ import net.minecraft.resource.ResourceManager;
 import net.minecraft.resource.SynchronousResourceReloader;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Language;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import wiki.minecraft.heywiki.HeyWikiConfig;
 import wiki.minecraft.heywiki.mixin.TranslationStorageFactory;
+import wiki.minecraft.heywiki.wiki.WikiIndividual;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,6 +27,12 @@ public class WikiTranslationManager implements SynchronousResourceReloader {
     public static Map<String, TranslationStorage> translations;
 
     public WikiTranslationManager() {
+    }
+
+    public static @Nullable TranslationStorage getTranslationOverride(WikiIndividual wiki) {
+        return wiki.language().langOverride()
+                   .map(s -> WikiTranslationManager.translations.getOrDefault(s, null))
+                   .orElse(null);
     }
 
     @Override
