@@ -31,7 +31,7 @@ public class WhatIsThisItemCommand {
                         }).then(literal("offhand")
                                         .executes(ctx -> {
                                             if (CLIENT.player == null) return 1;
-                                            ItemStack stack = CLIENT.player.getInventory().offHand.getFirst();
+                                            ItemStack stack = CLIENT.player.getInventory().offHand.get(0);
                                             return openBrowserForStack(stack);
                                         })));
     }
