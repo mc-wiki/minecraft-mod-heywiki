@@ -5,6 +5,7 @@ Note: 1.20.4 support will be dropped in 1.6.0
 ## Changes
 
 - New wiki: [Stardust Labs Wiki](https://stardustlabs.miraheze.org/)
+- New wiki: [Create Wiki](https://create.fandom.com/wiki/) (#51, #53, #63)
 - If a wiki family is not found, an error message will be displayed instead of using Minecraft Wiki as fallback
 
 ## Fixes
