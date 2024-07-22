@@ -14,7 +14,7 @@
   "options.heywiki.raycast_reach.description": "Максимальное значение расстояния, при котором будет возможно использовать функцию вики.\nОбратите внимание, что слишком высокие значения могут негативно сказаться на производительности.\nЕсли расстояние взаимодействия выше данного значения, оно будет иметь приоритет.",
   "options.heywiki.raycast_allow_fluid.name": "Учитывать жидкости",
   "options.heywiki.raycast_allow_fluid.description": "Включить функцию вики и для жидкостей.",
-  "options.heywiki.open_key.description": "Key bind to trigger wiki lookup.",
+  "options.heywiki.open_key.description": "Привязка для поиска в вики.",
   "options.heywiki.title": "Настройки Hey Wiki",
   "heywiki.no_item_held": "Вы ничего не держите",
   "heywiki.no_family": "Sorry, we can't find a correct wiki for this",

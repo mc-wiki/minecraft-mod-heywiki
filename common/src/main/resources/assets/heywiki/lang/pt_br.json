@@ -11,7 +11,7 @@
   "options.heywiki.requires_confirmation.description": "Abre a tela de confirmação antes de abrir o artigo na wiki. Isso é útil para evitar a ativação acidental do recurso.",
   "options.heywiki.requires_confirmation.name": "Requer confirmação",
   "options.heywiki.raycast_reach.name": "Alcance",
-  "options.heywiki.raycast_reach.description": "Distância máxima para acionar o recurso da wiki.\nIsto pode causar problemas de desempenho.\nSe o atributo de alcance de interação for maior, ele será usado.",
+  "options.heywiki.raycast_reach.description": "Distância máxima para acionar o recurso da wiki.\nValores altos podem causar queda de desempenho.\nSe o atributo de alcance de interação for maior, ele será usado.",
   "options.heywiki.raycast_allow_fluid.name": "Permitir fluidos",
   "options.heywiki.raycast_allow_fluid.description": "Permite o uso do recurso da Wiki em blocos fluidos.",
   "options.heywiki.open_key.description": "Ligação de tecla para acionar a pesquisa da wiki.",
