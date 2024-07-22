@@ -1,0 +1,21 @@
+{
+  "id": "create",
+  "namespace": [
+    "create"
+  ],
+  "wikis": [
+    {
+      "article_url": "https://create.fandom.com/wiki/?search=%s",
+      "mw_api_url": "https://create.fandom.com/api.php",
+      "random_article": "Special:RandomPage",
+      "excerpt": "none",
+      "language": {
+        "wiki_language": "en",
+        "main": true,
+        "default": "en_us",
+        "regex": "^en_.*",
+        "exclude": null
+      }
+    }
+  ]
+}

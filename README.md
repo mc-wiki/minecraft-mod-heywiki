@@ -87,6 +87,7 @@ Currently, Hey Wiki supports the following wikis:
 - [The Twilight Forest Wiki](http://benimatic.com/tfwiki/)
 - [Applied Energistics 2 Wiki](https://guide.appliedenergistics.org/)
 - [Stardust Labs Wiki](https://stardustlabs.miraheze.org/)
+- [Create Wiki](https://create.fandom.com/wiki/)
 
 If you want to add support for other wikis, you can
 [file an issue](https://github.com/mc-wiki/minecraft-mod-heywiki/issues/new?labels=new+wiki%2Ctriage+needed&template=new_wiki.yml).
