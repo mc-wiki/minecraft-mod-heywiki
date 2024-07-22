@@ -10,6 +10,7 @@
     "AbstractInventoryScreenMixin",
     "HandledScreenMixin",
     "ScreenMixin",
+    "SplashTextResourceSupplierMixin",
     "TranslationStorageFactory",
     "integration.emi.EmiScreenManagerMixin",
     "integration.emi.RecipeScreenMixin",

@@ -5,6 +5,7 @@ import dev.emi.emi.api.stack.ItemEmiStack;
 import dev.emi.emi.screen.EmiScreenManager;
 import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -16,6 +17,7 @@ import wiki.minecraft.heywiki.wiki.WikiPage;
 import static dev.emi.emi.api.EmiApi.getHoveredStack;
 import static wiki.minecraft.heywiki.wiki.WikiPage.NO_FAMILY_MESSAGE;
 
+@Pseudo
 @Mixin(EmiScreenManager.class)
 public class EmiScreenManagerMixin {
     @Shadow
