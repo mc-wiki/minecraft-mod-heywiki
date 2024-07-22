@@ -1,7 +1,7 @@
 {
   "required": true,
   "package": "wiki.minecraft.heywiki.mixin",
-  "compatibilityLevel": "JAVA_17",
+  "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
   "injectors": {
     "defaultRequire": 1
@@ -11,6 +11,7 @@
     "GameRendererMixin",
     "HandledScreenMixin",
     "ScreenMixin",
+    "SplashTextResourceSupplierMixin",
     "TranslationStorageFactory",
     "integration.emi.EmiScreenManagerMixin",
     "integration.emi.RecipeScreenMixin",
