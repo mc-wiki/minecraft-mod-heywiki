@@ -116,11 +116,11 @@ Hey Wiki supports using resource pack to add support for other wikis. To do so, 
       // The URL pattern for articles. %s will be replaced with the query
       "article_url": "https://minecraft.wiki/?search=%s",
       // (Optional) If the wiki is a MediaWiki wiki, the API URL
-      "mw_api_url": "https://ja.minecraft.wiki/api.php",
+      "mw_api_url": "https://minecraft.wiki/api.php",
       // (Optional) The page name for the random article
       "random_article": "Special:RandomRootPage/Main",
       // (Optional) How Hey Wiki should fetch excerpts from the wiki. Either "text_extracts" or "none".
-      // "text_extracts" only works for MediaWiki sites with the TextExtracts extension installed. You can check this by visiting Special:Version on the wiki.
+      // "text_extracts" only works for MediaWiki sites with the TextExtracts and PageImages extension installed. You can check this by visiting Special:Version on the wiki.
       "excerpt": "text_extracts",
       "language": {
         // The language code of the wiki
@@ -149,6 +149,21 @@ Hey Wiki supports using resource pack to add support for other wikis. To do so, 
     }
   ]
 }
+```
+
+### Data pack and custom server support
+
+Data pack and custom server authors can now use `heywiki:identifier` and `heywiki:translation_key` in `custom_data`
+component to provide custom namespace and name for an item. However this only accounts for custom items.
+
+You need to use the method above to register a new wiki with a custom namespace using resource pack. If it is not
+feasible to ask your players to download a resource pack, we can also ship it with the mod itself.
+
+For example, on "niceserver", to have a pickaxe item to resolve to the "Drill" page, you will first need to register
+the "niceserver" namespace per above. Then you can give the player this item:
+
+```mcfunction
+/give @s minecraft:bone[minecraft:custom_data={"heywiki:identifier": "niceserver:drill", "heywiki:translation_key": "item.niceserver.drill"}]
 ```
 
 ## Dependencies

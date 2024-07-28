@@ -44,45 +44,31 @@ public record WikiPage(String pageName, WikiIndividual wiki) {
         var family = WikiFamilyConfigManager.getFamilyByNamespace(identifier.getNamespace());
         if (family == null) return null;
 
-        if (HeyWikiConfig.language.equals("auto")) {
-            var language = client.options.language;
-            var wiki = family.getLanguageWikiByGameLanguage(language);
-            if (wiki != null) {
-                TranslationStorage storage = getTranslationOverride(wiki);
-                if (storage != null && storage.hasTranslation(translationKey)) {
-                    String override = storage.get(translationKey, identifier.getPath());
-                    return new WikiPage(override, wiki);
-                }
-                return new WikiPage(Language.getInstance().get(translationKey, identifier.getPath()), wiki);
-            }
-        } else {
-            var language = HeyWikiConfig.language;
-            var wiki = family.getLanguageWikiByWikiLanguage(language);
-            if (wiki != null) {
-                if (wiki.language().matchLanguage(client.options.language)) {
-                    TranslationStorage storage = getTranslationOverride(wiki);
-                    if (storage != null && storage.hasTranslation(translationKey)) {
-                        String override = storage.get(translationKey, identifier.getPath());
-                        return new WikiPage(override, wiki);
-                    }
-                    return new WikiPage(Language.getInstance().get(translationKey, identifier.getPath()), wiki);
-                } else {
-                    TranslationStorage storage = getTranslationOverride(wiki);
-                    if (storage != null && storage.hasTranslation(translationKey)) {
-                        String override = storage.get(translationKey, identifier.getPath());
-                        return new WikiPage(override, wiki);
-                    }
-                    return new WikiPage(WikiTranslationManager.translations
-                                                .get(wiki.language().defaultLanguage())
-                                                .get(translationKey, identifier.getPath()), wiki);
-                }
-            }
+        final String language = HeyWikiConfig.language.equals("auto")
+                ? client.options.language
+                : HeyWikiConfig.language;
+        WikiIndividual wiki = HeyWikiConfig.language.equals("auto")
+                ? family.getLanguageWikiByGameLanguage(language)
+                : family.getLanguageWikiByWikiLanguage(language);
+
+        if (wiki == null) {
+            wiki = Objects.requireNonNull(family.getMainLanguageWiki());
+            return new WikiPage(WikiTranslationManager.translations
+                                        .get(wiki.language().defaultLanguage())
+                                        .get(translationKey), wiki);
         }
 
-        WikiIndividual wiki = Objects.requireNonNull(family.getMainLanguageWiki());
-        return new WikiPage(WikiTranslationManager.translations
-                                    .get(wiki.language().defaultLanguage())
-                                    .get(translationKey), wiki);
+        TranslationStorage storage = getTranslationOverride(wiki);
+        if (storage != null && storage.hasTranslation(translationKey)) {
+            String override = storage.get(translationKey, identifier.getPath());
+            return new WikiPage(override, wiki);
+        } else if (wiki.language().matchLanguage(client.options.language)) {
+            return new WikiPage(Language.getInstance().get(translationKey, identifier.getPath()), wiki);
+        } else {
+            return new WikiPage(WikiTranslationManager.translations
+                                        .get(wiki.language().defaultLanguage())
+                                        .get(translationKey, identifier.getPath()), wiki);
+        }
     }
 
     public static WikiPage fromWikitextLink(String link) {
