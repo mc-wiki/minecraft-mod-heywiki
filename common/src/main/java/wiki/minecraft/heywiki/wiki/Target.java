@@ -1,17 +1,33 @@
 package wiki.minecraft.heywiki.wiki;
 
+import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.AirBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.biome.Biome;
+import org.jetbrains.annotations.Nullable;
 
 public record Target(Identifier identifier, String translationKey) {
+    private final static Codec<Target> CODEC = RecordCodecBuilder
+            .create(builder ->
+                            builder.group(
+                                           Identifier.CODEC.fieldOf("heywiki:identifier")
+                                                           .forGetter(target -> target.identifier),
+                                           Codec.STRING.fieldOf("heywiki:translation_key")
+                                                       .forGetter(target -> target.translationKey))
+                                   .apply(builder, Target::new));
+
     public static Target of(Block block) {
         if (block instanceof AirBlock) return null;
         return new Target(block.arch$registryName(), block.getTranslationKey());
@@ -28,6 +44,13 @@ public record Target(Identifier identifier, String translationKey) {
 
     public static Target of(ItemStack stack) {
         if (stack.isEmpty()) return null;
+
+        @Nullable NbtCompound nbtCompound = stack.getNbt();
+        if (nbtCompound != null) {
+            Pair<Target, NbtElement> target = CODEC.decode(NbtOps.INSTANCE, nbtCompound).result().orElse(null);
+            if (target != null) return target.getFirst();
+        }
+
         return new Target(stack.getItem().arch$registryName(), stack.getTranslationKey());
     }
 

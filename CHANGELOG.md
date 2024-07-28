@@ -1,16 +1,6 @@
-# v1.5.4+1.20.4
-
-Note: 1.20.4 support will be dropped in 1.6.0
+# v1.5.5+1.20.4
 
 ## Changes
 
-- New wiki: [Stardust Labs Wiki](https://stardustlabs.miraheze.org/)
-- New wiki: [Create Wiki](https://create.fandom.com/wiki/) (#51, #53, #63)
-- If a wiki family is not found, an error message will be displayed instead of using Minecraft Wiki as fallback
-
-## Fixes
-
-- No longer crashes when Hey Wiki, Zoomify and RRLS are installed together (#57)
-    - Note that this is a workaround and the root cause is still unknown
-- No longer display the loading description placeholder when fetching the description fails
-- Tooltip for open wiki key bind in the config menu is now correct
+- Data pack and custom server authors can now use `heywiki:identifier` and `heywiki:translation_key` fields
+  in NBT to provide custom namespace and name for an item.
