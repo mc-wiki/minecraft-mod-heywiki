@@ -17,7 +17,7 @@
   "options.heywiki.open_key.description": "Привязка для поиска в вики.",
   "options.heywiki.title": "Настройки Hey Wiki",
   "heywiki.no_item_held": "Вы ничего не держите",
-  "heywiki.no_family": "Sorry, we can't find a correct wiki for this",
+  "heywiki.no_family": "Статья на вики не найдена",
   "heywiki.too_far": "Вы ни на что не навелись. Может быть, нужно подойти ближе?",
   "screen.heywiki_confirm_link.loading_excerpt": "Загрузка описания..."
 }
