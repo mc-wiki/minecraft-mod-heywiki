@@ -154,7 +154,8 @@ Hey Wiki supports using resource pack to add support for other wikis. To do so, 
 ### Data pack and custom server support
 
 Data pack and custom server authors can now use `heywiki:identifier` and `heywiki:translation_key` in `custom_data`
-component to provide custom namespace and name for an item. However this only accounts for custom items.
+component to provide custom namespace and name for an item. However this only accounts for custom items. For 1.20.4,
+you can populate these fields directly in NBT.
 
 You need to use the method above to register a new wiki with a custom namespace using resource pack. If it is not
 feasible to ask your players to download a resource pack, we can also ship it with the mod itself.
@@ -162,8 +163,16 @@ feasible to ask your players to download a resource pack, we can also ship it wi
 For example, on "niceserver", to have a pickaxe item to resolve to the "Drill" page, you will first need to register
 the "niceserver" namespace per above. Then you can give the player this item:
 
+1.21:
+
 ```mcfunction
 /give @s minecraft:bone[minecraft:custom_data={"heywiki:identifier": "niceserver:drill", "heywiki:translation_key": "item.niceserver.drill"}]
+```
+
+1.20.4:
+
+```mcfunction
+/give @s minecraft:bone{"heywiki:identifier": "niceserver:drill", "heywiki:translation_key": "item.niceserver.drill"}
 ```
 
 ## Dependencies
