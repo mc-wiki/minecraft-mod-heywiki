@@ -57,6 +57,8 @@ These commands are available:
     - Example: `/wiki minecraft:creeper` -> `https://minecraft.wiki/w/?search=creeper`
         - Redirect: `/whatis`
 - `/whatbiome` - Opens the Minecraft Wiki page of the biome you're currently in.
+- `/whatstructure` - Opens the Minecraft Wiki page of the structure you're currently in.
+    - This command is only available in singleplayer.
 - `/whatcommand <command>` - Opens the Minecraft Wiki page of the specified command.
     - Example: `/whatcommand give` -> `https://minecraft.wiki/w/?search=%2Fgive`
     - Redirect: `/whatcmd`

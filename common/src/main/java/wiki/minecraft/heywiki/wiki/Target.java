@@ -12,9 +12,12 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.structure.Structure;
+import net.minecraft.world.gen.structure.StructureType;
 import org.jetbrains.annotations.Nullable;
 
 public record Target(Identifier identifier, String translationKey) {
@@ -68,5 +71,15 @@ public record Target(Identifier identifier, String translationKey) {
         Identifier identifier = key.get().getValue();
 
         return new Target(identifier, effect.getTranslationKey());
+    }
+
+    public static Target of(Structure structure) {
+        StructureType<?> structureType = structure.getType();
+        RegistryEntry<StructureType<?>> structureTypeEntry = Registries.STRUCTURE_TYPE.getEntry(structureType);
+        var key = structureTypeEntry.getKey();
+        if (key.isEmpty()) return null;
+        Identifier identifier = key.get().getValue();
+
+        return new Target(identifier, identifier.toTranslationKey("structure"));
     }
 }
