@@ -121,7 +121,7 @@ public record WikiPage(String pageName, WikiIndividual wiki) {
     }
 
     public void openInBrowser(Boolean skipConfirmation) {
-        openInBrowser(skipConfirmation, null);
+        openInBrowser(skipConfirmation, client.currentScreen);
     }
 
     public void openInBrowser(Boolean skipConfirmation, Screen parent) {

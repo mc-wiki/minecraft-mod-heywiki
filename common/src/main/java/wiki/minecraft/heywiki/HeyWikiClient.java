@@ -8,6 +8,7 @@ import dev.architectury.event.events.client.ClientGuiEvent;
 import dev.architectury.event.events.client.ClientTickEvent;
 import dev.architectury.registry.ReloadListenerRegistry;
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.command.CommandRegistryAccess;
@@ -36,6 +37,7 @@ public class HeyWikiClient {
                                                           "key.categories.heywiki"
                                                           // The translation key of the keybinding's category.
     );
+    private static final MinecraftClient client = MinecraftClient.getInstance();
 
     public static void init() {
         HeyWikiConfig.load();
@@ -69,6 +71,9 @@ public class HeyWikiClient {
         WhatIsThisCommand.register(dispatcher);
         WhatIsThisItemCommand.register(dispatcher);
         var wikiCommand = WikiCommand.register(dispatcher);
+        if (client.isIntegratedServerRunning()) {
+            WhatStructureCommand.register(dispatcher);
+        }
 
         dispatcher.register(literal("whatis").redirect(wikiCommand));
         dispatcher.register(literal("whatcmd").redirect(whatCommandCommand));
