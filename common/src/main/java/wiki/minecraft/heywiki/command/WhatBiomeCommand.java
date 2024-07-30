@@ -23,7 +23,7 @@ public class WhatBiomeCommand {
 
                             var block = CLIENT.player.getBlockPos();
                             var biomeRegistryEntry = CLIENT.world.getBiome(block);
-                            var target = Target.of(biomeRegistryEntry);
+                            var target = Target.of(biomeRegistryEntry, "biome");
                             if (target == null) return 1;
                             var page = WikiPage.fromTarget(target);
                             if (page == null) {

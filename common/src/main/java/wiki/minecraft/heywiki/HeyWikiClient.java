@@ -1,6 +1,7 @@
 package wiki.minecraft.heywiki;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.logging.LogUtils;
 import dev.architectury.event.events.client.ClientChatEvent;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent.ClientCommandSourceStack;
@@ -29,6 +30,7 @@ import static dev.architectury.event.events.client.ClientCommandRegistrationEven
 
 public class HeyWikiClient {
     public static final String MOD_ID = "heywiki";
+    private static final MinecraftClient client = MinecraftClient.getInstance();
     public static KeyBinding openWikiKey = new KeyBinding("key.heywiki.open",
                                                           // The translation key of the keybinding's name
                                                           InputUtil.Type.KEYSYM,
@@ -38,7 +40,12 @@ public class HeyWikiClient {
                                                           "key.categories.heywiki"
                                                           // The translation key of the keybinding's category.
     );
-    private static final MinecraftClient client = MinecraftClient.getInstance();
+
+    public static void experimentalWarning(String feature) {
+        LogUtils.getLogger()
+                .warn("{} is an experimental feature. It is subject to breaking changes in future minor or patch releases.",
+                      feature);
+    }
 
     public static void init() {
         HeyWikiConfig.load();

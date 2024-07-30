@@ -10,9 +10,9 @@
 [<img alt="neoforge" height="56" src="https://github.com/mc-wiki/minecraft-mod-heywiki/blob/master/docs/supports_neoforge.svg?raw=true">](https://neoforged.net/)
 [<img alt="crowdin" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/translate/crowdin_vector.svg">](https://crowdin.com/project/hey-wiki)
 
-Hey Wiki is a client mod made by [the Minecraft Wiki](https://minecraft.wiki) that allows you to press H (customizable)
-to open the wiki page of the block/item/entity you're aiming at, no matter it's from vanilla or a mod.
-Hey Wiki supports Fabric and NeoForge.
+Hey Wiki is a client mod made by the [the Minecraft Wiki](https://minecraft.wiki) community that allows you to press H (customizable)
+to open the wiki page of the block, item, or entity you're aiming at, whether it's from vanilla or a mod.
+Hey Wiki supports [Fabric](https://fabricmc.net/) and [NeoForge](https://neoforged.net/).
 
 ## Features
 
@@ -28,10 +28,10 @@ https://github.com/mc-wiki/minecraft-mod-heywiki/assets/45287180/b0650362-1fe9-4
 
 ### How to use
 
-1. Install the mod. You can download it from [CurseForge](https://curseforge.com/minecraft/mc-mods/hey-wiki)
-   or [Modrinth](https://modrinth.com/mod/hey-wiki). Don't forget to install the [dependencies](#dependencies).
-2. Point at a block/entity with your crosshair or hover over an item in your inventory with your pointer.
-3. Press the keybind (default: H).
+1. Install the mod. You can download it from [Modrinth](https://modrinth.com/mod/hey-wiki)
+   or [CurseForge](https://curseforge.com/minecraft/mc-mods/hey-wiki). Don't forget to install the [dependencies](#dependencies).
+2. Point at a block/entity with your crosshair or hover over an item in your inventory with your cursor.
+3. Press the keybind (default is H).
 4. Either confirm the action or copy the link to your clipboard in the screen that pops up.
 
 ### Configuration
@@ -43,6 +43,7 @@ Optionally, you can change these behaviors in the config menu:
 
 - If confirmation is required to open the wiki page: default is true
 - Which wiki language you prefer, overriding your game language: default is your game language
+- (For Chinese users) Which Chinese variant you prefer, overriding your game language: default is your game language
 - The keybind to open the wiki page: default is H
 - Reach distance: default is 5.2 blocks (same as creative mode reach)
 - Whether fluid is allowed: default is false
@@ -55,13 +56,13 @@ These commands are available:
     - Example: `/imfeelinglucky minecraft` -> `https://minecraft.wiki/????????`
 - `/wiki <pageName>` - Opens the Minecraft Wiki page of the specified page name. `pageName` can include a namespace.
     - Example: `/wiki minecraft:creeper` -> `https://minecraft.wiki/w/?search=creeper`
-        - Redirect: `/whatis`
+        - Alias: `/whatis`
 - `/whatbiome` - Opens the Minecraft Wiki page of the biome you're currently in.
 - `/whatstructure` - Opens the Minecraft Wiki page of the structure you're currently in.
     - This command is only available in singleplayer.
 - `/whatcommand <command>` - Opens the Minecraft Wiki page of the specified command.
     - Example: `/whatcommand give` -> `https://minecraft.wiki/w/?search=%2Fgive`
-    - Redirect: `/whatcmd`
+    - Alias: `/whatcmd`
 - `/whatisthis` - Opens the Minecraft Wiki page of the block/item/entity you're aiming at.
 - `/whatisthisitem` - Opens the Minecraft Wiki page of the item you're holding in you main hand.
     - `whatisthisitem offhand` - Same, but for the offhand.
@@ -95,11 +96,12 @@ If you want to add support for other wikis, you can
 [file an issue](https://github.com/mc-wiki/minecraft-mod-heywiki/issues/new?labels=new+wiki%2Ctriage+needed&template=new_wiki.yml).
 In addition, you can also add support for other wikis by using a resource pack.
 
+## APIs
+
 ### Resource pack
 
-> [!WARNING]  
-> Please note that the JSON schema is not stable and is not semantically versioned yet.
-> We very well might break it in minor versions.
+> [!NOTE]
+> This API is stable since v1.6.0.
 
 Hey Wiki supports using resource pack to add support for other wikis. To do so, create a JSON file in the
 `assets/<namespace>/wiki_family/` folder in your resource pack with the following format:
@@ -153,16 +155,19 @@ Hey Wiki supports using resource pack to add support for other wikis. To do so, 
 }
 ```
 
-### Data pack and custom server support
+### Custom item via data component or NBT
+
+> [!WARNING]
+> This API is an experimental feature and might change at any time.
 
 Data pack and custom server authors can now use `heywiki:identifier` and `heywiki:translation_key` in `custom_data`
-component to provide custom namespace and name for an item. However this only accounts for custom items. For 1.20.4,
+component to provide custom namespace and name for an item. However, this only accounts for custom items. For 1.20.4,
 you can populate these fields directly in NBT.
 
 You need to use the method above to register a new wiki with a custom namespace using resource pack. If it is not
 feasible to ask your players to download a resource pack, we can also ship it with the mod itself.
 
-For example, on "niceserver", to have a pickaxe item to resolve to the "Drill" page, you will first need to register
+For example, on "niceserver", to have a bone item to resolve to the "Drill" page, you will first need to register
 the "niceserver" namespace per above. Then you can give the player this item:
 
 1.21:
@@ -195,25 +200,41 @@ For NeoForge:
 - (Optional) [Roughly Enough Items (REI)](https://modrinth.com/mod/roughly-enough-items): for REI integration
 - (Optional) [EMI](https://modrinth.com/mod/emi): for EMI integration
 
-## Version support
+## Versioning
+
+### Hey Wiki
+Hey Wiki itself follows [Semantic Versioning](https://semver.org/). The version number is in the format of
+`<major>.<minor>.<patch>[-<prerelease>]`. The version number is incremented based on the following rules:
+
+- **Major**: Incremented when breaking changes are made to stable, public API.
+- **Minor**: Incremented when new features to stable, public API are added in a backwards-compatible manner.
+- **Patch**: Incremented when bug fixes are made.
+
+### Minecraft
 
 Hey Wiki supports multiple versions of Minecraft.
 
-The current release and the master branches receive all new features and bug fixes. Pull requests should almost always
-go to `master`. If they're accepted, they should be cherry-picked to the current stable release branch.
+Every Minecraft version is assigned a support status:
+- **Active**: This version receives new features and bug fixes. Features will be backported as much as reasonably possible.
+- **Maintenance**: This version receives only bug fixes and security patches. Features are generally not backported.
+- **End of Life (EOL)**: No further updates should be expected.
 
-When a new snapshot releases, master branch is updated to that snapshot. Snapshots might receive only one version or no
+The current Minecraft release and the master branches are always Active. Pull requests should almost always
+go to `master`. If they're accepted, they should be cherry-picked to other Active branches.
+
+When a new snapshot releases, `master` branch is updated to that snapshot. Snapshots might receive only one version or no
 version at all. Only Fabric is supported for snapshots.
 
-Some select old MC versions receive LTS – they may or may not receive new bug fixes and new features, but they will
-receive critical bug fixes. Old snapshots are not supported.
+Old Minecraft versions are provided with Long Term Support (LTS) based on their popularity and the community's interest.
+LTS versions receive Active support at first. After some time, they will be downgraded to Maintenance.
+Old snapshots are not supported.
 
 The following table shows which versions are supported:
 
-| Git branch  | Minecraft version    | Supported?           | Is LTS? | Modloader        |
-|-------------|----------------------|----------------------|---------|------------------|
-| `master`    | 1.21                 | Yes (latest release) | TBD     | Fabric, Neoforge |
-| `mc/1.20.6` | 1.20.6               | No                   | No      | Fabric, Neoforge |
-| `mc/1.20.5` | 1.20.5               | No                   | No      | Fabric, Neoforge |
-| `mc/1.20.4` | 1.20.4               | Yes (LTS)            | Yes     | Fabric, Neoforge |
-| N/A         | *Outdated snapshots* | EOL                  | No      | Fabric           |
+| Git branch  | Minecraft version    | Supported?              | Is LTS? | Modloader        |
+|-------------|----------------------|-------------------------|---------|------------------|
+| `master`    | 1.21                 | Active (latest release) | Yes     | Fabric, Neoforge |
+| `mc/1.20.6` | 1.20.6               | EOL                     | No      | Fabric, Neoforge |
+| `mc/1.20.5` | 1.20.5               | EOL                     | No      | Fabric, Neoforge |
+| `mc/1.20.4` | 1.20.4               | Active (LTS)            | Yes     | Fabric, Neoforge |
+| N/A         | *Outdated snapshots* | EOL                     | No      | Fabric           |
