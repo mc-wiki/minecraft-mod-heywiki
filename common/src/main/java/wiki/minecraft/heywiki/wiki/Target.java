@@ -15,10 +15,9 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.structure.Structure;
-import net.minecraft.world.gen.structure.StructureType;
 import org.jetbrains.annotations.Nullable;
+
+import static wiki.minecraft.heywiki.HeyWikiClient.experimentalWarning;
 
 public record Target(Identifier identifier, String translationKey) {
     private final static Codec<Target> CODEC = RecordCodecBuilder
@@ -50,18 +49,13 @@ public record Target(Identifier identifier, String translationKey) {
         @Nullable NbtCompound nbtCompound = stack.getNbt();
         if (nbtCompound != null) {
             Pair<Target, NbtElement> target = CODEC.decode(NbtOps.INSTANCE, nbtCompound).result().orElse(null);
-            if (target != null) return target.getFirst();
+            if (target != null) {
+                experimentalWarning("Custom item based on custom_data or NBT");
+                return target.getFirst();
+            }
         }
 
         return new Target(stack.getItem().arch$registryName(), stack.getTranslationKey());
-    }
-
-    public static Target of(RegistryEntry<Biome> biomeRegistryEntry) {
-        var key = biomeRegistryEntry.getKey();
-        if (key.isEmpty()) return null;
-        Identifier identifier = key.get().getValue();
-
-        return new Target(identifier, identifier.toTranslationKey("biome"));
     }
 
     public static Target of(StatusEffectInstance effect) {
@@ -73,13 +67,11 @@ public record Target(Identifier identifier, String translationKey) {
         return new Target(identifier, effect.getTranslationKey());
     }
 
-    public static Target of(Structure structure) {
-        StructureType<?> structureType = structure.getType();
-        RegistryEntry<StructureType<?>> structureTypeEntry = Registries.STRUCTURE_TYPE.getEntry(structureType);
-        var key = structureTypeEntry.getKey();
+    public static Target of(RegistryEntry<?> registryEntry, String translationKeyPrefix) {
+        var key = registryEntry.getKey();
         if (key.isEmpty()) return null;
         Identifier identifier = key.get().getValue();
 
-        return new Target(identifier, identifier.toTranslationKey("structure"));
+        return new Target(identifier, identifier.toTranslationKey(translationKeyPrefix));
     }
 }

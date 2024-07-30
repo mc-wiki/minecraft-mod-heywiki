@@ -6,6 +6,7 @@ import com.mojang.brigadier.tree.LiteralCommandNode;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.structure.StructureStart;
 import net.minecraft.text.Text;
@@ -72,7 +73,9 @@ public class WhatStructureCommand {
                                 assert structureStart != null;
                                 BlockBox boundingBox = structureStart.getBoundingBox();
                                 if (boundingBox.contains(block)) {
-                                    var target = Target.of(structure);
+                                    var strucutreRegistryEntry = serverWorld.getRegistryManager()
+                                            .get(RegistryKeys.STRUCTURE).getEntry(structure);
+                                    var target = Target.of(strucutreRegistryEntry, "structure");
                                     if (target == null) return 1;
                                     var page = WikiPage.fromTarget(target);
                                     if (page == null) {
