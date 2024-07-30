@@ -50,7 +50,7 @@ public record PageExcerpt(String title, String excerpt, String imageUrl, int ima
                              "&redirects=true&exintro=true&exchars=525&explaintext=true&exsectionformat=plain&piprop=thumbnail" +
                              "&pithumbsize=640&pilicense=any&rvprop=timestamp&inprop=url&uselang=content&titles=" +
                              URLEncoder.encode(pageName, StandardCharsets.UTF_8) +
-                             (language.equals("zh") ? "&variant=" + resolveZhVariant(HeyWikiConfig.zhVariant) : ""));
+                             (language.equals("zh") ? "&converttitles=true&variant=" + resolveZhVariant(HeyWikiConfig.zhVariant) : ""));
         var executor = Util.getDownloadWorkerExecutor();
 
         return CompletableFuture.supplyAsync(() -> {
