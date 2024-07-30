@@ -14,6 +14,7 @@ import wiki.minecraft.heywiki.wiki.WikiFamily;
 import wiki.minecraft.heywiki.wiki.WikiIndividual;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class WikiFamilyConfigManager extends JsonDataLoader {
     private static final Logger LOGGER = LogUtils.getLogger();
@@ -40,10 +41,11 @@ public class WikiFamilyConfigManager extends JsonDataLoader {
         return null;
     }
 
-    public static List<String> getAllAvailableLanguages() {
+    public static Set<String> getAllAvailableLanguages() {
         return WIKI_FAMILY_MAP.values().stream()
                               .flatMap(family -> family.wikis().stream().map(wiki -> wiki.language().wikiLanguage()))
-                              .toList();
+                              .sorted(Comparator.naturalOrder())
+                              .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     public static Set<String> getAvailableNamespaces() {

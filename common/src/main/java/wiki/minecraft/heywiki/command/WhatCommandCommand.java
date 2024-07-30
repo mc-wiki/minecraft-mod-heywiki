@@ -16,15 +16,16 @@ public class WhatCommandCommand {
     @SuppressWarnings("UnusedReturnValue")
     public static LiteralCommandNode<ClientCommandSourceStack> register(
             CommandDispatcher<ClientCommandSourceStack> dispatcher) {
-        return dispatcher.register(literal("whatcommand")
-                                           .then(argument("command", string())
-                                                         .suggests(new CommandNameSuggestionProvider())
-                                                         .executes(ctx -> {
-                                                             // Unfortunately, I don't think we can check where the command comes from
-                                                             new WikiPage("/" + getString(ctx, "command"),
-                                                                          activeWikis.get("minecraft")).openInBrowser(
-                                                                     true);
-                                                             return 0;
-                                                         })));
+        return dispatcher.register(
+                literal("whatcommand")
+                        .then(argument("command", string())
+                                      .suggests(new CommandNameSuggestionProvider())
+                                      .executes(ctx -> {
+                                          // Unfortunately, I don't think we can check where the command comes from
+                                          new WikiPage("/" + getString(ctx, "command"),
+                                                       activeWikis.get("minecraft")).openInBrowser(
+                                                  true);
+                                          return 0;
+                                      })));
     }
 }
