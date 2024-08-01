@@ -15,6 +15,7 @@
     "TranslationStorageFactory",
     "integration.emi.EmiScreenManagerMixin",
     "integration.emi.RecipeScreenMixin",
-    "integration.rei.ScreenOverlayImplMixin"
+    "integration.rei.ScreenOverlayImplMixin",
+    "integration.jei.FocusInputHandlerMixin"
   ]
 }

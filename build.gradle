@@ -54,6 +54,8 @@ allprojects {
         }
 
         maven { url "https://maven.shedaniel.me/" }
+
+        maven { url "https://maven.blamejared.com/" }
     }
 
     tasks.withType(JavaCompile) {

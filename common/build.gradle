@@ -13,9 +13,12 @@ dependencies {
     // Remove the next line if you don't want to depend on the API
     modApi "dev.architectury:architectury:${rootProject.architectury_version}"
     modApi "me.shedaniel.cloth:cloth-config:${rootProject.cloth_config_version}"
-    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api:${rootProject.rei_version}"
+    modCompileOnlyApi "me.shedaniel:RoughlyEnoughItems-api:${rootProject.rei_version}"
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-runtime-fabric:${rootProject.rei_version}"
     modCompileOnly "dev.emi:emi-xplat-intermediary:${rootProject.emi_version}"
+    modCompileOnly("mezz.jei:jei-${rootProject.minecraft_version}-fabric:${rootProject.jei_version}")  {
+        exclude group: "mezz.jei"
+    }
 
     implementation 'com.google.code.gson:gson:2.10.1'
 }
