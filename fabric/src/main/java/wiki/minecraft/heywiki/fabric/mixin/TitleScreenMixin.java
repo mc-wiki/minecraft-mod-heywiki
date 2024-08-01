@@ -28,7 +28,6 @@ public class TitleScreenMixin extends Screen implements TitleScreenInterface {
     private int drawTextWithShadow(DrawContext drawContext, TextRenderer textRenderer, String text, int x, int y,
                                    int color) {
         if (isInitialized) return 0;
-
         var article = WikiPage.versionArticle(SharedConstants.getGameVersion().getName());
         if (article == null) return drawContext.drawTextWithShadow(textRenderer, text, x, y, color);
 

@@ -51,7 +51,8 @@
   },
   "suggests": {
     "roughlyenoughitems": ">=14.0.0",
-    "emi": ">=1.1.0"
+    "emi": ">=1.1.0",
+    "jei": ">=17.0.0"
   },
   "custom": {
     "modmenu": {

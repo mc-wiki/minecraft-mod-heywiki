@@ -24,13 +24,16 @@ dependencies {
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
     // Remove the next line if you don't want to depend on the API
     modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
-    modApi "com.terraformersmc:modmenu:9.0.0"
+    modApi "com.terraformersmc:modmenu:${rootProject.modmenu_version}"
     modApi "me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}"
     if (rootProject.hasProperty("with_rei") && rootProject.property("with_rei") == "true") {
         modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rootProject.rei_version}"
     }
     if (rootProject.hasProperty("with_emi") && rootProject.property("with_emi") == "true") {
         modRuntimeOnly "dev.emi:emi-fabric:${rootProject.emi_version}"
+    }
+    if (rootProject.hasProperty("with_jei") && rootProject.property("with_jei")) {
+        modRuntimeOnly "mezz.jei:jei-${rootProject.minecraft_version}-neoforge:${rootProject.jei_version}"
     }
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
