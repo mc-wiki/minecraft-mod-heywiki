@@ -23,7 +23,7 @@ public class SplashTextResourceSupplierMixin {
     private static final Logger heywiki$logger = LogUtils.getLogger();
 
     @ModifyReturnValue(
-            method = "prepare*",
+            method = "prepare(Lnet/minecraft/resource/ResourceManager;Lnet/minecraft/util/profiler/Profiler;)Ljava/util/List;",
             at = @At("RETURN")
     )
     private List<String> heywikiSplashes(List<String> originalSplashes) {

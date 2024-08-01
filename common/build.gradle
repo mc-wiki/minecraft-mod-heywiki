@@ -18,6 +18,7 @@ dependencies {
     modCompileOnly "dev.emi:emi-xplat-intermediary:${rootProject.emi_version}"
     modCompileOnly("mezz.jei:jei-${rootProject.minecraft_version}-fabric:${rootProject.jei_version}")  {
         exclude group: "mezz.jei"
+        transitive false
     }
 
     implementation 'com.google.code.gson:gson:2.10.1'
