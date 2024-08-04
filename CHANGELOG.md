@@ -9,3 +9,4 @@ Support for Hey Wiki for 1.20.4 has now been downgraded to Maintenance. This ver
 ## Fixes
 
 - Fix /whatstructure not detecting certain structures
+- Prevent pressing Esc in REI to be an infinite loop
