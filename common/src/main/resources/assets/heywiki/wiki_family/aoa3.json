@@ -1,0 +1,45 @@
+{
+  "id": "aoa3",
+  "namespace": [
+    "aoa3"
+  ],
+  "wikis": [
+    {
+      "article_url": "https://adventofascension.fandom.com/wiki/?search=%s",
+      "mw_api_url": "https://adventofascension.fandom.com/api.php",
+      "random_article": "Special:RandomPage",
+      "excerpt": "text_extracts",
+      "language": {
+        "wiki_language": "en",
+        "main": true,
+        "default": "en_us",
+        "regex": "^en_.*",
+        "exclude": null
+      }
+    },
+    {
+      "article_url": "https://adventofascension.fandom.com/ru/wiki/?search=%s",
+      "mw_api_url": "https://adventofascension.fandom.com/ru/api.php",
+      "random_article": "Special:RandomPage",
+      "excerpt": "text_extracts",
+      "language": {
+        "wiki_language": "ru",
+        "default": "ru_ru",
+        "regex": "^ru_.*",
+        "exclude": null
+      }
+    },
+    {
+      "article_url": "https://adventofascension.fandom.com/zh/wiki/?search=%s",
+      "mw_api_url": "https://adventofascension.fandom.com/zh/api.php",
+      "random_article": "Special:RandomPage",
+      "excerpt": "text_extracts",
+      "language": {
+        "wiki_language": "zh",
+        "default": "zh_cn",
+        "regex": "^zh_.*",
+        "exclude": null
+      }
+    }
+  ]
+}
