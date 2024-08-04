@@ -7,3 +7,4 @@
 ## Fixes
 
 - Fix /whatstructure not detecting certain structures
+- Prevent pressing Esc in REI to be an infinite loop
