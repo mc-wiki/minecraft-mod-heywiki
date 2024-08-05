@@ -14,7 +14,6 @@
   "options.heywiki.raycast_reach.description": "Suurin etäisyys, johon voit tähdätä käynnistääksesi wikiominaisuuden.\nHuomaa, että suuremmat arvot voivat aiheuttaa suorituskykyongelmia.\nJos vuorovaikutusalueen määrite on suurempi, sitä käytetään sen sijaan.",
   "options.heywiki.raycast_allow_fluid.name": "Anna nesteen",
   "options.heywiki.raycast_allow_fluid.description": "Salli tähtääminen joustaviin lohkoihin käynnistääksesi wikiominaisuuden.",
-  "options.heywiki.open_key.description": "Key bind to trigger wiki lookup.",
   "options.heywiki.title": "Hei Wikin asetukset",
   "heywiki.no_item_held": "Mitään kohdetta ei säilytetä",
   "heywiki.no_family": "Sorry, we can't find a correct wiki for this",

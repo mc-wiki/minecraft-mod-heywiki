@@ -14,7 +14,6 @@
   "options.heywiki.raycast_reach.description": "能瞄準觸發 wiki 功能的最大距離。\n注意，較高的值可能會影響效能。\n若互動距離屬性大過本值，其將取代此處的設定。",
   "options.heywiki.raycast_allow_fluid.name": "允許流體",
   "options.heywiki.raycast_allow_fluid.description": "允許在瞄準流體方塊時觸發 wiki 功能。",
-  "options.heywiki.open_key.description": "Key bind to trigger wiki lookup.",
   "options.heywiki.title": "Hey Wiki 選項",
   "heywiki.no_item_held": "手中未持有物品",
   "heywiki.no_family": "Sorry, we can't find a correct wiki for this",

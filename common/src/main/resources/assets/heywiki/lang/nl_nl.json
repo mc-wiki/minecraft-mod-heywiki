@@ -14,7 +14,6 @@
   "options.heywiki.raycast_reach.description": "Maximale afstand waarop je kunt richten om de wiki functie te activeren.\nLet op dat dit met hogere waarden de spelprestaties kunnen verminderen.\nAls interactie bereik waarde hoger is, wordt deze in plaats daarvan gebruikt.",
   "options.heywiki.raycast_allow_fluid.name": "Vloeistoffen toestaan",
   "options.heywiki.raycast_allow_fluid.description": "Richten op vloeistof blokken toestaan om de wiki functie te triggeren.",
-  "options.heywiki.open_key.description": "Key bind to trigger wiki lookup.",
   "options.heywiki.title": "Hey Wiki opties",
   "heywiki.no_item_held": "Er wordt geen item vastgehouden",
   "heywiki.no_family": "Sorry, we can't find a correct wiki for this",

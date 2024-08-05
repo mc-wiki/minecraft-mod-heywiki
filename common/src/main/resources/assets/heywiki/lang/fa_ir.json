@@ -14,7 +14,6 @@
   "options.heywiki.raycast_reach.description": "حداکثر فاصله ای که می توانید برای فعال کردن ویژگی ویکی هدف بگیرید.\nتوجه داشته باشید که مقادیر بالاتر ممکن است باعث مشکلات عملکردی شود.\nاگر ویژگی محدوده تعامل بالاتر باشد، به جای آن استفاده می شود.",
   "options.heywiki.raycast_allow_fluid.name": "اجازه دادن به مایع",
   "options.heywiki.raycast_allow_fluid.description": "اجازه دادن به هدف گیری به سمت مایعات برای استفاده از ویژگی ویکی.",
-  "options.heywiki.open_key.description": "Key bind to trigger wiki lookup.",
   "options.heywiki.title": "تنظیمات هی ویکی",
   "heywiki.no_item_held": "هیچ آیتمی در دست ندارید",
   "heywiki.no_family": "Sorry, we can't find a correct wiki for this",

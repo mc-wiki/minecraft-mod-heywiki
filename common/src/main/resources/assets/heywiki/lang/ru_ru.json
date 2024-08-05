@@ -1,5 +1,6 @@
 {
   "command.imfeelinglucky.not_supported": "Указанная вики-семья не поддерживает функцию открытия случайной статьи",
+  "command.whatstructure.no_structure": "Структура не найдена",
   "key.categories.heywiki": "Hey Wiki",
   "key.heywiki.open": "Открыть статью на вики",
   "options.heywiki.general": "Общие",
@@ -19,5 +20,21 @@
   "heywiki.no_item_held": "Вы ничего не держите",
   "heywiki.no_family": "Статья на вики не найдена",
   "heywiki.too_far": "Вы ни на что не навелись. Может быть, нужно подойти ближе?",
-  "screen.heywiki_confirm_link.loading_excerpt": "Загрузка описания..."
+  "screen.heywiki_confirm_link.loading_excerpt": "Загрузка описания...",
+  "structure.minecraft.pillager_outpost": "Аванпост разбойников",
+  "structure.minecraft.mineshaft": "Заброшенная шахта",
+  "structure.minecraft.mineshaft_mesa": "Заброшенная шахта пустоши",
+  "structure.minecraft.mansion": "Лесной особняк",
+  "structure.minecraft.jungle_pyramid": "Джунглевая пирамида",
+  "structure.minecraft.desert_pyramid": "Пустынная пирамида",
+  "structure.minecraft.igloo": "Иглу",
+  "structure.minecraft.shipwreck": "Затонувший корабль",
+  "structure.minecraft.swamp_hut": "Хижина ведьмы",
+  "structure.minecraft.stronghold": "Крепость",
+  "structure.minecraft.monument": "Подводная крепость",
+  "structure.minecraft.ocean_ruin_cold": "Руины холодного океана",
+  "structure.minecraft.ocean_ruin_warm": "Руины теплого океана",
+  "structure.minecraft.fortress": "Крепость Нижнего мира",
+  "structure.minecraft.nether_fossil": "Ископаемые останки Нижнего мира",
+  "structure.minecraft.end_city": "Город Края"
 }

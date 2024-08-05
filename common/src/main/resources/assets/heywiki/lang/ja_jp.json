@@ -1,5 +1,5 @@
 {
-  "command.imfeelinglucky.not_supported": "指定したWikiファミリーではおまかせ記事機能を利用できません",
+  "command.imfeelinglucky.not_supported": "指定のWikiにはおまかせ表示機能がありません",
   "key.categories.heywiki": "Hey Wiki",
   "key.heywiki.open": "Wikiの記事を開く",
   "options.heywiki.general": "全般",
@@ -14,7 +14,6 @@
   "options.heywiki.raycast_reach.description": "Wikiの機能を起動できる距離の最大値です。\n高い値はパフォーマンスに問題を引き起こす場合があります。\n操作範囲属性がこの値より高い場合は、その値が使用されます。",
   "options.heywiki.raycast_allow_fluid.name": "液体を許可",
   "options.heywiki.raycast_allow_fluid.description": "液体ブロックに対してWiki機能を起動できるようにします。",
-  "options.heywiki.open_key.description": "Key bind to trigger wiki lookup.",
   "options.heywiki.title": "Hey Wikiの設定",
   "heywiki.no_item_held": "何もアイテムを持っていません。",
   "heywiki.no_family": "Sorry, we can't find a correct wiki for this",
