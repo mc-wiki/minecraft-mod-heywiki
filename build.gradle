@@ -56,6 +56,19 @@ allprojects {
         maven { url "https://maven.shedaniel.me/" }
 
         maven { url "https://maven.blamejared.com/" }
+
+        exclusiveContent {
+            forRepository {
+                maven {
+                    name = "Modrinth"
+                    url = "https://api.modrinth.com/maven"
+                }
+            }
+
+            filter {
+                includeGroup "maven.modrinth"
+            }
+        }
     }
 
     tasks.withType(JavaCompile) {
@@ -65,5 +78,9 @@ allprojects {
 
     java {
         withSourcesJar()
+    }
+
+    javadoc {
+        exclude '**/mixin/**'
     }
 }

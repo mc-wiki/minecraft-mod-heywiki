@@ -25,11 +25,11 @@ import static wiki.minecraft.heywiki.wiki.WikiPage.NO_FAMILY_MESSAGE;
 @Pseudo
 @Mixin(FocusInputHandler.class)
 public class FocusInputHandlerMixin {
-    @Shadow
+    @Shadow(remap = false)
     @Final
     private CombinedRecipeFocusSource focusSource;
 
-    @Inject(method = "handleUserInput", at = @At("HEAD"))
+    @Inject(method = "handleUserInput", at = @At("HEAD"), remap = false)
     private void handleUserInput(Screen screen, UserInput input, IInternalKeyMappings keyBindings,
                                  CallbackInfoReturnable<Optional<IUserInputHandler>> cir) {
         input.callVanilla((int keyCode, int scanCode, int modifiers) -> {

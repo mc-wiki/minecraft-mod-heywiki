@@ -15,7 +15,17 @@ import java.util.regex.Pattern;
 
 import static net.minecraft.text.ClickEvent.Action.OPEN_URL;
 
+/**
+ * Handles wiki links in chat messages.
+ */
 public class ChatWikiLinks {
+    /**
+     * Should be called at {@link dev.architectury.event.events.client.ClientChatEvent#RECEIVED ClientChatEvent#RECEIVED}.
+     *
+     * @param ignoredType The message type.
+     * @param message     The message.
+     * @return The new message.
+     */
     public static CompoundEventResult<Text> onClientChatReceived(MessageType.Parameters ignoredType, Text message) {
         MutableText text = Text.empty();
 

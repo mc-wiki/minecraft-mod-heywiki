@@ -16,7 +16,13 @@ import java.util.List;
 import static wiki.minecraft.heywiki.HeyWikiClient.openWikiKey;
 import static wiki.minecraft.heywiki.wiki.WikiPage.NO_FAMILY_MESSAGE;
 
+/**
+ * Raycasts from the crosshair to find a {@link Target} and opens the corresponding {@link WikiPage}.
+ */
 public class CrosshairRaycast {
+    /**
+     * Should be called at {@link dev.architectury.event.events.client.ClientTickEvent#CLIENT_POST ClientTickEvent#CLIENT_POST}.
+     */
     public static void onClientTickPost(MinecraftClient client) {
         while (openWikiKey.wasPressed()) {
             Target target;
@@ -38,6 +44,43 @@ public class CrosshairRaycast {
         }
     }
 
+    /**
+     * Should be called at {@link dev.architectury.event.events.client.ClientGuiEvent#DEBUG_TEXT_RIGHT ClientGuiEvent#DEBUG_TEXT_RIGHT}.
+     */
+    public static void onDebugTextRight(List<String> texts) {
+        var target = CrosshairRaycast.raycast();
+        if (target == null) {
+            texts.add("heywiki: null");
+            return;
+        }
+        var page = WikiPage.fromTarget(target);
+        if (page == null) {
+            texts.add("heywiki: null");
+            return;
+        }
+        texts.add("heywiki: " + page.getUri());
+    }
+
+    /**
+     * Raycasts from the crosshair to find a {@link Target}. It will not show a message when the target is too far.
+     *
+     * @return The target found, or {@code null} if none was found.
+     * @see net.minecraft.client.render.GameRenderer#findCrosshairTarget
+     * @see #raycast(MinecraftClient, boolean)
+     */
+    public static @Nullable Target raycast() {
+        return raycast(MinecraftClient.getInstance(), false);
+    }
+
+    /**
+     * Raycasts from the crosshair to find a {@link Target}.
+     *
+     * @param client            Should be {@link MinecraftClient#getInstance()}.
+     * @param showTooFarMessage Whether to show a message when the target is too far.
+     * @return The target found, or {@code null} if none was found.
+     * @see net.minecraft.client.render.GameRenderer#findCrosshairTarget
+     * @see #raycast()
+     */
     public static @Nullable Target raycast(MinecraftClient client, boolean showTooFarMessage) {
         assert client.player != null;
         assert client.world != null;
@@ -45,9 +88,10 @@ public class CrosshairRaycast {
         double maxReach = HeyWikiConfig.raycastReach;
         double blockReach = Math.max(client.player.getBlockInteractionRange(), maxReach);
         double entityReach = Math.max(client.player.getEntityInteractionRange(), maxReach);
-        HitResult hit = ((GameRendererMixin) client.gameRenderer).invokeFindCrosshairTarget(client.cameraEntity,
-                                                                                            blockReach, entityReach,
-                                                                                            1f);
+        HitResult hit = ((GameRendererMixin) client.gameRenderer).invokeFindCrosshairTarget(
+                client.cameraEntity,
+                blockReach, entityReach,
+                1f);
 
         switch (hit) {
             case EntityHitResult entityHit -> {
@@ -65,23 +109,5 @@ public class CrosshairRaycast {
             }
         }
         return null;
-    }
-
-    public static void onDebugTextRight(List<String> texts) {
-        var target = CrosshairRaycast.raycast();
-        if (target == null) {
-            texts.add("heywiki: null");
-            return;
-        }
-        var page = WikiPage.fromTarget(target);
-        if (page == null) {
-            texts.add("heywiki: null");
-            return;
-        }
-        texts.add("heywiki: " + page.getUri());
-    }
-
-    public static @Nullable Target raycast() {
-        return raycast(MinecraftClient.getInstance(), false);
     }
 }

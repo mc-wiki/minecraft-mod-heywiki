@@ -27,13 +27,37 @@ import static dev.architectury.platform.Platform.getConfigFolder;
 import static wiki.minecraft.heywiki.resource.WikiFamilyConfigManager.getAllAvailableLanguages;
 import static wiki.minecraft.heywiki.resource.WikiFamilyConfigManager.resolveActiveWikis;
 
+/**
+ * The configuration for the Hey Wiki mod.
+ */
 public class HeyWikiConfig {
+    /**
+     * Whether the user should be prompted for confirmation before opening a wiki page.
+     */
     public static boolean requiresConfirmation = true;
+    /**
+     * The distance at which the player can raycast to find a {@link wiki.minecraft.heywiki.wiki.Target Target}.
+     */
     public static double raycastReach = 5.2D; // Use creative mode reach distance
+    /**
+     * When true, the raycast will hit fluid blocks.
+     */
     public static boolean raycastAllowFluid = false;
+    /**
+     * The language to use for wiki pages.
+     */
     public static String language = "auto";
+    /**
+     * The variant of Chinese to use for wiki pages.
+     */
     public static String zhVariant = "auto";
 
+    /**
+     * Creates a GUI for the configuration.
+     *
+     * @param parent The parent screen.
+     * @return The configuration screen.
+     */
     public static Screen createGui(Screen parent) {
         AtomicReference<Boolean> requireReload = new AtomicReference<>(false);
 
@@ -140,6 +164,11 @@ public class HeyWikiConfig {
         };
     }
 
+    /**
+     * Saves the configuration to a file.
+     *
+     * @param requireReload Whether the game should be reloaded after saving.
+     */
     public static void save(Boolean requireReload) {
         if (requireReload) MinecraftClient.getInstance().reloadResourcesConcurrently();
         Path configPath = getConfigFolder().resolve("heywiki.json");
@@ -177,6 +206,11 @@ public class HeyWikiConfig {
         return locale.getDisplayLanguage(locale);
     }
 
+    /**
+     * Loads the configuration from a file.
+     *
+     * @throws RuntimeException if the file cannot be read
+     */
     public static void load() {
         Path configPath = getConfigFolder().resolve("heywiki.json");
         if (!configPath.toFile().exists()) {

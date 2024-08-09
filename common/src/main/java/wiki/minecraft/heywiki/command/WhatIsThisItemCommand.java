@@ -28,7 +28,9 @@ public class WhatIsThisItemCommand {
                             if (CLIENT.player == null) return 1;
                             ItemStack stack = CLIENT.player.getInventory().getMainHandStack();
                             return openBrowserForStack(stack);
-                        }).then(literal("offhand")
+                        })
+                        .then(
+                                literal("offhand")
                                         .executes(ctx -> {
                                             if (CLIENT.player == null) return 1;
                                             ItemStack stack = CLIENT.player.getInventory().offHand.getFirst();

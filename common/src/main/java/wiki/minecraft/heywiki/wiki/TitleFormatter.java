@@ -4,6 +4,15 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.StringIdentifiable;
 
+/**
+ * Represents a title formatter.
+ *
+ * <p>A title formatter is used to create alternative for page titles in URLs.
+ * For example, "Hello World" can be formatted to "hello_world" or "hello-world".
+ *
+ * @param letter The letter formatting.
+ * @param space  The space formatting.
+ */
 public record TitleFormatter(Letter letter, Space space) {
     public static final TitleFormatter DEFAULT = new TitleFormatter(Letter.IGNORE, Space.IGNORE);
     public static Codec<TitleFormatter> CODEC = RecordCodecBuilder
@@ -19,6 +28,12 @@ public record TitleFormatter(Letter letter, Space space) {
                                           )
                                     .apply(builder, TitleFormatter::new));
 
+    /**
+     * Formats a title according to the letter and space formatting.
+     *
+     * @param title The title to format.
+     * @return The formatted title.
+     */
     public String formatTitle(String title) {
         String titleLetter = switch (this.letter()) {
             case LOWER -> title.toLowerCase();
@@ -33,9 +48,40 @@ public record TitleFormatter(Letter letter, Space space) {
         };
     }
 
+    /**
+     * Represents a letter formatting.
+     *
+     * @see Space
+     */
     public enum Letter implements StringIdentifiable {
+        /**
+         * Formats the letters to lower case.
+         * {@snippet lang = "java":
+         * var formatter = TitleFormatter(Letter.LOWER, Space.IGNORE);
+         * String formatted = formatter.formatTitle("Hello World");
+         * // formatted = "hello world"
+         *}
+         */
         LOWER("lower"),
+
+        /**
+         * Formats the letters to upper case.
+         * {@snippet lang = "java":
+         * var formatter = TitleFormatter(Letter.UPPER, Space.IGNORE);
+         * String formatted = formatter.formatTitle("Hello World");
+         *  // formatted = "HELLO WORLD"
+         *}
+         */
         UPPER("upper"),
+
+        /**
+         * Ignores the letter formatting.
+         * {@snippet lang = "java":
+         * var formatter = TitleFormatter(Letter.IGNORE, Space.IGNORE);
+         * String formatted = formatter.formatTitle("Hello World");
+         *  // formatted = "Hello World"
+         *}
+         */
         IGNORE("ignore");
 
         public static final Codec<Letter> CODEC = StringIdentifiable.createCodec(Letter::values);
@@ -52,9 +98,40 @@ public record TitleFormatter(Letter letter, Space space) {
         }
     }
 
+    /**
+     * Represents a space formatting.
+     *
+     * @see Letter
+     */
     public enum Space implements StringIdentifiable {
+        /**
+         * Formats the spaces to underscores.
+         * {@snippet lang = "java":
+         * var formatter = TitleFormatter(Letter.IGNORE, Space.UNDERSCORE);
+         * String formatted = formatter.formatTitle("Hello World");
+         *  // formatted = "Hello_World"
+         *}
+         */
         UNDERSCORE("underscore"),
+
+        /**
+         * Formats the spaces to dashes.
+         * {@snippet lang = "java":
+         * var formatter = TitleFormatter(Letter.IGNORE, Space.DASH);
+         * String formatted = formatter.formatTitle("Hello World");
+         *  // formatted = "Hello-World"
+         *}
+         */
         DASH("dash"),
+
+        /**
+         * Ignores the space formatting.
+         * {@snippet lang = "java":
+         * var formatter = TitleFormatter(Letter.IGNORE, Space.IGNORE);
+         * String formatted = formatter.formatTitle("Hello World");
+         *  // formatted = "Hello World"
+         *}
+         */
         IGNORE("ignore");
 
         public static final Codec<Space> CODEC = StringIdentifiable.createCodec(Space::values);

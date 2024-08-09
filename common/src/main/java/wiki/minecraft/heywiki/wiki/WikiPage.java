@@ -28,18 +28,45 @@ import java.util.Optional;
 import static wiki.minecraft.heywiki.resource.WikiFamilyConfigManager.activeWikis;
 import static wiki.minecraft.heywiki.resource.WikiTranslationManager.getTranslationOverride;
 
+/**
+ * Represents a wiki page.
+ *
+ * @param pageName The name of the page.
+ * @param wiki     The wiki the page belongs to.
+ * @see WikiIndividual
+ * @see WikiFamily
+ */
 public record WikiPage(String pageName, WikiIndividual wiki) {
+    /**
+     * The message to display when no family is found.
+     */
     public static final Text NO_FAMILY_MESSAGE = Text.translatable("heywiki.no_family")
                                                      .setStyle(Style.EMPTY.withColor(Formatting.RED));
+    /**
+     * The exception to throw when no family is found in a command.
+     */
     public static final SimpleCommandExceptionType NO_FAMILY_EXCEPTION = new SimpleCommandExceptionType(
             Text.translatable("heywiki.no_family"));
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final MinecraftClient client = MinecraftClient.getInstance();
 
+    /**
+     * Creates a wiki page from a target.
+     *
+     * @param target The target.
+     * @return The wiki page.
+     */
     public static @Nullable WikiPage fromTarget(Target target) {
         return fromTarget(target.identifier(), target.translationKey());
     }
 
+    /**
+     * Creates a wiki page from a target.
+     *
+     * @param identifier     The identifier.
+     * @param translationKey The translation key.
+     * @return The wiki page.
+     */
     public static @Nullable WikiPage fromTarget(Identifier identifier, String translationKey) {
         var family = WikiFamilyConfigManager.getFamilyByNamespace(identifier.getNamespace());
         if (family == null) return null;
@@ -71,6 +98,12 @@ public record WikiPage(String pageName, WikiIndividual wiki) {
         }
     }
 
+    /**
+     * Creates a wiki page from a wikitext link.
+     *
+     * @param link The wikitext link's target.
+     * @return The wiki page.
+     */
     public static WikiPage fromWikitextLink(String link) {
         String[] split = link.split(":", 3);
         if (split.length == 1) {
@@ -103,12 +136,23 @@ public record WikiPage(String pageName, WikiIndividual wiki) {
         return new WikiPage(link, activeWikis.get("minecraft"));
     }
 
+    /**
+     * Gets a random article from the given namespace.
+     *
+     * @param namespace The namespace.
+     * @return The random article.
+     */
     public static @Nullable WikiPage random(String namespace) {
         WikiIndividual wiki = activeWikis.get(namespace);
         if (wiki.randomArticle().isEmpty()) return null;
         return new WikiPage(wiki.randomArticle().get(), wiki);
     }
 
+    /**
+     * Gets the version article.
+     *
+     * @return The version article.
+     */
     public static @Nullable WikiPage versionArticle(String version) {
         var wiki = activeWikis.get("minecraft");
         if (wiki.versionArticle().isEmpty()) return null;
@@ -116,14 +160,28 @@ public record WikiPage(String pageName, WikiIndividual wiki) {
         return name.map(s -> new WikiPage(s.formatted(version), wiki)).orElse(null);
     }
 
+    /**
+     * Open the page in the browser without a confirmation dialog.
+     */
     public void openInBrowser() {
         openInBrowser(false);
     }
 
+    /**
+     * Open the page in the browser.
+     *
+     * @param skipConfirmation Whether to skip the confirmation dialog.
+     */
     public void openInBrowser(Boolean skipConfirmation) {
         openInBrowser(skipConfirmation, null);
     }
 
+    /**
+     * Open the page in the browser.
+     *
+     * @param skipConfirmation Whether to skip the confirmation dialog.
+     * @param parent           The parent screen.
+     */
     public void openInBrowser(Boolean skipConfirmation, Screen parent) {
         var uri = getUri();
         if (uri != null) {
@@ -135,6 +193,11 @@ public record WikiPage(String pageName, WikiIndividual wiki) {
         }
     }
 
+    /**
+     * Gets the URI of the page.
+     *
+     * @return The URI.
+     */
     public @Nullable URI getUri() {
         try {
             return new URI(this.wiki.articleUrl().formatted(

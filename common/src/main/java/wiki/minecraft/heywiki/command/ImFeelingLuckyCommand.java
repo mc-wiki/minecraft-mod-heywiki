@@ -20,22 +20,23 @@ public class ImFeelingLuckyCommand {
     @SuppressWarnings("UnusedReturnValue")
     public static LiteralCommandNode<ClientCommandSourceStack> register(
             CommandDispatcher<ClientCommandSourceStack> dispatcher) {
-        return dispatcher.register(literal("imfeelinglucky")
-                                           .executes(ctx -> {
-                                               WikiPage randomPage = WikiPage.random("minecraft");
-                                               assert randomPage != null;
-                                               randomPage.openInBrowser(true);
-                                               return 0;
-                                           })
-                                           .then(argument("namespace", string())
-                                                         .suggests(new NamespaceSuggestionProvider(false))
-                                                         .executes(ctx -> {
-                                                             String namespace = getString(ctx, "namespace");
-                                                             WikiPage randomPage = WikiPage.random(namespace);
-                                                             if (randomPage == null) throw NOT_SUPPORTED.create();
+        return dispatcher.register(
+                literal("imfeelinglucky")
+                        .executes(ctx -> {
+                            WikiPage randomPage = WikiPage.random("minecraft");
+                            assert randomPage != null;
+                            randomPage.openInBrowser(true);
+                            return 0;
+                        })
+                        .then(argument("namespace", string())
+                                      .suggests(new NamespaceSuggestionProvider(false))
+                                      .executes(ctx -> {
+                                          String namespace = getString(ctx, "namespace");
+                                          WikiPage randomPage = WikiPage.random(namespace);
+                                          if (randomPage == null) throw NOT_SUPPORTED.create();
 
-                                                             randomPage.openInBrowser(true);
-                                                             return 0;
-                                                         })));
+                                          randomPage.openInBrowser(true);
+                                          return 0;
+                                      })));
     }
 }

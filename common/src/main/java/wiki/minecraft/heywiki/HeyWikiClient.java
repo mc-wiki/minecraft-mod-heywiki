@@ -27,7 +27,9 @@ import java.util.Objects;
 
 import static dev.architectury.event.events.client.ClientCommandRegistrationEvent.literal;
 
-
+/**
+ * The main class for the Hey Wiki mod.
+ */
 public class HeyWikiClient {
     public static final String MOD_ID = "heywiki";
     private static final MinecraftClient client = MinecraftClient.getInstance();
@@ -41,12 +43,20 @@ public class HeyWikiClient {
                                                           // The translation key of the keybinding's category.
     );
 
+    /**
+     * Logs a warning that a feature is experimental.
+     *
+     * @param feature The name of the experimental feature.
+     */
     public static void experimentalWarning(String feature) {
         LogUtils.getLogger()
                 .warn("{} is an experimental feature. It is subject to breaking changes in future minor or patch releases.",
                       feature);
     }
 
+    /**
+     * Initializes the Hey Wiki mod. Should be called at client setup.
+     */
     public static void init() {
         HeyWikiConfig.load();
 

@@ -33,7 +33,7 @@ dependencies {
         modRuntimeOnly "dev.emi:emi-fabric:${rootProject.emi_version}"
     }
     if (rootProject.hasProperty("with_jei") && rootProject.property("with_jei") == "true") {
-        modRuntimeOnly "mezz.jei:jei-${rootProject.minecraft_version}-fabric:${rootProject.jei_version}"
+        modRuntimeOnly "mezz.jei:jei-${rootProject.jei_minecraft_version}-fabric:${rootProject.jei_version}"
     }
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }

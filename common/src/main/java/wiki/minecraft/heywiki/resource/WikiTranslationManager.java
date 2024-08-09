@@ -21,14 +21,26 @@ import java.util.*;
 
 import static wiki.minecraft.heywiki.resource.WikiFamilyConfigManager.*;
 
+/**
+ * Manages any additional translation files that needs to be loaded for {@link wiki.minecraft.heywiki.wiki.WikiPage WikiPages} resolution.
+ */
 public class WikiTranslationManager implements SynchronousResourceReloader {
     private static final Logger LOGGER = LogUtils.getLogger();
 
+    /**
+     * A map of translations for each language.
+     */
     public static Map<String, TranslationStorage> translations;
 
     public WikiTranslationManager() {
     }
 
+    /**
+     * Gets the language override storage for the specified wiki.
+     *
+     * @param wiki The wiki.
+     * @return The translation storage. If the language has no override, returns null.
+     */
     public static @Nullable TranslationStorage getTranslationOverride(WikiIndividual wiki) {
         return wiki.language().langOverride()
                    .map(s -> WikiTranslationManager.translations.getOrDefault(s, null))
@@ -51,15 +63,23 @@ public class WikiTranslationManager implements SynchronousResourceReloader {
     private static Set<String> decideLanguage() {
         var configLanguage = HeyWikiConfig.language;
         if (configLanguage.equals("auto")) {
-            return getAllMainLanguages();
+            return getAllDefaultLanguages();
         } else {
-            var mainLanguages = getAllMainLanguages();
+            var mainLanguages = getAllDefaultLanguages();
             var defaultLanguages = getAllDefaultLanguagesFromWikiLanguage(configLanguage);
             mainLanguages.addAll(defaultLanguages);
             return mainLanguages;
         }
     }
 
+    /**
+     * Load translations for the specified language from resource packs.
+     *
+     * @param language        The language code.
+     * @param resourceManager The resource manager.
+     * @param fallbackEnUs    Whether to fall back to en_us if the specified language is not found.
+     * @return The translation storage for the specified language.
+     */
     public static TranslationStorage loadTranslation(String language, ResourceManager resourceManager,
                                                      boolean fallbackEnUs) {
         return language.equals("en_us") || !fallbackEnUs
@@ -67,6 +87,9 @@ public class WikiTranslationManager implements SynchronousResourceReloader {
                 : loadTranslationFrom(resourceManager, List.of("en_us", language));
     }
 
+    /**
+     * @see TranslationStorage#load(ResourceManager, List, boolean)
+     */
     private static TranslationStorage loadTranslationFrom(ResourceManager resourceManager, List<String> definitions) {
         Map<String, String> map = Maps.newHashMap();
 
@@ -86,6 +109,9 @@ public class WikiTranslationManager implements SynchronousResourceReloader {
         return TranslationStorageFactory.create(ImmutableMap.copyOf(map), false);
     }
 
+    /**
+     * @see TranslationStorage#load(String, List, Map)
+     */
     private static void appendTranslationFrom(String langCode, List<Resource> resourceRefs,
                                               Map<String, String> translations) {
         for (Resource resource : resourceRefs) {

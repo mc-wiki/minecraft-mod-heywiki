@@ -16,7 +16,7 @@ dependencies {
     modCompileOnlyApi "me.shedaniel:RoughlyEnoughItems-api:${rootProject.rei_version}"
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-runtime-fabric:${rootProject.rei_version}"
     modCompileOnly "dev.emi:emi-xplat-intermediary:${rootProject.emi_version}"
-    modCompileOnly("mezz.jei:jei-${rootProject.minecraft_version}-fabric:${rootProject.jei_version}")  {
+    modCompileOnly("mezz.jei:jei-${rootProject.jei_minecraft_version}-fabric:${rootProject.jei_version}")  {
         exclude group: "mezz.jei"
         transitive false
     }

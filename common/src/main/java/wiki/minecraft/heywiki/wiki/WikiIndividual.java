@@ -5,6 +5,17 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import java.util.Optional;
 
+/**
+ * Represents an individual wiki. This is a single language wiki as part of a {@link WikiFamily}.
+ *
+ * @param articleUrl     The URL of the article.
+ * @param mwApiUrl       The URL of the MediaWiki API.
+ * @param randomArticle  The URL of a random article.
+ * @param versionArticle The URL of the version article.
+ * @param excerpt        The excerpt of the article.
+ * @param language       The language matcher.
+ * @param title          The title formatter.
+ */
 public record WikiIndividual(String articleUrl, Optional<String> mwApiUrl, Optional<String> randomArticle,
                              Optional<String> versionArticle, Optional<String> excerpt, LanguageMatcher language,
                              TitleFormatter title) {

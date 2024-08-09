@@ -6,6 +6,9 @@ import net.minecraft.resource.SynchronousResourceReloader;
 
 import java.util.HashMap;
 
+/**
+ * Manages the cache of page name suggestions so that they can be reloaded.
+ */
 public class PageNameSuggestionCacheManager implements SynchronousResourceReloader {
     public static volatile HashMap<String, Suggestions> suggestionsCache = new HashMap<>();
 

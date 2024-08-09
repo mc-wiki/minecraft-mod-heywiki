@@ -15,19 +15,21 @@ import static wiki.minecraft.heywiki.resource.WikiFamilyConfigManager.activeWiki
 public class WikiCommand {
     public static LiteralCommandNode<ClientCommandSourceStack> register(
             CommandDispatcher<ClientCommandSourceStack> dispatcher) {
-        return dispatcher.register(literal("wiki").then(argument("page", greedyString())
-                                                                .suggests(new NSPageCombinedSuggestionProvider())
-                                                                .executes(ctx -> {
-                                                                    String page = getString(ctx, "page");
-                                                                    String[] pageSplitted = page.split(":");
-                                                                    if (pageSplitted.length == 1) {
-                                                                        new WikiPage(page, activeWikis.get(
-                                                                                "minecraft")).openInBrowser(true);
-                                                                        return 0;
-                                                                    }
-                                                                    new WikiPage(pageSplitted[1], activeWikis.get(
-                                                                            pageSplitted[0])).openInBrowser(true);
-                                                                    return 0;
-                                                                })));
+        return dispatcher.register(
+                literal("wiki")
+                        .then(argument("page", greedyString())
+                                      .suggests(new NSPageCombinedSuggestionProvider())
+                                      .executes(ctx -> {
+                                          String page = getString(ctx, "page");
+                                          String[] pageSplitted = page.split(":");
+                                          if (pageSplitted.length == 1) {
+                                              new WikiPage(page, activeWikis.get(
+                                                      "minecraft")).openInBrowser(true);
+                                              return 0;
+                                          }
+                                          new WikiPage(pageSplitted[1], activeWikis.get(
+                                                  pageSplitted[0])).openInBrowser(true);
+                                          return 0;
+                                      })));
     }
 }

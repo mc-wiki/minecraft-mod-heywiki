@@ -15,10 +15,25 @@ import java.util.concurrent.CompletableFuture;
 import static wiki.minecraft.heywiki.HTTPUtils.requestUri;
 import static wiki.minecraft.heywiki.resource.PageExcerptCacheManager.excerptCache;
 
+/**
+ * Represents an excerpt of a wiki page.
+ *
+ * @param title       The title of the page.
+ * @param excerpt     The excerpt of the page.
+ * @param imageUrl    The URL of the image.
+ * @param imageWidth  The width of the image.
+ * @param imageHeight The height of the image.
+ */
 public record PageExcerpt(String title, String excerpt, String imageUrl, int imageWidth, int imageHeight) {
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
 
+    /**
+     * Creates a page excerpt from a wiki page.
+     *
+     * @param page The wiki page.
+     * @return The page excerpt.
+     */
     public static CompletableFuture<PageExcerpt> fromPage(WikiPage page) {
         var wiki = page.wiki();
         var apiUrl = wiki.mwApiUrl();
@@ -50,7 +65,8 @@ public record PageExcerpt(String title, String excerpt, String imageUrl, int ima
                              "&redirects=true&exintro=true&exchars=525&explaintext=true&exsectionformat=plain&piprop=thumbnail" +
                              "&pithumbsize=640&pilicense=any&rvprop=timestamp&inprop=url&uselang=content&titles=" +
                              URLEncoder.encode(pageName, StandardCharsets.UTF_8) +
-                             (language.equals("zh") ? "&converttitles=true&variant=" + resolveZhVariant(HeyWikiConfig.zhVariant) : ""));
+                             (language.equals("zh") ? "&converttitles=true&variant=" +
+                                                      resolveZhVariant(HeyWikiConfig.zhVariant) : ""));
         var executor = Util.getDownloadWorkerExecutor();
 
         return CompletableFuture.supplyAsync(() -> {
