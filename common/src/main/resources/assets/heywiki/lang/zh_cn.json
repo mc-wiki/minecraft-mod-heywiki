@@ -19,7 +19,7 @@
   "options.heywiki.open_key.description": "设置快捷键以快速查找wiki。",
   "options.heywiki.title": "Hey Wiki选项",
   "heywiki.no_item_held": "手中未持有物品",
-  "heywiki.no_family": "Sorry, we can't find a correct wiki for this",
+  "heywiki.no_family": "找不到wiki",
   "heywiki.too_far": "你什么也没有对准。或许应该靠近一点？",
   "screen.heywiki_confirm_link.loading_excerpt": "正在加载页面描述…",
   "structure.minecraft.pillager_outpost": "掠夺者前哨站",
