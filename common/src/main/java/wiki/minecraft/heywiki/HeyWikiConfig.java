@@ -182,7 +182,7 @@ public class HeyWikiConfig {
                 jsonWriter.beginObject()
                           .name("requiresConfirmation").value(requiresConfirmation)
                           .name("language").value(language)
-                          .name("zhVariant").value(language)
+                          .name("zhVariant").value(zhVariant)
                           .name("raycastReach").value(raycastReach)
                           .name("raycastAllowFluid").value(raycastAllowFluid)
                           .endObject().close();
