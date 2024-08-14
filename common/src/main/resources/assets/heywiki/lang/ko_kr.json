@@ -14,7 +14,6 @@
   "options.heywiki.raycast_max_reach.description": "위키 기능을 작동할 수 있는 최대 조준 거리입니다.\n값이 클수록 성능 문제가 발생할 수 있습니다.",
   "options.heywiki.raycast_allow_fluid.name": "액체 허용",
   "options.heywiki.raycast_allow_fluid.description": "액체 블록을 조준할 때 위키 기능이 작동하도록 허용합니다.",
-  "options.heywiki.open_key.description": "Key bind to trigger wiki lookup.",
   "options.heywiki.title": "Hey Wiki 옵션",
   "heywiki.no_item_held": "들고 있는 아이템이 없습니다",
   "heywiki.no_family": "Sorry, we can't find a correct wiki for this",

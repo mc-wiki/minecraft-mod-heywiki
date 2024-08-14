@@ -14,7 +14,6 @@
   "options.heywiki.raycast_max_reach.description": "Distance maximale que vous pouvez viser pour déclencher la fonctionnalité wiki.\nNotez que des valeurs plus élevées peuvent causer des problèmes de performance.",
   "options.heywiki.raycast_allow_fluid.name": "Autoriser les fluides",
   "options.heywiki.raycast_allow_fluid.description": "Permet de déclencher la fonctionnalité wiki en visant des fluides.",
-  "options.heywiki.open_key.description": "Key bind to trigger wiki lookup.",
   "options.heywiki.title": "Options de Hey Wiki",
   "heywiki.no_item_held": "Vous ne tenez aucun objet",
   "heywiki.no_family": "Sorry, we can't find a correct wiki for this",

@@ -14,7 +14,6 @@
   "options.heywiki.raycast_max_reach.description": "Distancia máxima a la que puedes apuntar para activar la función de wiki.\nNota que valores mayores pueden causar problemas de rendimiento,\nSi el atributo de rango de interacción es mayor, será usado en vez de este.",
   "options.heywiki.raycast_allow_fluid.name": "Permitir fluido",
   "options.heywiki.raycast_allow_fluid.description": "Permitir apuntar a bloques de fluido para activar la función de wiki.",
-  "options.heywiki.open_key.description": "Key bind to trigger wiki lookup.",
   "options.heywiki.title": "Opciones de Hey Wiki",
   "heywiki.no_item_held": "No se está sosteniendo ninguno objeto",
   "heywiki.no_family": "Sorry, we can't find a correct wiki for this",

@@ -14,7 +14,6 @@
   "options.heywiki.raycast_max_reach.description": "Максимальна відстань, на яку можна націлитися, щоб запустити вікі-функцію.\nЗверніть увагу, що більші значення можуть спричинити проблеми зі швидкодією.",
   "options.heywiki.raycast_allow_fluid.name": "Дозволити рідини",
   "options.heywiki.raycast_allow_fluid.description": "Дозволити наведення на блоки рідини для запуску вікі-функції.",
-  "options.heywiki.open_key.description": "Key bind to trigger wiki lookup.",
   "options.heywiki.title": "Параметри Hey Wiki",
   "heywiki.no_item_held": "Жоден предмет не утримується",
   "heywiki.no_family": "Sorry, we can't find a correct wiki for this",
