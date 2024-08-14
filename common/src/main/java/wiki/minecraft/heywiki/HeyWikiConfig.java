@@ -152,7 +152,7 @@ public class HeyWikiConfig {
                           .name("requiresConfirmation").value(requiresConfirmation)
                           .name("language").value(language)
                           .name("raycastMaxReach").value(raycastMaxReach)
-                          .name("zhVariant").value(language)
+                          .name("zhVariant").value(zhVariant)
                           .name("raycastAllowFluid").value(raycastAllowFluid)
                           .endObject().close();
             } catch (IOException e) {
