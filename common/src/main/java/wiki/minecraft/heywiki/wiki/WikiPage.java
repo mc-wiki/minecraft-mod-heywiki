@@ -144,8 +144,8 @@ public record WikiPage(String pageName, WikiIndividual wiki) {
      * @return The version article.
      */
     public static @Nullable WikiPage versionArticle(String version) {
-        var wiki = MOD.wikiFamilyConfigManager().activeWikis().get("minecraft");
-        if (wiki.versionArticle().isEmpty()) return null;
+        @Nullable var wiki = MOD.wikiFamilyConfigManager().activeWikis().get("minecraft");
+        if (wiki == null || wiki.versionArticle().isEmpty()) return null;
         Optional<String> name = wiki.versionArticle();
         return name.map(s -> new WikiPage(s.formatted(version), wiki)).orElse(null);
     }

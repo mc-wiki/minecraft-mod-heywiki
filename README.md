@@ -123,6 +123,8 @@ Hey Wiki supports using resource pack to add support for other wikis. To do so, 
       "article_url": "https://minecraft.wiki/?search=%s",
       // (Optional) If the wiki is a MediaWiki wiki, the API URL
       "mw_api_url": "https://minecraft.wiki/api.php",
+      // (Optional) The URL pattern for searching. %s will be replaced with the query. If not present, the search feature will not be available for this wiki
+      "search_url": "https://minecraft.wiki/?search=%s",
       // (Optional) The page name for the random article
       "random_article": "Special:RandomRootPage/Main",
       // (Optional) How Hey Wiki should fetch excerpts from the wiki. Either "text_extracts" or "none".
