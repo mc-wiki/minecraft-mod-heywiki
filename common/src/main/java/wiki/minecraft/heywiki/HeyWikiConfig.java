@@ -1,9 +1,13 @@
 package wiki.minecraft.heywiki;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonWriter;
+import com.mojang.logging.LogUtils;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.JsonOps;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
@@ -11,6 +15,7 @@ import me.shedaniel.clothconfig2.impl.builders.DropdownMenuBuilder;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
+import org.slf4j.Logger;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -29,31 +34,108 @@ import static dev.architectury.platform.Platform.getConfigFolder;
  */
 public class HeyWikiConfig {
     private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
+    private static final Logger LOGGER = LogUtils.getLogger();
+
+    public static final Codec<HeyWikiConfig> CODEC =
+            RecordCodecBuilder
+                    .create(instance -> instance
+                            .group(
+                                    Codec.BOOL.fieldOf("requiresConfirmation")
+                                              .orElse(true)
+                                              .forGetter(HeyWikiConfig::requiresConfirmation),
+                                    Codec.BOOL.fieldOf("requiresConfirmationCommand")
+                                              .orElse(false)
+                                              .forGetter(HeyWikiConfig::requiresConfirmationCommand),
+                                    Codec.DOUBLE.validate(
+                                                 value -> {
+                                                     var min = 0D;
+                                                     var max = 64D;
+                                                     return value.compareTo(min) >= 0 &&
+                                                            value.compareTo(max) <= 0
+                                                             ? DataResult.success(value)
+                                                             : DataResult.error(
+                                                                     () -> "Value must be within range [" + min +
+                                                                           ";" + max + "]: " + value);
+                                                 })
+                                                .fieldOf("raycastReach")
+                                                .orElse(5.2D)
+                                                .forGetter(HeyWikiConfig::raycastReach),
+                                    Codec.BOOL.fieldOf("raycastAllowFluid")
+                                              .orElse(false)
+                                              .forGetter(HeyWikiConfig::raycastAllowFluid),
+                                    Codec.STRING.fieldOf("language")
+                                                .orElse("auto")
+                                                .forGetter(HeyWikiConfig::language),
+                                    Codec.STRING.fieldOf("zhVariant")
+                                                .orElse("auto")
+                                                .forGetter(HeyWikiConfig::zhVariant)
+                                  )
+                            .apply(instance, HeyWikiConfig::new));
 
     /**
      * Whether the user should be prompted for confirmation before opening a wiki page.
      */
-    public static boolean requiresConfirmation = true;
+    public boolean requiresConfirmation() {
+        return requiresConfirmation;
+    }
+
+    private boolean requiresConfirmation;
+
     /**
      * Whether the user should be prompted for confirmation before opening a wiki page using a command.
      */
-    public static boolean requiresConfirmationCommand = false;
+    public boolean requiresConfirmationCommand() {
+        return requiresConfirmationCommand;
+    }
+
+    private boolean requiresConfirmationCommand;
+
     /**
      * The distance at which the player can raycast to find a {@link wiki.minecraft.heywiki.wiki.Target Target}.
      */
-    public static double raycastReach = 5.2D; // Use creative mode reach distance
+    public double raycastReach() {
+        return raycastReach;
+    }
+
+    private double raycastReach;
+
     /**
      * When true, the raycast will hit fluid blocks.
      */
-    public static boolean raycastAllowFluid = false;
+    public boolean raycastAllowFluid() {
+        return raycastAllowFluid;
+    }
+
+    private boolean raycastAllowFluid;
+
     /**
      * The language to use for wiki pages.
      */
-    public static String language = "auto";
+    public String language() {
+        return language;
+    }
+
+    private String language;
+
     /**
      * The variant of Chinese to use for wiki pages.
      */
-    public static String zhVariant = "auto";
+    public String zhVariant() {
+        return zhVariant;
+    }
+
+    private String zhVariant;
+
+
+    private HeyWikiConfig(boolean requiresConfirmation, boolean requiresConfirmationCommand, double raycastReach,
+                          boolean raycastAllowFluid, String language, String zhVariant) {
+        this.requiresConfirmation = requiresConfirmation;
+        this.requiresConfirmationCommand = requiresConfirmationCommand;
+        this.raycastReach = raycastReach;
+        this.raycastAllowFluid = raycastAllowFluid;
+        this.language = language;
+        this.zhVariant = zhVariant;
+    }
 
     /**
      * Creates a GUI for the configuration.
@@ -61,10 +143,10 @@ public class HeyWikiConfig {
      * @param parent The parent screen.
      * @return The configuration screen.
      */
-    public static Screen createGui(Screen parent) {
+    public Screen createGui(Screen parent) {
         AtomicReference<Boolean> requireReload = new AtomicReference<>(false);
 
-        List<String> languages = new ArrayList<>(MOD.wikiFamilyConfigManager().getAllAvailableLanguages());
+        List<String> languages = new ArrayList<>(MOD.familyManager().getAllAvailableLanguages());
         languages.addFirst("auto");
 
         ConfigBuilder builder = ConfigBuilder.create()
@@ -76,39 +158,39 @@ public class HeyWikiConfig {
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
         general.addEntry(entryBuilder
                                  .startBooleanToggle(Text.translatable("options.heywiki.requires_confirmation.name"),
-                                                     HeyWikiConfig.requiresConfirmation)
+                                                     this.requiresConfirmation())
                                  .setDefaultValue(true)
                                  .setTooltip(Text.translatable("options.heywiki.requires_confirmation.description"))
-                                 .setSaveConsumer(newValue -> HeyWikiConfig.requiresConfirmation = newValue)
+                                 .setSaveConsumer(newValue -> this.requiresConfirmation = newValue)
                                  .build());
         general.addEntry(entryBuilder
                                  .startBooleanToggle(
                                          Text.translatable("options.heywiki.requires_confirmation_command.name"),
-                                         HeyWikiConfig.requiresConfirmationCommand)
-                                 .setDefaultValue(true)
+                                         this.requiresConfirmationCommand())
+                                 .setDefaultValue(false)
                                  .setTooltip(
                                          Text.translatable("options.heywiki.requires_confirmation_command.description"))
-                                 .setSaveConsumer(newValue -> HeyWikiConfig.requiresConfirmationCommand = newValue)
+                                 .setSaveConsumer(newValue -> this.requiresConfirmationCommand = newValue)
                                  .build());
         general.addEntry(entryBuilder
                                  .startDoubleField(Text.translatable("options.heywiki.raycast_reach.name"),
-                                                   HeyWikiConfig.raycastReach)
+                                                   this.raycastReach())
                                  .setDefaultValue(5.2D)
                                  .setMin(0D)
                                  .setMax(64D)
                                  .setTooltip(Text.translatable("options.heywiki.raycast_reach.description"))
-                                 .setSaveConsumer(newValue -> HeyWikiConfig.raycastReach = newValue)
+                                 .setSaveConsumer(newValue -> this.raycastReach = newValue)
                                  .build());
         general.addEntry(entryBuilder
                                  .startBooleanToggle(Text.translatable("options.heywiki.raycast_allow_fluid.name"),
-                                                     HeyWikiConfig.raycastAllowFluid)
+                                                     this.raycastAllowFluid())
                                  .setDefaultValue(false)
                                  .setTooltip(Text.translatable("options.heywiki.raycast_allow_fluid.description"))
-                                 .setSaveConsumer(newValue -> HeyWikiConfig.raycastAllowFluid = newValue)
+                                 .setSaveConsumer(newValue -> this.raycastAllowFluid = newValue)
                                  .build());
         general.addEntry(entryBuilder
                                  .startDropdownMenu(Text.translatable("options.heywiki.language.name"),
-                                                    DropdownMenuBuilder.TopCellElementBuilder.of(language,
+                                                    DropdownMenuBuilder.TopCellElementBuilder.of(this.language,
                                                                                                  HeyWikiConfig::normalizeLanguageName,
                                                                                                  HeyWikiConfig::languageDescription),
                                                     DropdownMenuBuilder.CellCreatorBuilder.of(
@@ -118,20 +200,20 @@ public class HeyWikiConfig {
                                  .setSuggestionMode(false)
                                  .setTooltip(Text.translatable("options.heywiki.language.description"))
                                  .setSaveConsumer(newValue -> {
-                                     if (!(newValue).equals(HeyWikiConfig.language))
+                                     if (!(newValue).equals(this.language()))
                                          requireReload.set(true);
-                                     HeyWikiConfig.language = newValue;
+                                     this.language = newValue;
                                  })
                                  .build());
         general.addEntry(entryBuilder
                                  .startDropdownMenu(Text.translatable("options.heywiki.zh_variant.name"),
-                                                    DropdownMenuBuilder.TopCellElementBuilder.of(zhVariant,
+                                                    DropdownMenuBuilder.TopCellElementBuilder.of(this.zhVariant,
                                                                                                  HeyWikiConfig::normalizeLanguageName,
                                                                                                  HeyWikiConfig::zhVariantDescription),
                                                     DropdownMenuBuilder.CellCreatorBuilder.of(
                                                             HeyWikiConfig::zhVariantDescription))
                                  .setDisplayRequirement(() -> {
-                                     for (var wiki : MOD.wikiFamilyConfigManager().activeWikis().values()) {
+                                     for (var wiki : MOD.familyManager().activeWikis().values()) {
                                          if (wiki.language().wikiLanguage().startsWith("zh")) {
                                              return true;
                                          }
@@ -142,7 +224,7 @@ public class HeyWikiConfig {
                                  .setDefaultValue("auto")
                                  .setSuggestionMode(false)
                                  .setTooltip(Text.translatable("options.heywiki.zh_variant.description"))
-                                 .setSaveConsumer(newValue -> HeyWikiConfig.zhVariant = newValue)
+                                 .setSaveConsumer(newValue -> this.zhVariant = newValue)
                                  .build());
         general.addEntry(entryBuilder
                                  .fillKeybindingField(Text.translatable("key.heywiki.open"), HeyWikiClient.openWikiKey)
@@ -180,38 +262,6 @@ public class HeyWikiConfig {
         };
     }
 
-    /**
-     * Saves the configuration to a file.
-     *
-     * @param requireReload Whether the game should be reloaded after saving.
-     */
-    public static void save(Boolean requireReload) {
-        if (requireReload) MinecraftClient.getInstance().reloadResourcesConcurrently();
-        Path configPath = getConfigFolder().resolve("heywiki.json");
-        try {
-            Files.createDirectories(configPath.getParent());
-            BufferedWriter writer = Files.newBufferedWriter(configPath);
-
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            JsonWriter jsonWriter = gson.newJsonWriter(writer);
-            try {
-                jsonWriter.beginObject()
-                          .name("requiresConfirmation").value(requiresConfirmation)
-                          .name("requiresConfirmationCommand").value(requiresConfirmationCommand)
-                          .name("language").value(language)
-                          .name("zhVariant").value(zhVariant)
-                          .name("raycastReach").value(raycastReach)
-                          .name("raycastAllowFluid").value(raycastAllowFluid)
-                          .endObject().close();
-            } catch (IOException e) {
-                jsonWriter.close();
-                throw new RuntimeException("Failed to write config file", e);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to write config file", e);
-        }
-    }
-
     private static String getLanguageName(String lang) {
         Map<String, String> languageNames =
                 Map.of(
@@ -224,41 +274,64 @@ public class HeyWikiConfig {
     }
 
     /**
+     * Saves the configuration to a file.
+     *
+     * @param requireReload Whether the game should be reloaded after saving.
+     */
+    public void save(Boolean requireReload) {
+        if (requireReload) MinecraftClient.getInstance().reloadResourcesConcurrently();
+        Path configPath = getConfigFolder().resolve("heywiki.json");
+        try {
+            Files.createDirectories(configPath.getParent());
+
+            try (BufferedWriter writer = Files.newBufferedWriter(configPath)) {
+                JsonWriter jsonWriter = new JsonWriter(writer);
+                jsonWriter.setIndent("  ");
+
+                JsonOps.INSTANCE
+                        .withEncoder(HeyWikiConfig.CODEC)
+                        .apply(this)
+                        .result()
+                        .map(JsonElement::toString)
+                        .ifPresent(s -> {
+                            try {
+                                writer.write(s);
+                            } catch (IOException e) {
+                                throw new RuntimeException("Failed to write config file", e);
+                            }
+                        });
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to write config file", e);
+        }
+    }
+
+    /**
      * Loads the configuration from a file.
      *
      * @throws RuntimeException if the file cannot be read
      */
-    public static void load() {
+    public static HeyWikiConfig load() {
         Path configPath = getConfigFolder().resolve("heywiki.json");
-        if (!configPath.toFile().exists()) {
-            return;
+
+        String json = "{}";
+        if (Files.exists(configPath)) {
+            try {
+                json = Files.readString(configPath);
+            } catch (IOException e) {
+                LOGGER.error("Failed to read config file, resetting config", e);
+            }
         }
+
+        JsonElement jsonElement;
         try {
-            JsonParser.parseReader(new Gson().newJsonReader(Files.newBufferedReader(configPath))).getAsJsonObject()
-                      .entrySet().forEach(entry -> {
-                          switch (entry.getKey()) {
-                              case "requiresConfirmation":
-                                  requiresConfirmation = entry.getValue().getAsBoolean();
-                                  break;
-                              case "requiresConfirmationCommand":
-                                  requiresConfirmationCommand = entry.getValue().getAsBoolean();
-                                  break;
-                              case "language":
-                                  language = entry.getValue().getAsString();
-                                  break;
-                              case "zhVariant":
-                                  zhVariant = entry.getValue().getAsString();
-                                  break;
-                              case "raycastReach":
-                                  raycastReach = entry.getValue().getAsDouble();
-                                  break;
-                              case "raycastAllowFluid":
-                                  raycastAllowFluid = entry.getValue().getAsBoolean();
-                                  break;
-                          }
-                      });
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to read config file", e);
+            jsonElement = JsonParser.parseString(json);
+        } catch (Exception e) {
+            LOGGER.error("Failed to parse config file, resetting config", e);
+            jsonElement = JsonParser.parseString("{}");
         }
+
+        return HeyWikiConfig.CODEC.decode(JsonOps.INSTANCE, jsonElement).result().orElseThrow()
+                                  .getFirst();
     }
 }

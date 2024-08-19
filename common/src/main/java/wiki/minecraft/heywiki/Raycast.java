@@ -23,7 +23,8 @@ import static wiki.minecraft.heywiki.wiki.WikiPage.NO_FAMILY_MESSAGE;
  * Raycasts from the crosshair to find a {@link Target} and opens the corresponding {@link WikiPage}.
  */
 public class Raycast {
-    private static final MinecraftClient client = MinecraftClient.getInstance();
+    private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
+    private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
 
     /**
      * Should be called at {@link ClientTickEvent#CLIENT_POST ClientTickEvent#CLIENT_POST}.
@@ -76,7 +77,7 @@ public class Raycast {
     public static @Nullable Target raycastWithMessage() {
         var target = raycast();
         if (target == null) {
-            client.inGameHud.setOverlayMessage(Text.translatable("gui.heywiki.too_far"), false);
+            CLIENT.inGameHud.setOverlayMessage(Text.translatable("gui.heywiki.too_far"), false);
         }
         return target;
     }
@@ -89,14 +90,14 @@ public class Raycast {
      * @see #raycast()
      */
     public static @Nullable Target raycast() {
-        assert client.player != null;
-        assert client.world != null;
+        assert CLIENT.player != null;
+        assert CLIENT.world != null;
 
-        double maxReach = HeyWikiConfig.raycastReach;
-        double blockReach = Math.max(client.player.getBlockInteractionRange(), maxReach);
-        double entityReach = Math.max(client.player.getEntityInteractionRange(), maxReach);
-        HitResult hit = ((GameRendererMixin) client.gameRenderer).invokeFindCrosshairTarget(
-                client.cameraEntity,
+        double maxReach = MOD.config().raycastReach();
+        double blockReach = Math.max(CLIENT.player.getBlockInteractionRange(), maxReach);
+        double entityReach = Math.max(CLIENT.player.getEntityInteractionRange(), maxReach);
+        HitResult hit = ((GameRendererMixin) CLIENT.gameRenderer).invokeFindCrosshairTarget(
+                CLIENT.cameraEntity,
                 blockReach, entityReach,
                 1f);
 
@@ -107,7 +108,7 @@ public class Raycast {
             }
             case BlockHitResult blockHit -> {
                 var blockPos = blockHit.getBlockPos();
-                var blockState = client.world.getBlockState(blockPos);
+                var blockState = CLIENT.world.getBlockState(blockPos);
                 var block = blockState.getBlock();
                 return Target.of(block);
             }

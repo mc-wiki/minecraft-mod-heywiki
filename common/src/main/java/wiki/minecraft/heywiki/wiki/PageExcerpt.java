@@ -7,7 +7,7 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Util;
 import org.slf4j.Logger;
-import wiki.minecraft.heywiki.HeyWikiConfig;
+import wiki.minecraft.heywiki.HeyWikiClient;
 import wiki.minecraft.heywiki.util.HttpUtil;
 
 import java.net.URI;
@@ -30,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 public record PageExcerpt(String title, String excerpt, String imageUrl, int imageWidth, int imageHeight) {
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
+    private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
     private static final Cache<String, Optional<CompletableFuture<PageExcerpt>>> excerptCache = CacheBuilder.newBuilder()
                                                                                                             .maximumSize(
                                                                                                                     100)
@@ -77,7 +78,7 @@ public record PageExcerpt(String title, String excerpt, String imageUrl, int ima
                              "&pithumbsize=640&pilicense=any&rvprop=timestamp&inprop=url&uselang=content&titles=" +
                              URLEncoder.encode(pageName, StandardCharsets.UTF_8) +
                              (language.equals("zh") ? "&converttitles=true&variant=" +
-                                                      resolveZhVariant(HeyWikiConfig.zhVariant) : ""));
+                                                      resolveZhVariant(MOD.config().zhVariant()) : ""));
         var executor = Util.getDownloadWorkerExecutor();
 
         return CompletableFuture.supplyAsync(() -> {

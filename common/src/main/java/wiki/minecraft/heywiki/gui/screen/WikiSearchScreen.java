@@ -60,7 +60,7 @@ public class WikiSearchScreen extends Screen {
     private String selectedTitle;
     private String lastSearchTerm;
     private SequencedSet<Suggestion> suggestions;
-    private WikiFamily wikiFamily = MOD.wikiFamilyConfigManager().getFamily(Identifier.of("heywiki", "minecraft"));
+    private WikiFamily wikiFamily = MOD.familyManager().getFamily(Identifier.of("heywiki", "minecraft"));
     private WikiIndividual wiki = wikiFamily.getWiki();
 
     public WikiSearchScreen() {
@@ -106,7 +106,7 @@ public class WikiSearchScreen extends Screen {
                                          assert this.client != null;
                                          this.client.setScreen(
                                                  new WikiSelectScreen(this,
-                                                                      MOD.wikiFamilyConfigManager()
+                                                                      MOD.familyManager()
                                                                          .getAvailableFamilies()
                                                                          .stream()
                                                                          .filter(family -> family.getWiki().searchUrl()

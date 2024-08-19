@@ -30,7 +30,7 @@ public class NamespaceSuggestionProvider implements SuggestionProvider<ClientCom
     public CompletableFuture<Suggestions> getSuggestions(CommandContext<ClientCommandSourceStack> context,
                                                          SuggestionsBuilder builder) {
         Set<String> namespaces = CLIENT.getResourceManager().getAllNamespaces();
-        Set<String> availableNamespaces = MOD.wikiFamilyConfigManager().getAvailableNamespaces();
+        Set<String> availableNamespaces = MOD.familyManager().getAvailableNamespaces();
 
         Stream<String> intersect = namespaces.stream().filter(availableNamespaces::contains);
 

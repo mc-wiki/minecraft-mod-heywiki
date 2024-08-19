@@ -25,7 +25,7 @@ public class WhatCommandCommand {
                                       .executes(ctx -> {
                                           // Unfortunately, I don't think we can check where the command comes from
                                           new WikiPage("/" + getString(ctx, "command"),
-                                                       MOD.wikiFamilyConfigManager().activeWikis()
+                                                       MOD.familyManager().activeWikis()
                                                           .get("minecraft")).openInBrowserCommand(null);
                                           return 0;
                                       })));

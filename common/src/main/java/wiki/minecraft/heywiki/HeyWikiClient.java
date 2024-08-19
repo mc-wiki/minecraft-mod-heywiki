@@ -43,8 +43,9 @@ public class HeyWikiClient {
     );
     private static HeyWikiClient INSTANCE;
 
-    private final WikiFamilyManager wikiFamilyManager;
-    private final WikiTranslationManager wikiTranslationManager;
+    private final WikiFamilyManager familyManager;
+    private final WikiTranslationManager translationManager;
+    private final HeyWikiConfig config;
 
     /**
      * Initializes the Hey Wiki mod. Should be called at client setup.
@@ -52,7 +53,7 @@ public class HeyWikiClient {
     public HeyWikiClient() {
         INSTANCE = this;
 
-        HeyWikiConfig.load();
+        this.config = HeyWikiConfig.load();
 
         KeyMappingRegistry.register(openWikiKey);
 
@@ -65,11 +66,11 @@ public class HeyWikiClient {
         ClientTickEvent.CLIENT_POST.register(Raycast::onClientTickPost);
         ClientTickEvent.CLIENT_POST.register(WikiSearchScreen::onClientTickPost);
 
-        this.wikiFamilyManager = new WikiFamilyManager();
-        this.wikiTranslationManager = new WikiTranslationManager();
-        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, this.wikiFamilyManager,
+        this.familyManager = new WikiFamilyManager();
+        this.translationManager = new WikiTranslationManager();
+        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, this.familyManager,
                                         Identifier.of("heywiki", "family"));
-        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, this.wikiTranslationManager,
+        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, this.translationManager,
                                         Identifier.of("heywiki", "translation"),
                                         List.of(Identifier.of("heywiki", "family")));
     }
@@ -105,11 +106,15 @@ public class HeyWikiClient {
                       feature);
     }
 
-    public WikiFamilyManager wikiFamilyConfigManager() {
-        return wikiFamilyManager;
+    public WikiFamilyManager familyManager() {
+        return familyManager;
     }
 
-    public WikiTranslationManager wikiTranslationManager() {
-        return wikiTranslationManager;
+    public WikiTranslationManager translationManager() {
+        return translationManager;
+    }
+
+    public HeyWikiConfig config() {
+        return config;
     }
 }

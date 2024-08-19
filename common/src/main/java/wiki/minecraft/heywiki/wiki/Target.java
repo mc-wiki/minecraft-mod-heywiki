@@ -13,6 +13,7 @@ import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -47,7 +48,7 @@ public record Target(Identifier identifier, String translationKey) {
      */
     public static Target of(Block block) {
         if (block instanceof AirBlock) return null;
-        return new Target(block.arch$registryName(), block.getTranslationKey());
+        return new Target(Registries.BLOCK.getId(block), block.getTranslationKey());
     }
 
     /**
@@ -65,11 +66,11 @@ public record Target(Identifier identifier, String translationKey) {
             case ItemFrameEntity itemFrameEntity -> {
                 ItemStack stack = itemFrameEntity.getHeldItemStack();
                 if (stack.isEmpty())
-                    return new Target(entity.getType().arch$registryName(), entity.getType().getTranslationKey());
+                    return new Target(Registries.ENTITY_TYPE.getId(entity.getType()), entity.getType().getTranslationKey());
                 return Target.of(stack);
             }
             default -> {
-                return new Target(entity.getType().arch$registryName(), entity.getType().getTranslationKey());
+                return new Target(Registries.ENTITY_TYPE.getId(entity.getType()), entity.getType().getTranslationKey());
             }
         }
     }
@@ -93,7 +94,7 @@ public record Target(Identifier identifier, String translationKey) {
             }
         }
 
-        return new Target(stack.getItem().arch$registryName(), stack.getTranslationKey());
+        return new Target(Registries.ITEM.getId(stack.getItem()), stack.getTranslationKey());
     }
 
     /**

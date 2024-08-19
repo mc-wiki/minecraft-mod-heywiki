@@ -12,7 +12,6 @@ import net.minecraft.util.Language;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import wiki.minecraft.heywiki.HeyWikiClient;
-import wiki.minecraft.heywiki.HeyWikiConfig;
 import wiki.minecraft.heywiki.mixin.TranslationStorageFactory;
 import wiki.minecraft.heywiki.wiki.WikiIndividual;
 
@@ -58,7 +57,7 @@ public class WikiTranslationManager implements SynchronousResourceReloader {
         for (String language : decideLanguage()) {
             translationsNew.put(language, loadTranslation(language, manager, true));
         }
-        for (String language : MOD.wikiFamilyConfigManager().getLangOverride()) {
+        for (String language : MOD.familyManager().getLangOverride()) {
             translationsNew.put(language, loadTranslation(language, manager, false));
         }
 
@@ -66,12 +65,12 @@ public class WikiTranslationManager implements SynchronousResourceReloader {
     }
 
     private Set<String> decideLanguage() {
-        var configLanguage = HeyWikiConfig.language;
+        var configLanguage = MOD.config().language();
         if (configLanguage.equals("auto")) {
-            return MOD.wikiFamilyConfigManager().getAllDefaultLanguages();
+            return MOD.familyManager().getAllDefaultLanguages();
         } else {
-            var mainLanguages = MOD.wikiFamilyConfigManager().getAllDefaultLanguages();
-            var defaultLanguages = MOD.wikiFamilyConfigManager().getAllDefaultLanguagesFromWikiLanguage(configLanguage);
+            var mainLanguages = MOD.familyManager().getAllDefaultLanguages();
+            var defaultLanguages = MOD.familyManager().getAllDefaultLanguagesFromWikiLanguage(configLanguage);
             mainLanguages.addAll(defaultLanguages);
             return mainLanguages;
         }

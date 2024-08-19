@@ -8,7 +8,6 @@ import net.minecraft.util.Util;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import wiki.minecraft.heywiki.HeyWikiClient;
-import wiki.minecraft.heywiki.HeyWikiConfig;
 import wiki.minecraft.heywiki.resource.WikiFamilyManager;
 
 import java.util.List;
@@ -39,7 +38,7 @@ public record WikiFamily(List<String> namespace, List<WikiIndividual> wikis)
                                    .apply(builder, WikiFamily::new));
 
     public Identifier id() {
-        return MOD.wikiFamilyConfigManager().getFamilyId(this);
+        return MOD.familyManager().getFamilyId(this);
     }
 
     /**
@@ -50,11 +49,11 @@ public record WikiFamily(List<String> namespace, List<WikiIndividual> wikis)
     public WikiIndividual getWiki() {
         WikiIndividual wiki;
 
-        if (HeyWikiConfig.language.equals("auto")) {
+        if (MOD.config().language().equals("auto")) {
             var language = CLIENT.options.language;
             wiki = this.getLanguageWikiByGameLanguage(language);
         } else {
-            var language = HeyWikiConfig.language;
+            var language = MOD.config().language();
             wiki = this.getLanguageWikiByWikiLanguage(language);
         }
 

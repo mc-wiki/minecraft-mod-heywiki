@@ -26,12 +26,12 @@ public class WikiCommand {
                                           String[] pageSplit = page.split(":");
                                           if (pageSplit.length == 1) {
                                               new WikiPage(page,
-                                                           MOD.wikiFamilyConfigManager().activeWikis().get("minecraft"))
+                                                           MOD.familyManager().activeWikis().get("minecraft"))
                                                       .openInBrowserCommand(null);
                                               return 0;
                                           }
                                           new WikiPage(pageSplit[1],
-                                                       MOD.wikiFamilyConfigManager().activeWikis().get(pageSplit[0]))
+                                                       MOD.familyManager().activeWikis().get(pageSplit[0]))
                                                   .openInBrowserCommand(null);
                                           return 0;
                                       })));

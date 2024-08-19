@@ -21,5 +21,4 @@
 
 ## Fixes
 
-- Another attempt at fixing conflict with RRLS and Zoomify (#58)
-  - Note that this is a workaround and the underlying issue is still not fixed.
+- Fixes conflict with RRLS and Zoomify (#58)

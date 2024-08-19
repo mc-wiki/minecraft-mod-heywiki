@@ -22,7 +22,7 @@ public class NSPageCombinedSuggestionProvider implements SuggestionProvider<Clie
                                                          SuggestionsBuilder builder) {
         builder.restart();
         String remaining = builder.getRemaining();
-        WikiIndividual wiki = MOD.wikiFamilyConfigManager().activeWikis().get("minecraft");
+        WikiIndividual wiki = MOD.familyManager().activeWikis().get("minecraft");
         if (wiki == null) return new NamespaceSuggestionProvider().getSuggestions(context, builder);
         String apiUrl = wiki.mwApiUrl().orElse(null);
         if (apiUrl == null) return new NamespaceSuggestionProvider().getSuggestions(context, builder);
@@ -39,7 +39,7 @@ public class NSPageCombinedSuggestionProvider implements SuggestionProvider<Clie
         }
 
         String[] split = remaining.split(":", 2);
-        if (MOD.wikiFamilyConfigManager().getAvailableNamespaces().contains(split[0])) {
+        if (MOD.familyManager().getAvailableNamespaces().contains(split[0])) {
             SuggestionsBuilder fakeBuilder = new SuggestionsBuilder(builder.getInput(),
                                                                     builder.getStart() + split[0].length() + 1);
             return new PageNameSuggestionProvider(() -> URI.create(apiUrl))
