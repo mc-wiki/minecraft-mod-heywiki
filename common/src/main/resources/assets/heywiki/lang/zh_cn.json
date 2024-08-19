@@ -1,4 +1,11 @@
 {
+  "commands.imfeelinglucky.not_supported": "指定的wiki不支持随机页面",
+  "commands.whatstructure.no_integrated_server": "/whatstructure需要在本地单人游戏世界中使用",
+  "commands.whatstructure.no_structure": "未找到结构",
+  "gui.heywiki.no_family": "找不到wiki",
+  "gui.heywiki.no_item_held": "手中未持有物品",
+  "gui.heywiki.too_far": "你什么也没有对准。或许应该靠近一点？",
+  "gui.heywiki_confirm_link.loading_excerpt": "正在加载页面描述…",
   "key.categories.heywiki": "Hey Wiki",
   "key.heywiki.open": "打开wiki条目",
   "key.heywiki.open_search": "打开wiki条目",
@@ -49,5 +56,14 @@
   "structure.minecraft.village_plains": "平原村庄",
   "structure.minecraft.village_savanna": "热带草原村庄",
   "structure.minecraft.village_snowy": "雪原村庄",
-  "structure.minecraft.village_taiga": "针叶林村庄"
+  "structure.minecraft.village_taiga": "针叶林村庄",
+  "wiki_family.heywiki.ae2": "AE2指南",
+  "wiki_family.heywiki.aether": "Aether Project Wiki",
+  "wiki_family.heywiki.aoa3": "Advent of Ascension Wiki",
+  "wiki_family.heywiki.create": "Create Wiki",
+  "wiki_family.heywiki.mekanism": "Mekanism Wiki",
+  "wiki_family.heywiki.minecraft": "Minecraft Wiki",
+  "wiki_family.heywiki.stardustlabs": "Stardust Labs Wiki",
+  "wiki_family.heywiki.twilightforest": "Twilight Forest Wiki",
+  "wiki_family.heywiki.voidscape": "Voidscape Wiki"
 }
