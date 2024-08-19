@@ -16,7 +16,7 @@ import static wiki.minecraft.heywiki.wiki.WikiPage.NO_FAMILY_EXCEPTION;
 
 public class WhatIsThisItemCommand {
     public static final SimpleCommandExceptionType NO_ITEM_HELD = new SimpleCommandExceptionType(
-            Text.translatable("heywiki.no_item_held"));
+            Text.translatable("gui.heywiki.no_item_held"));
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
 
     @SuppressWarnings("UnusedReturnValue")
@@ -47,7 +47,7 @@ public class WhatIsThisItemCommand {
         if (page == null) {
             throw NO_FAMILY_EXCEPTION.create();
         }
-        page.openInBrowser(true);
+        page.openInBrowserCommand(null);
         return 0;
     }
 }

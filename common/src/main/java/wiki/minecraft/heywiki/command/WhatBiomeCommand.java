@@ -29,7 +29,7 @@ public class WhatBiomeCommand {
                             if (page == null) {
                                 throw NO_FAMILY_EXCEPTION.create();
                             }
-                            page.openInBrowser(true);
+                            page.openInBrowserCommand(null);
                             return 0;
                         }));
     }

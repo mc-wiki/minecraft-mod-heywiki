@@ -33,7 +33,7 @@ public abstract class RecipeScreenMixin {
                             MinecraftClient.getInstance().inGameHud.setOverlayMessage(NO_FAMILY_MESSAGE, false);
                             return;
                         }
-                        page.openInBrowser();
+                        page.openInBrowser(null);
                     }
                 }
             }

@@ -11,7 +11,6 @@ import me.shedaniel.clothconfig2.impl.builders.DropdownMenuBuilder;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
-import wiki.minecraft.heywiki.wiki.WikiIndividual;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -24,17 +23,21 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static dev.architectury.platform.Platform.getConfigFolder;
-import static wiki.minecraft.heywiki.resource.WikiFamilyConfigManager.getAllAvailableLanguages;
-import static wiki.minecraft.heywiki.resource.WikiFamilyConfigManager.resolveActiveWikis;
 
 /**
  * The configuration for the Hey Wiki mod.
  */
 public class HeyWikiConfig {
+    private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
+
     /**
      * Whether the user should be prompted for confirmation before opening a wiki page.
      */
     public static boolean requiresConfirmation = true;
+    /**
+     * Whether the user should be prompted for confirmation before opening a wiki page using a command.
+     */
+    public static boolean requiresConfirmationCommand = false;
     /**
      * The distance at which the player can raycast to find a {@link wiki.minecraft.heywiki.wiki.Target Target}.
      */
@@ -61,7 +64,7 @@ public class HeyWikiConfig {
     public static Screen createGui(Screen parent) {
         AtomicReference<Boolean> requireReload = new AtomicReference<>(false);
 
-        List<String> languages = new ArrayList<>(getAllAvailableLanguages());
+        List<String> languages = new ArrayList<>(MOD.wikiFamilyConfigManager().getAllAvailableLanguages());
         languages.addFirst("auto");
 
         ConfigBuilder builder = ConfigBuilder.create()
@@ -77,6 +80,15 @@ public class HeyWikiConfig {
                                  .setDefaultValue(true)
                                  .setTooltip(Text.translatable("options.heywiki.requires_confirmation.description"))
                                  .setSaveConsumer(newValue -> HeyWikiConfig.requiresConfirmation = newValue)
+                                 .build());
+        general.addEntry(entryBuilder
+                                 .startBooleanToggle(
+                                         Text.translatable("options.heywiki.requires_confirmation_command.name"),
+                                         HeyWikiConfig.requiresConfirmationCommand)
+                                 .setDefaultValue(true)
+                                 .setTooltip(
+                                         Text.translatable("options.heywiki.requires_confirmation_command.description"))
+                                 .setSaveConsumer(newValue -> HeyWikiConfig.requiresConfirmationCommand = newValue)
                                  .build());
         general.addEntry(entryBuilder
                                  .startDoubleField(Text.translatable("options.heywiki.raycast_reach.name"),
@@ -119,8 +131,7 @@ public class HeyWikiConfig {
                                                     DropdownMenuBuilder.CellCreatorBuilder.of(
                                                             HeyWikiConfig::zhVariantDescription))
                                  .setDisplayRequirement(() -> {
-                                     Map<String, WikiIndividual> activeWikis = resolveActiveWikis();
-                                     for (var wiki : activeWikis.values()) {
+                                     for (var wiki : MOD.wikiFamilyConfigManager().activeWikis().values()) {
                                          if (wiki.language().wikiLanguage().startsWith("zh")) {
                                              return true;
                                          }
@@ -135,6 +146,11 @@ public class HeyWikiConfig {
                                  .build());
         general.addEntry(entryBuilder
                                  .fillKeybindingField(Text.translatable("key.heywiki.open"), HeyWikiClient.openWikiKey)
+                                 .setTooltip(Text.translatable("options.heywiki.open_key.description"))
+                                 .build());
+        general.addEntry(entryBuilder
+                                 .fillKeybindingField(Text.translatable("key.heywiki.open_search"),
+                                                      HeyWikiClient.openWikiSearchKey)
                                  .setTooltip(Text.translatable("options.heywiki.open_key.description"))
                                  .build());
 
@@ -181,6 +197,7 @@ public class HeyWikiConfig {
             try {
                 jsonWriter.beginObject()
                           .name("requiresConfirmation").value(requiresConfirmation)
+                          .name("requiresConfirmationCommand").value(requiresConfirmationCommand)
                           .name("language").value(language)
                           .name("zhVariant").value(zhVariant)
                           .name("raycastReach").value(raycastReach)
@@ -222,6 +239,9 @@ public class HeyWikiConfig {
                           switch (entry.getKey()) {
                               case "requiresConfirmation":
                                   requiresConfirmation = entry.getValue().getAsBoolean();
+                                  break;
+                              case "requiresConfirmationCommand":
+                                  requiresConfirmationCommand = entry.getValue().getAsBoolean();
                                   break;
                               case "language":
                                   language = entry.getValue().getAsString();

@@ -1,5 +1,4 @@
 {
-  "id": "minecraft",
   "namespace": [
     "minecraft"
   ],
@@ -10,6 +9,7 @@
       "random_article": "Special:RandomRootPage/Main",
       "version_article": "Java Edition %s",
       "excerpt": "text_extracts",
+      "search_url": "https://minecraft.wiki/?search=%s",
       "language": {
         "wiki_language": "en",
         "main": true,
@@ -24,6 +24,7 @@
       "random_article": "Special:RandomRootPage/Main",
       "version_article": "%s",
       "excerpt": "text_extracts",
+      "search_url": "https://de.minecraft.wiki/?search=%s",
       "language": {
         "wiki_language": "de",
         "default": "de_de",
@@ -38,6 +39,7 @@
       "random_article": "Special:RandomRootPage/Main",
       "version_article": "Java Edition %s",
       "excerpt": "text_extracts",
+      "search_url": "https://es.minecraft.wiki/?search=%s",
       "language": {
         "wiki_language": "es",
         "default": "es_es",
@@ -51,6 +53,7 @@
       "random_article": "Special:RandomRootPage/Main",
       "version_article": "Édition Java %s",
       "excerpt": "text_extracts",
+      "search_url": "https://fr.minecraft.wiki/?search=%s",
       "language": {
         "wiki_language": "fr",
         "default": "fr_fr",
@@ -64,6 +67,7 @@
       "random_article": "Special:RandomRootPage/Main",
       "version_article": "Java Edition %s",
       "excerpt": "text_extracts",
+      "search_url": "https://ja.minecraft.wiki/?search=%s",
       "language": {
         "wiki_language": "ja",
         "default": "ja_jp",
@@ -78,6 +82,7 @@
       "random_article": "Special:RandomRootPage/Main",
       "version_article": "Java Edition %s",
       "excerpt": "text_extracts",
+      "search_url": "https://ko.minecraft.wiki/?search=%s",
       "language": {
         "wiki_language": "ko",
         "default": "ko_kr",
@@ -91,6 +96,7 @@
       "random_article": "Special:RandomRootPage/Main",
       "version_article": "爪哇版%s",
       "excerpt": "text_extracts",
+      "search_url": "https://lzh.minecraft.wiki/?search=%s",
       "language": {
         "wiki_language": "lzh",
         "default": "lzh",
@@ -104,6 +110,7 @@
       "random_article": "Special:RandomRootPage/Main",
       "version_article": "Edição Java %s",
       "excerpt": "text_extracts",
+      "search_url": "https://pt.minecraft.wiki/?search=%s",
       "language": {
         "wiki_language": "pt",
         "default": "pt_br",
@@ -117,6 +124,7 @@
       "random_article": "Special:RandomRootPage/Main",
       "version_article": "%s (Java Edition)",
       "excerpt": "text_extracts",
+      "search_url": "https://ru.minecraft.wiki/?search=%s",
       "language": {
         "wiki_language": "ru",
         "default": "ru_ru",
@@ -130,6 +138,7 @@
       "random_article": "Special:RandomRootPage/Main",
       "version_article": "รุ่น Java %s",
       "excerpt": "text_extracts",
+      "search_url": "https://th.minecraft.wiki/?search=%s",
       "language": {
         "wiki_language": "th",
         "default": "th_th",
@@ -143,6 +152,7 @@
       "random_article": "Special:RandomRootPage/Main",
       "version_article": "%s (Java Edition)",
       "excerpt": "text_extracts",
+      "search_url": "https://uk.minecraft.wiki/?search=%s",
       "language": {
         "wiki_language": "uk",
         "default": "uk_ua",
@@ -155,6 +165,7 @@
       "mw_api_url": "https://zh.minecraft.wiki/api.php",
       "random_article": "Special:RandomRootPage/Main",
       "excerpt": "text_extracts",
+      "search_url": "https://zh.minecraft.wiki/?search=%s",
       "version_article": "Java版%s",
       "language": {
         "wiki_language": "zh",

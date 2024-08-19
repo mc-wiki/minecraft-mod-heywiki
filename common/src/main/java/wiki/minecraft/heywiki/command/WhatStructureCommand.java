@@ -27,9 +27,9 @@ import static wiki.minecraft.heywiki.wiki.WikiPage.NO_FAMILY_EXCEPTION;
 
 public class WhatStructureCommand {
     public static final SimpleCommandExceptionType NO_INTEGRATED_SERVER = new SimpleCommandExceptionType(
-            Text.translatable("command.whatstructure.no_integrated_server"));
+            Text.translatable("commands.whatstructure.no_integrated_server"));
     public static final SimpleCommandExceptionType NO_STRUCTURE = new SimpleCommandExceptionType(
-            Text.translatable("command.whatstructure.no_structure"));
+            Text.translatable("commands.whatstructure.no_structure"));
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
 
     @SuppressWarnings("UnusedReturnValue")
@@ -81,7 +81,7 @@ public class WhatStructureCommand {
                                     if (page == null) {
                                         throw NO_FAMILY_EXCEPTION.create();
                                     }
-                                    page.openInBrowser(true);
+                                    page.openInBrowserCommand(null);
                                     return 0;
                                 }
                             }

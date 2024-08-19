@@ -33,7 +33,7 @@ public class TitleScreenMixin extends Screen implements TitleScreenInterface {
 
         int width = textRenderer.getWidth(text);
         this.addDrawableChild(new PressableTextWidget(x, y, width, 10, Text.literal(text),
-                                                      (button) -> article.openInBrowser(false, this),
+                                                      (button) -> article.openInBrowser(this),
                                                       this.textRenderer));
 
         isInitialized = true;

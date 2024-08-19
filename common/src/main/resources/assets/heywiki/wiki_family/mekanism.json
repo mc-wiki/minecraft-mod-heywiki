@@ -1,5 +1,4 @@
 {
-  "id": "mekanism",
   "namespace": [
     "mekanism"
   ],
@@ -9,6 +8,7 @@
       "mw_api_url": "https://wiki.aidancbrady.com/w/api.php",
       "random_article": "Special:RandomPage",
       "excerpt": "none",
+      "search_url": "https://wiki.aidancbrady.com/wiki/?search=%s",
       "language": {
         "wiki_language": "en",
         "main": true,

@@ -17,13 +17,11 @@ import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 import wiki.minecraft.heywiki.command.*;
-import wiki.minecraft.heywiki.resource.PageExcerptCacheManager;
-import wiki.minecraft.heywiki.resource.PageNameSuggestionCacheManager;
-import wiki.minecraft.heywiki.resource.WikiFamilyConfigManager;
+import wiki.minecraft.heywiki.gui.screen.WikiSearchScreen;
+import wiki.minecraft.heywiki.resource.WikiFamilyManager;
 import wiki.minecraft.heywiki.resource.WikiTranslationManager;
 
 import java.util.List;
-import java.util.Objects;
 
 import static dev.architectury.event.events.client.ClientCommandRegistrationEvent.literal;
 
@@ -34,30 +32,26 @@ public class HeyWikiClient {
     public static final String MOD_ID = "heywiki";
     private static final MinecraftClient client = MinecraftClient.getInstance();
     public static KeyBinding openWikiKey = new KeyBinding("key.heywiki.open",
-                                                          // The translation key of the keybinding's name
                                                           InputUtil.Type.KEYSYM,
-                                                          // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
                                                           GLFW.GLFW_KEY_H,
-                                                          // The keycode of the key
                                                           "key.categories.heywiki"
-                                                          // The translation key of the keybinding's category.
     );
+    public static final KeyBinding openWikiSearchKey = new KeyBinding("key.heywiki.open_search",
+                                                                      InputUtil.Type.KEYSYM,
+                                                                      GLFW.GLFW_KEY_B,
+                                                                      "key.categories.heywiki"
+    );
+    private static HeyWikiClient INSTANCE;
 
-    /**
-     * Logs a warning that a feature is experimental.
-     *
-     * @param feature The name of the experimental feature.
-     */
-    public static void experimentalWarning(String feature) {
-        LogUtils.getLogger()
-                .warn("{} is an experimental feature. It is subject to breaking changes in future minor or patch releases.",
-                      feature);
-    }
+    private final WikiFamilyManager wikiFamilyManager;
+    private final WikiTranslationManager wikiTranslationManager;
 
     /**
      * Initializes the Hey Wiki mod. Should be called at client setup.
      */
-    public static void init() {
+    public HeyWikiClient() {
+        INSTANCE = this;
+
         HeyWikiConfig.load();
 
         KeyMappingRegistry.register(openWikiKey);
@@ -66,19 +60,18 @@ public class HeyWikiClient {
 
         ClientChatEvent.RECEIVED.register(ChatWikiLinks::onClientChatReceived);
 
-        ClientGuiEvent.DEBUG_TEXT_RIGHT.register(CrosshairRaycast::onDebugTextRight);
+        ClientGuiEvent.DEBUG_TEXT_RIGHT.register(Raycast::onDebugTextRight);
 
-        ClientTickEvent.CLIENT_POST.register(CrosshairRaycast::onClientTickPost);
+        ClientTickEvent.CLIENT_POST.register(Raycast::onClientTickPost);
+        ClientTickEvent.CLIENT_POST.register(WikiSearchScreen::onClientTickPost);
 
-        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, new WikiFamilyConfigManager(),
+        this.wikiFamilyManager = new WikiFamilyManager();
+        this.wikiTranslationManager = new WikiTranslationManager();
+        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, this.wikiFamilyManager,
                                         Identifier.of("heywiki", "family"));
-        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, new WikiTranslationManager(),
+        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, this.wikiTranslationManager,
                                         Identifier.of("heywiki", "translation"),
-                                        List.of(Objects.requireNonNull(Identifier.of("heywiki", "family"))));
-        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, new PageNameSuggestionCacheManager(),
-                                        Identifier.of("heywiki", "page_name_suggestions"));
-        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, new PageExcerptCacheManager(),
-                                        Identifier.of("heywiki", "page_excerpts"));
+                                        List.of(Identifier.of("heywiki", "family")));
     }
 
     private static void registerCommands(CommandDispatcher<ClientCommandSourceStack> dispatcher,
@@ -95,5 +88,28 @@ public class HeyWikiClient {
 
         dispatcher.register(literal("whatis").redirect(wikiCommand));
         dispatcher.register(literal("whatcmd").redirect(whatCommandCommand));
+    }
+
+    public static HeyWikiClient getInstance() {
+        return INSTANCE;
+    }
+
+    /**
+     * Logs a warning that a feature is experimental.
+     *
+     * @param feature The name of the experimental feature.
+     */
+    public static void experimentalWarning(String feature) {
+        LogUtils.getLogger()
+                .warn("{} is an experimental feature. It is subject to breaking changes in future minor or patch releases.",
+                      feature);
+    }
+
+    public WikiFamilyManager wikiFamilyConfigManager() {
+        return wikiFamilyManager;
+    }
+
+    public WikiTranslationManager wikiTranslationManager() {
+        return wikiTranslationManager;
     }
 }

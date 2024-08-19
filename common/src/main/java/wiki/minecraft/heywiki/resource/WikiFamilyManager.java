@@ -1,5 +1,7 @@
 package wiki.minecraft.heywiki.resource;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.mojang.logging.LogUtils;
@@ -21,19 +23,14 @@ import java.util.stream.Collectors;
  *
  * @see WikiFamily
  */
-public class WikiFamilyConfigManager extends JsonDataLoader {
+public class WikiFamilyManager extends JsonDataLoader {
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final String PATH = "wiki_family";
     private static final Gson GSON = new Gson();
-    private static final Map<String, WikiFamily> WIKI_FAMILY_MAP = new HashMap<>();
-    /**
-     * The current active {@link WikiIndividual} for each namespace.
-     *
-     * @see #resolveActiveWikis()
-     */
-    public static Map<String, WikiIndividual> activeWikis = new HashMap<>();
+    private final BiMap<Identifier, WikiFamily> WIKI_FAMILY_MAP = HashBiMap.create();
+    private Map<String, WikiIndividual> activeWikis = new HashMap<>();
 
-    public WikiFamilyConfigManager() {
+    public WikiFamilyManager() {
         super(GSON, PATH);
     }
 
@@ -43,8 +40,18 @@ public class WikiFamilyConfigManager extends JsonDataLoader {
      * @param id The ID.
      * @return The family.
      */
-    public static WikiFamily getFamily(String id) {
+    public WikiFamily getFamily(Identifier id) {
         return WIKI_FAMILY_MAP.get(id);
+    }
+
+    /**
+     * Gets the ID of the specified family.
+     *
+     * @param family The family.
+     * @return The ID.
+     */
+    public Identifier getFamilyId(WikiFamily family) {
+        return WIKI_FAMILY_MAP.inverse().get(family);
     }
 
     /**
@@ -53,7 +60,7 @@ public class WikiFamilyConfigManager extends JsonDataLoader {
      * @param namespace The namespace.
      * @return The family.
      */
-    public static @Nullable WikiFamily getFamilyByNamespace(String namespace) {
+    public @Nullable WikiFamily getFamilyByNamespace(String namespace) {
         for (WikiFamily family : WIKI_FAMILY_MAP.values()) {
             if (family.namespace().contains(namespace)) {
                 return family;
@@ -68,7 +75,7 @@ public class WikiFamilyConfigManager extends JsonDataLoader {
      *
      * @return A set of language codes.
      */
-    public static Set<String> getAllAvailableLanguages() {
+    public Set<String> getAllAvailableLanguages() {
         return WIKI_FAMILY_MAP.values().stream()
                               .flatMap(family -> family.wikis().stream().map(wiki -> wiki.language().wikiLanguage()))
                               .sorted(Comparator.naturalOrder())
@@ -80,17 +87,26 @@ public class WikiFamilyConfigManager extends JsonDataLoader {
      *
      * @return A set of namespaces.
      */
-    public static Set<String> getAvailableNamespaces() {
+    public Set<String> getAvailableNamespaces() {
         return WIKI_FAMILY_MAP.values().stream().map(WikiFamily::namespace)
                               .collect(HashSet::new, Set::addAll, Set::addAll);
     }
 
     /**
-     * Gets all default languages of every individual wiki in every family.
+     * Gets a set of all available wiki families.
+     *
+     * @return A set of wiki families.
+     */
+    public Set<WikiFamily> getAvailableFamilies() {
+        return new HashSet<>(WIKI_FAMILY_MAP.values());
+    }
+
+    /**
+     * Gets all default languages of every wiki in every family.
      *
      * @return A set of language codes.
      */
-    public static Set<String> getAllDefaultLanguages() {
+    public Set<String> getAllDefaultLanguages() {
         Set<String> languages = new HashSet<>();
         WIKI_FAMILY_MAP.forEach((key, value) -> value.wikis().forEach(wiki -> {
             if (wiki.language().main()) languages.add(wiki.language().defaultLanguage());
@@ -105,7 +121,7 @@ public class WikiFamilyConfigManager extends JsonDataLoader {
      * @param wikiLanguage The wiki language.
      * @return A set of language codes.
      */
-    public static Set<String> getAllDefaultLanguagesFromWikiLanguage(String wikiLanguage) {
+    public Set<String> getAllDefaultLanguagesFromWikiLanguage(String wikiLanguage) {
         Set<String> languages = new HashSet<>();
         WIKI_FAMILY_MAP.forEach((key, value) -> value.wikis().forEach(wiki -> {
             if (wiki.language().wikiLanguage().equals(wikiLanguage)) languages.add(wiki.language().defaultLanguage());
@@ -115,11 +131,11 @@ public class WikiFamilyConfigManager extends JsonDataLoader {
     }
 
     /**
-     * Gets all language overrides of every individual wiki in every family.
+     * Gets all language overrides of every wiki in every family.
      *
      * @return A set of language codes for overrides.
      */
-    public static Set<String> getLangOverride() {
+    public Set<String> getLangOverride() {
         Set<String> languages = new HashSet<>();
         WIKI_FAMILY_MAP.forEach((key, value) -> {
             for (var wiki : value.wikis()) {
@@ -131,6 +147,16 @@ public class WikiFamilyConfigManager extends JsonDataLoader {
         return languages;
     }
 
+    /**
+     * Get the current active {@link WikiIndividual} for each namespace.
+     *
+     * @return A map of namespaces to active wikis.
+     * @see #resolveActiveWikis()
+     */
+    public Map<String, WikiIndividual> activeWikis() {
+        return Collections.unmodifiableMap(this.activeWikis);
+    }
+
     @Override
     protected void apply(Map<Identifier, JsonElement> prepared, ResourceManager manager, Profiler profiler) {
         WIKI_FAMILY_MAP.clear();
@@ -138,7 +164,7 @@ public class WikiFamilyConfigManager extends JsonDataLoader {
             try {
                 WikiFamily wikiFamily = WikiFamily.CODEC.parse(JsonOps.INSTANCE, value).resultOrPartial(LOGGER::error)
                                                         .orElseThrow();
-                WIKI_FAMILY_MAP.put(wikiFamily.id(), wikiFamily);
+                WIKI_FAMILY_MAP.put(key, wikiFamily);
             } catch (Exception e) {
                 LOGGER.error("Failed to load wiki family config from {}", key, e);
             }
@@ -154,9 +180,9 @@ public class WikiFamilyConfigManager extends JsonDataLoader {
      * @return A map of namespaces to active wikis.
      * @see #activeWikis
      */
-    public static Map<String, WikiIndividual> resolveActiveWikis() {
+    public Map<String, WikiIndividual> resolveActiveWikis() {
         Map<String, WikiIndividual> activeWikis = new HashMap<>();
-        for (var entry : WikiFamilyConfigManager.WIKI_FAMILY_MAP.entrySet()) {
+        for (var entry : WIKI_FAMILY_MAP.entrySet()) {
             var family = entry.getValue();
             var wiki = family.getWiki();
 

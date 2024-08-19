@@ -73,7 +73,7 @@ public abstract class AbstractInventoryScreenMixin extends HandledScreenMixin {
                         client.inGameHud.setOverlayMessage(NO_FAMILY_MESSAGE, false);
                         return;
                     }
-                    page.openInBrowser(false, MinecraftClient.getInstance().currentScreen);
+                    page.openInBrowser(MinecraftClient.getInstance().currentScreen);
                 }
             }
             super.keyPressed(keyCode, scanCode, modifiers, cir);

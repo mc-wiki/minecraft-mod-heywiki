@@ -12,26 +12,23 @@ import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
-import org.apache.commons.codec.binary.Hex;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
+import wiki.minecraft.heywiki.util.HttpUtil;
 import wiki.minecraft.heywiki.wiki.PageExcerpt;
 import wiki.minecraft.heywiki.wiki.WikiPage;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.*;
-import java.net.URI;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.net.URLDecoder;
-import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-import static wiki.minecraft.heywiki.HTTPUtils.requestUri;
 import static wiki.minecraft.heywiki.HeyWikiClient.openWikiKey;
 
 /**
@@ -39,15 +36,15 @@ import static wiki.minecraft.heywiki.HeyWikiClient.openWikiKey;
  *
  * @see net.minecraft.client.gui.screen.ConfirmLinkScreen
  */
-public class HeyWikiConfirmLinkScreen extends Screen {
+public class ConfirmWikiPageScreen extends Screen {
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final TextureManager textureManager = MinecraftClient.getInstance().getTextureManager();
     protected final BooleanConsumer callback;
     private final String link;
     private final Text message;
     private final WikiPage page;
-    protected Text yesText;
-    protected Text noText;
+    protected final Text yesText;
+    protected final Text noText;
     private SimplePositioningWidget layout = new SimplePositioningWidget(0, 0, this.width, this.height);
     private Identifier textureId = Identifier.of("minecraft", "textures/misc/unknown_server.png");
     private volatile PageExcerpt excerpt;
@@ -62,8 +59,8 @@ public class HeyWikiConfirmLinkScreen extends Screen {
      * @param excerpt  The excerpt of the page.
      * @param page     The wiki page.
      */
-    public HeyWikiConfirmLinkScreen(BooleanConsumer callback, String link, CompletableFuture<PageExcerpt> excerpt,
-                                    WikiPage page) {
+    public ConfirmWikiPageScreen(BooleanConsumer callback, String link, Optional<CompletableFuture<PageExcerpt>> excerpt,
+                                 WikiPage page) {
         this(callback, Text.translatable("chat.link.confirmTrusted"),
              Text.literal(URLDecoder.decode(link, StandardCharsets.UTF_8)), link,
              ScreenTexts.CANCEL, excerpt, page);
@@ -80,8 +77,8 @@ public class HeyWikiConfirmLinkScreen extends Screen {
      * @param excerpt  The excerpt of the page.
      * @param page     The wiki page.
      */
-    private HeyWikiConfirmLinkScreen(BooleanConsumer callback, Text title, Text message, String link, Text noText,
-                                     CompletableFuture<PageExcerpt> excerpt, WikiPage page) {
+    private ConfirmWikiPageScreen(BooleanConsumer callback, Text title, Text message, String link, Text noText,
+                                  Optional<CompletableFuture<PageExcerpt>> excerpt, WikiPage page) {
         super(title);
         this.callback = callback;
         this.message = message;
@@ -90,15 +87,15 @@ public class HeyWikiConfirmLinkScreen extends Screen {
         this.link = link;
         this.page = page;
 
-        if (excerpt != null) {
-            loadImage(excerpt);
+        if (excerpt.isPresent()) {
+            this.hasExcerpt = true;
+            loadImage(excerpt.get());
         }
     }
 
     private void loadImage(@NotNull CompletableFuture<PageExcerpt> excerpt) {
         assert this.client != null;
 
-        this.hasExcerpt = true;
         excerpt.thenAccept(result -> {
             if (result == null) {
                 hasExcerpt = false;
@@ -106,36 +103,10 @@ public class HeyWikiConfirmLinkScreen extends Screen {
             this.excerpt = result;
 
             if (this.excerpt.imageUrl() != null) {
-                MessageDigest md;
-                try {
-                    md = MessageDigest.getInstance("SHA-1");
-                } catch (NoSuchAlgorithmException e) {
-                    throw new RuntimeException(e);
-                }
-
-                String hash = Hex.encodeHexString(md.digest(this.excerpt.imageUrl().getBytes(StandardCharsets.UTF_8)));
-                String tempDir = System.getProperty("java.io.tmpdir");
-                String path = tempDir + "/heywiki/" + hash;
-                File file = new File(path);
-                if (file.exists()) {
-                    try {
-                        this.image = Files.readAllBytes(file.toPath());
-                    } catch (IOException e) {
-                        LOGGER.error("Failed to fetch image", e);
-                    }
-                } else {
-                    CompletableFuture.runAsync(() -> {
-                        try {
-                            this.image = requestUri(URI.create(this.excerpt.imageUrl()),
-                                                    HttpResponse.BodyHandlers.ofByteArray());
-                            Files.write(file.toPath(), this.image);
-                        } catch (Exception e) {
-                            LOGGER.error("Failed to fetch image", e);
-                        }
-
-                        this.client.execute(this::init);
-                    }, Util.getDownloadWorkerExecutor());
-                }
+                HttpUtil.loadAndCacheFile(this.excerpt.imageUrl()).thenAccept(image -> {
+                    this.image = image;
+                    this.client.execute(this::init);
+                });
             }
             this.client.execute(this::init);
         });
@@ -149,9 +120,9 @@ public class HeyWikiConfirmLinkScreen extends Screen {
      * @param excerpt The excerpt of the page.
      * @param page    The wiki page.
      */
-    public static void open(Screen parent, String url, CompletableFuture<PageExcerpt> excerpt, WikiPage page) {
+    public static void open(Screen parent, String url, Optional<CompletableFuture<PageExcerpt>> excerpt, WikiPage page) {
         MinecraftClient client = MinecraftClient.getInstance();
-        client.setScreen(new HeyWikiConfirmLinkScreen((confirmed) -> {
+        client.setScreen(new ConfirmWikiPageScreen((confirmed) -> {
             if (confirmed) {
                 Util.getOperatingSystem().open(url);
             }
@@ -191,7 +162,7 @@ public class HeyWikiConfirmLinkScreen extends Screen {
                                  this.width - 65 - (imageWidth + 13),
                                  this.excerpt != null
                                          ? Text.of(this.excerpt.excerpt().replace("\u200B", ""))
-                                         : Text.translatable("screen.heywiki_confirm_link.loading_excerpt"),
+                                         : Text.translatable("gui.heywiki_confirm_link.loading_excerpt"),
                                  this.textRenderer, 5),
                          positioner -> positioner.margin(5)).setCentered(false);
         }

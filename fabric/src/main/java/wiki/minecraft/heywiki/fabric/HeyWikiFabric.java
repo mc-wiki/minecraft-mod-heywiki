@@ -6,6 +6,6 @@ import wiki.minecraft.heywiki.HeyWikiClient;
 public class HeyWikiFabric implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        HeyWikiClient.init();
+        new HeyWikiClient();
     }
 }

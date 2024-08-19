@@ -7,13 +7,14 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent.ClientCommandSourceStack;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.command.CommandSource;
-import wiki.minecraft.heywiki.resource.WikiFamilyConfigManager;
+import wiki.minecraft.heywiki.HeyWikiClient;
 
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
 public class NamespaceSuggestionProvider implements SuggestionProvider<ClientCommandSourceStack> {
+    private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
     private final boolean colon;
 
@@ -29,7 +30,7 @@ public class NamespaceSuggestionProvider implements SuggestionProvider<ClientCom
     public CompletableFuture<Suggestions> getSuggestions(CommandContext<ClientCommandSourceStack> context,
                                                          SuggestionsBuilder builder) {
         Set<String> namespaces = CLIENT.getResourceManager().getAllNamespaces();
-        Set<String> availableNamespaces = WikiFamilyConfigManager.getAvailableNamespaces();
+        Set<String> availableNamespaces = MOD.wikiFamilyConfigManager().getAvailableNamespaces();
 
         Stream<String> intersect = namespaces.stream().filter(availableNamespaces::contains);
 

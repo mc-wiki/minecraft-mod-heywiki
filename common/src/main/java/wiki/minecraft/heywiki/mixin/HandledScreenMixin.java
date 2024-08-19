@@ -39,7 +39,7 @@ public class HandledScreenMixin extends ScreenMixin {
                         MinecraftClient.getInstance().inGameHud.setOverlayMessage(NO_FAMILY_MESSAGE, false);
                         return;
                     }
-                    page.openInBrowser(false, MinecraftClient.getInstance().currentScreen);
+                    page.openInBrowser(MinecraftClient.getInstance().currentScreen);
                 }
             }
         }

@@ -1,5 +1,4 @@
 {
-  "id": "stardustlabs",
   "namespace": [
     "terralith",
     "incendium",
@@ -7,10 +6,11 @@
   ],
   "wikis": [
     {
-      "article_url": "https://stardustlabs.miraheze.org/wiki/%s",
+      "article_url": "https://stardustlabs.miraheze.org/wiki/?search=%s",
       "mw_api_url": "https://stardustlabs.miraheze.org/w/api.php",
       "random_article": "Special:RandomPage",
       "excerpt": "text_extracts",
+      "search_url": "https://stardustlabs.miraheze.org/wiki/?search=%s",
       "language": {
         "wiki_language": "en",
         "main": true,

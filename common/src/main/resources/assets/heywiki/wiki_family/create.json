@@ -1,5 +1,4 @@
 {
-  "id": "create",
   "namespace": [
     "create"
   ],
@@ -9,6 +8,7 @@
       "mw_api_url": "https://create.fandom.com/api.php",
       "random_article": "Special:RandomPage",
       "excerpt": "none",
+      "search_url": "https://create.fandom.com/wiki/?search=%s",
       "language": {
         "wiki_language": "en",
         "main": true,

@@ -10,7 +10,7 @@ import wiki.minecraft.heywiki.HeyWikiConfig;
 @Mod(HeyWikiClient.MOD_ID)
 public class HeyWikiNeoForge {
     public HeyWikiNeoForge(IEventBus ignoredModEventBus) {
-        HeyWikiClient.init();
+        new HeyWikiClient();
         ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class, () ->
                 (minecraft, screen) -> HeyWikiConfig.createGui(screen));
     }

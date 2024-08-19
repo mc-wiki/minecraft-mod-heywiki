@@ -13,20 +13,19 @@ import net.minecraft.util.StringIdentifiable;
  * @param letter The letter formatting.
  * @param space  The space formatting.
  */
-public record TitleFormatter(Letter letter, Space space) {
-    public static final TitleFormatter DEFAULT = new TitleFormatter(Letter.IGNORE, Space.IGNORE);
-    public static Codec<TitleFormatter> CODEC = RecordCodecBuilder
+public record TitleFormat(Letter letter, Space space) {
+    public static final TitleFormat DEFAULT = new TitleFormat(Letter.IGNORE, Space.IGNORE);
+    public static Codec<TitleFormat> CODEC = RecordCodecBuilder
             .create(builder ->
-                            builder
-                                    .group(
-                                            Letter.CODEC.fieldOf("letter")
-                                                        .orElse(Letter.IGNORE)
-                                                        .forGetter(matcher -> matcher.letter),
-                                            Space.CODEC.fieldOf("space")
-                                                       .orElse(Space.IGNORE)
-                                                       .forGetter(matcher -> matcher.space)
-                                          )
-                                    .apply(builder, TitleFormatter::new));
+                            builder.group(
+                                           Letter.CODEC.fieldOf("letter")
+                                                       .orElse(Letter.IGNORE)
+                                                       .forGetter(matcher -> matcher.letter),
+                                           Space.CODEC.fieldOf("space")
+                                                      .orElse(Space.IGNORE)
+                                                      .forGetter(matcher -> matcher.space)
+                                         )
+                                   .apply(builder, TitleFormat::new));
 
     /**
      * Formats a title according to the letter and space formatting.
@@ -57,7 +56,7 @@ public record TitleFormatter(Letter letter, Space space) {
         /**
          * Formats the letters to lower case.
          * {@snippet lang = "java":
-         * var formatter = TitleFormatter(Letter.LOWER, Space.IGNORE);
+         * var formatter = TitleFormat(Letter.LOWER, Space.IGNORE);
          * String formatted = formatter.formatTitle("Hello World");
          * // formatted = "hello world"
          *}
@@ -67,7 +66,7 @@ public record TitleFormatter(Letter letter, Space space) {
         /**
          * Formats the letters to upper case.
          * {@snippet lang = "java":
-         * var formatter = TitleFormatter(Letter.UPPER, Space.IGNORE);
+         * var formatter = TitleFormat(Letter.UPPER, Space.IGNORE);
          * String formatted = formatter.formatTitle("Hello World");
          *  // formatted = "HELLO WORLD"
          *}
@@ -77,7 +76,7 @@ public record TitleFormatter(Letter letter, Space space) {
         /**
          * Ignores the letter formatting.
          * {@snippet lang = "java":
-         * var formatter = TitleFormatter(Letter.IGNORE, Space.IGNORE);
+         * var formatter = TitleFormat(Letter.IGNORE, Space.IGNORE);
          * String formatted = formatter.formatTitle("Hello World");
          *  // formatted = "Hello World"
          *}
@@ -107,7 +106,7 @@ public record TitleFormatter(Letter letter, Space space) {
         /**
          * Formats the spaces to underscores.
          * {@snippet lang = "java":
-         * var formatter = TitleFormatter(Letter.IGNORE, Space.UNDERSCORE);
+         * var formatter = TitleFormat(Letter.IGNORE, Space.UNDERSCORE);
          * String formatted = formatter.formatTitle("Hello World");
          *  // formatted = "Hello_World"
          *}
@@ -117,7 +116,7 @@ public record TitleFormatter(Letter letter, Space space) {
         /**
          * Formats the spaces to dashes.
          * {@snippet lang = "java":
-         * var formatter = TitleFormatter(Letter.IGNORE, Space.DASH);
+         * var formatter = TitleFormat(Letter.IGNORE, Space.DASH);
          * String formatted = formatter.formatTitle("Hello World");
          *  // formatted = "Hello-World"
          *}
@@ -127,7 +126,7 @@ public record TitleFormatter(Letter letter, Space space) {
         /**
          * Ignores the space formatting.
          * {@snippet lang = "java":
-         * var formatter = TitleFormatter(Letter.IGNORE, Space.IGNORE);
+         * var formatter = TitleFormat(Letter.IGNORE, Space.IGNORE);
          * String formatted = formatter.formatTitle("Hello World");
          *  // formatted = "Hello World"
          *}

@@ -48,7 +48,7 @@ public class FocusInputHandlerMixin {
                                                                                                      false);
                                            return;
                                        }
-                                       page.openInBrowser();
+                                       page.openInBrowser(null);
                                    }
                                }
                            });

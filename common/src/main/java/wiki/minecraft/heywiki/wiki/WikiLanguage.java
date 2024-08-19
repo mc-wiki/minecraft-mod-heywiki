@@ -8,16 +8,16 @@ import java.util.Optional;
 /**
  * Represents a wiki language.
  *
- * @param wikiLanguage    The wiki language.
- * @param main            Whether this is the main language.
- * @param defaultLanguage The default language.
- * @param regex           The regex to match the language.
- * @param exclude         The regex to exclude the language.
- * @param langOverride    The language override.
+ * @param wikiLanguage    The language code for the wiki language.
+ * @param main            Whether this is the main language wiki.
+ * @param defaultLanguage The default game language that corresponds to this wiki language.
+ * @param regex           A regular expression the language code has to match.
+ * @param exclude         An optional regular expression the language code must not match.
+ * @param langOverride    The name for a translation file that overrides the game's builtin translation file.
  */
-public record LanguageMatcher(String wikiLanguage, Boolean main, String defaultLanguage, String regex,
-                              Optional<String> exclude, Optional<String> langOverride) {
-    public static Codec<LanguageMatcher> CODEC = RecordCodecBuilder
+public record WikiLanguage(String wikiLanguage, Boolean main, String defaultLanguage, String regex,
+                           Optional<String> exclude, Optional<String> langOverride) {
+    public static final Codec<WikiLanguage> CODEC = RecordCodecBuilder
             .create(builder ->
                             builder
                                     .group(
@@ -35,7 +35,7 @@ public record LanguageMatcher(String wikiLanguage, Boolean main, String defaultL
                                             Codec.STRING.optionalFieldOf("lang_override")
                                                         .forGetter(matcher -> matcher.langOverride)
                                           )
-                                    .apply(builder, LanguageMatcher::new));
+                                    .apply(builder, WikiLanguage::new));
 
     /**
      * Whether a given language code matches this language.
@@ -43,7 +43,7 @@ public record LanguageMatcher(String wikiLanguage, Boolean main, String defaultL
      * @param language The language code.
      * @return Whether the language matches.
      */
-    public Boolean matchLanguage(String language) {
+    public Boolean match(String language) {
         if (this.exclude.isEmpty()) return language.matches(this.regex);
         return language.matches(this.regex) && !language.matches(String.valueOf(this.exclude));
     }

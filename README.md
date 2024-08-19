@@ -19,6 +19,7 @@ Hey Wiki supports [Fabric](https://fabricmc.net/) and [NeoForge](https://neoforg
 - Press H (customizable) to open the wiki page (Minecraft Wiki or the respective mod wiki) of the
   block/item/entity/status effect you're aiming at or hovering over.
 - Press Alt+H or Opt+H to open the wiki page of the item in your main hand.
+- Press B to open the wiki search screen. You can search for wiki pages by typing in the search bar.
 - Adds several [commands](#commands).
 - [Link to a wiki page in chat](#wiki-links-in-chat) using `[[wiki link]]` syntax.
 
@@ -42,11 +43,12 @@ Optionally, you can change these behaviors in the config menu:
 > You need to install [Mod Menu](https://modrinth.com/mod/modmenu) to access the config menu on Fabric.
 
 - If confirmation is required to open the wiki page: default is true
+- If confirmation is required to open the wiki page when you are using an [command](#commands): default is false
 - Which wiki language you prefer, overriding your game language: default is your game language
 - (For Chinese users) Which Chinese variant you prefer, overriding your game language: default is your game language
 - The keybind to open the wiki page: default is H
 - Reach distance: default is 5.2 blocks (same as creative mode reach)
-- Whether fluid is allowed: default is false
+- Whether you are allowed to look up fluid: default is false
 
 ### Commands
 
@@ -110,8 +112,6 @@ Hey Wiki supports using resource pack to add support for other wikis. To do so, 
 
 ```json
 {
-  // A unique identifier for the wiki family
-  "id": "minecraft",
   // The namespaces that is bound to the wiki family
   "namespace": [
     "minecraft"
@@ -154,6 +154,15 @@ Hey Wiki supports using resource pack to add support for other wikis. To do so, 
       }
     }
   ]
+}
+```
+
+You also want to include a translation file in `assets/<namespace>/lang/` folder with the following format:
+
+```json
+{
+  // Assuming the definition is located at `assets/heywiki/wiki_family/minecraft.json`
+  "wiki_family.heywiki.minecraft": "Minecraft Wiki"
 }
 ```
 

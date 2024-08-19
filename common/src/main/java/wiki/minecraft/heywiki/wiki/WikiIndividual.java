@@ -17,8 +17,8 @@ import java.util.Optional;
  * @param title          The title formatter.
  */
 public record WikiIndividual(String articleUrl, Optional<String> mwApiUrl, Optional<String> randomArticle,
-                             Optional<String> versionArticle, Optional<String> excerpt, LanguageMatcher language,
-                             TitleFormatter title) {
+                             Optional<String> versionArticle, Optional<String> excerpt, Optional<String> searchUrl,
+                             WikiLanguage language, TitleFormat title) {
     public static Codec<WikiIndividual> CODEC = RecordCodecBuilder
             .create(builder ->
                             builder.group(
@@ -32,11 +32,13 @@ public record WikiIndividual(String articleUrl, Optional<String> mwApiUrl, Optio
                                                        .forGetter(wiki -> wiki.versionArticle),
                                            Codec.STRING.optionalFieldOf("excerpt")
                                                        .forGetter(wiki -> wiki.excerpt),
-                                           LanguageMatcher.CODEC.fieldOf("language")
-                                                                .forGetter(wiki -> wiki.language),
-                                           TitleFormatter.CODEC.fieldOf("title")
-                                                               .orElse(TitleFormatter.DEFAULT)
-                                                               .forGetter(wiki -> wiki.title)
+                                           Codec.STRING.optionalFieldOf("search_url")
+                                                       .forGetter(wiki -> wiki.searchUrl),
+                                           WikiLanguage.CODEC.fieldOf("language")
+                                                             .forGetter(wiki -> wiki.language),
+                                           TitleFormat.CODEC.fieldOf("title")
+                                                            .orElse(TitleFormat.DEFAULT)
+                                                            .forGetter(wiki -> wiki.title)
                                          )
                                    .apply(builder, WikiIndividual::new));
 }

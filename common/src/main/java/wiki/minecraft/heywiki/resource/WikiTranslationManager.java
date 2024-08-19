@@ -11,6 +11,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Language;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
+import wiki.minecraft.heywiki.HeyWikiClient;
 import wiki.minecraft.heywiki.HeyWikiConfig;
 import wiki.minecraft.heywiki.mixin.TranslationStorageFactory;
 import wiki.minecraft.heywiki.wiki.WikiIndividual;
@@ -19,18 +20,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
-import static wiki.minecraft.heywiki.resource.WikiFamilyConfigManager.*;
-
 /**
- * Manages any additional translation files that needs to be loaded for {@link wiki.minecraft.heywiki.wiki.WikiPage WikiPages} resolution.
+ * Manages any additional translation files
+ * that need to be loaded for {@link wiki.minecraft.heywiki.wiki.WikiPage WikiPages} resolution.
  */
 public class WikiTranslationManager implements SynchronousResourceReloader {
+    private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    /**
-     * A map of translations for each language.
-     */
-    public static Map<String, TranslationStorage> translations;
+    private Map<String, TranslationStorage> translations;
 
     public WikiTranslationManager() {
     }
@@ -41,10 +39,17 @@ public class WikiTranslationManager implements SynchronousResourceReloader {
      * @param wiki The wiki.
      * @return The translation storage. If the language has no override, returns null.
      */
-    public static @Nullable TranslationStorage getTranslationOverride(WikiIndividual wiki) {
+    public @Nullable TranslationStorage getTranslationOverride(WikiIndividual wiki) {
         return wiki.language().langOverride()
-                   .map(s -> WikiTranslationManager.translations.getOrDefault(s, null))
+                   .map(s -> getTranslations().getOrDefault(s, null))
                    .orElse(null);
+    }
+
+    /**
+     * A map of translations for each language.
+     */
+    public Map<String, TranslationStorage> getTranslations() {
+        return translations;
     }
 
     @Override
@@ -53,20 +58,20 @@ public class WikiTranslationManager implements SynchronousResourceReloader {
         for (String language : decideLanguage()) {
             translationsNew.put(language, loadTranslation(language, manager, true));
         }
-        for (String language : getLangOverride()) {
+        for (String language : MOD.wikiFamilyConfigManager().getLangOverride()) {
             translationsNew.put(language, loadTranslation(language, manager, false));
         }
 
         translations = translationsNew;
     }
 
-    private static Set<String> decideLanguage() {
+    private Set<String> decideLanguage() {
         var configLanguage = HeyWikiConfig.language;
         if (configLanguage.equals("auto")) {
-            return getAllDefaultLanguages();
+            return MOD.wikiFamilyConfigManager().getAllDefaultLanguages();
         } else {
-            var mainLanguages = getAllDefaultLanguages();
-            var defaultLanguages = getAllDefaultLanguagesFromWikiLanguage(configLanguage);
+            var mainLanguages = MOD.wikiFamilyConfigManager().getAllDefaultLanguages();
+            var defaultLanguages = MOD.wikiFamilyConfigManager().getAllDefaultLanguagesFromWikiLanguage(configLanguage);
             mainLanguages.addAll(defaultLanguages);
             return mainLanguages;
         }

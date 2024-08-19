@@ -8,6 +8,7 @@
   },
   "client": [
     "AbstractInventoryScreenMixin",
+    "ChatScreenMixin",
     "GameRendererMixin",
     "HandledScreenMixin",
     "ScreenMixin",
@@ -15,7 +16,7 @@
     "TranslationStorageFactory",
     "integration.emi.EmiScreenManagerMixin",
     "integration.emi.RecipeScreenMixin",
-    "integration.rei.ScreenOverlayImplMixin",
-    "integration.jei.FocusInputHandlerMixin"
+    "integration.jei.FocusInputHandlerMixin",
+    "integration.rei.ScreenOverlayImplMixin"
   ]
 }

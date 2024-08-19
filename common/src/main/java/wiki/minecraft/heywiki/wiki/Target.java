@@ -20,9 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import static wiki.minecraft.heywiki.HeyWikiClient.experimentalWarning;
 
 /**
- * Represents a target.
- *
- * <p>A target is an object, e.g. a block/item/entity, that can be linked to a wiki page.
+ * Represents an object, e.g., a block/item/entity, that can be linked to a wiki page.
  *
  * <p>A target is identified by an {@link Identifier} and a translation key.
  *

@@ -15,7 +15,7 @@ import static dev.architectury.event.events.client.ClientCommandRegistrationEven
 
 public class ImFeelingLuckyCommand {
     public static final SimpleCommandExceptionType NOT_SUPPORTED = new SimpleCommandExceptionType(
-            Text.translatable("command.imfeelinglucky.not_supported"));
+            Text.translatable("commands.imfeelinglucky.not_supported"));
 
     @SuppressWarnings("UnusedReturnValue")
     public static LiteralCommandNode<ClientCommandSourceStack> register(
@@ -25,7 +25,7 @@ public class ImFeelingLuckyCommand {
                         .executes(ctx -> {
                             WikiPage randomPage = WikiPage.random("minecraft");
                             assert randomPage != null;
-                            randomPage.openInBrowser(true);
+                            randomPage.openInBrowserCommand(null);
                             return 0;
                         })
                         .then(argument("namespace", string())
@@ -35,7 +35,7 @@ public class ImFeelingLuckyCommand {
                                           WikiPage randomPage = WikiPage.random(namespace);
                                           if (randomPage == null) throw NOT_SUPPORTED.create();
 
-                                          randomPage.openInBrowser(true);
+                                          randomPage.openInBrowserCommand(null);
                                           return 0;
                                       })));
     }

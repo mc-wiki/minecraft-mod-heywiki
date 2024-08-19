@@ -1,7 +1,10 @@
 package wiki.minecraft.heywiki;
 
+import dev.architectury.event.events.client.ClientGuiEvent;
+import dev.architectury.event.events.client.ClientTickEvent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.render.GameRenderer;
 import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
@@ -19,9 +22,11 @@ import static wiki.minecraft.heywiki.wiki.WikiPage.NO_FAMILY_MESSAGE;
 /**
  * Raycasts from the crosshair to find a {@link Target} and opens the corresponding {@link WikiPage}.
  */
-public class CrosshairRaycast {
+public class Raycast {
+    private static final MinecraftClient client = MinecraftClient.getInstance();
+
     /**
-     * Should be called at {@link dev.architectury.event.events.client.ClientTickEvent#CLIENT_POST ClientTickEvent#CLIENT_POST}.
+     * Should be called at {@link ClientTickEvent#CLIENT_POST ClientTickEvent#CLIENT_POST}.
      */
     public static void onClientTickPost(MinecraftClient client) {
         while (openWikiKey.wasPressed()) {
@@ -30,7 +35,7 @@ public class CrosshairRaycast {
                 assert client.player != null;
                 target = Target.of(client.player.getInventory().getMainHandStack());
             } else {
-                target = CrosshairRaycast.raycast(client, true);
+                target = Raycast.raycastWithMessage();
             }
 
             if (target != null) {
@@ -39,16 +44,16 @@ public class CrosshairRaycast {
                     client.inGameHud.setOverlayMessage(NO_FAMILY_MESSAGE, false);
                     return;
                 }
-                page.openInBrowser();
+                page.openInBrowser(null);
             }
         }
     }
 
     /**
-     * Should be called at {@link dev.architectury.event.events.client.ClientGuiEvent#DEBUG_TEXT_RIGHT ClientGuiEvent#DEBUG_TEXT_RIGHT}.
+     * Should be called at {@link ClientGuiEvent#DEBUG_TEXT_RIGHT ClientGuiEvent#DEBUG_TEXT_RIGHT}.
      */
     public static void onDebugTextRight(List<String> texts) {
-        var target = CrosshairRaycast.raycast();
+        var target = Raycast.raycast();
         if (target == null) {
             texts.add("heywiki: null");
             return;
@@ -62,26 +67,28 @@ public class CrosshairRaycast {
     }
 
     /**
-     * Raycasts from the crosshair to find a {@link Target}. It will not show a message when the target is too far.
+     * Raycasts from the crosshair to find a {@link Target} and shows a message when the target is too far.
      *
      * @return The target found, or {@code null} if none was found.
-     * @see net.minecraft.client.render.GameRenderer#findCrosshairTarget
-     * @see #raycast(MinecraftClient, boolean)
+     * @see GameRenderer#findCrosshairTarget
+     * @see #raycast()
      */
-    public static @Nullable Target raycast() {
-        return raycast(MinecraftClient.getInstance(), false);
+    public static @Nullable Target raycastWithMessage() {
+        var target = raycast();
+        if (target == null) {
+            client.inGameHud.setOverlayMessage(Text.translatable("gui.heywiki.too_far"), false);
+        }
+        return target;
     }
 
     /**
      * Raycasts from the crosshair to find a {@link Target}.
      *
-     * @param client            Should be {@link MinecraftClient#getInstance()}.
-     * @param showTooFarMessage Whether to show a message when the target is too far.
      * @return The target found, or {@code null} if none was found.
-     * @see net.minecraft.client.render.GameRenderer#findCrosshairTarget
+     * @see GameRenderer#findCrosshairTarget
      * @see #raycast()
      */
-    public static @Nullable Target raycast(MinecraftClient client, boolean showTooFarMessage) {
+    public static @Nullable Target raycast() {
         assert client.player != null;
         assert client.world != null;
 
@@ -105,9 +112,8 @@ public class CrosshairRaycast {
                 return Target.of(block);
             }
             default -> {
-                if (showTooFarMessage) client.inGameHud.setOverlayMessage(Text.translatable("heywiki.too_far"), false);
+                return null;
             }
         }
-        return null;
     }
 }
