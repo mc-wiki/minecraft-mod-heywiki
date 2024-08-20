@@ -14,6 +14,7 @@ import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.DropdownMenuBuilder;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.Text;
 import org.slf4j.Logger;
 
@@ -242,6 +243,8 @@ public class HeyWikiConfig {
     }
 
     private static String normalizeLanguageName(String name) {
+        if (name.equals(I18n.translate("options.heywiki.language.auto"))) return "auto";
+
         return name.split(":")[0];
     }
 
