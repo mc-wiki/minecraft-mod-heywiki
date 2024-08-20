@@ -15,12 +15,12 @@ import wiki.minecraft.heywiki.util.HttpUtil;
 
 import java.io.StringReader;
 import java.net.URI;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
+
+import static wiki.minecraft.heywiki.util.HttpUtil.encodeUrl;
 
 public class PageNameSuggestionProvider implements SuggestionProvider<ClientCommandSourceStack> {
     private static final long TIMEOUT = 400;
@@ -53,7 +53,7 @@ public class PageNameSuggestionProvider implements SuggestionProvider<ClientComm
                     String remaining = builder.getRemaining();
                     URI uri = HttpUtil.uriWithQuery(
                             this.uriProvider.call(),
-                            String.format(SUGGESTION_URL, URLEncoder.encode(remaining, StandardCharsets.UTF_8)));
+                            String.format(SUGGESTION_URL, encodeUrl(remaining)));
 
                     String response = HttpUtil.request(uri);
 

@@ -127,7 +127,6 @@ public class HeyWikiConfig {
 
     private String zhVariant;
 
-
     private HeyWikiConfig(boolean requiresConfirmation, boolean requiresConfirmationCommand, double raycastReach,
                           boolean raycastAllowFluid, String language, String zhVariant) {
         this.requiresConfirmation = requiresConfirmation;

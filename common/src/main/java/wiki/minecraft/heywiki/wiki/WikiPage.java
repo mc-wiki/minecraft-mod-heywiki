@@ -17,10 +17,10 @@ import wiki.minecraft.heywiki.gui.screen.ConfirmWikiPageScreen;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Optional;
+
+import static wiki.minecraft.heywiki.util.HttpUtil.encodeUrl;
 
 /**
  * Represents a wiki page.
@@ -192,7 +192,7 @@ public record WikiPage(String pageName, WikiIndividual wiki) {
     public @Nullable URI getUri() {
         try {
             return new URI(this.wiki.articleUrl().formatted(
-                    URLEncoder.encode(this.wiki.title().formatTitle(this.pageName), StandardCharsets.UTF_8)));
+                    encodeUrl(this.wiki.title().formatTitle(this.pageName))));
         } catch (URISyntaxException e) {
             LOGGER.error("Failed to create URI for wiki page", e);
             return null;

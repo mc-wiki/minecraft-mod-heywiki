@@ -11,12 +11,12 @@ import wiki.minecraft.heywiki.HeyWikiClient;
 import wiki.minecraft.heywiki.util.HttpUtil;
 
 import java.net.URI;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+
+import static wiki.minecraft.heywiki.util.HttpUtil.encodeUrl;
 
 /**
  * Represents an excerpt of a wiki page.
@@ -76,7 +76,7 @@ public record PageExcerpt(String title, String excerpt, String imageUrl, int ima
                              "?action=query&format=json&prop=info%7Cextracts%7Cpageimages%7Crevisions%7Cinfo&formatversion=2" +
                              "&redirects=true&exintro=true&exchars=525&explaintext=true&exsectionformat=plain&piprop=thumbnail" +
                              "&pithumbsize=640&pilicense=any&rvprop=timestamp&inprop=url&uselang=content&titles=" +
-                             URLEncoder.encode(pageName, StandardCharsets.UTF_8) +
+                             encodeUrl(pageName) +
                              (language.equals("zh") ? "&converttitles=true&variant=" +
                                                       resolveZhVariant(MOD.config().zhVariant()) : ""));
         var executor = Util.getDownloadWorkerExecutor();

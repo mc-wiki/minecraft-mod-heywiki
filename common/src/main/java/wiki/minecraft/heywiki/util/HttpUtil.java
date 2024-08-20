@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.ProxySelector;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -118,5 +119,9 @@ public class HttpUtil {
 
             return null;
         }, Util.getIoWorkerExecutor());
+    }
+
+    public static String encodeUrl(String url) {
+        return URLEncoder.encode(url, StandardCharsets.UTF_8).replaceAll("\\+", "%20");
     }
 }
