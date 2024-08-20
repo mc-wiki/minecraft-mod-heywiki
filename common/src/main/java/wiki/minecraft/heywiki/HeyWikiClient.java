@@ -56,6 +56,7 @@ public class HeyWikiClient {
         this.config = HeyWikiConfig.load();
 
         KeyMappingRegistry.register(openWikiKey);
+        KeyMappingRegistry.register(openWikiSearchKey);
 
         ClientCommandRegistrationEvent.EVENT.register(HeyWikiClient::registerCommands);
 
