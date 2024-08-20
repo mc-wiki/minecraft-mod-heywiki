@@ -241,8 +241,9 @@ public class WikiSearchScreen extends Screen {
                             String to = redirect.get("to").getAsString();
                             return new Suggestion(from, index, Optional.of(to), Optional.empty());
                         })
-                        .collect(Collectors.toMap((redirect) -> redirect.redirectsTo.orElse(null),
-                                                  suggestion -> suggestion))
+                        .collect(Collectors.toMap((redirect) -> redirect.redirectsTo().orElseThrow(),
+                                                  suggestion -> suggestion,
+                                                  (a, b) -> a))
                         : Collections.emptyMap();
 
                 @Nullable JsonArray pages = query.getAsJsonArray("pages");
@@ -259,7 +260,7 @@ public class WikiSearchScreen extends Screen {
 
                                 if (redirectMap.containsKey(title)) {
                                     var redirect = redirectMap.get(title);
-                                    return new Suggestion(redirect.title(), index, redirect.redirectsTo(),
+                                    return new Suggestion(redirect.title(), index, Optional.of(title),
                                                           Optional.ofNullable(imageUrl));
                                 }
 
