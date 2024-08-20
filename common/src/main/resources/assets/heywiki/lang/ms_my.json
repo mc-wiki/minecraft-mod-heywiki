@@ -2,7 +2,7 @@
   "commands.imfeelinglucky.not_supported": "Keluarga wiki yang ditentukan tidak menyokong ciri artikel rawak",
   "commands.whatstructure.no_integrated_server": "/whatstructure memerlukan dunia ekapemain tempatan",
   "commands.whatstructure.no_structure": "Tiada struktur dijumpai",
-  "gui.heywiki.no_family": "Tiada wiki dijumpai",
+  "gui.heywiki.no_family": "Wiki tidak dijumpai",
   "gui.heywiki.no_item_held": "Tiada item yang dipegang",
   "gui.heywiki.too_far": "Anda tidak menyasarkan apa-apa. Mungkin pergi lebih dekat?",
   "gui.heywiki_confirm_link.loading_excerpt": "Sedang memuatkan keterangan halaman...",

@@ -1,1 +1,5 @@
-{}
+{
+  "commands.imfeelinglucky.not_supported": "Określona rodzina wiki nie obsługuje losowego artykułu",
+  "structure.minecraft.ruined_portal_jungle": "Dżunglowy zrujnowany portal",
+  "wiki_family.heywiki.minecraft": "Wiki Minecraft"
+}
