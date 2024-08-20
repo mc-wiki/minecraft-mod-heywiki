@@ -1,4 +1,6 @@
 {
+  "gui.heywiki_search.placeholder": "Wiki durchsuchen",
+  "gui.heywiki_search.search": "Suchen",
   "key.categories.heywiki": "Hey Wiki",
   "key.heywiki.open": "Wiki-Artikel öffnen",
   "key.heywiki.open_search": "Wiki-Artikel öffnen",
@@ -49,5 +51,6 @@
   "structure.minecraft.village_plains": "Ebenen Dorf",
   "structure.minecraft.village_savanna": "Savannendorf",
   "structure.minecraft.village_snowy": "Verschneites Dorf",
-  "structure.minecraft.village_taiga": "Taiga Dorf"
+  "structure.minecraft.village_taiga": "Taiga Dorf",
+  "wiki_family.heywiki.voidscape": "Voidscape Wiki"
 }
