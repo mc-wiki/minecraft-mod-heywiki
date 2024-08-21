@@ -30,6 +30,14 @@ public class WikiCommand {
                                                       .openInBrowserCommand(null);
                                               return 0;
                                           }
+
+                                          var namespace = pageSplit[0];
+                                          if (MOD.familyManager().getFamilyByNamespace(namespace) == null) {
+                                              new WikiPage(page, MOD.familyManager().activeWikis().get("minecraft"))
+                                                      .openInBrowserCommand(null);
+                                              return 0;
+                                          }
+
                                           new WikiPage(pageSplit[1],
                                                        MOD.familyManager().activeWikis().get(pageSplit[0]))
                                                   .openInBrowserCommand(null);

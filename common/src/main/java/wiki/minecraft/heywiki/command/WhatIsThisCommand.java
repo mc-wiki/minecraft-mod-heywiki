@@ -6,7 +6,7 @@ import com.mojang.brigadier.tree.LiteralCommandNode;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent.ClientCommandSourceStack;
 import net.minecraft.text.Text;
 import wiki.minecraft.heywiki.Raycast;
-import wiki.minecraft.heywiki.wiki.Target;
+import wiki.minecraft.heywiki.wiki.target.Target;
 import wiki.minecraft.heywiki.wiki.WikiPage;
 
 import static dev.architectury.event.events.client.ClientCommandRegistrationEvent.literal;

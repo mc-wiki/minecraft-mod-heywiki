@@ -11,7 +11,7 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import org.jetbrains.annotations.Nullable;
 import wiki.minecraft.heywiki.mixin.GameRendererMixin;
-import wiki.minecraft.heywiki.wiki.Target;
+import wiki.minecraft.heywiki.wiki.target.Target;
 import wiki.minecraft.heywiki.wiki.WikiPage;
 
 import java.util.List;

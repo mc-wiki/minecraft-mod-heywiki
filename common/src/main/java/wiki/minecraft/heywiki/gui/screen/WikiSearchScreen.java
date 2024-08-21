@@ -44,6 +44,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static wiki.minecraft.heywiki.HeyWikiClient.openWikiSearchKey;
+import static wiki.minecraft.heywiki.util.HttpUtil.encodeUrl;
 
 public class WikiSearchScreen extends Screen {
     private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
@@ -60,7 +61,7 @@ public class WikiSearchScreen extends Screen {
     private String selectedTitle;
     private String lastSearchTerm;
     private SequencedSet<Suggestion> suggestions;
-    private WikiFamily wikiFamily = MOD.familyManager().getFamily(Identifier.of("heywiki", "minecraft"));
+    private WikiFamily wikiFamily = MOD.familyManager().getFamily(MOD.config().searchDefaultWikiFamily());
     private WikiIndividual wiki = wikiFamily.getWiki();
 
     public WikiSearchScreen() {
@@ -173,19 +174,23 @@ public class WikiSearchScreen extends Screen {
             if (searchTerm.isEmpty() || (this.getFocused() != this.entryList && this.getFocused() != this.textField))
                 return super.keyPressed(keyCode, scanCode, modifiers);
 
-            if (selected != null) {
-                var page = new WikiPage(selected.suggestion.title(), this.wiki);
-                page.openInBrowser(this);
-            } else if (!this.suggestions.isEmpty() &&
-                       searchTerm.equalsIgnoreCase(this.suggestions.getFirst().title())) {
-                var page = new WikiPage(this.suggestions.getFirst().title(), this.wiki);
-                page.openInBrowser(this);
-            } else {
-                String url = wiki.searchUrl().orElseThrow().formatted(searchTerm);
-                Util.getOperatingSystem().open(url);
-            }
+            searchEntry(selected);
         }
         return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    public void searchEntry(SuggestionEntryWidget selected) {
+        if (selected != null) {
+            var page = new WikiPage(selected.suggestion.title(), this.wiki);
+            page.openInBrowser(this);
+        } else if (!this.suggestions.isEmpty() &&
+                   this.lastSearchTerm.equalsIgnoreCase(this.suggestions.getFirst().title())) {
+            var page = new WikiPage(this.suggestions.getFirst().title(), this.wiki);
+            page.openInBrowser(this);
+        } else {
+            String url = wiki.searchUrl().orElseThrow().formatted(encodeUrl(this.lastSearchTerm));
+            Util.getOperatingSystem().open(url);
+        }
     }
 
     @Override

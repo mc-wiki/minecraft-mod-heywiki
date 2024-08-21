@@ -8,12 +8,15 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
 import net.minecraft.client.gui.widget.ThreePartsLayoutWidget;
 import net.minecraft.text.Text;
+import net.minecraft.util.Util;
 import org.lwjgl.glfw.GLFW;
+import wiki.minecraft.heywiki.HeyWikiClient;
 import wiki.minecraft.heywiki.wiki.WikiFamily;
 
 import java.util.function.Consumer;
 
 public class WikiSelectScreen extends Screen {
+    private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
     private final Screen parent;
     private final Iterable<WikiFamily> wikis;
     private final WikiFamily selected;
@@ -57,6 +60,8 @@ public class WikiSelectScreen extends Screen {
         var selected = optionList.getSelectedOrNull();
         if (selected != null) {
             this.onSelection.accept(selected.wiki);
+            MOD.config().setSearchDefaultWikiFamily(selected.wiki.id());
+            Util.getIoWorkerExecutor().execute(() -> MOD.config().save(false));
         }
         assert this.client != null;
         this.client.setScreen(this.parent);

@@ -16,7 +16,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
+import wiki.minecraft.heywiki.wiki.target.Target;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -69,7 +71,10 @@ public class HeyWikiConfig {
                                                 .forGetter(HeyWikiConfig::language),
                                     Codec.STRING.fieldOf("zhVariant")
                                                 .orElse("auto")
-                                                .forGetter(HeyWikiConfig::zhVariant)
+                                                .forGetter(HeyWikiConfig::zhVariant),
+                                    Identifier.CODEC.fieldOf("searchDefaultWikiFamily")
+                                                    .orElse(Identifier.of("heywiki", "minecraft"))
+                                                    .forGetter(HeyWikiConfig::searchDefaultWikiFamily)
                                   )
                             .apply(instance, HeyWikiConfig::new));
 
@@ -92,7 +97,7 @@ public class HeyWikiConfig {
     private boolean requiresConfirmationCommand;
 
     /**
-     * The distance at which the player can raycast to find a {@link wiki.minecraft.heywiki.wiki.Target Target}.
+     * The distance at which the player can raycast to find a {@link Target Target}.
      */
     public double raycastReach() {
         return raycastReach;
@@ -127,14 +132,29 @@ public class HeyWikiConfig {
 
     private String zhVariant;
 
+    /**
+     * The default wiki family to use for the search wiki screen.
+     */
+    public Identifier searchDefaultWikiFamily() {
+        return searchDefaultWikiFamily;
+    }
+
+    public void setSearchDefaultWikiFamily(Identifier searchDefaultWikiFamily) {
+        this.searchDefaultWikiFamily = searchDefaultWikiFamily;
+    }
+
+    private Identifier searchDefaultWikiFamily;
+
     private HeyWikiConfig(boolean requiresConfirmation, boolean requiresConfirmationCommand, double raycastReach,
-                          boolean raycastAllowFluid, String language, String zhVariant) {
+                          boolean raycastAllowFluid, String language, String zhVariant,
+                          Identifier searchDefaultWikiFamily) {
         this.requiresConfirmation = requiresConfirmation;
         this.requiresConfirmationCommand = requiresConfirmationCommand;
         this.raycastReach = raycastReach;
         this.raycastAllowFluid = raycastAllowFluid;
         this.language = language;
         this.zhVariant = zhVariant;
+        this.searchDefaultWikiFamily = searchDefaultWikiFamily;
     }
 
     /**

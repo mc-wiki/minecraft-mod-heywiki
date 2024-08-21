@@ -31,13 +31,13 @@ public record PageExcerpt(String title, String excerpt, String imageUrl, int ima
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
     private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
-    private static final Cache<String, Optional<CompletableFuture<PageExcerpt>>> excerptCache = CacheBuilder.newBuilder()
-                                                                                                            .maximumSize(
-                                                                                                                    100)
-                                                                                                            .expireAfterAccess(
-                                                                                                                    10,
-                                                                                                                    TimeUnit.MINUTES)
-                                                                                                            .build();
+    private static final Cache<String, Optional<CompletableFuture<PageExcerpt>>> excerptCache =
+            CacheBuilder.newBuilder()
+                        .maximumSize(
+                                100)
+                        .expireAfterAccess(
+                                10, TimeUnit.MINUTES)
+                        .build();
 
     /**
      * Creates a page excerpt from a wiki page.

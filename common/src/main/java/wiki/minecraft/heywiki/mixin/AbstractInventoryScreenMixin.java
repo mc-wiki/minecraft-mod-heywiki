@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import wiki.minecraft.heywiki.HeyWikiClient;
-import wiki.minecraft.heywiki.wiki.Target;
+import wiki.minecraft.heywiki.wiki.target.Target;
 import wiki.minecraft.heywiki.wiki.WikiPage;
 
 import java.util.Collection;

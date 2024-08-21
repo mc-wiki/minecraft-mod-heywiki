@@ -2,18 +2,16 @@ package wiki.minecraft.heywiki.wiki;
 
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.resource.language.TranslationStorage;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Language;
 import net.minecraft.util.Util;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import wiki.minecraft.heywiki.HeyWikiClient;
 import wiki.minecraft.heywiki.gui.screen.ConfirmWikiPageScreen;
+import wiki.minecraft.heywiki.wiki.target.Target;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -42,7 +40,6 @@ public record WikiPage(String pageName, WikiIndividual wiki) {
     public static final SimpleCommandExceptionType NO_FAMILY_EXCEPTION = new SimpleCommandExceptionType(
             Text.translatable("gui.heywiki.no_family"));
     private static final Logger LOGGER = LogUtils.getLogger();
-    private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
     private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
 
     /**
@@ -52,37 +49,11 @@ public record WikiPage(String pageName, WikiIndividual wiki) {
      * @return The wiki page.
      */
     public static @Nullable WikiPage fromTarget(Target target) {
-        var identifier = target.identifier();
-        var translationKey = target.translationKey();
+        if (target == null) return null;
 
-        var family = MOD.familyManager().getFamilyByNamespace(identifier.getNamespace());
-        if (family == null) return null;
-
-        final String language = MOD.config().language().equals("auto")
-                ? CLIENT.options.language
-                : MOD.config().language();
-        WikiIndividual wiki = MOD.config().language().equals("auto")
-                ? family.getLanguageWikiByGameLanguage(language)
-                : family.getLanguageWikiByWikiLanguage(language);
-
-        if (wiki == null) {
-            wiki = Objects.requireNonNull(family.getMainLanguageWiki());
-            return new WikiPage(MOD.translationManager().getTranslations()
-                                   .get(wiki.language().defaultLanguage())
-                                   .get(translationKey), wiki);
-        }
-
-        TranslationStorage storage = MOD.translationManager().getTranslationOverride(wiki);
-        if (storage != null && storage.hasTranslation(translationKey)) {
-            String override = storage.get(translationKey, identifier.getPath());
-            return new WikiPage(override, wiki);
-        } else if (wiki.language().match(CLIENT.options.language)) {
-            return new WikiPage(Language.getInstance().get(translationKey, identifier.getPath()), wiki);
-        } else {
-            return new WikiPage(MOD.translationManager().getTranslations()
-                                   .get(wiki.language().defaultLanguage())
-                                   .get(translationKey, identifier.getPath()), wiki);
-        }
+        WikiIndividual wiki = MOD.familyManager().activeWikis().get(target.namespace());
+        if (wiki == null) return null;
+        return new WikiPage(target.title(), wiki);
     }
 
     /**

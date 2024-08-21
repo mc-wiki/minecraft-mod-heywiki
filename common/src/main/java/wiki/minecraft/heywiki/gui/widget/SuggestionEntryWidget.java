@@ -22,6 +22,7 @@ public class SuggestionEntryWidget extends Entry<SuggestionEntryWidget> {
     public final WikiSearchScreen.Suggestion suggestion;
     protected final MinecraftClient client;
     protected final SuggestionEntryListWidget list;
+    private long lastClickTime;
 
     public SuggestionEntryWidget(WikiSearchScreen.Suggestion suggestion, SuggestionEntryListWidget list) {
         this.suggestion = suggestion;
@@ -37,6 +38,14 @@ public class SuggestionEntryWidget extends Entry<SuggestionEntryWidget> {
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int delta) {
         this.list.select(this);
+        var now = System.currentTimeMillis();
+        if (now - this.lastClickTime < 250) {
+            this.list.parent.searchEntry(this);
+            this.lastClickTime = 0;
+        } else {
+            this.lastClickTime = now;
+        }
+
         return true;
     }
 
@@ -49,7 +58,8 @@ public class SuggestionEntryWidget extends Entry<SuggestionEntryWidget> {
         var icon = this.getIconTexture();
         if (icon != null) {
             RenderSystem.enableBlend();
-            DrawContext.drawTexture(this.getIconTexture(), x + 22, y, 0.0F, 0.0F, iconSize, iconSize, iconSize, iconSize);
+            DrawContext.drawTexture(this.getIconTexture(), x + 22, y, 0.0F, 0.0F, iconSize, iconSize, iconSize,
+                                    iconSize);
             RenderSystem.disableBlend();
         }
 

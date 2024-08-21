@@ -1,8 +1,5 @@
-package wiki.minecraft.heywiki.wiki;
+package wiki.minecraft.heywiki.wiki.target;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.AirBlock;
 import net.minecraft.block.Block;
 import net.minecraft.component.DataComponentTypes;
@@ -17,28 +14,31 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
+import wiki.minecraft.heywiki.wiki.WikiPage;
 
 import static wiki.minecraft.heywiki.HeyWikiClient.experimentalWarning;
 
 /**
  * Represents an object, e.g., a block/item/entity, that can be linked to a wiki page.
  *
- * <p>A target is identified by an {@link Identifier} and a translation key.
+ * <p>A target must be able to be resolved to a namespace and a title.
  *
  * <p>The purpose of a target is usually to create a {@link WikiPage} from it.
- *
- * @param identifier     The identifier of the target.
- * @param translationKey The translation key of the target.
  */
-public record Target(Identifier identifier, String translationKey) {
-    private final static MapCodec<Target> CODEC = RecordCodecBuilder
-            .mapCodec(builder ->
-                              builder.group(
-                                             Identifier.CODEC.fieldOf("heywiki:identifier")
-                                                             .forGetter(target -> target.identifier),
-                                             Codec.STRING.fieldOf("heywiki:translation_key")
-                                                         .forGetter(target -> target.translationKey))
-                                     .apply(builder, Target::new));
+public interface Target {
+    /**
+     * Gets the namespace of the target.
+     *
+     * @return The namespace.
+     */
+    String namespace();
+
+    /**
+     * Gets the title of the target.
+     *
+     * @return The title.
+     */
+    String title();
 
     /**
      * Creates a target from a block.
@@ -46,9 +46,9 @@ public record Target(Identifier identifier, String translationKey) {
      * @param block The block.
      * @return The target.
      */
-    public static Target of(Block block) {
+    static Target of(Block block) {
         if (block instanceof AirBlock) return null;
-        return new Target(Registries.BLOCK.getId(block), block.getTranslationKey());
+        return new IdentifierTarget(Registries.BLOCK.getId(block), block.getTranslationKey());
     }
 
     /**
@@ -57,7 +57,7 @@ public record Target(Identifier identifier, String translationKey) {
      * @param entity The entity.
      * @return The target.
      */
-    public static Target of(Entity entity) {
+    static Target of(Entity entity) {
         switch (entity) {
             case ItemEntity itemEntity -> {
                 ItemStack stack = itemEntity.getStack();
@@ -66,11 +66,13 @@ public record Target(Identifier identifier, String translationKey) {
             case ItemFrameEntity itemFrameEntity -> {
                 ItemStack stack = itemFrameEntity.getHeldItemStack();
                 if (stack.isEmpty())
-                    return new Target(Registries.ENTITY_TYPE.getId(entity.getType()), entity.getType().getTranslationKey());
+                    return new IdentifierTarget(Registries.ENTITY_TYPE.getId(entity.getType()),
+                                                entity.getType().getTranslationKey());
                 return Target.of(stack);
             }
             default -> {
-                return new Target(Registries.ENTITY_TYPE.getId(entity.getType()), entity.getType().getTranslationKey());
+                return new IdentifierTarget(Registries.ENTITY_TYPE.getId(entity.getType()),
+                                            entity.getType().getTranslationKey());
             }
         }
     }
@@ -81,20 +83,20 @@ public record Target(Identifier identifier, String translationKey) {
      * @param stack The item stack.
      * @return The target.
      */
-    public static Target of(ItemStack stack) {
+    static Target of(ItemStack stack) {
         if (stack.isEmpty()) return null;
         if (stack.getComponents().get(DataComponentTypes.CREATIVE_SLOT_LOCK) != null) return null;
 
         @Nullable NbtComponent customData = stack.getComponents().get(DataComponentTypes.CUSTOM_DATA);
         if (customData != null) {
-            var target = customData.get(CODEC).result().orElse(null);
+            var target = customData.get(IdentifierTarget.CODEC).result().orElse(null);
             if (target != null) {
                 experimentalWarning("Custom item based on custom_data or NBT");
                 return target;
             }
         }
 
-        return new Target(Registries.ITEM.getId(stack.getItem()), stack.getTranslationKey());
+        return new IdentifierTarget(Registries.ITEM.getId(stack.getItem()), stack.getTranslationKey());
     }
 
     /**
@@ -103,13 +105,13 @@ public record Target(Identifier identifier, String translationKey) {
      * @param effect The status effect instance.
      * @return The target.
      */
-    public static Target of(StatusEffectInstance effect) {
+    static Target of(StatusEffectInstance effect) {
         RegistryEntry<StatusEffect> effectEntry = effect.getEffectType();
         var key = effectEntry.getKey();
         if (key.isEmpty()) return null;
         Identifier identifier = key.get().getValue();
 
-        return new Target(identifier, effect.getTranslationKey());
+        return new IdentifierTarget(identifier, effect.getTranslationKey());
     }
 
     /**
@@ -122,11 +124,11 @@ public record Target(Identifier identifier, String translationKey) {
      * @param translationKeyPrefix The translation key prefix.
      * @return The target.
      */
-    public static Target of(RegistryEntry<?> registryEntry, String translationKeyPrefix) {
+    static Target of(RegistryEntry<?> registryEntry, String translationKeyPrefix) {
         var key = registryEntry.getKey();
         if (key.isEmpty()) return null;
         Identifier identifier = key.get().getValue();
 
-        return new Target(identifier, identifier.toTranslationKey(translationKeyPrefix));
+        return new IdentifierTarget(identifier, identifier.toTranslationKey(translationKeyPrefix));
     }
 }

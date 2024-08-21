@@ -99,6 +99,7 @@ public class ConfirmWikiPageScreen extends Screen {
         excerpt.thenAccept(result -> {
             if (result == null) {
                 hasExcerpt = false;
+                this.client.execute(this::init);
             }
             this.excerpt = result;
 
