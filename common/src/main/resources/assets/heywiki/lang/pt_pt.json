@@ -13,7 +13,7 @@
   "gui.heywiki_search.title": "Buscar em %s",
   "key.categories.heywiki": "Hey Wiki",
   "key.heywiki.open": "Abra o artigo da wiki",
-  "key.heywiki.open_search": "Abra o artigo da wiki",
+  "key.heywiki.open_search": "Buscar em wikis",
   "options.heywiki.general": "Geral",
   "options.heywiki.language.auto": "auto: Usa a linguagem do jogo",
   "options.heywiki.language.description": "Define a tua linguagem preferida, sobrepondo a definição de linguagem do jogo.",
