@@ -1,4 +1,6 @@
 {
+  "gui.heywiki_search.placeholder": "Пошук...",
+  "gui.heywiki_search.search": "Пошук",
   "key.categories.heywiki": "Hey Wiki",
   "key.heywiki.open": "Відкрити вікі-статтю",
   "key.heywiki.open_search": "Відкрити вікі-статтю",
