@@ -1,4 +1,11 @@
 {
+  "commands.imfeelinglucky.not_supported": "Määritetty wikiperhe ei tue satunnaisartikkeliominaisuutta",
+  "commands.whatstructure.no_integrated_server": "/whatstructure vaatii paikallisen yksinpelimaailman",
+  "commands.whatstructure.no_structure": "Rakennelmaa ei löytynyt",
+  "gui.heywiki.no_family": "Wikiä ei löytynyt",
+  "gui.heywiki.no_item_held": "Et pidä kädessä mitään esinettä",
+  "gui.heywiki.too_far": "Et osoita mihinkään. Ehkä pitäisi mennä lähemmäksi?",
+  "gui.heywiki_confirm_link.loading_excerpt": "Ladataan sivun kuvausta...",
   "key.categories.heywiki": "Hei Wiki",
   "key.heywiki.open": "Avaa wiki-artikkeli",
   "key.heywiki.open_search": "Avaa wiki-artikkeli",

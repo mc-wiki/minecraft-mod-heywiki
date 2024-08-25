@@ -15,7 +15,7 @@
   "key.heywiki.open": "פתח ערך בויקי",
   "key.heywiki.open_search": "פתח ערך בויקי",
   "options.heywiki.general": "כללי",
-  "options.heywiki.language.auto": "auto: קחשמה תפש",
+  "options.heywiki.language.auto": "auto: השתמש בשפת המשחק",
   "options.heywiki.language.description": "הגדר את השפה המועדפת עליך, אם היא שונה משפת המשחק.",
   "options.heywiki.language.name": "שפת ויקי",
   "options.heywiki.open_key.description": "קיצור מקשים לפתיחת ערך בויקי.",

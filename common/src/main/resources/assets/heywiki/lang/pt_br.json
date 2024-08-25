@@ -1,5 +1,5 @@
 {
-  "commands.imfeelinglucky.not_supported": "A família de wikis indicada não possui a função de artigos aleatórios",
+  "commands.imfeelinglucky.not_supported": "Não é possível ver um artigo aleatório com o diretório especificado",
   "commands.whatstructure.no_integrated_server": "/whatstructure requer um mundo local um jogador",
   "commands.whatstructure.no_structure": "Nenhuma estrutura encontrada",
   "gui.heywiki.no_family": "Wiki não encontrada",
