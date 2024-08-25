@@ -7,6 +7,33 @@ architectury {
     fabric()
 }
 
+sourceSets {
+    gametest {
+        compileClasspath += main.compileClasspath
+        runtimeClasspath += main.runtimeClasspath
+        compileClasspath += main.output
+        runtimeClasspath += main.output
+    }
+}
+
+loom {
+    runs {
+        gametest {
+            server()
+            name "Game Test"
+            property("fabric-api.gametest", "true")
+            runDir "run/gametest"
+            source "gametest"
+        }
+
+        gametestClient {
+            client()
+            name "Game Test Client"
+            source "gametest"
+        }
+    }
+}
+
 base {
     archivesName = rootProject.archives_base_name + "-fabric"
 }

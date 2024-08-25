@@ -183,7 +183,8 @@ public class WikiSearchScreen extends Screen {
         if (selected != null) {
             var page = new WikiPage(selected.suggestion.title(), this.wiki);
             page.openInBrowser(this);
-        } else if (!this.suggestions.isEmpty() &&
+        } else if (this.suggestions != null &&
+                   !this.suggestions.isEmpty() &&
                    this.lastSearchTerm.equalsIgnoreCase(this.suggestions.getFirst().title())) {
             var page = new WikiPage(this.suggestions.getFirst().title(), this.wiki);
             page.openInBrowser(this);
