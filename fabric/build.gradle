@@ -17,6 +17,8 @@ sourceSets {
 }
 
 loom {
+    accessWidenerPath = project(":common").loom.accessWidenerPath
+
     runs {
         gametest {
             server()

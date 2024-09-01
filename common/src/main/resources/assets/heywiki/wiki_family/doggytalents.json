@@ -1,0 +1,21 @@
+{
+  "namespace": [
+    "doggytalents"
+  ],
+  "wikis": [
+    {
+      "article_url": "https://doggytalentsnext.wiki.gg/?search=%s",
+      "mw_api_url": "https://doggytalentsnext.wiki.gg/api.php",
+      "random_article": "Special:RandomPage",
+      "excerpt": "text_extracts",
+      "search_url": "https://doggytalentsnext.wiki.gg/?search=%s",
+      "language": {
+        "wiki_language": "en",
+        "main": true,
+        "default": "en_us",
+        "regex": "^en_.*",
+        "exclude": null
+      }
+    }
+  ]
+}
