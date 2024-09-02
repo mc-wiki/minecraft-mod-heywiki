@@ -10,7 +10,8 @@
 [<img alt="neoforge" height="56" src="https://github.com/mc-wiki/minecraft-mod-heywiki/blob/master/docs/supports_neoforge.svg?raw=true">](https://neoforged.net/)
 [<img alt="crowdin" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/translate/crowdin_vector.svg">](https://crowdin.com/project/hey-wiki)
 
-Hey Wiki is a client mod made by the [the Minecraft Wiki](https://minecraft.wiki) community that allows you to press H (customizable)
+Hey Wiki is a client mod made by the [the Minecraft Wiki](https://minecraft.wiki) community that allows you to press H (
+customizable)
 to open the wiki page of the block, item, or entity you're aiming at, whether it's from vanilla or a mod.
 Hey Wiki supports [Fabric](https://fabricmc.net/) and [NeoForge](https://neoforged.net/).
 
@@ -30,7 +31,8 @@ https://github.com/mc-wiki/minecraft-mod-heywiki/assets/45287180/b0650362-1fe9-4
 ### How to use
 
 1. Install the mod. You can download it from [Modrinth](https://modrinth.com/mod/hey-wiki)
-   or [CurseForge](https://curseforge.com/minecraft/mc-mods/hey-wiki). Don't forget to install the [dependencies](#dependencies).
+   or [CurseForge](https://curseforge.com/minecraft/mc-mods/hey-wiki). Don't forget to install
+   the [dependencies](#dependencies).
 2. Point at a block/entity with your crosshair or hover over an item in your inventory with your cursor.
 3. Press the keybind (default is H).
 4. Either confirm the action or copy the link to your clipboard in the screen that pops up.
@@ -174,9 +176,9 @@ You also want to include a translation file in `assets/<namespace>/lang/` folder
 > [!WARNING]
 > This API is an experimental feature and might change at any time.
 
-Data pack and custom server authors can now use `heywiki:identifier` and `heywiki:translation_key` in `custom_data`
-component to provide custom namespace and name for an item. However, this only accounts for custom items. For 1.20.4,
-you can populate these fields directly in NBT.
+Data pack and custom server authors can use `heywiki:identifier`, `heywiki:translation_key` and
+`heywiki:fallback_title` in `custom_data` component to provide custom namespace and name for an item. However, this only
+accounts for custom items. For 1.20.4, you can populate these fields directly in NBT.
 
 You need to use the method above to register a new wiki with a custom namespace using resource pack. If it is not
 feasible to ask your players to download a resource pack, we can also ship it with the mod itself.
@@ -187,7 +189,7 @@ the "niceserver" namespace per above. Then you can give the player this item:
 1.21:
 
 ```mcfunction
-/give @s minecraft:bone[minecraft:custom_data={"heywiki:identifier": "niceserver:drill", "heywiki:translation_key": "item.niceserver.drill"}]
+/give @s minecraft:bone[minecraft:custom_data={"heywiki:identifier": "niceserver:drill", "heywiki:fallback_title": "Drill", "heywiki:translation_key": "item.niceserver.drill"}]
 ```
 
 1.20.4:
@@ -219,6 +221,7 @@ For NeoForge:
 ## Versioning
 
 ### Hey Wiki
+
 Hey Wiki itself follows [Semantic Versioning](https://semver.org/). The version number is in the format of
 `<major>.<minor>.<patch>[-<prerelease>]`. The version number is incremented based on the following rules:
 
@@ -231,14 +234,17 @@ Hey Wiki itself follows [Semantic Versioning](https://semver.org/). The version 
 Hey Wiki supports multiple versions of Minecraft.
 
 Every Minecraft version is assigned a support status:
-- **Active**: This version receives new features and bug fixes. Features will be backported as much as reasonably possible.
+
+- **Active**: This version receives new features and bug fixes. Features will be backported as much as reasonably
+  possible.
 - **Maintenance**: This version receives only bug fixes and security patches. Features are generally not backported.
 - **End of Life (EOL)**: No further updates should be expected.
 
 The current Minecraft release and the master branches are always Active. Pull requests should almost always
 go to `master`. If they're accepted, they should be cherry-picked to other Active branches.
 
-When a new snapshot releases, `master` branch is updated to that snapshot. Snapshots might receive only one version or no
+When a new snapshot releases, `master` branch is updated to that snapshot. Snapshots might receive only one version or
+no
 version at all. Only Fabric is supported for snapshots.
 
 Old Minecraft versions are provided with Long Term Support (LTS) based on their popularity and the community's interest.
