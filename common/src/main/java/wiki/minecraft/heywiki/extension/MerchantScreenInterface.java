@@ -1,4 +1,4 @@
-package wiki.minecraft.heywiki;
+package wiki.minecraft.heywiki.extension;
 
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.Nullable;

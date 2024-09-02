@@ -9,6 +9,7 @@
   "client": [
     "AbstractInventoryScreenMixin",
     "ChatScreenMixin",
+    "GameMenuScreenMixin",
     "GameRendererMixin",
     "HandledScreenMixin",
     "MerchantScreenMixin",

@@ -8,7 +8,7 @@ import dev.architectury.event.events.client.ClientCommandRegistrationEvent.Clien
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
-import wiki.minecraft.heywiki.wiki.target.Target;
+import wiki.minecraft.heywiki.target.Target;
 import wiki.minecraft.heywiki.wiki.WikiPage;
 
 import static dev.architectury.event.events.client.ClientCommandRegistrationEvent.literal;

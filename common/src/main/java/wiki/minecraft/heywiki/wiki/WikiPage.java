@@ -2,6 +2,7 @@ package wiki.minecraft.heywiki.wiki;
 
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -11,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import wiki.minecraft.heywiki.HeyWikiClient;
 import wiki.minecraft.heywiki.gui.screen.ConfirmWikiPageScreen;
-import wiki.minecraft.heywiki.wiki.target.Target;
+import wiki.minecraft.heywiki.target.Target;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -135,7 +136,7 @@ public record WikiPage(String pageName, WikiIndividual wiki) {
      * @param parent The parent screen.
      */
     public void openInBrowser(Screen parent) {
-        openInBrowser(MOD.config().requiresConfirmation(), parent);
+        openInBrowser(MOD.config().requiresConfirmation(), parent == null ? MinecraftClient.getInstance().currentScreen : parent);
     }
 
     /**

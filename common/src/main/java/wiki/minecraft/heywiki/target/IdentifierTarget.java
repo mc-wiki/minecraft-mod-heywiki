@@ -1,4 +1,4 @@
-package wiki.minecraft.heywiki.wiki.target;
+package wiki.minecraft.heywiki.target;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -31,7 +31,6 @@ public record IdentifierTarget(Identifier identifier, Optional<String> translati
                                                          .forGetter(target -> target.translationKey),
                                              Codec.STRING.optionalFieldOf("heywiki:fallback_title")
                                                          .forGetter(target -> target.fallbackTitle))
-
                                      .apply(builder, IdentifierTarget::new));
 
     public IdentifierTarget(Identifier identifier, String translationKey) {

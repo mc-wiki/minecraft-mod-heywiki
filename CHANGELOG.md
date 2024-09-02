@@ -2,6 +2,7 @@
 
 ## Changes
 - Now works for hovering items in recipe book and trade menu (#71)
+- The game now pauses when you open in browser while your inventory is open (#73)
 - New wiki: [Doggy Talents Next Wiki](https://doggytalentsnext.wiki.gg/) (#74)
 
 ## Fixes

@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import wiki.minecraft.heywiki.HeyWikiClient;
+import wiki.minecraft.heywiki.target.Target;
 import wiki.minecraft.heywiki.wiki.WikiPage;
-import wiki.minecraft.heywiki.wiki.target.Target;
 
 import static wiki.minecraft.heywiki.wiki.WikiPage.NO_FAMILY_MESSAGE;
 
@@ -35,21 +35,19 @@ public abstract class RecipeBookWidgetMixin {
         if (this.isOpen() &&
             this.searchField != null && !this.searchField.isFocused() &&
             HeyWikiClient.openWikiKey.matchesKey(keyCode, scanCode)) {
-            if (HeyWikiClient.openWikiKey.matchesKey(keyCode, scanCode)) {
-                @Nullable AnimatedResultButton button = ((RecipeBookResultsMixin) recipesArea).heywiki$getHoveredResultButton();
-                if (button != null) {
-                    RecipeEntry<?> entry = button.getResultCollection().getResults(false).getFirst();
-                    assert MinecraftClient.getInstance().world != null;
-                    var target = Target.of(
-                            entry.value().getResult(MinecraftClient.getInstance().world.getRegistryManager()));
-                    if (target != null) {
-                        var page = WikiPage.fromTarget(target);
-                        if (page == null) {
-                            MinecraftClient.getInstance().inGameHud.setOverlayMessage(NO_FAMILY_MESSAGE, false);
-                            return;
-                        }
-                        page.openInBrowser(MinecraftClient.getInstance().currentScreen);
+            @Nullable AnimatedResultButton button = ((RecipeBookResultsMixin) recipesArea).heywiki$getHoveredResultButton();
+            if (button != null) {
+                RecipeEntry<?> entry = button.getResultCollection().getResults(false).getFirst();
+                assert MinecraftClient.getInstance().world != null;
+                var target = Target
+                        .of(entry.value().getResult(MinecraftClient.getInstance().world.getRegistryManager()));
+                if (target != null) {
+                    var page = WikiPage.fromTarget(target);
+                    if (page == null) {
+                        MinecraftClient.getInstance().inGameHud.setOverlayMessage(NO_FAMILY_MESSAGE, false);
+                        return;
                     }
+                    page.openInBrowser(MinecraftClient.getInstance().currentScreen);
                 }
             }
         }

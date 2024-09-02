@@ -18,7 +18,7 @@ import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
-import wiki.minecraft.heywiki.wiki.target.Target;
+import wiki.minecraft.heywiki.target.Target;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

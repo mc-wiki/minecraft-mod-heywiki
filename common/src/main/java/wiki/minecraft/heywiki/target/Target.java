@@ -1,4 +1,4 @@
-package wiki.minecraft.heywiki.wiki.target;
+package wiki.minecraft.heywiki.target;
 
 import net.minecraft.block.AirBlock;
 import net.minecraft.block.Block;
@@ -21,7 +21,7 @@ import static wiki.minecraft.heywiki.HeyWikiClient.experimentalWarning;
 /**
  * Represents an object, e.g., a block/item/entity, that can be linked to a wiki page.
  *
- * <p>A target must be able to be resolved to a namespace and a title.
+ * <p>A target must be able to be resolved to a {@linkplain #namespace() namespace} and a {@linkplain #title() title}.
  *
  * <p>The purpose of a target is usually to create a {@link WikiPage} from it.
  */
@@ -118,7 +118,7 @@ public interface Target {
      * Creates a target from a registry entry.
      *
      * <p>This is useful to create a target for other objects that cannot be represented by an internal game object.
-     * For example, a target for biomes/structures.
+     * For example, a target for biome/structure.
      *
      * @param registryEntry        The registry entry.
      * @param translationKeyPrefix The translation key prefix.

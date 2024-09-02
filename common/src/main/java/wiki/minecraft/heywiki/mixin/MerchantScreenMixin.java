@@ -1,8 +1,8 @@
 package wiki.minecraft.heywiki.mixin;
 
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.MerchantScreen;
-import net.minecraft.client.util.Window;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.MerchantScreenHandler;
@@ -12,7 +12,10 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import wiki.minecraft.heywiki.MerchantScreenInterface;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import wiki.minecraft.heywiki.extension.MerchantScreenInterface;
 
 @Mixin(MerchantScreen.class)
 public abstract class MerchantScreenMixin extends HandledScreen<MerchantScreenHandler> implements
@@ -29,27 +32,31 @@ public abstract class MerchantScreenMixin extends HandledScreen<MerchantScreenHa
         super(handler, inventory, title);
     }
 
-    @Unique @Nullable public ItemStack heywiki$getHoveredStack() {
-        assert this.client != null;
-        Window window = this.client.getWindow();
-        double scaleFactor = (double) window.getScaledWidth() / window.getWidth();
-        double x = this.client.mouse.getX() * scaleFactor;
+    @Unique
+    private int heywiki$mouseX;
 
+    @Inject(method = "render", at = @At("HEAD"))
+    public void render(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo cir) {
+        this.heywiki$mouseX = mouseX;
+    }
+
+    @Unique @Nullable public ItemStack heywiki$getHoveredStack() {
         for (MerchantScreen.WidgetButtonPage widgetButtonPage : this.offers) {
             if (widgetButtonPage.isHovered() &&
                 this.handler.getRecipes().size() > widgetButtonPage.getIndex() + this.indexStartOffset) {
-                if (x < widgetButtonPage.getX() + 20) {
+                if (heywiki$mouseX < widgetButtonPage.getX() + 20) {
                     return (this.handler.getRecipes().get(widgetButtonPage.getIndex() +
                                                           this.indexStartOffset))
                             .getDisplayedFirstBuyItem();
-                } else if (x < widgetButtonPage.getX() + 50 && x > widgetButtonPage.getX() + 30) {
+                } else if (heywiki$mouseX < widgetButtonPage.getX() + 50 &&
+                           heywiki$mouseX > widgetButtonPage.getX() + 30) {
                     ItemStack itemStack = this.handler.getRecipes()
                                                       .get(widgetButtonPage.getIndex() + this.indexStartOffset)
                                                       .getDisplayedSecondBuyItem();
                     if (!itemStack.isEmpty()) {
                         return itemStack;
                     }
-                } else if (x > widgetButtonPage.getX() + 65) {
+                } else if (heywiki$mouseX > widgetButtonPage.getX() + 65) {
                     return this.handler.getRecipes()
                                        .get(widgetButtonPage.getIndex() + this.indexStartOffset)
                                        .getSellItem();
