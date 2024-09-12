@@ -1,5 +1,6 @@
 package wiki.minecraft.heywiki.command;
 
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent.ClientCommandSourceStack;
@@ -27,7 +28,7 @@ public class WhatCommandCommand {
                                           new WikiPage("/" + getString(ctx, "command"),
                                                        MOD.familyManager().activeWikis()
                                                           .get("minecraft")).openInBrowserCommand(null);
-                                          return 0;
+                                          return Command.SINGLE_SUCCESS;
                                       })));
     }
 }

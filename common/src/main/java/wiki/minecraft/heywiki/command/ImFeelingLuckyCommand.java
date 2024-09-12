@@ -1,6 +1,8 @@
 package wiki.minecraft.heywiki.command;
 
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent.ClientCommandSourceStack;
@@ -22,21 +24,18 @@ public class ImFeelingLuckyCommand {
             CommandDispatcher<ClientCommandSourceStack> dispatcher) {
         return dispatcher.register(
                 literal("imfeelinglucky")
-                        .executes(ctx -> {
-                            WikiPage randomPage = WikiPage.random("minecraft");
-                            assert randomPage != null;
-                            randomPage.openInBrowserCommand(null);
-                            return 0;
-                        })
+                        .executes(ctx -> openRandomPage("minecraft"))
                         .then(argument("namespace", string())
                                       .suggests(new NamespaceSuggestionProvider(false))
-                                      .executes(ctx -> {
-                                          String namespace = getString(ctx, "namespace");
-                                          WikiPage randomPage = WikiPage.random(namespace);
-                                          if (randomPage == null) throw NOT_SUPPORTED.create();
+                                      .executes(ctx -> openRandomPage(getString(ctx, "namespace")))));
+    }
 
-                                          randomPage.openInBrowserCommand(null);
-                                          return 0;
-                                      })));
+    private static int openRandomPage(String namespace) throws CommandSyntaxException {
+        WikiPage randomPage = WikiPage.random(namespace);
+        if (randomPage == null) throw NOT_SUPPORTED.create();
+
+        randomPage.openInBrowserCommand(null);
+
+        return Command.SINGLE_SUCCESS;
     }
 }

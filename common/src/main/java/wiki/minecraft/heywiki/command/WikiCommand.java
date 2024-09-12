@@ -1,5 +1,6 @@
 package wiki.minecraft.heywiki.command;
 
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent.ClientCommandSourceStack;
@@ -28,20 +29,20 @@ public class WikiCommand {
                                               new WikiPage(page,
                                                            MOD.familyManager().activeWikis().get("minecraft"))
                                                       .openInBrowserCommand(null);
-                                              return 0;
+                                              return Command.SINGLE_SUCCESS;
                                           }
 
                                           var namespace = pageSplit[0];
                                           if (MOD.familyManager().getFamilyByNamespace(namespace) == null) {
                                               new WikiPage(page, MOD.familyManager().activeWikis().get("minecraft"))
                                                       .openInBrowserCommand(null);
-                                              return 0;
+                                              return Command.SINGLE_SUCCESS;
                                           }
 
                                           new WikiPage(pageSplit[1],
                                                        MOD.familyManager().activeWikis().get(pageSplit[0]))
                                                   .openInBrowserCommand(null);
-                                          return 0;
+                                          return Command.SINGLE_SUCCESS;
                                       })));
     }
 }

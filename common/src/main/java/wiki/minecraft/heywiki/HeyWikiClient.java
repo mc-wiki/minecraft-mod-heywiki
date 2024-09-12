@@ -30,6 +30,11 @@ import static dev.architectury.event.events.client.ClientCommandRegistrationEven
  */
 public class HeyWikiClient {
     public static final String MOD_ID = "heywiki";
+
+    public static Identifier id(String path) {
+        return Identifier.of(MOD_ID, path);
+    }
+
     private static final MinecraftClient client = MinecraftClient.getInstance();
     public static KeyBinding openWikiKey = new KeyBinding("key.heywiki.open",
                                                           InputUtil.Type.KEYSYM,
@@ -69,11 +74,9 @@ public class HeyWikiClient {
 
         this.familyManager = new WikiFamilyManager();
         this.translationManager = new WikiTranslationManager();
-        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, this.familyManager,
-                                        Identifier.of("heywiki", "family"));
-        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, this.translationManager,
-                                        Identifier.of("heywiki", "translation"),
-                                        List.of(Identifier.of("heywiki", "family")));
+        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, this.familyManager, id("family"));
+        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, this.translationManager, id("translation"),
+                                        List.of(id("family")));
     }
 
     private static void registerCommands(CommandDispatcher<ClientCommandSourceStack> dispatcher,

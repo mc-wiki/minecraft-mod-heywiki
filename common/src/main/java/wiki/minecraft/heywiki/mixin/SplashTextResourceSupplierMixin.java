@@ -15,10 +15,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static wiki.minecraft.heywiki.HeyWikiClient.id;
+
 @Mixin(SplashTextResourceSupplier.class)
 public class SplashTextResourceSupplierMixin {
     @Unique
-    private static final Identifier heywiki$resourceId = Identifier.of("heywiki", "texts/splashes.txt");
+    private static final Identifier heywiki$resourceId = id( "texts/splashes.txt");
     @Unique
     private static final Logger heywiki$logger = LogUtils.getLogger();
 

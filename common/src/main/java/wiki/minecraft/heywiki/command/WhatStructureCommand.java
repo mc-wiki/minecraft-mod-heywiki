@@ -1,5 +1,6 @@
 package wiki.minecraft.heywiki.command;
 
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.tree.LiteralCommandNode;
@@ -26,10 +27,10 @@ import static dev.architectury.event.events.client.ClientCommandRegistrationEven
 import static wiki.minecraft.heywiki.wiki.WikiPage.NO_FAMILY_EXCEPTION;
 
 public class WhatStructureCommand {
-    public static final SimpleCommandExceptionType NO_INTEGRATED_SERVER = new SimpleCommandExceptionType(
-            Text.translatable("commands.whatstructure.no_integrated_server"));
-    public static final SimpleCommandExceptionType NO_STRUCTURE = new SimpleCommandExceptionType(
-            Text.translatable("commands.whatstructure.no_structure"));
+    public static final SimpleCommandExceptionType NO_INTEGRATED_SERVER =
+            new SimpleCommandExceptionType(Text.translatable("commands.whatstructure.no_integrated_server"));
+    public static final SimpleCommandExceptionType NO_STRUCTURE =
+            new SimpleCommandExceptionType(Text.translatable("commands.whatstructure.no_structure"));
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
 
     @SuppressWarnings("UnusedReturnValue")
@@ -38,7 +39,7 @@ public class WhatStructureCommand {
         return dispatcher.register(
                 literal("whatstructure")
                         .executes(ctx -> {
-                            if (CLIENT.player == null || CLIENT.world == null) return 1;
+                            if (CLIENT.player == null || CLIENT.world == null) return -1;
 
                             var block = CLIENT.player.getBlockPos();
 
@@ -57,7 +58,7 @@ public class WhatStructureCommand {
                                                                ChunkStatus.STRUCTURE_REFERENCES,
                                                                false);
                             if (chunk == null) {
-                                return 1;
+                                return -1;
                             }
 
                             Map<Structure, LongSet> references = chunk.getStructureReferences();
@@ -66,23 +67,24 @@ public class WhatStructureCommand {
                                 LongSet positions = entry.getValue();
                                 var startChunkPos = new ChunkPos(positions.toLongArray()[0]);
                                 Chunk startChunk = serverWorld.getChunk(startChunkPos.x, startChunkPos.z,
-                                                                   ChunkStatus.STRUCTURE_STARTS,
-                                                                   false);
+                                                                        ChunkStatus.STRUCTURE_STARTS,
+                                                                        false);
                                 assert startChunk != null;
                                 StructureStart structureStart = startChunk.getStructureStart(structure);
                                 assert structureStart != null;
                                 BlockBox boundingBox = structureStart.getBoundingBox();
                                 if (boundingBox.contains(block)) {
                                     var strucutreRegistryEntry = serverWorld.getRegistryManager()
-                                            .get(RegistryKeys.STRUCTURE).getEntry(structure);
+                                                                            .get(RegistryKeys.STRUCTURE)
+                                                                            .getEntry(structure);
                                     var target = Target.of(strucutreRegistryEntry, "structure");
-                                    if (target == null) return 1;
+                                    if (target == null) return -1;
                                     var page = WikiPage.fromTarget(target);
                                     if (page == null) {
                                         throw NO_FAMILY_EXCEPTION.create();
                                     }
                                     page.openInBrowserCommand(null);
-                                    return 0;
+                                    return Command.SINGLE_SUCCESS;
                                 }
                             }
                             throw NO_STRUCTURE.create();

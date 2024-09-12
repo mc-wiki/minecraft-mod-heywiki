@@ -43,6 +43,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import static wiki.minecraft.heywiki.HeyWikiClient.id;
 import static wiki.minecraft.heywiki.HeyWikiClient.openWikiSearchKey;
 import static wiki.minecraft.heywiki.util.HttpUtil.encodeUrl;
 
@@ -225,8 +226,6 @@ public class WikiSearchScreen extends Screen {
                 URI uri = HttpUtil.uriWithQuery(URI.create(apiUrl), String.format(SUGGESTION_URL, term));
 
                 String response = HttpUtil.request(uri);
-//                System.out.println(uri);
-//                System.out.println(response);
 
                 SequencedSet<Suggestion> suggestions = new TreeSet<>();
                 JsonObject root = JsonParser.parseString(response).getAsJsonObject();
@@ -295,7 +294,7 @@ public class WikiSearchScreen extends Screen {
             }
             String hash = Hex.encodeHexString(md.digest(imageUrl.getBytes(StandardCharsets.UTF_8)));
 
-            var textureId = Identifier.of("heywiki", hash);
+            var textureId = id(hash);
             this.executor.execute(() -> this.textures.add(textureId));
             byte[] imageArray = HttpUtil.loadAndCacheFile(imageUrl).join();
 

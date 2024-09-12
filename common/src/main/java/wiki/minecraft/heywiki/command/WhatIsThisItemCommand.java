@@ -1,5 +1,6 @@
 package wiki.minecraft.heywiki.command;
 
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
@@ -22,20 +23,13 @@ public class WhatIsThisItemCommand {
     @SuppressWarnings("UnusedReturnValue")
     public static LiteralCommandNode<ClientCommandSourceStack> register(
             CommandDispatcher<ClientCommandSourceStack> dispatcher) {
+        assert CLIENT.player == null;
         return dispatcher.register(
                 literal("whatisthisitem")
-                        .executes(ctx -> {
-                            if (CLIENT.player == null) return 1;
-                            ItemStack stack = CLIENT.player.getInventory().getMainHandStack();
-                            return openBrowserForStack(stack);
-                        })
-                        .then(
-                                literal("offhand")
-                                        .executes(ctx -> {
-                                            if (CLIENT.player == null) return 1;
-                                            ItemStack stack = CLIENT.player.getInventory().offHand.getFirst();
-                                            return openBrowserForStack(stack);
-                                        })));
+                        .executes(ctx -> openBrowserForStack(CLIENT.player.getInventory().getMainHandStack()))
+                        .then(literal("offhand")
+                                      .executes(ctx -> openBrowserForStack(
+                                              CLIENT.player.getInventory().offHand.getFirst()))));
     }
 
     private static int openBrowserForStack(ItemStack stack) throws CommandSyntaxException {
@@ -48,6 +42,6 @@ public class WhatIsThisItemCommand {
             throw NO_FAMILY_EXCEPTION.create();
         }
         page.openInBrowserCommand(null);
-        return 0;
+        return Command.SINGLE_SUCCESS;
     }
 }

@@ -18,6 +18,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import static wiki.minecraft.heywiki.HeyWikiClient.id;
+
 public class SuggestionEntryWidget extends Entry<SuggestionEntryWidget> {
     public final WikiSearchScreen.Suggestion suggestion;
     protected final MinecraftClient client;
@@ -96,10 +98,10 @@ public class SuggestionEntryWidget extends Entry<SuggestionEntryWidget> {
                 throw new RuntimeException(e);
             }
             String hash = Hex.encodeHexString(md.digest(imageUrl.getBytes(StandardCharsets.UTF_8)));
-            var id = Identifier.of("heywiki", hash);
+            var identifier = id(hash);
 
-            AbstractTexture texture = client.getTextureManager().getOrDefault(id, null);
-            return texture != null ? id : null;
+            AbstractTexture texture = client.getTextureManager().getOrDefault(identifier, null);
+            return texture != null ? identifier : null;
         }).orElse(null);
     }
 }

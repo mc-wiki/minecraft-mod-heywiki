@@ -29,6 +29,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
+import static wiki.minecraft.heywiki.HeyWikiClient.id;
 import static wiki.minecraft.heywiki.HeyWikiClient.openWikiKey;
 
 /**
@@ -43,8 +44,6 @@ public class ConfirmWikiPageScreen extends Screen {
     private final String link;
     private final Text message;
     private final WikiPage page;
-    protected final Text yesText;
-    protected final Text noText;
     private SimplePositioningWidget layout = new SimplePositioningWidget(0, 0, this.width, this.height);
     private Identifier textureId = Identifier.of("minecraft", "textures/misc/unknown_server.png");
     private volatile PageExcerpt excerpt;
@@ -59,11 +58,12 @@ public class ConfirmWikiPageScreen extends Screen {
      * @param excerpt  The excerpt of the page.
      * @param page     The wiki page.
      */
-    public ConfirmWikiPageScreen(BooleanConsumer callback, String link, Optional<CompletableFuture<PageExcerpt>> excerpt,
+    public ConfirmWikiPageScreen(BooleanConsumer callback, String link,
+                                 Optional<CompletableFuture<PageExcerpt>> excerpt,
                                  WikiPage page) {
         this(callback, Text.translatable("chat.link.confirmTrusted"),
              Text.literal(URLDecoder.decode(link, StandardCharsets.UTF_8)), link,
-             ScreenTexts.CANCEL, excerpt, page);
+             excerpt, page);
     }
 
     /**
@@ -73,17 +73,14 @@ public class ConfirmWikiPageScreen extends Screen {
      * @param title    The title of the screen.
      * @param message  The message to display.
      * @param link     The link to open.
-     * @param noText   The text to display on the "no" button.
      * @param excerpt  The excerpt of the page.
      * @param page     The wiki page.
      */
-    private ConfirmWikiPageScreen(BooleanConsumer callback, Text title, Text message, String link, Text noText,
+    private ConfirmWikiPageScreen(BooleanConsumer callback, Text title, Text message, String link,
                                   Optional<CompletableFuture<PageExcerpt>> excerpt, WikiPage page) {
         super(title);
         this.callback = callback;
         this.message = message;
-        this.yesText = Text.translatable("chat.link.open");
-        this.noText = noText;
         this.link = link;
         this.page = page;
 
@@ -121,7 +118,8 @@ public class ConfirmWikiPageScreen extends Screen {
      * @param excerpt The excerpt of the page.
      * @param page    The wiki page.
      */
-    public static void open(Screen parent, String url, Optional<CompletableFuture<PageExcerpt>> excerpt, WikiPage page) {
+    public static void open(Screen parent, String url, Optional<CompletableFuture<PageExcerpt>> excerpt,
+                            WikiPage page) {
         MinecraftClient client = MinecraftClient.getInstance();
         client.setScreen(new ConfirmWikiPageScreen((confirmed) -> {
             if (confirmed) {
@@ -206,7 +204,7 @@ public class ConfirmWikiPageScreen extends Screen {
                 InputStream is = new ByteArrayInputStream(os.toByteArray());
 
                 NativeImageBackedTexture texture = new NativeImageBackedTexture(NativeImage.read(is));
-                this.textureId = Identifier.of("heywiki", String.valueOf(this.link.hashCode()));
+                this.textureId = id(String.valueOf(this.link.hashCode()));
 
                 textureManager.registerTexture(this.textureId, texture);
             } catch (Exception e) {
@@ -220,12 +218,13 @@ public class ConfirmWikiPageScreen extends Screen {
     protected DirectionalLayoutWidget createButtonLayout() {
         DirectionalLayoutWidget layout = DirectionalLayoutWidget.horizontal().spacing(8);
 
-        layout.add(ButtonWidget.builder(this.yesText, button -> this.callback.accept(true)).width(100).build());
+        layout.add(ButtonWidget.builder(Text.translatable("chat.link.open"), button -> this.callback.accept(true))
+                               .width(100).build());
         layout.add(ButtonWidget.builder(Text.translatable("chat.copy"), button -> {
             this.copyToClipboard();
             this.callback.accept(false);
         }).width(100).build());
-        layout.add(ButtonWidget.builder(this.noText, button -> this.callback.accept(false)).width(100).build());
+        layout.add(ButtonWidget.builder(ScreenTexts.CANCEL, button -> this.callback.accept(false)).width(100).build());
 
         return layout;
     }

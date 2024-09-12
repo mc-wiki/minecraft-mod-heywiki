@@ -1,5 +1,6 @@
 package wiki.minecraft.heywiki.command;
 
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.tree.LiteralCommandNode;
@@ -27,7 +28,7 @@ public class WhatIsThisCommand {
                 throw NO_FAMILY_EXCEPTION.create();
             }
             page.openInBrowserCommand(null);
-            return 0;
+            return Command.SINGLE_SUCCESS;
         }));
     }
 }

@@ -38,8 +38,8 @@ public record WikiPage(String pageName, WikiIndividual wiki) {
     /**
      * The exception to throw when no family is found in a command.
      */
-    public static final SimpleCommandExceptionType NO_FAMILY_EXCEPTION = new SimpleCommandExceptionType(
-            Text.translatable("gui.heywiki.no_family"));
+    public static final SimpleCommandExceptionType NO_FAMILY_EXCEPTION =
+            new SimpleCommandExceptionType(Text.translatable("gui.heywiki.no_family"));
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
 
@@ -136,7 +136,8 @@ public record WikiPage(String pageName, WikiIndividual wiki) {
      * @param parent The parent screen.
      */
     public void openInBrowser(Screen parent) {
-        openInBrowser(MOD.config().requiresConfirmation(), parent == null ? MinecraftClient.getInstance().currentScreen : parent);
+        openInBrowser(MOD.config().requiresConfirmation(),
+                      parent == null ? MinecraftClient.getInstance().currentScreen : parent);
     }
 
     /**

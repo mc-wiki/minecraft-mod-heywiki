@@ -31,6 +31,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static dev.architectury.platform.Platform.getConfigFolder;
+import static wiki.minecraft.heywiki.HeyWikiClient.id;
 
 /**
  * The configuration for the Hey Wiki mod.
@@ -73,7 +74,7 @@ public class HeyWikiConfig {
                                                 .orElse("auto")
                                                 .forGetter(HeyWikiConfig::zhVariant),
                                     Identifier.CODEC.fieldOf("searchDefaultWikiFamily")
-                                                    .orElse(Identifier.of("heywiki", "minecraft"))
+                                                    .orElse(id("minecraft"))
                                                     .forGetter(HeyWikiConfig::searchDefaultWikiFamily)
                                   )
                             .apply(instance, HeyWikiConfig::new));

@@ -1,5 +1,6 @@
 package wiki.minecraft.heywiki.command;
 
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent.ClientCommandSourceStack;
@@ -19,18 +20,18 @@ public class WhatBiomeCommand {
         return dispatcher.register(
                 literal("whatbiome")
                         .executes(ctx -> {
-                            if (CLIENT.player == null || CLIENT.world == null) return 1;
+                            if (CLIENT.player == null || CLIENT.world == null) return -1;
 
                             var block = CLIENT.player.getBlockPos();
                             var biomeRegistryEntry = CLIENT.world.getBiome(block);
                             var target = Target.of(biomeRegistryEntry, "biome");
-                            if (target == null) return 1;
+                            if (target == null) return -1;
                             var page = WikiPage.fromTarget(target);
                             if (page == null) {
                                 throw NO_FAMILY_EXCEPTION.create();
                             }
                             page.openInBrowserCommand(null);
-                            return 0;
+                            return Command.SINGLE_SUCCESS;
                         }));
     }
 }
