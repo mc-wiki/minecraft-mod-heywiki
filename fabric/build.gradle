@@ -55,6 +55,8 @@ dependencies {
     modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
     modApi "com.terraformersmc:modmenu:${rootProject.modmenu_version}"
     modApi "me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}"
+    modRuntimeOnly "maven.modrinth:mcbrowser:${rootProject.mcbrowser_version}"
+    modRuntimeOnly "com.cinemamod:mcef-fabric:${rootProject.mcef_version}"
     if (rootProject.hasProperty("with_rei") && rootProject.property("with_rei") == "true") {
         modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rootProject.rei_version}"
     }

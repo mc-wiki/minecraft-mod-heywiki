@@ -1,10 +1,10 @@
-# v1.6.3+1.21.1
+# v1.6.4+1.21.1
 
 ## Changes
-- Now works for hovering items in recipe book and trade menu (#71)
-- The game now pauses when you open in browser while your inventory is open (#73)
-- New wiki: [Doggy Talents Next Wiki](https://doggytalentsnext.wiki.gg/) (#74)
+
+By fixing one of the bugs, the mod can now work with [MCBrowser](https://modrinth.com/mod/mcbrowser), allowing you to 
+use a browser inside the game. (#10)
 
 ## Fixes
 
-- Fixes a crash when pressing enter in search screen before suggestions has been loaded (#70)
+- Fixes a crash when using the version page feature or otherwise using the mod while not inside a world.

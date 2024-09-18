@@ -16,7 +16,6 @@ import wiki.minecraft.heywiki.target.Target;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Objects;
 import java.util.Optional;
 
 import static wiki.minecraft.heywiki.util.HttpUtil.encodeUrl;
@@ -55,46 +54,6 @@ public record WikiPage(String pageName, WikiIndividual wiki) {
         WikiIndividual wiki = MOD.familyManager().activeWikis().get(target.namespace());
         if (wiki == null) return null;
         return new WikiPage(target.title(), wiki);
-    }
-
-    /**
-     * Creates a wiki page from a wikitext link.
-     *
-     * @param link The wikitext link's target.
-     * @return The wiki page.
-     */
-    public static WikiPage fromWikitextLink(String link) {
-        String[] split = link.split(":", 3);
-        if (split.length == 1) {
-            // [[Grass]]
-            return new WikiPage(link, MOD.familyManager().activeWikis().get("minecraft"));
-        }
-
-        WikiIndividual languageWiki = Objects.requireNonNull(
-                                                     MOD.familyManager().getFamilyByNamespace("minecraft"))
-                                             .getLanguageWikiByWikiLanguage(split[0]);
-        if (languageWiki != null) {
-            // valid language: [[en:Grass]]
-            return new WikiPage(link.split(":", 2)[1], languageWiki);
-        }
-
-        if (MOD.familyManager().getAvailableNamespaces().contains(split[0])) {
-            // valid NS
-            if (split.length == 3) {
-                WikiFamily family = Objects.requireNonNull(
-                        MOD.familyManager().getFamilyByNamespace(split[0]));
-                WikiIndividual languageWiki1 = family.getLanguageWikiByWikiLanguage(split[1]);
-                if (languageWiki1 != null) {
-                    // valid language: [[minecraft:en:Grass]]
-                    return new WikiPage(split[2], languageWiki1);
-                }
-            }
-            // invalid language: [[minecraft:Grass]]
-            return new WikiPage(link.split(":", 2)[1], MOD.familyManager().activeWikis().get(split[0]));
-        }
-
-        // [[Minecraft Legend:Grass]]
-        return new WikiPage(link, MOD.familyManager().activeWikis().get("minecraft"));
     }
 
     /**
@@ -148,12 +107,10 @@ public record WikiPage(String pageName, WikiIndividual wiki) {
      */
     public void openInBrowser(Boolean requiresConfirmation, Screen parent) {
         var uri = getUri();
-        if (uri != null) {
-            if (requiresConfirmation) {
-                ConfirmWikiPageScreen.open(parent, uri.toString(), PageExcerpt.fromPage(this), this);
-            } else {
-                Util.getOperatingSystem().open(uri);
-            }
+        if (requiresConfirmation) {
+            ConfirmWikiPageScreen.open(parent, uri.toString(), PageExcerpt.fromPage(this), this);
+        } else {
+            Util.getOperatingSystem().open(uri);
         }
     }
 
@@ -162,13 +119,11 @@ public record WikiPage(String pageName, WikiIndividual wiki) {
      *
      * @return The URI.
      */
-    public @Nullable URI getUri() {
+    public URI getUri() {
         try {
-            return new URI(this.wiki.articleUrl().formatted(
-                    encodeUrl(this.wiki.title().formatTitle(this.pageName))));
+            return new URI(this.wiki.articleUrl().formatted(encodeUrl(this.wiki.title().formatTitle(this.pageName))));
         } catch (URISyntaxException e) {
-            LOGGER.error("Failed to create URI for wiki page", e);
-            return null;
+            throw new RuntimeException("Failed to create URI for wiki page", e);
         }
     }
 }

@@ -18,7 +18,7 @@ import java.util.Optional;
  * @param identifier     The identifier of the target.
  * @param translationKey The translation key of the target.
  */
-public record IdentifierTarget(Identifier identifier, Optional<String> translationKey, Optional<String> fallbackTitle)
+record IdentifierTarget(Identifier identifier, Optional<String> translationKey, Optional<String> fallbackTitle)
         implements Target {
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
     private static final HeyWikiClient MOD = HeyWikiClient.getInstance();

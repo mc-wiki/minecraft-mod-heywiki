@@ -121,6 +121,14 @@ public class HttpUtil {
         }, Util.getIoWorkerExecutor());
     }
 
+    /**
+     * Encodes a URL using UTF-8.
+     *
+     * <p>Unlike {@link URLEncoder#encode(String, String)}, this method replaces spaces with "%20" instead of "+".
+     *
+     * @param url The URL to encode.
+     * @return The encoded URL.
+     */
     public static String encodeUrl(String url) {
         return URLEncoder.encode(url, StandardCharsets.UTF_8).replaceAll("\\+", "%20");
     }

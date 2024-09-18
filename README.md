@@ -24,6 +24,8 @@ Hey Wiki supports [Fabric](https://fabricmc.net/) and [NeoForge](https://neoforg
 - Adds several [commands](#commands).
 - [Link to a wiki page in chat](#wiki-links-in-chat) using `[[wiki link]]` syntax.
 
+It is also supported to use [MCBrowser](https://modrinth.com/mod/mcbrowser) and [MCEF](https://modrinth.com/mod/mcef) for in-game browsing.
+
 ~~I didn't know that this mod is kinda like *Lexica Botania* but it is.~~
 
 https://github.com/mc-wiki/minecraft-mod-heywiki/assets/45287180/b0650362-1fe9-46ff-83a1-48219d5fcc05
@@ -206,6 +208,7 @@ For Fabric:
 - (Required) [Architectury API](https://modrinth.com/mod/architectury-api): for multi-modloader compatibility
 - (Required) [Cloth Config](https://modrinth.com/mod/cloth-config): for configuration
 - (Recommended) [Mod Menu](https://modrinth.com/mod/modmenu): to access the config menu
+- (Optional) [MCBrowser](https://modrinth.com/mod/mcbrowser) and [MCEF](https://modrinth.com/mod/mcef): for in-game browser
 - (Optional) [Roughly Enough Items (REI)](https://modrinth.com/mod/roughly-enough-items): for REI integration
 - (Optional) [EMI](https://modrinth.com/mod/emi): for EMI integration
 - (Optional) [JEI](https://modrinth.com/mod/jei): for JEI integration

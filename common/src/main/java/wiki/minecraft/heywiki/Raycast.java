@@ -14,6 +14,8 @@ import wiki.minecraft.heywiki.mixin.GameRendererMixin;
 import wiki.minecraft.heywiki.target.Target;
 import wiki.minecraft.heywiki.wiki.WikiPage;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static wiki.minecraft.heywiki.HeyWikiClient.openWikiKey;
@@ -64,7 +66,7 @@ public class Raycast {
             texts.add("heywiki: null");
             return;
         }
-        texts.add("heywiki: " + page.getUri());
+        texts.add("heywiki: " + URLDecoder.decode(page.getUri().toString(), StandardCharsets.UTF_8));
     }
 
     /**

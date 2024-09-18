@@ -6,6 +6,8 @@ import net.minecraft.text.ClickEvent;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import wiki.minecraft.heywiki.wiki.WikiFamily;
+import wiki.minecraft.heywiki.wiki.WikiIndividual;
 import wiki.minecraft.heywiki.wiki.WikiPage;
 
 import java.util.Objects;
@@ -19,6 +21,8 @@ import static net.minecraft.text.ClickEvent.Action.OPEN_URL;
  * Handles wiki links in chat messages.
  */
 public class ChatWikiLinks {
+    private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
+
     /**
      * Should be called at {@link dev.architectury.event.events.client.ClientChatEvent#RECEIVED ClientChatEvent#RECEIVED}.
      *
@@ -41,8 +45,7 @@ public class ChatWikiLinks {
                 String link = matcher.group(1);
                 text.append(Text.literal(link).setStyle(
                         style
-                                .withClickEvent(new ClickEvent(OPEN_URL, Objects.requireNonNull(
-                                        WikiPage.fromWikitextLink(link).getUri()).toString()))
+                                .withClickEvent(new ClickEvent(OPEN_URL, linkToPage(link).getUri().toString()))
                                 .withUnderline(true)));
 
                 lastEnd = matcher.end() - 2;
@@ -54,5 +57,45 @@ public class ChatWikiLinks {
         }, Style.EMPTY);
 
         return CompoundEventResult.interruptTrue(text);
+    }
+
+    /**
+     * Creates a wiki page from a wikitext link.
+     *
+     * @param link The wikitext link's target.
+     * @return The wiki page.
+     */
+    public static WikiPage linkToPage(String link) {
+        String[] split = link.split(":", 3);
+        if (split.length == 1) {
+            // [[Grass]]
+            return new WikiPage(link, MOD.familyManager().activeWikis().get("minecraft"));
+        }
+
+        WikiIndividual languageWiki = Objects.requireNonNull(
+                                                     MOD.familyManager().getFamilyByNamespace("minecraft"))
+                                             .getLanguageWikiByWikiLanguage(split[0]);
+        if (languageWiki != null) {
+            // valid language: [[en:Grass]]
+            return new WikiPage(link.split(":", 2)[1], languageWiki);
+        }
+
+        if (MOD.familyManager().getAvailableNamespaces().contains(split[0])) {
+            // valid NS
+            if (split.length == 3) {
+                WikiFamily family = Objects.requireNonNull(
+                        MOD.familyManager().getFamilyByNamespace(split[0]));
+                WikiIndividual languageWiki1 = family.getLanguageWikiByWikiLanguage(split[1]);
+                if (languageWiki1 != null) {
+                    // valid language: [[minecraft:en:Grass]]
+                    return new WikiPage(split[2], languageWiki1);
+                }
+            }
+            // invalid language: [[minecraft:Grass]]
+            return new WikiPage(link.split(":", 2)[1], MOD.familyManager().activeWikis().get(split[0]));
+        }
+
+        // [[Minecraft Legend:Grass]]
+        return new WikiPage(link, MOD.familyManager().activeWikis().get("minecraft"));
     }
 }

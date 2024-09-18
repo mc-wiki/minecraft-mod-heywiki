@@ -68,7 +68,7 @@ public record TitleFormat(Letter letter, Space space) {
          * {@snippet lang = "java":
          * var formatter = TitleFormat(Letter.UPPER, Space.IGNORE);
          * String formatted = formatter.formatTitle("Hello World");
-         *  // formatted = "HELLO WORLD"
+         * // formatted = "HELLO WORLD"
          *}
          */
         UPPER("upper"),
@@ -78,7 +78,7 @@ public record TitleFormat(Letter letter, Space space) {
          * {@snippet lang = "java":
          * var formatter = TitleFormat(Letter.IGNORE, Space.IGNORE);
          * String formatted = formatter.formatTitle("Hello World");
-         *  // formatted = "Hello World"
+         * // formatted = "Hello World"
          *}
          */
         IGNORE("ignore");

@@ -124,7 +124,9 @@ public class ConfirmWikiPageScreen extends Screen {
         client.setScreen(new ConfirmWikiPageScreen((confirmed) -> {
             if (confirmed) {
                 Util.getOperatingSystem().open(url);
-                CallbackGameMenuScreen.openWithParent(parent, true);
+                if (client.world != null) {
+                    CallbackGameMenuScreen.openWithParent(parent, true);
+                }
             } else {
                 client.setScreen(parent);
             }

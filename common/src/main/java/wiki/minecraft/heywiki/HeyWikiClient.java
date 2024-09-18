@@ -1,7 +1,6 @@
 package wiki.minecraft.heywiki;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.logging.LogUtils;
 import dev.architectury.event.events.client.ClientChatEvent;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent.ClientCommandSourceStack;
@@ -16,12 +15,15 @@ import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
+import org.slf4j.Logger;
 import wiki.minecraft.heywiki.command.*;
 import wiki.minecraft.heywiki.gui.screen.WikiSearchScreen;
 import wiki.minecraft.heywiki.resource.WikiFamilyManager;
 import wiki.minecraft.heywiki.resource.WikiTranslationManager;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static dev.architectury.event.events.client.ClientCommandRegistrationEvent.literal;
 
@@ -99,15 +101,19 @@ public class HeyWikiClient {
         return INSTANCE;
     }
 
+    private static final Set<String> experimentsWarned = new HashSet<>();
+
     /**
      * Logs a warning that a feature is experimental.
      *
      * @param feature The name of the experimental feature.
      */
-    public static void experimentalWarning(String feature) {
-        LogUtils.getLogger()
-                .warn("{} is an experimental feature. It is subject to breaking changes in future minor or patch releases.",
-                      feature);
+    public static void experimentalWarning(Logger logger, String feature) {
+        if (experimentsWarned.add(feature)) {
+            logger.warn(
+                    "{} is an experimental feature. It is subject to breaking changes in future minor or patch releases.",
+                    feature);
+        }
     }
 
     public WikiFamilyManager familyManager() {

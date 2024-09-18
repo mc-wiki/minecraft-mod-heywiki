@@ -1,5 +1,6 @@
 package wiki.minecraft.heywiki.target;
 
+import com.mojang.logging.LogUtils;
 import net.minecraft.block.AirBlock;
 import net.minecraft.block.Block;
 import net.minecraft.component.DataComponentTypes;
@@ -91,7 +92,7 @@ public interface Target {
         if (customData != null) {
             var target = customData.get(IdentifierTarget.CODEC).result().orElse(null);
             if (target != null) {
-                experimentalWarning("Custom item based on custom_data or NBT");
+                experimentalWarning(LogUtils.getLogger(), "Custom item based on custom_data or NBT");
                 return target;
             }
         }

@@ -57,6 +57,8 @@ allprojects {
 
         maven { url "https://maven.blamejared.com/" }
 
+        maven { url "https://mcef-download.cinemamod.com/repositories/releases" }
+
         exclusiveContent {
             forRepository {
                 maven {
