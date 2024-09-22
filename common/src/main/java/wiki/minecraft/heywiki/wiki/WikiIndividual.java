@@ -19,7 +19,7 @@ import java.util.Optional;
 public record WikiIndividual(String articleUrl, Optional<String> mwApiUrl, Optional<String> randomArticle,
                              Optional<String> versionArticle, Optional<String> excerpt, Optional<String> searchUrl,
                              WikiLanguage language, TitleFormat title) {
-    public static Codec<WikiIndividual> CODEC = RecordCodecBuilder
+    public static final Codec<WikiIndividual> CODEC = RecordCodecBuilder
             .create(builder ->
                             builder.group(
                                            Codec.STRING.fieldOf("article_url")

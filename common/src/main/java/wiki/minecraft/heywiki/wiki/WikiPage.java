@@ -1,15 +1,14 @@
 package wiki.minecraft.heywiki.wiki;
 
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
-import com.mojang.logging.LogUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
 import wiki.minecraft.heywiki.HeyWikiClient;
 import wiki.minecraft.heywiki.gui.screen.ConfirmWikiPageScreen;
 import wiki.minecraft.heywiki.target.Target;
@@ -39,7 +38,6 @@ public record WikiPage(String pageName, WikiIndividual wiki) {
      */
     public static final SimpleCommandExceptionType NO_FAMILY_EXCEPTION =
             new SimpleCommandExceptionType(Text.translatable("gui.heywiki.no_family"));
-    private static final Logger LOGGER = LogUtils.getLogger();
     private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
 
     /**
@@ -48,9 +46,7 @@ public record WikiPage(String pageName, WikiIndividual wiki) {
      * @param target The target.
      * @return The wiki page.
      */
-    public static @Nullable WikiPage fromTarget(Target target) {
-        if (target == null) return null;
-
+    public static @Nullable WikiPage fromTarget(@NotNull Target target) {
         WikiIndividual wiki = MOD.familyManager().activeWikis().get(target.namespace());
         if (wiki == null) return null;
         return new WikiPage(target.title(), wiki);
@@ -64,6 +60,7 @@ public record WikiPage(String pageName, WikiIndividual wiki) {
      */
     public static @Nullable WikiPage random(String namespace) {
         WikiIndividual wiki = MOD.familyManager().activeWikis().get(namespace);
+        if (wiki == null) return null;
         if (wiki.randomArticle().isEmpty()) return null;
         return new WikiPage(wiki.randomArticle().get(), wiki);
     }

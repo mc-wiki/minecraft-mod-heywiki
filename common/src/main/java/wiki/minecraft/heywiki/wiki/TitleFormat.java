@@ -15,7 +15,7 @@ import net.minecraft.util.StringIdentifiable;
  */
 public record TitleFormat(Letter letter, Space space) {
     public static final TitleFormat DEFAULT = new TitleFormat(Letter.IGNORE, Space.IGNORE);
-    public static Codec<TitleFormat> CODEC = RecordCodecBuilder
+    public static final Codec<TitleFormat> CODEC = RecordCodecBuilder
             .create(builder ->
                             builder.group(
                                            Letter.CODEC.fieldOf("letter")

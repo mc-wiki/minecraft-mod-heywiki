@@ -10,6 +10,7 @@ import net.minecraft.util.Language;
 import wiki.minecraft.heywiki.HeyWikiClient;
 import wiki.minecraft.heywiki.wiki.WikiIndividual;
 
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -45,7 +46,7 @@ record IdentifierTarget(Identifier identifier, Optional<String> translationKey, 
         var family = MOD.familyManager().getFamilyByNamespace(identifier.getNamespace());
         if (family == null) return null;
 
-        WikiIndividual wiki = MOD.familyManager().activeWikis().get(identifier.getNamespace());
+        WikiIndividual wiki = Objects.requireNonNull(MOD.familyManager().activeWikis().get(identifier.getNamespace()));
 
         TranslationStorage storage = MOD.translationManager().getTranslationOverride(wiki);
         String fallback = fallbackTitle().orElse(identifier.getPath());

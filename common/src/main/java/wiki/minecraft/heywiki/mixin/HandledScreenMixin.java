@@ -42,7 +42,6 @@ public class HandledScreenMixin extends ScreenMixin {
             }
 
             if (stack == null) {
-                MinecraftClient.getInstance().inGameHud.setOverlayMessage(NO_FAMILY_MESSAGE, false);
                 return;
             }
 

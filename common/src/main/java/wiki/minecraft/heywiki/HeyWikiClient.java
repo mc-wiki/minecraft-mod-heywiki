@@ -38,10 +38,10 @@ public class HeyWikiClient {
     }
 
     private static final MinecraftClient client = MinecraftClient.getInstance();
-    public static KeyBinding openWikiKey = new KeyBinding("key.heywiki.open",
-                                                          InputUtil.Type.KEYSYM,
-                                                          GLFW.GLFW_KEY_H,
-                                                          "key.categories.heywiki"
+    public static final KeyBinding openWikiKey = new KeyBinding("key.heywiki.open",
+                                                                InputUtil.Type.KEYSYM,
+                                                                GLFW.GLFW_KEY_H,
+                                                                "key.categories.heywiki"
     );
     public static final KeyBinding openWikiSearchKey = new KeyBinding("key.heywiki.open_search",
                                                                       InputUtil.Type.KEYSYM,

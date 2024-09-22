@@ -26,7 +26,7 @@ public record WikiFamily(List<String> namespace, List<WikiIndividual> wikis)
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
     private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
 
-    public static Codec<WikiFamily> CODEC = RecordCodecBuilder
+    public static final Codec<WikiFamily> CODEC = RecordCodecBuilder
             .create(builder ->
                             builder.group(
                                            Codec.STRING.listOf()
