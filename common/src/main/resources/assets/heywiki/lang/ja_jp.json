@@ -30,7 +30,7 @@
   "options.heywiki.requires_confirmation_command.name": "コマンド使用時に確認を要求する",
   "options.heywiki.title": "Hey Wikiの設定",
   "options.heywiki.zh_variant.description": "どの中国語が良いか選択してください。\n中国語を話さない場合は、この設定を無視してください。",
-  "options.heywiki.zh_variant.name": "中国語の種類",
+  "options.heywiki.zh_variant.name": "中国語の異体字",
   "structure.minecraft.ancient_city": "古代都市",
   "structure.minecraft.bastion_remnant": "砦の遺跡",
   "structure.minecraft.buried_treasure": "埋もれた宝",
