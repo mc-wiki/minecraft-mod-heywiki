@@ -4,6 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
 import org.lwjgl.glfw.GLFW;
 import wiki.minecraft.heywiki.gui.screen.WikiSearchScreen;
+import wiki.minecraft.heywiki.wiki.SearchProvider;
 
 import java.util.SequencedSet;
 
@@ -61,7 +62,7 @@ public class SuggestionEntryListWidget extends AlwaysSelectedEntryListWidget<Sug
         this.clearEntries();
     }
 
-    public void replaceSuggestions(SequencedSet<WikiSearchScreen.Suggestion> suggestions) {
+    public void replaceSuggestions(SequencedSet<SearchProvider.Suggestion> suggestions) {
         this.replaceEntries(
                 suggestions.stream().map(suggestion -> new SuggestionEntryWidget(suggestion, this)).toList());
     }

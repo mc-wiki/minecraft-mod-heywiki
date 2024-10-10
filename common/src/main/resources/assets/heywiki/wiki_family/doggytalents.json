@@ -8,6 +8,7 @@
       "mw_api_url": "https://doggytalentsnext.wiki.gg/api.php",
       "random_article": "Special:RandomPage",
       "excerpt": "text_extracts",
+      "search_provider": "mediawiki",
       "search_url": "https://doggytalentsnext.wiki.gg/?search=%s",
       "language": {
         "wiki_language": "en",

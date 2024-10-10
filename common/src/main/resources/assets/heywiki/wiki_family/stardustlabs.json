@@ -10,6 +10,7 @@
       "mw_api_url": "https://stardustlabs.miraheze.org/w/api.php",
       "random_article": "Special:RandomPage",
       "excerpt": "text_extracts",
+      "search_provider": "mediawiki",
       "search_url": "https://stardustlabs.miraheze.org/wiki/?search=%s",
       "language": {
         "wiki_language": "en",

@@ -102,6 +102,7 @@ public class HeyWikiClient {
     }
 
     private static final Set<String> experimentsWarned = new HashSet<>();
+    private static final Set<String> deprecationsWarned = new HashSet<>();
 
     /**
      * Logs a warning that a feature is experimental.
@@ -110,6 +111,19 @@ public class HeyWikiClient {
      */
     public static void experimentalWarning(Logger logger, String feature) {
         if (experimentsWarned.add(feature)) {
+            logger.warn(
+                    "{} is an experimental feature. It is subject to breaking changes in future minor or patch releases.",
+                    feature);
+        }
+    }
+
+    /**
+     * Logs a warning that a feature is deprecated.
+     *
+     * @param feature The name of the deprecated feature.
+     */
+    public static void deprecatedWarning(Logger logger, String feature) {
+        if (deprecationsWarned.add(feature)) {
             logger.warn(
                     "{} is an experimental feature. It is subject to breaking changes in future minor or patch releases.",
                     feature);

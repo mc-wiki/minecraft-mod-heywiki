@@ -8,6 +8,7 @@
       "mw_api_url": "https://adventofascension.fandom.com/api.php",
       "random_article": "Special:RandomPage",
       "excerpt": "text_extracts",
+      "search_provider": "mediawiki",
       "search_url": "https://adventofascension.fandom.com/wiki/?search=%s",
       "language": {
         "wiki_language": "en",
@@ -22,6 +23,7 @@
       "mw_api_url": "https://adventofascension.fandom.com/ru/api.php",
       "random_article": "Special:RandomPage",
       "excerpt": "text_extracts",
+      "search_provider": "mediawiki",
       "search_url": "https://adventofascension.fandom.com/ru/wiki/?search=%s",
       "language": {
         "wiki_language": "ru",

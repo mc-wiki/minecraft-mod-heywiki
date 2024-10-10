@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Language;
 import org.apache.commons.codec.binary.Hex;
 import org.jetbrains.annotations.Nullable;
-import wiki.minecraft.heywiki.gui.screen.WikiSearchScreen;
+import wiki.minecraft.heywiki.wiki.SearchProvider;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -21,12 +21,12 @@ import java.security.NoSuchAlgorithmException;
 import static wiki.minecraft.heywiki.HeyWikiClient.id;
 
 public class SuggestionEntryWidget extends Entry<SuggestionEntryWidget> {
-    public final WikiSearchScreen.Suggestion suggestion;
+    public final SearchProvider.Suggestion suggestion;
     protected final MinecraftClient client;
     protected final SuggestionEntryListWidget list;
     private long lastClickTime;
 
-    public SuggestionEntryWidget(WikiSearchScreen.Suggestion suggestion, SuggestionEntryListWidget list) {
+    public SuggestionEntryWidget(SearchProvider.Suggestion suggestion, SuggestionEntryListWidget list) {
         this.suggestion = suggestion;
         this.list = list;
         this.client = MinecraftClient.getInstance();

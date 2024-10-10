@@ -82,6 +82,14 @@ public class HttpUtil {
         }
     }
 
+    public static URI uriWithPath(URI uri, String path) {
+        try {
+            return new URI(uri.getScheme(), uri.getAuthority(), path, uri.getQuery(), uri.getFragment());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static CompletableFuture<byte[]> loadAndCacheFile(String url) {
         return CompletableFuture.supplyAsync(() -> {
             MessageDigest md;

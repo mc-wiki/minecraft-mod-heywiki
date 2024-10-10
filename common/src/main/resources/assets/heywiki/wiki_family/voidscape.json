@@ -8,6 +8,7 @@
       "mw_api_url": "https://voidscape.tamaized.com/api.php",
       "random_article": "Special:RandomPage",
       "excerpt": "none",
+      "search_provider": "mediawiki",
       "search_url": "https://voidscape.tamaized.com/index.php?search=%s",
       "language": {
         "wiki_language": "en",

@@ -1,10 +1,19 @@
-# v1.6.4+1.21.1
+# v1.7.0+1.21.1
 
 ## Changes
 
-By fixing one of the bugs, the mod can now work with [MCBrowser](https://modrinth.com/mod/mcbrowser), allowing you to 
-use a browser inside the game. (#10)
+- Now supports searching the AE2 guide
 
-## Fixes
+### APIs
 
-- Fixes a crash when using the version page feature or otherwise using the mod while not inside a world.
+- Now supports the `search_provider` field for wikis
+  - Values can be `mediawiki` and `algolia`
+  - All wikis that support autocompleted search should fill this field
+  - If the field is not filled, and both `search_url` and `mw_api_url` are present, the search will default to `mediawiki`. However, this is deprecated and will be removed in v2
+- `search_url` is now optional for wikis that supports search, as long as they have `search_provider` field filled
+- Added Agolia search support
+  - This requires you to configure the following fields in the `algolia` object:
+    - `api_url`
+    - `index_name`
+    - `api_key`
+    - `app_id`

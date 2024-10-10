@@ -128,13 +128,22 @@ Hey Wiki supports using resource pack to add support for other wikis. To do so, 
       "article_url": "https://minecraft.wiki/?search=%s",
       // (Optional) If the wiki is a MediaWiki wiki, the API URL
       "mw_api_url": "https://minecraft.wiki/api.php",
-      // (Optional) The URL pattern for searching. %s will be replaced with the query. If not present, the search feature will not be available for this wiki
+      // (Optional) The URL pattern for searching. %s will be replaced with the query.
       "search_url": "https://minecraft.wiki/?search=%s",
       // (Optional) The page name for the random article
       "random_article": "Special:RandomRootPage/Main",
       // (Optional) How Hey Wiki should fetch excerpts from the wiki. Either "text_extracts" or "none".
       // "text_extracts" only works for MediaWiki sites with the TextExtracts and PageImages extension installed. You can check this by visiting Special:Version on the wiki.
       "excerpt": "text_extracts",
+      // (Optional) Which provider to use for autocompleted search. Either "mediawiki" or "algolia".
+      "search_provider": "mediawiki",
+      // (Optional) If you use algolia as search provider, you MUST fill out the following fields
+      "algolia": {
+        "api_url": "https://example-dsn.algolia.net/",
+        "index_name": "example",
+        "api_key": "efcc14a8c70a1489d18cfd565cce53ca",
+        "app_id": "9957A67102"
+      },
       "language": {
         // The language code of the wiki
         "wiki_language": "en",
