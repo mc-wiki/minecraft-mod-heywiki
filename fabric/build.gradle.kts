@@ -56,8 +56,10 @@ dependencies {
     modApi("dev.architectury:architectury-fabric:${rootProject.property("architectury_version")}")
     modApi("com.terraformersmc:modmenu:${rootProject.property("modmenu_version")}")
     modApi("me.shedaniel.cloth:cloth-config-fabric:${rootProject.property("cloth_config_version")}")
-    modRuntimeOnly("maven.modrinth:mcbrowser:${rootProject.property("mcbrowser_version")}")
-    modRuntimeOnly("com.cinemamod:mcef-fabric:${rootProject.property("mcef_version")}")
+    if (rootProject.hasProperty("with_mcef") && rootProject.property("with_mcef") == "true") {
+        modRuntimeOnly("maven.modrinth:mcbrowser:${rootProject.property("mcbrowser_version")}")
+        modRuntimeOnly("com.cinemamod:mcef-fabric:${rootProject.property("mcef_version")}")
+    }
     if (rootProject.hasProperty("with_rei") && rootProject.property("with_rei") == "true") {
         modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rootProject.property("rei_version")}")
     }

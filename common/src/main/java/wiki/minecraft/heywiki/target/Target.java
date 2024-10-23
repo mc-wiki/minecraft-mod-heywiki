@@ -97,7 +97,7 @@ public interface Target {
             }
         }
 
-        return new IdentifierTarget(Registries.ITEM.getId(stack.getItem()), stack.getTranslationKey());
+        return new IdentifierTarget(Registries.ITEM.getId(stack.getItem()), stack.getItem().getTranslationKey());
     }
 
     /**

@@ -27,67 +27,61 @@ import static dev.architectury.event.events.client.ClientCommandRegistrationEven
 import static wiki.minecraft.heywiki.wiki.WikiPage.NO_FAMILY_EXCEPTION;
 
 public class WhatStructureCommand {
-    public static final SimpleCommandExceptionType NO_INTEGRATED_SERVER =
-            new SimpleCommandExceptionType(Text.translatable("commands.whatstructure.no_integrated_server"));
-    public static final SimpleCommandExceptionType NO_STRUCTURE =
-            new SimpleCommandExceptionType(Text.translatable("commands.whatstructure.no_structure"));
+    public static final SimpleCommandExceptionType NO_INTEGRATED_SERVER = new SimpleCommandExceptionType(
+            Text.translatable("commands.whatstructure.no_integrated_server"));
+    public static final SimpleCommandExceptionType NO_STRUCTURE = new SimpleCommandExceptionType(
+            Text.translatable("commands.whatstructure.no_structure"));
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
 
     @SuppressWarnings("UnusedReturnValue")
     public static LiteralCommandNode<ClientCommandRegistrationEvent.ClientCommandSourceStack> register(
             CommandDispatcher<ClientCommandRegistrationEvent.ClientCommandSourceStack> dispatcher) {
-        return dispatcher.register(
-                literal("whatstructure")
-                        .executes(ctx -> {
-                            if (CLIENT.player == null || CLIENT.world == null) return -1;
+        return dispatcher.register(literal("whatstructure").executes(ctx -> {
+            if (CLIENT.player == null || CLIENT.world == null) return -1;
 
-                            var block = CLIENT.player.getBlockPos();
+            var block = CLIENT.player.getBlockPos();
 
-                            if (!CLIENT.isIntegratedServerRunning()) {
-                                throw NO_INTEGRATED_SERVER.create();
-                            }
+            if (!CLIENT.isIntegratedServerRunning()) {
+                throw NO_INTEGRATED_SERVER.create();
+            }
 
-                            IntegratedServer server = CLIENT.getServer();
-                            UUID playerUuid = CLIENT.player.getUuid();
+            IntegratedServer server = CLIENT.getServer();
+            UUID playerUuid = CLIENT.player.getUuid();
 
-                            var playerManager = Objects.requireNonNull(server).getPlayerManager();
-                            var serverPlayer = playerManager.getPlayer(playerUuid);
-                            var serverWorld = Objects.requireNonNull(serverPlayer).getServerWorld();
-                            var chunkPos = new ChunkPos(block);
-                            Chunk chunk = serverWorld.getChunk(chunkPos.x, chunkPos.z,
-                                                               ChunkStatus.STRUCTURE_REFERENCES,
-                                                               false);
-                            if (chunk == null) {
-                                return -1;
-                            }
+            var playerManager = Objects.requireNonNull(server).getPlayerManager();
+            var serverPlayer = playerManager.getPlayer(playerUuid);
+            var serverWorld = Objects.requireNonNull(serverPlayer).getServerWorld();
+            var chunkPos = new ChunkPos(block);
+            Chunk chunk = serverWorld.getChunk(chunkPos.x, chunkPos.z, ChunkStatus.STRUCTURE_REFERENCES, false);
+            if (chunk == null) {
+                return -1;
+            }
 
-                            Map<Structure, LongSet> references = chunk.getStructureReferences();
-                            for (Map.Entry<Structure, LongSet> entry : references.entrySet()) {
-                                Structure structure = entry.getKey();
-                                LongSet positions = entry.getValue();
-                                var startChunkPos = new ChunkPos(positions.toLongArray()[0]);
-                                Chunk startChunk = serverWorld.getChunk(startChunkPos.x, startChunkPos.z,
-                                                                        ChunkStatus.STRUCTURE_STARTS,
-                                                                        false);
-                                assert startChunk != null;
-                                StructureStart structureStart = startChunk.getStructureStart(structure);
-                                assert structureStart != null;
-                                BlockBox boundingBox = structureStart.getBoundingBox();
-                                if (boundingBox.contains(block)) {
-                                    var strucutreRegistryEntry = serverWorld.getRegistryManager()
-                                                                            .get(RegistryKeys.STRUCTURE)
-                                                                            .getEntry(structure);
-                                    var target = Target.of(strucutreRegistryEntry, "structure");
-                                    if (target == null) return -1;
-                                    var page = WikiPage.fromTarget(target);
-                                    if (page == null) {
-                                        throw NO_FAMILY_EXCEPTION.create();
-                                    }
-                                    page.openInBrowserCommand(null);
-                                    return Command.SINGLE_SUCCESS;
-                                }
-                            }
-                            throw NO_STRUCTURE.create();
-                        }));
+            Map<Structure, LongSet> references = chunk.getStructureReferences();
+            for (Map.Entry<Structure, LongSet> entry : references.entrySet()) {
+                Structure structure = entry.getKey();
+                LongSet positions = entry.getValue();
+                var startChunkPos = new ChunkPos(positions.toLongArray()[0]);
+                Chunk startChunk = serverWorld.getChunk(startChunkPos.x, startChunkPos.z, ChunkStatus.STRUCTURE_STARTS,
+                                                        false);
+                assert startChunk != null;
+                StructureStart structureStart = startChunk.getStructureStart(structure);
+                assert structureStart != null;
+                BlockBox boundingBox = structureStart.getBoundingBox();
+                if (boundingBox.contains(block)) {
+                    var strucutreRegistryEntry = serverWorld.getRegistryManager().getOrThrow(RegistryKeys.STRUCTURE)
+                                                            .getEntry(structure);
+                    var target = Target.of(strucutreRegistryEntry, "structure");
+                    if (target == null) return -1;
+                    var page = WikiPage.fromTarget(target);
+                    if (page == null) {
+                        throw NO_FAMILY_EXCEPTION.create();
+                    }
+                    page.openInBrowserCommand(null);
+                    return Command.SINGLE_SUCCESS;
+                }
+            }
+            throw NO_STRUCTURE.create();
+        }));
     }
 }

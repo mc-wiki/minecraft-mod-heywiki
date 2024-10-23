@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget.Entry;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.texture.AbstractTexture;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
@@ -60,7 +61,7 @@ public class SuggestionEntryWidget extends Entry<SuggestionEntryWidget> {
         var icon = this.getIconTexture();
         if (icon != null) {
             RenderSystem.enableBlend();
-            DrawContext.drawTexture(this.getIconTexture(), x + 22, y, 0.0F, 0.0F, iconSize, iconSize, iconSize,
+            DrawContext.drawTexture(RenderLayer::getGuiTextured, this.getIconTexture(), x + 22, y, 0.0F, 0.0F, iconSize, iconSize, iconSize,
                                     iconSize);
             RenderSystem.disableBlend();
         }

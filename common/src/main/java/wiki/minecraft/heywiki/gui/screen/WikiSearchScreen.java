@@ -123,7 +123,7 @@ public class WikiSearchScreen extends Screen {
         });
 
         this.layout.forEachChild(this::addDrawableChild);
-        this.initTabNavigation();
+        this.refreshWidgetPositions();
         this.onSearchChange(this.textField.getText());
     }
 
@@ -184,7 +184,7 @@ public class WikiSearchScreen extends Screen {
         super.close();
     }
 
-    @Override protected void initTabNavigation() {
+    @Override protected void refreshWidgetPositions() {
         this.layout.refreshPositions();
         SimplePositioningWidget.setPos(this.layout, this.getNavigationFocus());
     }

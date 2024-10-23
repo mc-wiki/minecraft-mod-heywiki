@@ -2,10 +2,7 @@ package wiki.minecraft.heywiki.resource;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.mojang.logging.LogUtils;
-import com.mojang.serialization.JsonOps;
 import net.minecraft.resource.JsonDataLoader;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
@@ -23,15 +20,14 @@ import java.util.stream.Collectors;
  *
  * @see WikiFamily
  */
-public class WikiFamilyManager extends JsonDataLoader {
+public class WikiFamilyManager extends JsonDataLoader<WikiFamily> {
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final String PATH = "wiki_family";
-    private static final Gson GSON = new Gson();
-    private final BiMap<Identifier, WikiFamily> WIKI_FAMILY_MAP = HashBiMap.create();
+    private BiMap<Identifier, WikiFamily> WIKI_FAMILY_MAP = HashBiMap.create();
     private Map<String, WikiIndividual> activeWikis = new HashMap<>();
 
     public WikiFamilyManager() {
-        super(GSON, PATH);
+        super(WikiFamily.CODEC, PATH);
     }
 
     /**
@@ -158,17 +154,8 @@ public class WikiFamilyManager extends JsonDataLoader {
     }
 
     @Override
-    protected void apply(Map<Identifier, JsonElement> prepared, ResourceManager manager, Profiler profiler) {
-        WIKI_FAMILY_MAP.clear();
-        prepared.forEach((key, value) -> {
-            try {
-                WikiFamily wikiFamily = WikiFamily.CODEC.parse(JsonOps.INSTANCE, value).resultOrPartial(LOGGER::error)
-                                                        .orElseThrow();
-                WIKI_FAMILY_MAP.put(key, wikiFamily);
-            } catch (Exception e) {
-                LOGGER.error("Failed to load wiki family config from {}", key, e);
-            }
-        });
+    protected void apply(Map<Identifier, WikiFamily> prepared, ResourceManager manager, Profiler profiler) {
+        WIKI_FAMILY_MAP = HashBiMap.create(prepared);
         activeWikis = resolveActiveWikis();
 
         LOGGER.info("Loaded {} wiki families", WIKI_FAMILY_MAP.size());

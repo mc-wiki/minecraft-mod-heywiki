@@ -1,7 +1,10 @@
-# v1.7.0+1.21.1
+# v1.7.0+1.21.2
+
+Hey Wiki now supports BoB!
 
 ## Changes
 
+- Ported to 1.21.2. Please report any issues you may have!
 - Now supports searching the AE2 guide
 
 ### APIs

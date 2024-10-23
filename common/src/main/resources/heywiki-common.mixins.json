@@ -7,7 +7,6 @@
     "defaultRequire": 1
   },
   "client": [
-    "AbstractInventoryScreenMixin",
     "ChatScreenMixin",
     "GameMenuScreenMixin",
     "GameRendererMixin",
@@ -17,6 +16,7 @@
     "RecipeBookWidgetMixin",
     "ScreenMixin",
     "SplashTextResourceSupplierMixin",
+    "StatusEffectsDisplayMixin",
     "TranslationStorageFactory",
     "integration.emi.EmiScreenManagerMixin",
     "integration.emi.RecipeScreenMixin",

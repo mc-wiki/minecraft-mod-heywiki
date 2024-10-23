@@ -11,6 +11,7 @@ import net.minecraft.resource.DataConfiguration;
 import net.minecraft.resource.ResourcePackManager;
 import net.minecraft.resource.VanillaDataPackProvider;
 import net.minecraft.resource.featuretoggle.FeatureFlags;
+import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.server.SaveLoader;
 import net.minecraft.server.SaveLoading;
 import net.minecraft.server.command.CommandManager;
@@ -43,7 +44,7 @@ public class GameTestClientEntry implements ClientModInitializer {
         SaveLoading.ServerConfig serverConfig = new SaveLoading.ServerConfig(dataPacks,
                                                                              CommandManager.RegistrationEnvironment.INTEGRATED,
                                                                              2);
-        GameRules gameRules = Util.make(new GameRules(), gr -> {
+        GameRules gameRules = Util.make(new GameRules(FeatureSet.empty()), gr -> {
             gr.get(GameRules.DO_MOB_SPAWNING).set(false, null);
             gr.get(GameRules.DO_WEATHER_CYCLE).set(false, null);
             gr.get(GameRules.RANDOM_TICK_SPEED).set(0, null);
@@ -52,47 +53,38 @@ public class GameTestClientEntry implements ClientModInitializer {
         dataPackManager.scanPacks();
         DataConfiguration dataConfiguration = new DataConfiguration(
                 ModResourcePackUtil.createTestServerSettings(new ArrayList<>(dataPackManager.getIds()), List.of()),
-                FeatureFlags.FEATURE_MANAGER.getFeatureSet()
-        );
+                FeatureFlags.FEATURE_MANAGER.getFeatureSet());
         LevelInfo levelInfo = new LevelInfo("Test Level", GameMode.CREATIVE, false, Difficulty.NORMAL, true, gameRules,
                                             dataConfiguration);
         GeneratorOptions generatorOptions = new GeneratorOptions(0L, false, false);
 
         SaveLoader saveLoader;
         try {
-            saveLoader = Util.waitAndApply(executor -> SaveLoading.load(
-                    serverConfig,
-                    context -> {
-                        Registry<DimensionOptions> registry = new SimpleRegistry<>(RegistryKeys.DIMENSION,
-                                                                                   Lifecycle.stable()).freeze();
-                        DimensionOptionsRegistryHolder.DimensionsConfig dimensionsConfig = context.worldGenRegistryManager()
-                                                                                                  .get(RegistryKeys.WORLD_PRESET)
-                                                                                                  .entryOf(
-                                                                                                          WorldPresets.FLAT)
-                                                                                                  .value()
-                                                                                                  .createDimensionsRegistryHolder()
-                                                                                                  .toConfig(registry);
-                        return new SaveLoading.LoadContext<>(
-                                new LevelProperties(levelInfo, generatorOptions,
-                                                    dimensionsConfig.specialWorldProperty(),
-                                                    dimensionsConfig.getLifecycle()),
-                                dimensionsConfig.toDynamicRegistryManager()
-                        );
-                    },
-                    SaveLoader::new,
-                    Util.getMainWorkerExecutor(),
-                    executor)).get();
+            saveLoader = Util.waitAndApply(executor -> SaveLoading.load(serverConfig, context -> {
+                Registry<DimensionOptions> registry = new SimpleRegistry<>(RegistryKeys.DIMENSION,
+                                                                           Lifecycle.stable()).freeze();
+                DimensionOptionsRegistryHolder.DimensionsConfig dimensionsConfig = context.worldGenRegistryManager()
+                                                                                          .getOrThrow(
+                                                                                                  RegistryKeys.WORLD_PRESET)
+                                                                                          .getOrThrow(WorldPresets.FLAT)
+                                                                                          .value()
+                                                                                          .createDimensionsRegistryHolder()
+                                                                                          .toConfig(registry);
+                return new SaveLoading.LoadContext<>(
+                        new LevelProperties(levelInfo, generatorOptions, dimensionsConfig.specialWorldProperty(),
+                                            dimensionsConfig.getLifecycle()),
+                        dimensionsConfig.toDynamicRegistryManager());
+            }, SaveLoader::new, Util.getMainWorkerExecutor(), executor)).get();
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
 
 
         try (var session = client.getLevelStorage().createSession("Test Level")) {
-            client.execute(() -> client
-                    .createIntegratedServerLoader()
-                    .startNewWorld(session, saveLoader.dataPackContents(),
-                                   saveLoader.combinedDynamicRegistries(),
-                                   saveLoader.saveProperties()));
+            client.execute(() -> client.createIntegratedServerLoader()
+                                       .startNewWorld(session, saveLoader.dataPackContents(),
+                                                      saveLoader.combinedDynamicRegistries(),
+                                                      saveLoader.saveProperties()));
         } catch (IOException | SymlinkValidationException e) {
             throw new RuntimeException(e);
         }

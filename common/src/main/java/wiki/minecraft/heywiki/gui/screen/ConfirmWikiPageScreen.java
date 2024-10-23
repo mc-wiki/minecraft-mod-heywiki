@@ -175,7 +175,7 @@ public class ConfirmWikiPageScreen extends Screen {
         buttonLayout.add(this.createButtonLayout(), positioner -> positioner.marginBottom(20));
 
         this.layout.forEachChild(this::addDrawableChild);
-        this.initTabNavigation();
+        this.refreshWidgetPositions();
     }
 
     private IconWidget createImageWidget() {
@@ -240,7 +240,7 @@ public class ConfirmWikiPageScreen extends Screen {
     }
 
     @Override
-    protected void initTabNavigation() {
+    protected void refreshWidgetPositions() {
         this.layout.refreshPositions();
         SimplePositioningWidget.setPos(this.layout, this.getNavigationFocus());
     }
