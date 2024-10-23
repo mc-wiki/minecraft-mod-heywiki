@@ -218,17 +218,13 @@ For Fabric:
 - (Required) [Cloth Config](https://modrinth.com/mod/cloth-config): for configuration
 - (Recommended) [Mod Menu](https://modrinth.com/mod/modmenu): to access the config menu
 - (Optional) [MCBrowser](https://modrinth.com/mod/mcbrowser) and [MCEF](https://modrinth.com/mod/mcef): for in-game browser
-- (Optional) [Roughly Enough Items (REI)](https://modrinth.com/mod/roughly-enough-items): for REI integration
-- (Optional) [EMI](https://modrinth.com/mod/emi): for EMI integration
-- (Optional) [JEI](https://modrinth.com/mod/jei): for JEI integration
+- (Optional) [REI](https://modrinth.com/mod/roughly-enough-items)/[EMI](https://modrinth.com/mod/emi)/[JEI](https://modrinth.com/mod/jei): integration supported
 
 For NeoForge:
 
 - (Required) [Architectury API](https://modrinth.com/mod/architectury-api): for multi-modloader compatibility
 - (Required) [Cloth Config](https://modrinth.com/mod/cloth-config): for configuration
-- (Optional) [Roughly Enough Items (REI)](https://modrinth.com/mod/roughly-enough-items): for REI integration
-- (Optional) [EMI](https://modrinth.com/mod/emi): for EMI integration
-- (Optional) [JEI](https://modrinth.com/mod/jei): for JEI integration
+- (Optional) [REI](https://modrinth.com/mod/roughly-enough-items)/[EMI](https://modrinth.com/mod/emi)/[JEI](https://modrinth.com/mod/jei): integration supported
 
 ## Versioning
 
@@ -267,7 +263,7 @@ The following table shows which versions are supported:
 
 | Git branch  | Minecraft version    | Supported?        | Is LTS? | Modloader        |
 |-------------|----------------------|-------------------|---------|------------------|
-| `master`    | 1.21.2               | Active (Latest)   | ?       | Fabric, Neoforge |
+| `master`    | 1.21.2, 1.21.3       | Active (Latest)   | ?       | Fabric, Neoforge |
 | `mc/1.21.1` | 1.21, 1.21.1         | Active (LTS)      | Yes     | Fabric, Neoforge |
 | `mc/1.20.6` | 1.20.6               | EOL               | No      | Fabric, Neoforge |
 | `mc/1.20.5` | 1.20.5               | EOL               | No      | Fabric, Neoforge |
