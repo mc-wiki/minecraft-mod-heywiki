@@ -1,6 +1,12 @@
 {
+  "commands.imfeelinglucky.not_supported": "Die angegebene Wiki-Familie unterstützt die Zufallsartikel-Funktion nicht",
+  "commands.whatstructure.no_integrated_server": "/whatstructure erfordert eine lokale Einzelspielerwelt",
+  "commands.whatstructure.no_structure": "Keine Struktur gefunden",
   "gui.heywiki.no_family": "Wiki nicht gefunden",
+  "gui.heywiki.no_item_held": "Es wird kein Gegenstand gehalten",
+  "gui.heywiki.too_far": "Du visierst nichts an. Willst du vielleicht näher kommen?",
   "gui.heywiki_confirm_link.loading_excerpt": "Lade Seitenbeschreibung...",
+  "gui.heywiki_search.no_suggestions": "Für dieses Wiki sind keine Vorschläge verfügbar. Du kannst die Schaltfläche unten drücken, um direkt im Wiki zu suchen.",
   "gui.heywiki_search.placeholder": "Wiki durchsuchen",
   "gui.heywiki_search.search": "Suchen",
   "gui.heywiki_search.switch_wiki": "Wiki ändern",
