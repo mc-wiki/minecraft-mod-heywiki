@@ -265,10 +265,11 @@ Old snapshots are not supported.
 
 The following table shows which versions are supported:
 
-| Git branch  | Minecraft version    | Supported?              | Is LTS? | Modloader        |
-|-------------|----------------------|-------------------------|---------|------------------|
-| `master`    | 1.21, 1.21.1         | Active (latest release) | Yes     | Fabric, Neoforge |
-| `mc/1.20.6` | 1.20.6               | EOL                     | No      | Fabric, Neoforge |
-| `mc/1.20.5` | 1.20.5               | EOL                     | No      | Fabric, Neoforge |
-| `mc/1.20.4` | 1.20.4               | Maintenance (LTS)       | Yes     | Fabric, Neoforge |
-| N/A         | *Outdated snapshots* | EOL                     | No      | Fabric           |
+| Git branch  | Minecraft version    | Supported?        | Is LTS? | Modloader        |
+|-------------|----------------------|-------------------|---------|------------------|
+| `master`    | 1.21.2               | Active (Latest)   | ?       | Fabric, Neoforge |
+| `mc/1.21.1` | 1.21, 1.21.1         | Active (LTS)      | Yes     | Fabric, Neoforge |
+| `mc/1.20.6` | 1.20.6               | EOL               | No      | Fabric, Neoforge |
+| `mc/1.20.5` | 1.20.5               | EOL               | No      | Fabric, Neoforge |
+| `mc/1.20.4` | 1.20.4               | Maintenance (LTS) | Yes     | Fabric, Neoforge |
+| N/A         | *Outdated snapshots* | EOL               | No      | Fabric           |
