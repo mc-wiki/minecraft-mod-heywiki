@@ -100,6 +100,8 @@ Currently, Hey Wiki supports the following wikis:
 - [Voidscape Wiki](https://voidscape.tamaized.com/)
 - [Advent of Ascension Wiki](https://adventofascension.fandom.com/wiki/)
 - [Doggy Talents Next Wiki](https://doggytalentsnext.wiki.gg/)
+- [Endertech Infinity Wiki](https://endertechinfinity.wiki.gg/)
+- [Marvel Superheroes Mod Wiki](https://marvelsuperheroesmod.wiki.gg/)
 
 If you want to add support for other wikis, you can
 [file an issue](https://github.com/mc-wiki/minecraft-mod-heywiki/issues/new?labels=new+wiki%2Ctriage+needed&template=new_wiki.yml).
