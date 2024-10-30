@@ -1,6 +1,5 @@
-# v1.7.1+1.21.1
+# v1.7.2+1.21.1
 
 ## Changes
 
-- New wiki: [Endertech Infinity Wiki](https://endertechinfinity.wiki.gg/)
-- New wiki: [Marvel Superheroes Mod Wiki](https://marvelsuperheroesmod.wiki.gg/)
+- New wiki: [BlockFront Wiki](https://blockfront.wiki.gg/) (#79)
