@@ -4,6 +4,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.mojang.logging.LogUtils;
 import net.minecraft.resource.JsonDataLoader;
+import net.minecraft.resource.ResourceFinder;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
@@ -27,7 +28,7 @@ public class WikiFamilyManager extends JsonDataLoader<WikiFamily> {
     private Map<String, WikiIndividual> activeWikis = new HashMap<>();
 
     public WikiFamilyManager() {
-        super(WikiFamily.CODEC, PATH);
+        super(WikiFamily.CODEC, ResourceFinder.json(PATH));
     }
 
     /**

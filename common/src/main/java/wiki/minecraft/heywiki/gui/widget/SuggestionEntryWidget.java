@@ -101,7 +101,7 @@ public class SuggestionEntryWidget extends Entry<SuggestionEntryWidget> {
             String hash = Hex.encodeHexString(md.digest(imageUrl.getBytes(StandardCharsets.UTF_8)));
             var identifier = id(hash);
 
-            AbstractTexture texture = client.getTextureManager().getOrDefault(identifier, null);
+            AbstractTexture texture = client.getTextureManager().getTexture(identifier);
             return texture != null ? identifier : null;
         }).orElse(null);
     }

@@ -227,7 +227,7 @@ public class WikiSearchScreen extends Screen {
             var textureId = id(hash);
 
             assert this.client != null;
-            if (this.client.getTextureManager().getOrDefault(textureId, null) != null) return;
+            if (this.client.getTextureManager().getTexture(textureId) != null) return;
 
             this.executor.execute(() -> this.textures.add(textureId));
             byte[] imageArray = HttpUtil.loadAndCacheFile(imageUrl).join();
