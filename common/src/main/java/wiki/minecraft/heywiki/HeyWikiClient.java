@@ -17,6 +17,8 @@ import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import wiki.minecraft.heywiki.command.*;
+import wiki.minecraft.heywiki.entrypoint.ChatWikiLinks;
+import wiki.minecraft.heywiki.entrypoint.Raycast;
 import wiki.minecraft.heywiki.gui.screen.WikiSearchScreen;
 import wiki.minecraft.heywiki.resource.WikiFamilyManager;
 import wiki.minecraft.heywiki.resource.WikiTranslationManager;
