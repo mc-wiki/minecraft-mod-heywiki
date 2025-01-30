@@ -6,7 +6,7 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent.ClientCommandSourceStack;
 import net.minecraft.text.Text;
-import wiki.minecraft.heywiki.Raycast;
+import wiki.minecraft.heywiki.entrypoint.Raycast;
 import wiki.minecraft.heywiki.target.Target;
 import wiki.minecraft.heywiki.wiki.WikiPage;
 

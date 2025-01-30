@@ -1,4 +1,4 @@
-package wiki.minecraft.heywiki;
+package wiki.minecraft.heywiki.entrypoint;
 
 import dev.architectury.event.events.client.ClientGuiEvent;
 import dev.architectury.event.events.client.ClientTickEvent;
@@ -10,6 +10,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import org.jetbrains.annotations.Nullable;
+import wiki.minecraft.heywiki.HeyWikiClient;
 import wiki.minecraft.heywiki.mixin.GameRendererMixin;
 import wiki.minecraft.heywiki.target.Target;
 import wiki.minecraft.heywiki.wiki.WikiPage;

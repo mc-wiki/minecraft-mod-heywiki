@@ -1,4 +1,4 @@
-package wiki.minecraft.heywiki;
+package wiki.minecraft.heywiki.entrypoint;
 
 import dev.architectury.event.CompoundEventResult;
 import net.minecraft.network.message.MessageType;
@@ -6,6 +6,7 @@ import net.minecraft.text.ClickEvent;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import wiki.minecraft.heywiki.HeyWikiClient;
 import wiki.minecraft.heywiki.wiki.WikiFamily;
 import wiki.minecraft.heywiki.wiki.WikiIndividual;
 import wiki.minecraft.heywiki.wiki.WikiPage;
