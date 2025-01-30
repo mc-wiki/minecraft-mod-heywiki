@@ -1,6 +1,5 @@
-# v1.7.2+1.21.4
+# v1.7.3+1.21.4
 
-## Changes
+## Fixes
 
-- Ported to 1.21.4
-- New wiki: [BlockFront Wiki](https://blockfront.wiki.gg/) (#79)
+- Fixes icons not loading in search screen (#83)
