@@ -6,6 +6,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget.Entry;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.texture.AbstractTexture;
+import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -102,7 +103,7 @@ public class SuggestionEntryWidget extends Entry<SuggestionEntryWidget> {
             var identifier = id(hash);
 
             AbstractTexture texture = client.getTextureManager().getTexture(identifier);
-            return texture != null ? identifier : null;
+            return texture instanceof NativeImageBackedTexture ? identifier : null;
         }).orElse(null);
     }
 }

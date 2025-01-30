@@ -1,5 +1,6 @@
 package wiki.minecraft.heywiki.gui.screen;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -25,10 +26,7 @@ import wiki.minecraft.heywiki.wiki.WikiPage;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -104,7 +102,6 @@ public class WikiSearchScreen extends Screen {
                 this.wikiFamily = family;
                 this.wiki = family.getWiki();
                 this.entryList.clearSuggestions();
-                this.init();
             }));
         }).width(71).build());
 
@@ -124,7 +121,6 @@ public class WikiSearchScreen extends Screen {
 
         this.layout.forEachChild(this::addDrawableChild);
         this.refreshWidgetPositions();
-        this.onSearchChange(this.textField.getText());
     }
 
     private void onSearchChange(String term) {
@@ -227,14 +223,16 @@ public class WikiSearchScreen extends Screen {
             var textureId = id(hash);
 
             assert this.client != null;
-            if (this.client.getTextureManager().getTexture(textureId) != null) return;
 
             this.executor.execute(() -> this.textures.add(textureId));
             byte[] imageArray = HttpUtil.loadAndCacheFile(imageUrl).join();
 
-            this.executor.execute(() -> {
+            RenderSystem.recordRenderCall(() -> {
                 try {
                     BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageArray));
+                    if (image == null) {
+                        throw new RuntimeException("Failed to load image");
+                    }
 
                     int size = Math.min(image.getWidth(), image.getHeight());
                     image = image.getSubimage((image.getWidth() - size) / 2, (image.getHeight() - size) / 2, size,
@@ -249,7 +247,7 @@ public class WikiSearchScreen extends Screen {
                     if (nativeImage == null) throw new RuntimeException("Texture is null!");
                     NativeImageBackedTexture texture = new NativeImageBackedTexture(nativeImage);
                     this.client.getTextureManager().registerTexture(textureId, texture);
-                    this.init();
+                    this.refreshWidgetPositions();
                 } catch (IOException e) {
                     LOGGER.error("Failed to load image", e);
                 }
