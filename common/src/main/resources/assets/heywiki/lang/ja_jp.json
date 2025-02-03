@@ -14,7 +14,7 @@
   "key.categories.heywiki": "Hey Wiki",
   "key.heywiki.open": "Wikiの記事を開く",
   "key.heywiki.open_search": "Wikiで検索",
-  "options.heywiki.general": "全般",
+  "options.heywiki.category.search": "検索",
   "options.heywiki.language.auto": "自動：ゲームの言語を使用",
   "options.heywiki.language.description": "お好みの言語を設定することで、ゲームの言語設定を上書きできます。",
   "options.heywiki.language.name": "Wikiの言語",

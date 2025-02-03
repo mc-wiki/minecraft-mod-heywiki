@@ -14,7 +14,7 @@
   "key.categories.heywiki": "Hey Wiki",
   "key.heywiki.open": "Apri l'articolo wiki",
   "key.heywiki.open_search": "Apri l'articolo wiki",
-  "options.heywiki.general": "Generale",
+  "options.heywiki.category.search": "Cerca",
   "options.heywiki.language.auto": "auto: Usa la lingua del gioco",
   "options.heywiki.language.description": "Imposta la tua lingua preferita, ignorando le impostazioni della lingua del gioco.",
   "options.heywiki.language.name": "Lingua Wiki",
