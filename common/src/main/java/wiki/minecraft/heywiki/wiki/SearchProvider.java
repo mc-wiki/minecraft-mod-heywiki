@@ -9,6 +9,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.StringIdentifiable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import wiki.minecraft.heywiki.HeyWikiClient;
 import wiki.minecraft.heywiki.util.HttpUtil;
 
 import java.io.IOException;
@@ -41,7 +42,8 @@ public interface SearchProvider {
         }
     }
 
-    record Suggestion(String title, int index, Optional<String> redirectsTo, Optional<String> imageUrl, Optional<String> realUrl)
+    record Suggestion(String title, int index, Optional<String> redirectsTo, Optional<String> imageUrl,
+                      Optional<String> realUrl)
             implements Comparable<Suggestion> {
         @Override public int compareTo(@NotNull Suggestion o) {
             return Integer.compare(index, o.index);
@@ -49,15 +51,22 @@ public interface SearchProvider {
     }
 
     record MediaWikiProvider() implements SearchProvider {
-        public static final String SUGGESTION_URL = "action=query&format=json&formatversion=2" +
-                                                    "&converttitles=true&redirects=true" +
-                                                    "&prop=info|pageimages&inprop=url&pilicense=any&piprop=thumbnail" +
-                                                    "&generator=prefixsearch&gpssearch=%s";
+        private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
+        public static final String PREFIX_SEARCH_SUGGESTION_URL = "action=query&format=json&formatversion=2" +
+                                                                  "&converttitles=true&redirects=true" +
+                                                                  "&prop=info|pageimages&inprop=url&pilicense=any&piprop=thumbnail" +
+                                                                  "&generator=prefixsearch&gpssearch=%s";
+        public static final String SEARCH_SUGGESTION_URL = "action=query&format=json&formatversion=2" +
+                                                           "&converttitles=true&redirects=true" +
+                                                           "&prop=info|pageimages&inprop=url&pilicense=any&piprop=thumbnail" +
+                                                           "&generator=search&gsrsearch=%s";
 
         @Override public SequencedSet<Suggestion> search(String term, WikiIndividual wiki)
                 throws IOException, InterruptedException {
             String apiUrl = wiki.mwApiUrl().orElseThrow();
-            URI uri = HttpUtil.uriWithQuery(URI.create(apiUrl), SUGGESTION_URL.formatted(term));
+            URI uri = HttpUtil.uriWithQuery(URI.create(apiUrl), (MOD.config().prefixSearch()
+                    ? PREFIX_SEARCH_SUGGESTION_URL
+                    : SEARCH_SUGGESTION_URL).formatted(term));
 
             String response = HttpUtil.request(uri);
 
@@ -78,7 +87,8 @@ public interface SearchProvider {
                         int index = redirect.get("index").getAsInt();
                         String from = redirect.get("from").getAsString();
                         String to = redirect.get("to").getAsString();
-                        return new SearchProvider.Suggestion(from, index, Optional.of(to), Optional.empty(), Optional.empty());
+                        return new SearchProvider.Suggestion(from, index, Optional.of(to), Optional.empty(),
+                                                             Optional.empty());
                     })
                     .collect(Collectors.toMap((redirect) -> redirect.redirectsTo().orElseThrow(),
                                               suggestion -> suggestion,
@@ -101,7 +111,8 @@ public interface SearchProvider {
                             if (redirectMap.containsKey(title)) {
                                 var redirect = redirectMap.get(title);
                                 return new SearchProvider.Suggestion(redirect.title(), index, Optional.of(title),
-                                                                     Optional.ofNullable(imageUrl), Optional.of(realUrl));
+                                                                     Optional.ofNullable(imageUrl),
+                                                                     Optional.of(realUrl));
                             }
 
                             return new SearchProvider.Suggestion(title, index, Optional.empty(),

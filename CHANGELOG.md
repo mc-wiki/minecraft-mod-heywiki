@@ -2,4 +2,4 @@
 
 ## Changes
 
-- No visible changes, just internal code refactoring.
+- Added option to use normal search instead of prefix search (#85)

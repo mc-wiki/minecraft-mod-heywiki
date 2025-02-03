@@ -75,7 +75,10 @@ public class HeyWikiConfig {
                                                 .forGetter(HeyWikiConfig::zhVariant),
                                     Identifier.CODEC.fieldOf("searchDefaultWikiFamily")
                                                     .orElse(id("minecraft"))
-                                                    .forGetter(HeyWikiConfig::searchDefaultWikiFamily)
+                                                    .forGetter(HeyWikiConfig::searchDefaultWikiFamily),
+                                    Codec.BOOL.fieldOf("prefixSearch")
+                                              .orElse(true)
+                                              .forGetter(HeyWikiConfig::prefixSearch)
                                   )
                             .apply(instance, HeyWikiConfig::new));
 
@@ -146,9 +149,15 @@ public class HeyWikiConfig {
 
     private Identifier searchDefaultWikiFamily;
 
+    public boolean prefixSearch() {
+        return prefixSearch;
+    }
+
+    private boolean prefixSearch;
+
     private HeyWikiConfig(boolean requiresConfirmation, boolean requiresConfirmationCommand, double raycastReach,
                           boolean raycastAllowFluid, String language, String zhVariant,
-                          Identifier searchDefaultWikiFamily) {
+                          Identifier searchDefaultWikiFamily, boolean prefixSearch) {
         this.requiresConfirmation = requiresConfirmation;
         this.requiresConfirmationCommand = requiresConfirmationCommand;
         this.raycastReach = raycastReach;
@@ -156,6 +165,7 @@ public class HeyWikiConfig {
         this.language = language;
         this.zhVariant = zhVariant;
         this.searchDefaultWikiFamily = searchDefaultWikiFamily;
+        this.prefixSearch = prefixSearch;
     }
 
     /**
@@ -174,7 +184,9 @@ public class HeyWikiConfig {
                                              .setParentScreen(parent)
                                              .setTitle(Text.translatable("options.heywiki.title"));
 
-        ConfigCategory general = builder.getOrCreateCategory(Text.translatable("options.heywiki.general"));
+        ConfigCategory general = builder.getOrCreateCategory(Text.translatable("options.heywiki.category.general"));
+        ConfigCategory search = builder.getOrCreateCategory(Text.translatable("options.heywiki.category.search"));
+        ConfigCategory language = builder.getOrCreateCategory(Text.translatable("options.heywiki.category.language"));
 
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
         general.addEntry(entryBuilder
@@ -210,52 +222,61 @@ public class HeyWikiConfig {
                                  .setSaveConsumer(newValue -> this.raycastAllowFluid = newValue)
                                  .build());
         general.addEntry(entryBuilder
-                                 .startDropdownMenu(Text.translatable("options.heywiki.language.name"),
-                                                    DropdownMenuBuilder.TopCellElementBuilder.of(this.language,
-                                                                                                 HeyWikiConfig::normalizeLanguageName,
-                                                                                                 HeyWikiConfig::languageDescription),
-                                                    DropdownMenuBuilder.CellCreatorBuilder.of(
-                                                            HeyWikiConfig::languageDescription))
-                                 .setSelections(languages)
-                                 .setDefaultValue("auto")
-                                 .setSuggestionMode(false)
-                                 .setTooltip(Text.translatable("options.heywiki.language.description"))
-                                 .setSaveConsumer(newValue -> {
-                                     if (!(newValue).equals(this.language()))
-                                         requireReload.set(true);
-                                     this.language = newValue;
-                                 })
-                                 .build());
-        general.addEntry(entryBuilder
-                                 .startDropdownMenu(Text.translatable("options.heywiki.zh_variant.name"),
-                                                    DropdownMenuBuilder.TopCellElementBuilder.of(this.zhVariant,
-                                                                                                 HeyWikiConfig::normalizeLanguageName,
-                                                                                                 HeyWikiConfig::zhVariantDescription),
-                                                    DropdownMenuBuilder.CellCreatorBuilder.of(
-                                                            HeyWikiConfig::zhVariantDescription))
-                                 .setDisplayRequirement(() -> {
-                                     for (var wiki : MOD.familyManager().activeWikis().values()) {
-                                         if (wiki.language().wikiLanguage().startsWith("zh")) {
-                                             return true;
-                                         }
-                                     }
-                                     return false;
-                                 })
-                                 .setSelections(List.of("auto", "zh", "zh-cn", "zh-tw", "zh-hk"))
-                                 .setDefaultValue("auto")
-                                 .setSuggestionMode(false)
-                                 .setTooltip(Text.translatable("options.heywiki.zh_variant.description"))
-                                 .setSaveConsumer(newValue -> this.zhVariant = newValue)
-                                 .build());
-        general.addEntry(entryBuilder
                                  .fillKeybindingField(Text.translatable("key.heywiki.open"), HeyWikiClient.openWikiKey)
                                  .setTooltip(Text.translatable("options.heywiki.open_key.description"))
                                  .build());
-        general.addEntry(entryBuilder
-                                 .fillKeybindingField(Text.translatable("key.heywiki.open_search"),
-                                                      HeyWikiClient.openWikiSearchKey)
-                                 .setTooltip(Text.translatable("options.heywiki.open_key.description"))
-                                 .build());
+
+        language.addEntry(entryBuilder
+                                  .startDropdownMenu(Text.translatable("options.heywiki.language.name"),
+                                                     DropdownMenuBuilder.TopCellElementBuilder.of(this.language,
+                                                                                                  HeyWikiConfig::normalizeLanguageName,
+                                                                                                  HeyWikiConfig::languageDescription),
+                                                     DropdownMenuBuilder.CellCreatorBuilder.of(
+                                                             HeyWikiConfig::languageDescription))
+                                  .setSelections(languages)
+                                  .setDefaultValue("auto")
+                                  .setSuggestionMode(false)
+                                  .setTooltip(Text.translatable("options.heywiki.language.description"))
+                                  .setSaveConsumer(newValue -> {
+                                      if (!(newValue).equals(this.language()))
+                                          requireReload.set(true);
+                                      this.language = newValue;
+                                  })
+                                  .build());
+        language.addEntry(entryBuilder
+                                  .startDropdownMenu(Text.translatable("options.heywiki.zh_variant.name"),
+                                                     DropdownMenuBuilder.TopCellElementBuilder.of(this.zhVariant,
+                                                                                                  HeyWikiConfig::normalizeLanguageName,
+                                                                                                  HeyWikiConfig::zhVariantDescription),
+                                                     DropdownMenuBuilder.CellCreatorBuilder.of(
+                                                             HeyWikiConfig::zhVariantDescription))
+                                  .setDisplayRequirement(() -> {
+                                      for (var wiki : MOD.familyManager().activeWikis().values()) {
+                                          if (wiki.language().wikiLanguage().startsWith("zh")) {
+                                              return true;
+                                          }
+                                      }
+                                      return false;
+                                  })
+                                  .setSelections(List.of("auto", "zh", "zh-cn", "zh-tw", "zh-hk"))
+                                  .setDefaultValue("auto")
+                                  .setSuggestionMode(false)
+                                  .setTooltip(Text.translatable("options.heywiki.zh_variant.description"))
+                                  .setSaveConsumer(newValue -> this.zhVariant = newValue)
+                                  .build());
+
+        search.addEntry(entryBuilder
+                                .startBooleanToggle(Text.translatable("options.heywiki.prefix_search.name"),
+                                                    this.raycastAllowFluid())
+                                .setDefaultValue(true)
+                                .setTooltip(Text.translatable("options.heywiki.prefix_search.description"))
+                                .setSaveConsumer(newValue -> this.prefixSearch = newValue)
+                                .build());
+        search.addEntry(entryBuilder
+                                .fillKeybindingField(Text.translatable("key.heywiki.open_search"),
+                                                     HeyWikiClient.openWikiSearchKey)
+                                .setTooltip(Text.translatable("options.heywiki.open_key.description"))
+                                .build());
 
         builder.setSavingRunnable(() -> save(requireReload.get()));
 
