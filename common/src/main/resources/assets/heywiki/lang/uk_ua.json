@@ -14,7 +14,7 @@
   "key.categories.heywiki": "Hey Wiki",
   "key.heywiki.open": "Відкрити вікі-статтю",
   "key.heywiki.open_search": "Відкрити вікі-статтю",
-  "options.heywiki.general": "Загальні",
+  "options.heywiki.category.search": "Пошук",
   "options.heywiki.language.auto": "авто: Викор. мову гри",
   "options.heywiki.language.description": "Установити бажану мову, змінивши налаштування мови гри.",
   "options.heywiki.language.name": "Мова вікі",

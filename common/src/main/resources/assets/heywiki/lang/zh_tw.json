@@ -14,7 +14,7 @@
   "key.categories.heywiki": "Hey Wiki",
   "key.heywiki.open": "開啟 wiki 條目",
   "key.heywiki.open_search": "開啟 wiki 條目",
-  "options.heywiki.general": "一般",
+  "options.heywiki.category.search": "搜尋",
   "options.heywiki.language.auto": "自動：採用遊戲語言",
   "options.heywiki.language.description": "設定您偏好的語言以取代遊戲的語言設定。",
   "options.heywiki.language.name": "wiki 語言",

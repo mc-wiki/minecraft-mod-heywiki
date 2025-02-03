@@ -14,7 +14,7 @@
   "key.categories.heywiki": "Hey Wiki",
   "key.heywiki.open": "Открыть статью на вики",
   "key.heywiki.open_search": "Открыть статью на вики",
-  "options.heywiki.general": "Общие",
+  "options.heywiki.category.search": "Поиск",
   "options.heywiki.language.auto": "Автоматически: Использовать язык игры",
   "options.heywiki.language.description": "Укажите свой предпочтительный язык, который не будет зависеть от языка игры.",
   "options.heywiki.language.name": "Язык вики",

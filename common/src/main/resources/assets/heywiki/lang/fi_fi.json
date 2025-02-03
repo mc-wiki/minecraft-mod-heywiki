@@ -14,7 +14,7 @@
   "key.categories.heywiki": "Hei Wiki",
   "key.heywiki.open": "Avaa wiki-artikkeli",
   "key.heywiki.open_search": "Avaa wiki-artikkeli",
-  "options.heywiki.general": "Yleiset",
+  "options.heywiki.category.search": "Hae",
   "options.heywiki.language.auto": "auto: Käytä pelin kieltä",
   "options.heywiki.language.description": "Aseta haluamasi kieli, joka ohittaa pelin kieliasetuksen.",
   "options.heywiki.language.name": "Wikin kieli",
