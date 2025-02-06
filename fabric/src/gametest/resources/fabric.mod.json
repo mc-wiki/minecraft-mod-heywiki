@@ -8,7 +8,7 @@
     "client": [
       "wiki.minecraft.heywiki.gametest.GameTestClientEntry"
     ],
-    "fabric-gametest": [
+    "fabric-client-gametest": [
       "wiki.minecraft.heywiki.gametest.wiki.target.TargetTest"
     ]
   },

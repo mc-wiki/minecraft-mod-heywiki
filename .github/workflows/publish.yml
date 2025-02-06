@@ -75,7 +75,7 @@ jobs:
           loaders: ${{ matrix.loader.name }}
           files: ${{ matrix.loader.name }}/build/libs/!(*-sources|*-dev-shadow).jar
       - name: capture build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Artifacts
           path: ${{ matrix.loader.name }}/build/libs/
