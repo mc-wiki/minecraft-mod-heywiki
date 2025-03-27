@@ -7,6 +7,7 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent.ClientCommandSourceStack;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import wiki.minecraft.heywiki.target.Target;
@@ -26,10 +27,10 @@ public class WhatIsThisItemCommand {
         assert CLIENT.player == null;
         return dispatcher.register(
                 literal("whatisthisitem")
-                        .executes(ctx -> openBrowserForStack(CLIENT.player.getInventory().getMainHandStack()))
+                        .executes(ctx -> openBrowserForStack(CLIENT.player.getInventory().getSelectedStack()))
                         .then(literal("offhand")
                                       .executes(ctx -> openBrowserForStack(
-                                              CLIENT.player.getInventory().offHand.getFirst()))));
+                                              CLIENT.player.getInventory().getStack(PlayerInventory.OFF_HAND_SLOT)))));
     }
 
     private static int openBrowserForStack(ItemStack stack) throws CommandSyntaxException {

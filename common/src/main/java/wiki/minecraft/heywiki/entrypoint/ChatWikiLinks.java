@@ -16,8 +16,6 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static net.minecraft.text.ClickEvent.Action.OPEN_URL;
-
 /**
  * Handles wiki links in chat messages.
  */
@@ -46,7 +44,7 @@ public class ChatWikiLinks {
                 String link = matcher.group(1);
                 text.append(Text.literal(link).setStyle(
                         style
-                                .withClickEvent(new ClickEvent(OPEN_URL, linkToPage(link).getUri().toString()))
+                                .withClickEvent(new ClickEvent.OpenUrl(linkToPage(link).getUri()))
                                 .withUnderline(true)));
 
                 lastEnd = matcher.end() - 2;

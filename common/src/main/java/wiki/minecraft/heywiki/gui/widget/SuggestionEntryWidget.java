@@ -61,10 +61,9 @@ public class SuggestionEntryWidget extends Entry<SuggestionEntryWidget> {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         var icon = this.getIconTexture();
         if (icon != null) {
-            RenderSystem.enableBlend();
-            DrawContext.drawTexture(RenderLayer::getGuiTextured, this.getIconTexture(), x + 22, y, 0.0F, 0.0F, iconSize, iconSize, iconSize,
+            DrawContext.drawTexture(RenderLayer::getGuiTextured, this.getIconTexture(), x + 22, y, 0.0F, 0.0F, iconSize,
+                                    iconSize, iconSize,
                                     iconSize);
-            RenderSystem.disableBlend();
         }
 
         MutableText name;

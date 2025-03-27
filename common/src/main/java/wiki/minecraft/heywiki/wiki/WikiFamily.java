@@ -23,7 +23,6 @@ import java.util.List;
  */
 public record WikiFamily(List<String> namespace, List<WikiIndividual> wikis)
         implements Comparable<WikiFamily> {
-    private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
     private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
 
     public static final Codec<WikiFamily> CODEC = RecordCodecBuilder
@@ -50,7 +49,7 @@ public record WikiFamily(List<String> namespace, List<WikiIndividual> wikis)
         WikiIndividual wiki;
 
         if (MOD.config().language().equals("auto")) {
-            var language = CLIENT.options.language;
+            var language = MinecraftClient.getInstance().options.language;
             wiki = this.getLanguageWikiByGameLanguage(language);
         } else {
             var language = MOD.config().language();

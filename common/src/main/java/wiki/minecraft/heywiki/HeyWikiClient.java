@@ -39,7 +39,6 @@ public class HeyWikiClient {
         return Identifier.of(MOD_ID, path);
     }
 
-    private static final MinecraftClient client = MinecraftClient.getInstance();
     public static final KeyBinding openWikiKey = new KeyBinding("key.heywiki.open",
                                                                 InputUtil.Type.KEYSYM,
                                                                 GLFW.GLFW_KEY_H,
@@ -91,7 +90,7 @@ public class HeyWikiClient {
         WhatIsThisCommand.register(dispatcher);
         WhatIsThisItemCommand.register(dispatcher);
         var wikiCommand = WikiCommand.register(dispatcher);
-        if (client.isIntegratedServerRunning()) {
+        if (MinecraftClient.getInstance().isIntegratedServerRunning()) {
             WhatStructureCommand.register(dispatcher);
         }
 

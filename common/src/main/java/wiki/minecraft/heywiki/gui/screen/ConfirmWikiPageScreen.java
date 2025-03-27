@@ -205,8 +205,9 @@ public class ConfirmWikiPageScreen extends Screen {
                 ImageIO.write(image, "png", os);
                 InputStream is = new ByteArrayInputStream(os.toByteArray());
 
-                NativeImageBackedTexture texture = new NativeImageBackedTexture(NativeImage.read(is));
                 this.textureId = id(String.valueOf(this.link.hashCode()));
+                NativeImageBackedTexture texture = new NativeImageBackedTexture(() -> this.textureId.toString(),
+                                                                                NativeImage.read(is));
 
                 textureManager.registerTexture(this.textureId, texture);
             } catch (Exception e) {

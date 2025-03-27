@@ -1,6 +1,5 @@
 package wiki.minecraft.heywiki.gui.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -26,7 +25,10 @@ import wiki.minecraft.heywiki.wiki.WikiPage;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -227,7 +229,7 @@ public class WikiSearchScreen extends Screen {
             this.executor.execute(() -> this.textures.add(textureId));
             byte[] imageArray = HttpUtil.loadAndCacheFile(imageUrl).join();
 
-            RenderSystem.recordRenderCall(() -> {
+            this.executor.execute(() -> {
                 try {
                     BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageArray));
                     if (image == null) {
@@ -245,7 +247,7 @@ public class WikiSearchScreen extends Screen {
                     NativeImage nativeImage = NativeImage.read(is);
                     // noinspection ConstantValue
                     if (nativeImage == null) throw new RuntimeException("Texture is null!");
-                    NativeImageBackedTexture texture = new NativeImageBackedTexture(nativeImage);
+                    NativeImageBackedTexture texture = new NativeImageBackedTexture(textureId::toString, nativeImage);
                     this.client.getTextureManager().registerTexture(textureId, texture);
                     this.refreshWidgetPositions();
                 } catch (IOException e) {

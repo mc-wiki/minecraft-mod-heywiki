@@ -37,7 +37,7 @@ public class Raycast {
             Target target;
             if (Screen.hasAltDown()) {
                 assert client.player != null;
-                target = Target.of(client.player.getInventory().getMainHandStack());
+                target = Target.of(client.player.getInventory().getSelectedStack());
             } else {
                 target = Raycast.raycastWithMessage();
             }

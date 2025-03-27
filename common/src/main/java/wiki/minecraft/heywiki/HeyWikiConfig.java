@@ -296,7 +296,7 @@ public class HeyWikiConfig {
     }
 
     private static Text zhVariantDescription(String lang) {
-        return switch (lang) {
+        return switch (normalizeLanguageName(lang)) {
             case "auto" -> Text.translatable("options.heywiki.language.auto");
             case "zh" -> Text.literal("zh: 不转换");
             case "zh-cn" -> Text.literal("zh-cn: 大陆简体");
