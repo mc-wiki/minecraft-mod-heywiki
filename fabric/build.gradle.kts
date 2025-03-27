@@ -7,37 +7,20 @@ architectury {
     fabric()
 }
 
-sourceSets {
-    create("gametest") {
-        compileClasspath += sourceSets["main"].compileClasspath
-        runtimeClasspath += sourceSets["main"].runtimeClasspath
-        compileClasspath += sourceSets["main"].output
-        runtimeClasspath += sourceSets["main"].output
-    }
-}
-
 loom {
     accessWidenerPath.set(project(":common").loom.accessWidenerPath)
-
-    runs {
-        create("gametest") {
-            server()
-            name = "Game Test"
-            property("fabric-api.gametest", "true")
-            runDir = "run/gametest"
-            source("gametest")
-        }
-
-        create("gametestClient") {
-            client()
-            name = "Game Test Client"
-            source("gametest")
-        }
-    }
 }
 
 base {
     archivesName.set("${rootProject.property("archives_base_name")}-fabric")
+}
+
+fabricApi.configureTests {
+    createSourceSet = true
+    modId = "heywiki-gametest"
+    enableGameTests = false
+    enableClientGameTests = true
+    eula = true
 }
 
 configurations {

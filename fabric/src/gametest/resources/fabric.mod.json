@@ -5,17 +5,8 @@
   "name": "Hey Wiki GameTest",
   "environment": "*",
   "entrypoints": {
-    "client": [
-      "wiki.minecraft.heywiki.gametest.GameTestClientEntry"
-    ],
     "fabric-client-gametest": [
       "wiki.minecraft.heywiki.gametest.wiki.target.TargetTest"
     ]
-  },
-  "mixins": [
-    {
-      "config": "heywiki-gametest.mixins.json",
-      "environment": "client"
-    }
-  ]
+  }
 }
