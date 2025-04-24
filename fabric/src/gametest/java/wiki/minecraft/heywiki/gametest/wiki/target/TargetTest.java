@@ -15,9 +15,11 @@ public class TargetTest implements FabricClientGameTest {
                 client.player.setYaw(0);
             });
             context.getInput().holdKey(GLFW.GLFW_KEY_LEFT_ALT);
-            context.getInput().pressKey(GLFW.GLFW_KEY_H);
-            context.getInput().releaseKey(GLFW.GLFW_KEY_LEFT_ALT);
+            context.getInput().holdKey(GLFW.GLFW_KEY_H);
             context.waitTicks(10);
+            context.getInput().releaseKey(GLFW.GLFW_KEY_H);
+            context.getInput().releaseKey(GLFW.GLFW_KEY_LEFT_ALT);
+            context.waitTick();
             context.waitForScreen(ConfirmWikiPageScreen.class);
             context.runOnClient((client) -> {
                 assert !(client.currentScreen instanceof ConfirmWikiPageScreen screen) ||
