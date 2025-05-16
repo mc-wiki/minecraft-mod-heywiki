@@ -1,5 +1,5 @@
-# v1.7.5+1.21.1
+# v1.7.6+1.21.1
 
 ## Changes
 
-- Update translations
+- [Add Cobblemon Wiki](https://wiki.cobblemon.com/) (#89)
