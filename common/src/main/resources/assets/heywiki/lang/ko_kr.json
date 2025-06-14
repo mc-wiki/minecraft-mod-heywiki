@@ -1,5 +1,5 @@
 {
-  "commands.imfeelinglucky.not_supported": "지정된 위키 계열은 임의의 문서를 찾는 기능을 지원하지 않습니다",
+  "commands.imfeelinglucky.not_supported": "지정한 위키 계열은 무작위 문서로 가는 기능을 지원하지 않습니다",
   "commands.whatstructure.no_integrated_server": "/whatstructure 명령어는 로컬 싱글플레이 세계가 요구됩니다",
   "commands.whatstructure.no_structure": "구조물을 찾지 못했습니다",
   "gui.heywiki.no_family": "위키를 찾지 못했습니다",
@@ -73,6 +73,7 @@
   "wiki_family.heywiki.aether": "Aether Project 위키",
   "wiki_family.heywiki.aoa3": "Advent of Ascension 위키",
   "wiki_family.heywiki.bf": "BlockFront 위키",
+  "wiki_family.heywiki.cobblemon": "Cobblemon 위키",
   "wiki_family.heywiki.create": "Create 위키",
   "wiki_family.heywiki.doggytalents": "Doggy Talents Next 위키",
   "wiki_family.heywiki.endertechinf": "Endertech Infinity 위키",
