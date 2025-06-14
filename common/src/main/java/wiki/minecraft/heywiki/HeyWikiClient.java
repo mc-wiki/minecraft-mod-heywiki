@@ -1,11 +1,8 @@
 package wiki.minecraft.heywiki;
 
 import com.mojang.brigadier.CommandDispatcher;
-import dev.architectury.event.events.client.ClientChatEvent;
-import dev.architectury.event.events.client.ClientCommandRegistrationEvent;
+import dev.architectury.event.events.client.*;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent.ClientCommandSourceStack;
-import dev.architectury.event.events.client.ClientGuiEvent;
-import dev.architectury.event.events.client.ClientTickEvent;
 import dev.architectury.registry.ReloadListenerRegistry;
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry;
 import net.minecraft.client.MinecraftClient;
@@ -13,6 +10,10 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.resource.ResourceType;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
+import net.minecraft.util.Colors;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
@@ -22,6 +23,7 @@ import wiki.minecraft.heywiki.entrypoint.Raycast;
 import wiki.minecraft.heywiki.gui.screen.WikiSearchScreen;
 import wiki.minecraft.heywiki.resource.WikiFamilyManager;
 import wiki.minecraft.heywiki.resource.WikiTranslationManager;
+import wiki.minecraft.heywiki.target.Target;
 
 import java.util.HashSet;
 import java.util.List;
@@ -71,6 +73,21 @@ public class HeyWikiClient {
         ClientChatEvent.RECEIVED.register(ChatWikiLinks::onClientChatReceived);
 
         ClientGuiEvent.DEBUG_TEXT_RIGHT.register(Raycast::onDebugTextRight);
+
+        ClientTooltipEvent.ITEM.register((stack, lines, tooltipContext, flag) -> {
+            if (!config().itemTooltip()) return;
+            if (openWikiKey.isUnbound()) return;
+
+            var target = Target.of(stack);
+            if (target == null) return;
+
+            var family = familyManager().getFamilyByNamespace(target.namespace());
+            if (family == null) return;
+
+            lines.add(Text.translatable("gui.heywiki.tooltip",
+                                        openWikiKey.getBoundKeyLocalizedText().copy().setStyle(Style.EMPTY.withColor(Formatting.GRAY))
+                                       ).withColor(Formatting.DARK_GRAY.getColorValue()));
+        });
 
         ClientTickEvent.CLIENT_POST.register(Raycast::onClientTickPost);
         ClientTickEvent.CLIENT_POST.register(WikiSearchScreen::onClientTickPost);

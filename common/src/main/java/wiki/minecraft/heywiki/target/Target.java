@@ -84,7 +84,7 @@ public interface Target {
      * @param stack The item stack.
      * @return The target.
      */
-    static Target of(ItemStack stack) {
+    static @Nullable Target of(ItemStack stack) {
         if (stack.isEmpty()) return null;
         if (stack.getComponents().get(DataComponentTypes.CREATIVE_SLOT_LOCK) != null) return null;
 

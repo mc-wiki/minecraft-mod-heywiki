@@ -53,6 +53,7 @@ Optionally, you can change these behaviors in the config menu:
 - The keybind to open the wiki page: default is H
 - Reach distance: default is 5.2 blocks (same as creative mode reach)
 - Whether you are allowed to look up fluid: default is false
+- Whether to add a tooltip to items in the inventory that can be looked up: default is true.
 
 ### Commands
 

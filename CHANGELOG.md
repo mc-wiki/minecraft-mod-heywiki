@@ -1,5 +1,5 @@
-# v1.7.6+1.21.5
+# v1.8.0+1.21.5
 
 ## Changes
 
-- [Add Cobblemon Wiki](https://wiki.cobblemon.com/) (#89)
+- If an item can be looked up by Hey Wiki, a tooltip is added to the item in the inventory. This can be configured.

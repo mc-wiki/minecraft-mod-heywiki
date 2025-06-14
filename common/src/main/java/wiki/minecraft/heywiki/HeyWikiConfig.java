@@ -78,7 +78,10 @@ public class HeyWikiConfig {
                                                     .forGetter(HeyWikiConfig::searchDefaultWikiFamily),
                                     Codec.BOOL.fieldOf("prefixSearch")
                                               .orElse(true)
-                                              .forGetter(HeyWikiConfig::prefixSearch)
+                                              .forGetter(HeyWikiConfig::prefixSearch),
+                                    Codec.BOOL.fieldOf("itemTooltip")
+                                              .orElse(true)
+                                              .forGetter(HeyWikiConfig::itemTooltip)
                                   )
                             .apply(instance, HeyWikiConfig::new));
 
@@ -155,9 +158,15 @@ public class HeyWikiConfig {
 
     private boolean prefixSearch;
 
+    public boolean itemTooltip() {
+        return itemTooltip;
+    }
+
+    private boolean itemTooltip;
+
     private HeyWikiConfig(boolean requiresConfirmation, boolean requiresConfirmationCommand, double raycastReach,
                           boolean raycastAllowFluid, String language, String zhVariant,
-                          Identifier searchDefaultWikiFamily, boolean prefixSearch) {
+                          Identifier searchDefaultWikiFamily, boolean prefixSearch, boolean itemTooltip) {
         this.requiresConfirmation = requiresConfirmation;
         this.requiresConfirmationCommand = requiresConfirmationCommand;
         this.raycastReach = raycastReach;
@@ -166,6 +175,7 @@ public class HeyWikiConfig {
         this.zhVariant = zhVariant;
         this.searchDefaultWikiFamily = searchDefaultWikiFamily;
         this.prefixSearch = prefixSearch;
+        this.itemTooltip = itemTooltip;
     }
 
     /**
@@ -222,6 +232,13 @@ public class HeyWikiConfig {
                                  .setSaveConsumer(newValue -> this.raycastAllowFluid = newValue)
                                  .build());
         general.addEntry(entryBuilder
+                                 .startBooleanToggle(Text.translatable("options.heywiki.item_tooltip.name"),
+                                                     this.itemTooltip())
+                                 .setDefaultValue(true)
+                                 .setTooltip(Text.translatable("options.heywiki.item_tooltip.description"))
+                                 .setSaveConsumer(newValue -> this.itemTooltip = newValue)
+                                 .build());
+        general.addEntry(entryBuilder
                                  .fillKeybindingField(Text.translatable("key.heywiki.open"), HeyWikiClient.openWikiKey)
                                  .setTooltip(Text.translatable("options.heywiki.open_key.description"))
                                  .build());
@@ -272,10 +289,11 @@ public class HeyWikiConfig {
                                 .setTooltip(Text.translatable("options.heywiki.prefix_search.description"))
                                 .setSaveConsumer(newValue -> this.prefixSearch = newValue)
                                 .build());
+
         search.addEntry(entryBuilder
                                 .fillKeybindingField(Text.translatable("key.heywiki.open_search"),
                                                      HeyWikiClient.openWikiSearchKey)
-                                .setTooltip(Text.translatable("options.heywiki.open_key.description"))
+                                .setTooltip(Text.translatable("options.heywiki.open_search_key.description"))
                                 .build());
 
         builder.setSavingRunnable(() -> save(requireReload.get()));

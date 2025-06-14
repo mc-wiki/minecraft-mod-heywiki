@@ -6,7 +6,6 @@ import org.apache.commons.codec.binary.Hex;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.ProxySelector;
 import java.net.URI;
@@ -15,6 +14,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.MessageDigest;
@@ -101,12 +101,11 @@ public class HttpUtil {
 
             String hash = Hex.encodeHexString(md.digest(url.getBytes(StandardCharsets.UTF_8)));
             String tempDir = System.getProperty("java.io.tmpdir");
-            String path = tempDir + "/heywiki/" + hash;
 
-            File file = new File(path);
-            if (file.exists()) {
+            Path path = FileSystems.getDefault().getPath(tempDir, "/heywiki/", hash);
+            if (Files.exists(path)) {
                 try {
-                    return Files.readAllBytes(file.toPath());
+                    return Files.readAllBytes(path);
                 } catch (IOException e) {
                     LOGGER.error("Failed to fetch file", e);
                 }
@@ -114,11 +113,11 @@ public class HttpUtil {
                 try {
                     byte[] fileData = request(URI.create(url), HttpResponse.BodyHandlers.ofByteArray());
 
-                    Path parentDir = file.toPath().getParent();
+                    Path parentDir = path.getParent();
                     if (!Files.exists(parentDir)) {
                         Files.createDirectories(parentDir);
                     }
-                    Files.write(file.toPath(), fileData);
+                    Files.write(path, fileData);
                     return fileData;
                 } catch (Exception e) {
                     LOGGER.error("Failed to fetch image", e);
