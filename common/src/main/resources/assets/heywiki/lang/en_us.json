@@ -7,6 +7,7 @@
   "gui.heywiki.too_far": "You are not aiming at anything. Maybe get closer?",
   "gui.heywiki.tooltip": "Press [%s] to look up",
   "gui.heywiki_confirm_link.loading_excerpt": "Loading page description...",
+  "gui.heywiki_confirm_link.title": "Preview wiki article",
   "gui.heywiki_search.no_suggestions": "No suggestions are available for this wiki. You can press the button below to search in the wiki directly.",
   "gui.heywiki_search.placeholder": "Search...",
   "gui.heywiki_search.search": "Search",

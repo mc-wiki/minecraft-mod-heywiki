@@ -9,7 +9,9 @@ import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.screen.ScreenTexts;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 import org.jetbrains.annotations.NotNull;
@@ -61,7 +63,7 @@ public class ConfirmWikiPageScreen extends Screen {
     public ConfirmWikiPageScreen(BooleanConsumer callback, String link,
                                  Optional<CompletableFuture<PageExcerpt>> excerpt,
                                  WikiPage page) {
-        this(callback, Text.translatable("chat.link.confirmTrusted"),
+        this(callback, Text.translatable("gui.heywiki_confirm_link.title"),
              Text.literal(URLDecoder.decode(link, StandardCharsets.UTF_8)), link,
              excerpt, page);
     }
@@ -141,13 +143,22 @@ public class ConfirmWikiPageScreen extends Screen {
 
         DirectionalLayoutWidget mainLayout = this.layout.add(DirectionalLayoutWidget.vertical().spacing(10));
         mainLayout.getMainPositioner().alignHorizontalCenter();
-        mainLayout.add(new TextWidget(this.title, this.textRenderer));
-        mainLayout
-                .add(new NarratedMultilineTextWidget(this.width, this.message, this.textRenderer, false, 3),
-                     positioner -> positioner.marginY(3))
-                .setCentered(false);
 
-        if (hasExcerpt) {
+        var pageTitle = Text.of(this.excerpt != null ? this.excerpt.title() : this.page.pageName())
+                            .copy().styled(style -> style.withBold(true).withUnderline(true));
+
+        if (!hasExcerpt) {
+            mainLayout.add(new TextWidget(pageTitle, this.textRenderer));
+            mainLayout
+                    .add(new NarratedMultilineTextWidget(this.width,
+                                                         this.message.copy()
+                                                                     .setStyle(
+                                                                             Style.EMPTY.withColor(Formatting.GRAY)
+                                                                                        .withUnderline(true)),
+                                                         this.textRenderer, false, 3),
+                         positioner -> positioner.marginY(3))
+                    .setCentered(false);
+        } else {
             DirectionalLayoutWidget excerptLayout = mainLayout.add(DirectionalLayoutWidget.horizontal().spacing(8));
 
             IconWidget iconWidget = createImageWidget();
@@ -156,9 +167,14 @@ public class ConfirmWikiPageScreen extends Screen {
 
             DirectionalLayoutWidget excerptTextLayout = excerptLayout.add(
                     DirectionalLayoutWidget.vertical().spacing(8));
-            var excerptTitle = Text.of(this.excerpt != null ? this.excerpt.title() : this.page.pageName())
-                                   .copy().styled(style -> style.withBold(true).withUnderline(true));
-            excerptTextLayout.add(new TextWidget(excerptTitle, this.textRenderer));
+            excerptTextLayout.add(new TextWidget(pageTitle, this.textRenderer));
+            excerptTextLayout
+                    .add(new NarratedMultilineTextWidget(this.width,
+                                                         this.message.copy()
+                                                                     .setStyle(Style.EMPTY.withColor(Formatting.GRAY)
+                                                                                          .withUnderline(true)),
+                                                         this.textRenderer, false, 3))
+                    .setCentered(false);
             excerptTextLayout
                     .add(new NarratedMultilineTextWidget(
                                  this.width - 65 - (imageWidth + 13),

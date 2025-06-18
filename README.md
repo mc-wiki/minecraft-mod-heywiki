@@ -73,6 +73,8 @@ These commands are available:
 - `/whatisthis` - Opens the Minecraft Wiki page of the block/item/entity you're aiming at.
 - `/whatisthisitem` - Opens the Minecraft Wiki page of the item you're holding in you main hand.
     - `whatisthisitem offhand` - Same, but for the offhand.
+- `/whatversion` - Opens the Minecraft Wiki page of the current game version.
+    - Example: `/whatversion` -> `https://minecraft.wiki/w/Java_Edition_1.21.5`
 
 Note that if you open a page with a command, the confirmation screen will not appear.
 

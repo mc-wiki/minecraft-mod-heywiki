@@ -12,7 +12,6 @@ import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
-import net.minecraft.util.Colors;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
@@ -86,7 +85,7 @@ public class HeyWikiClient {
 
             lines.add(Text.translatable("gui.heywiki.tooltip",
                                         openWikiKey.getBoundKeyLocalizedText().copy().setStyle(Style.EMPTY.withColor(Formatting.GRAY))
-                                       ).withColor(Formatting.DARK_GRAY.getColorValue()));
+                                       ).setStyle(Style.EMPTY.withColor(Formatting.DARK_GRAY)));
         });
 
         ClientTickEvent.CLIENT_POST.register(Raycast::onClientTickPost);
@@ -107,12 +106,14 @@ public class HeyWikiClient {
         WhatIsThisCommand.register(dispatcher);
         WhatIsThisItemCommand.register(dispatcher);
         var wikiCommand = WikiCommand.register(dispatcher);
+        var whatVersionCommand = WhatVersionCommand.register(dispatcher);
         if (MinecraftClient.getInstance().isIntegratedServerRunning()) {
             WhatStructureCommand.register(dispatcher);
         }
 
         dispatcher.register(literal("whatis").redirect(wikiCommand));
         dispatcher.register(literal("whatcmd").redirect(whatCommandCommand));
+        dispatcher.register(literal("whatver").redirect(whatVersionCommand));
     }
 
     public static HeyWikiClient getInstance() {
