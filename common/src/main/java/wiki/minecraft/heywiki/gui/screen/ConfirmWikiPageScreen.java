@@ -155,7 +155,7 @@ public class ConfirmWikiPageScreen extends Screen {
                                                                      .setStyle(
                                                                              Style.EMPTY.withColor(Formatting.GRAY)
                                                                                         .withUnderline(true)),
-                                                         this.textRenderer, false, 3),
+                                                         this.textRenderer, false, false, 3),
                          positioner -> positioner.marginY(3))
                     .setCentered(false);
         } else {
@@ -173,7 +173,7 @@ public class ConfirmWikiPageScreen extends Screen {
                                                          this.message.copy()
                                                                      .setStyle(Style.EMPTY.withColor(Formatting.GRAY)
                                                                                           .withUnderline(true)),
-                                                         this.textRenderer, false, 3))
+                                                         this.textRenderer, false, false, 3))
                     .setCentered(false);
             excerptTextLayout
                     .add(new NarratedMultilineTextWidget(

@@ -3,6 +3,7 @@ package wiki.minecraft.heywiki.gui.screen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.sound.SoundCategory;
 
 import java.util.Objects;
 
@@ -26,7 +27,7 @@ public class CallbackGameMenuScreen extends GameMenuScreen {
                                                                                  .isRemote();
         if (integratedServer) {
             client.setScreen(new CallbackGameMenuScreen(showMenu, () -> client.setScreen(parent)));
-            client.getSoundManager().pauseAll();
+            client.getSoundManager().pauseAllExcept(SoundCategory.MUSIC, SoundCategory.UI);
         } else {
             client.setScreen(new CallbackGameMenuScreen(true, () -> client.setScreen(parent)));
         }

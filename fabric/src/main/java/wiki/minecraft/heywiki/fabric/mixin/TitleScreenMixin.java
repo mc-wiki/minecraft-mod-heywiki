@@ -18,7 +18,9 @@ import wiki.minecraft.heywiki.wiki.WikiPage;
 
 @Mixin(TitleScreen.class)
 public class TitleScreenMixin extends Screen {
-    @Shadow @Final private static Logger LOGGER;
+    @Shadow
+    @Final
+    private static Logger LOGGER;
 
     protected TitleScreenMixin(Text title) {
         super(title);
@@ -28,9 +30,9 @@ public class TitleScreenMixin extends Screen {
     private PressableTextWidget wikiButton;
 
     @Redirect(method = "render", at = @At(value = "INVOKE",
-                                          target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Ljava/lang/String;III)I"))
-    private int drawTextWithShadow(DrawContext drawContext, TextRenderer textRenderer, String text, int x, int y,
-                                   int color) {
+                                          target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Ljava/lang/String;III)V"))
+    private void drawTextWithShadow(DrawContext drawContext, TextRenderer textRenderer, String text, int x, int y,
+                                    int color) {
         try {
             int width = textRenderer.getWidth(text);
             if (!this.children().contains(wikiButton)) {
@@ -38,19 +40,16 @@ public class TitleScreenMixin extends Screen {
                         new PressableTextWidget(x, y, width, 10, Text.literal(text),
                                                 (button) -> {
                                                     var article = WikiPage.versionArticle(
-                                                            SharedConstants.getGameVersion().getName());
+                                                            SharedConstants.getGameVersion().name());
                                                     if (article != null) {
                                                         article.openInBrowser(this);
                                                     }
                                                 },
                                                 this.textRenderer));
             }
-
-            return 0;
         } catch (Exception e) {
             LOGGER.error("Failed to draw wiki button", e);
             drawContext.drawTextWithShadow(textRenderer, text, x, y, color);
-            return 0;
         }
     }
 }

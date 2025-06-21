@@ -2,6 +2,7 @@ package wiki.minecraft.heywiki.gui.widget;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget.Entry;
 import net.minecraft.client.render.RenderLayer;
@@ -12,6 +13,7 @@ import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Language;
+import net.minecraft.util.math.ColorHelper;
 import org.apache.commons.codec.binary.Hex;
 import org.jetbrains.annotations.Nullable;
 import wiki.minecraft.heywiki.wiki.SearchProvider;
@@ -58,12 +60,12 @@ public class SuggestionEntryWidget extends Entry<SuggestionEntryWidget> {
                        int mouseY, boolean hovered, float delta) {
         int iconSize = 20;
 
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         var icon = this.getIconTexture();
         if (icon != null) {
-            DrawContext.drawTexture(RenderLayer::getGuiTextured, this.getIconTexture(), x + 22, y, 0.0F, 0.0F, iconSize,
-                                    iconSize, iconSize,
-                                    iconSize);
+            DrawContext.drawTexture(RenderPipelines.GUI_TEXTURED, this.getIconTexture(),
+                                    x + 22, y, 0.0F, 0.0F,
+                                    iconSize, iconSize, iconSize, iconSize,
+                                    ColorHelper.getWhite(1.0F));
         }
 
         MutableText name;

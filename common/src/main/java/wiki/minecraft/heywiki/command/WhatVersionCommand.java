@@ -19,7 +19,7 @@ public class WhatVersionCommand {
     public static LiteralCommandNode<ClientCommandSourceStack> register(
             CommandDispatcher<ClientCommandSourceStack> dispatcher) {
         return dispatcher.register(literal("whatversion").executes(ctx -> {
-            var article = WikiPage.versionArticle(SharedConstants.getGameVersion().getName());
+            var article = WikiPage.versionArticle(SharedConstants.getGameVersion().name());
             if (article != null) {
                 article.openInBrowserCommand(null);
             }

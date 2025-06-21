@@ -50,7 +50,7 @@ public class WhatStructureCommand {
 
             var playerManager = Objects.requireNonNull(server).getPlayerManager();
             var serverPlayer = playerManager.getPlayer(playerUuid);
-            var serverWorld = Objects.requireNonNull(serverPlayer).getServerWorld();
+            var serverWorld = Objects.requireNonNull(serverPlayer).getWorld();
             var chunkPos = new ChunkPos(block);
             Chunk chunk = serverWorld.getChunk(chunkPos.x, chunkPos.z, ChunkStatus.STRUCTURE_REFERENCES, false);
             if (chunk == null) {
