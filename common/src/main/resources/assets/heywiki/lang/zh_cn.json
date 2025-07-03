@@ -7,6 +7,7 @@
   "gui.heywiki.too_far": "你什么也没有对准。或许应该靠近一点？",
   "gui.heywiki.tooltip": "按[%s]查询",
   "gui.heywiki_confirm_link.loading_excerpt": "正在加载页面描述…",
+  "gui.heywiki_confirm_link.title": "预览 wiki 文章",
   "gui.heywiki_search.no_suggestions": "本wiki无可用的搜索建议，按以下按键可直接在该wiki中搜索。",
   "gui.heywiki_search.placeholder": "搜索…",
   "gui.heywiki_search.search": "搜索",

@@ -7,6 +7,7 @@
   "gui.heywiki.too_far": "Et osoita mihinkään. Ehkä pitäisi mennä lähemmäksi?",
   "gui.heywiki.tooltip": "Paina [%s] katsoaksesi ylös",
   "gui.heywiki_confirm_link.loading_excerpt": "Ladataan sivun kuvausta...",
+  "gui.heywiki_confirm_link.title": "Esikatsele wiki-artikkelia",
   "gui.heywiki_search.no_suggestions": "Mitään ehdotuksia ei ole saatavilla tälle wikille. Voit painaa alla olevaa painiketta etsiäksesi wikistä suoraan.",
   "gui.heywiki_search.placeholder": "Hae...",
   "gui.heywiki_search.search": "Hae",

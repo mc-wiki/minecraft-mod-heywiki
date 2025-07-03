@@ -7,6 +7,7 @@
   "gui.heywiki.too_far": "Вы ни на что не смотрите. Может, подойдёте поближе?",
   "gui.heywiki.tooltip": "Нажмите [%s] для поиска",
   "gui.heywiki_confirm_link.loading_excerpt": "Загрузка описания страницы...",
+  "gui.heywiki_confirm_link.title": "Предпросмотр статьи",
   "gui.heywiki_search.no_suggestions": "Для этой вики нет подходящих предложений. Вы можете нажать на кнопку ниже для прямого поиска в вики.",
   "gui.heywiki_search.placeholder": "Поиск...",
   "gui.heywiki_search.search": "Поиск",
