@@ -2,7 +2,6 @@
 
 # ![](https://github.com/mc-wiki/minecraft-mod-heywiki/blob/master/fabric/src/main/resources/icon.png?raw=true) <br> Hey Wiki
 
-[![CurseForge](https://img.shields.io/curseforge/dt/997027?label=CurseForge&color=orange&logoColor=orange&labelColor=black&logo=curseforge)](https://curseforge.com/minecraft/mc-mods/hey-wiki)
 [![Modrinth](https://img.shields.io/modrinth/dt/6DnswkCZ?label=Modrinth&color=darkgreen&labelColor=black&logo=modrinth)](https://modrinth.com/mod/hey-wiki)
 [![Crowdin](https://badges.crowdin.net/hey-wiki/localized.svg)](https://crowdin.com/project/hey-wiki)
 
@@ -32,9 +31,7 @@ https://github.com/mc-wiki/minecraft-mod-heywiki/assets/45287180/b0650362-1fe9-4
 
 ### How to use
 
-1. Install the mod. You can download it from [Modrinth](https://modrinth.com/mod/hey-wiki)
-   or [CurseForge](https://curseforge.com/minecraft/mc-mods/hey-wiki). Don't forget to install
-   the [dependencies](#dependencies).
+1. Install the mod. You can download it from [Modrinth](https://modrinth.com/mod/hey-wiki). Don't forget to install the [dependencies](#dependencies).
 2. Point at a block/entity with your crosshair or hover over an item in your inventory with your cursor.
 3. Press the keybind (default is H).
 4. Either confirm the action or copy the link to your clipboard in the screen that pops up.
@@ -270,7 +267,7 @@ The following table shows which versions are supported:
 
 | Git branch  | Minecraft version    | Supported?        | Is LTS? | Modloader        |
 |-------------|----------------------|-------------------|---------|------------------|
-| `master`    | 1.21.6               | Active (Latest)   | ?       | Fabric, Neoforge |
+| `master`    | 1.21.7               | Active (Latest)   | ?       | Fabric, Neoforge |
 | `mc/1.21.5` | 1.21.5               | EOL               | No      | Fabric, Neoforge |
 | `mc/1.21.4` | 1.21.4               | EOL               | No      | Fabric, Neoforge |
 | `mc/1.21.3` | 1.21.2, 1.21.3       | EOL               | No      | Fabric, Neoforge |
