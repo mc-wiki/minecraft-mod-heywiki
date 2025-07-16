@@ -1,19 +1,19 @@
 package wiki.minecraft.heywiki.target;
 
 import com.mojang.logging.LogUtils;
-import net.minecraft.block.AirBlock;
-import net.minecraft.block.Block;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.NbtComponent;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.decoration.ItemFrameEntity;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.decoration.ItemFrame;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.level.block.AirBlock;
+import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
 import wiki.minecraft.heywiki.wiki.WikiPage;
 
@@ -28,20 +28,6 @@ import static wiki.minecraft.heywiki.HeyWikiClient.experimentalWarning;
  */
 public interface Target {
     /**
-     * Gets the namespace of the target.
-     *
-     * @return The namespace.
-     */
-    String namespace();
-
-    /**
-     * Gets the title of the target.
-     *
-     * @return The title.
-     */
-    String title();
-
-    /**
      * Creates a target from a block.
      *
      * @param block The block.
@@ -49,7 +35,7 @@ public interface Target {
      */
     static Target of(Block block) {
         if (block instanceof AirBlock) return null;
-        return new IdentifierTarget(Registries.BLOCK.getId(block), block.getTranslationKey());
+        return new IdentifierTarget(BuiltInRegistries.BLOCK.getKey(block), block.getDescriptionId());
     }
 
     /**
@@ -61,19 +47,19 @@ public interface Target {
     static Target of(Entity entity) {
         switch (entity) {
             case ItemEntity itemEntity -> {
-                ItemStack stack = itemEntity.getStack();
+                ItemStack stack = itemEntity.getItem();
                 return Target.of(stack);
             }
-            case ItemFrameEntity itemFrameEntity -> {
-                ItemStack stack = itemFrameEntity.getHeldItemStack();
+            case ItemFrame itemFrameEntity -> {
+                ItemStack stack = itemFrameEntity.getItem();
                 if (stack.isEmpty())
-                    return new IdentifierTarget(Registries.ENTITY_TYPE.getId(entity.getType()),
-                                                entity.getType().getTranslationKey());
+                    return new IdentifierTarget(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()),
+                                                entity.getType().getDescriptionId());
                 return Target.of(stack);
             }
             default -> {
-                return new IdentifierTarget(Registries.ENTITY_TYPE.getId(entity.getType()),
-                                            entity.getType().getTranslationKey());
+                return new IdentifierTarget(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()),
+                                            entity.getType().getDescriptionId());
             }
         }
     }
@@ -86,18 +72,18 @@ public interface Target {
      */
     static @Nullable Target of(ItemStack stack) {
         if (stack.isEmpty()) return null;
-        if (stack.getComponents().get(DataComponentTypes.CREATIVE_SLOT_LOCK) != null) return null;
+        if (stack.getComponents().get(DataComponents.CREATIVE_SLOT_LOCK) != null) return null;
 
-        @Nullable NbtComponent customData = stack.getComponents().get(DataComponentTypes.CUSTOM_DATA);
+        @Nullable CustomData customData = stack.getComponents().get(DataComponents.CUSTOM_DATA);
         if (customData != null) {
-            var target = customData.get(IdentifierTarget.CODEC).result().orElse(null);
+            var target = customData.read(IdentifierTarget.CODEC).result().orElse(null);
             if (target != null) {
                 experimentalWarning(LogUtils.getLogger(), "Custom item based on custom_data or NBT");
                 return target;
             }
         }
 
-        return new IdentifierTarget(Registries.ITEM.getId(stack.getItem()), stack.getItem().getTranslationKey());
+        return new IdentifierTarget(BuiltInRegistries.ITEM.getKey(stack.getItem()), stack.getItem().getDescriptionId());
     }
 
     /**
@@ -106,13 +92,13 @@ public interface Target {
      * @param effect The status effect instance.
      * @return The target.
      */
-    static Target of(StatusEffectInstance effect) {
-        RegistryEntry<StatusEffect> effectEntry = effect.getEffectType();
-        var key = effectEntry.getKey();
+    static Target of(MobEffectInstance effect) {
+        Holder<MobEffect> effectEntry = effect.getEffect();
+        var key = effectEntry.unwrapKey();
         if (key.isEmpty()) return null;
-        Identifier identifier = key.get().getValue();
+        ResourceLocation identifier = key.get().location();
 
-        return new IdentifierTarget(identifier, effect.getTranslationKey());
+        return new IdentifierTarget(identifier, effect.getDescriptionId());
     }
 
     /**
@@ -125,11 +111,25 @@ public interface Target {
      * @param translationKeyPrefix The translation key prefix.
      * @return The target.
      */
-    static Target of(RegistryEntry<?> registryEntry, String translationKeyPrefix) {
-        var key = registryEntry.getKey();
+    static Target of(Holder<?> registryEntry, String translationKeyPrefix) {
+        var key = registryEntry.unwrapKey();
         if (key.isEmpty()) return null;
-        Identifier identifier = key.get().getValue();
+        ResourceLocation identifier = key.get().location();
 
-        return new IdentifierTarget(identifier, identifier.toTranslationKey(translationKeyPrefix));
+        return new IdentifierTarget(identifier, identifier.toLanguageKey(translationKeyPrefix));
     }
+
+    /**
+     * Gets the namespace of the target.
+     *
+     * @return The namespace.
+     */
+    String namespace();
+
+    /**
+     * Gets the title of the target.
+     *
+     * @return The title.
+     */
+    String title();
 }

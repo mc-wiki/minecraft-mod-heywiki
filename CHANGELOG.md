@@ -1,5 +1,9 @@
-# v1.8.0+1.21.7
+# v1.8.1+1.21.7
 
 ## Changes
 
-- Support for Minecraft 1.21.7.
+- Migrated to Mojmap.
+
+## Fixes
+
+- Fixed incompatibility with JEI (#99)

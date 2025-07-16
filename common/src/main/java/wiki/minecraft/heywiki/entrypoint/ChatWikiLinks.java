@@ -1,11 +1,7 @@
 package wiki.minecraft.heywiki.entrypoint;
 
 import dev.architectury.event.CompoundEventResult;
-import net.minecraft.network.message.MessageType;
-import net.minecraft.text.ClickEvent;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.*;
 import wiki.minecraft.heywiki.HeyWikiClient;
 import wiki.minecraft.heywiki.wiki.WikiFamily;
 import wiki.minecraft.heywiki.wiki.WikiIndividual;
@@ -25,12 +21,12 @@ public class ChatWikiLinks {
     /**
      * Should be called at {@link dev.architectury.event.events.client.ClientChatEvent#RECEIVED ClientChatEvent#RECEIVED}.
      *
-     * @param ignoredType The message type.
-     * @param message     The message.
+     * @param ignoredBound The message type.
+     * @param message      The message.
      * @return The new message.
      */
-    public static CompoundEventResult<Text> onClientChatReceived(MessageType.Parameters ignoredType, Text message) {
-        MutableText text = Text.empty();
+    public static CompoundEventResult<Component> onClientChatReceived(ChatType.Bound ignoredBound, Component message) {
+        MutableComponent text = Component.empty();
 
         message.visit((style, string) -> {
             // noinspection RegExpRedundantEscape
@@ -39,18 +35,18 @@ public class ChatWikiLinks {
 
             int lastEnd = 0;
             while (matcher.find()) {
-                text.append(Text.literal(string.substring(lastEnd, matcher.start() + 2)).setStyle(style));
+                text.append(Component.literal(string.substring(lastEnd, matcher.start() + 2)).setStyle(style));
 
                 String link = matcher.group(1);
-                text.append(Text.literal(link).setStyle(
+                text.append(Component.literal(link).setStyle(
                         style
                                 .withClickEvent(new ClickEvent.OpenUrl(linkToPage(link).getUri()))
-                                .withUnderline(true)));
+                                .withUnderlined(true)));
 
                 lastEnd = matcher.end() - 2;
             }
 
-            text.append(Text.literal(string.substring(lastEnd)).setStyle(style));
+            text.append(Component.literal(string.substring(lastEnd)).setStyle(style));
 
             return Optional.empty();
         }, Style.EMPTY);

@@ -4,8 +4,8 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.gson.JsonParser;
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.Util;
+import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
 import org.slf4j.Logger;
 import wiki.minecraft.heywiki.HeyWikiClient;
 import wiki.minecraft.heywiki.util.HttpUtil;
@@ -29,7 +29,7 @@ import static wiki.minecraft.heywiki.util.HttpUtil.encodeUrl;
  */
 public record PageExcerpt(String title, String excerpt, String imageUrl, int imageWidth, int imageHeight) {
     private static final Logger LOGGER = LogUtils.getLogger();
-    private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
+    private static final Minecraft CLIENT = Minecraft.getInstance();
     private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
     private static final Cache<String, Optional<CompletableFuture<PageExcerpt>>> excerptCache =
             CacheBuilder.newBuilder()
@@ -79,7 +79,7 @@ public record PageExcerpt(String title, String excerpt, String imageUrl, int ima
                              encodeUrl(pageName) +
                              (language.equals("zh") ? "&converttitles=true&variant=" +
                                                       resolveZhVariant(MOD.config().zhVariant()) : ""));
-        var executor = Util.getDownloadWorkerExecutor();
+        var executor = Util.ioPool();
 
         return CompletableFuture.supplyAsync(() -> {
             try {
@@ -105,7 +105,7 @@ public record PageExcerpt(String title, String excerpt, String imageUrl, int ima
 
     private static String resolveZhVariant(String variant) {
         if (variant.equals("auto")) {
-            return switch (CLIENT.options.language) {
+            return switch (CLIENT.options.languageCode) {
                 case "zh_cn" -> "zh-cn";
                 case "zh_tw" -> "zh-tw";
                 case "zh_hk" -> "zh-hk";

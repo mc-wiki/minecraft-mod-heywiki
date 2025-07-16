@@ -3,11 +3,11 @@ package wiki.minecraft.heywiki.resource;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.mojang.logging.LogUtils;
-import net.minecraft.resource.JsonDataLoader;
-import net.minecraft.resource.ResourceFinder;
-import net.minecraft.resource.ResourceManager;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.profiler.Profiler;
+import net.minecraft.resources.FileToIdConverter;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.util.profiling.ProfilerFiller;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import wiki.minecraft.heywiki.wiki.WikiFamily;
@@ -21,14 +21,14 @@ import java.util.stream.Collectors;
  *
  * @see WikiFamily
  */
-public class WikiFamilyManager extends JsonDataLoader<WikiFamily> {
+public class WikiFamilyManager extends SimpleJsonResourceReloadListener<WikiFamily> {
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final String PATH = "wiki_family";
-    private BiMap<Identifier, WikiFamily> WIKI_FAMILY_MAP = HashBiMap.create();
+    private BiMap<ResourceLocation, WikiFamily> WIKI_FAMILY_MAP = HashBiMap.create();
     private Map<String, WikiIndividual> activeWikis = new HashMap<>();
 
     public WikiFamilyManager() {
-        super(WikiFamily.CODEC, ResourceFinder.json(PATH));
+        super(WikiFamily.CODEC, FileToIdConverter.json(PATH));
     }
 
     /**
@@ -37,7 +37,7 @@ public class WikiFamilyManager extends JsonDataLoader<WikiFamily> {
      * @param id The ID.
      * @return The family.
      */
-    public WikiFamily getFamily(Identifier id) {
+    public WikiFamily getFamily(ResourceLocation id) {
         return WIKI_FAMILY_MAP.get(id);
     }
 
@@ -47,7 +47,7 @@ public class WikiFamilyManager extends JsonDataLoader<WikiFamily> {
      * @param family The family.
      * @return The ID.
      */
-    public Identifier getFamilyId(WikiFamily family) {
+    public ResourceLocation getFamilyId(WikiFamily family) {
         return WIKI_FAMILY_MAP.inverse().get(family);
     }
 
@@ -155,7 +155,7 @@ public class WikiFamilyManager extends JsonDataLoader<WikiFamily> {
     }
 
     @Override
-    protected void apply(Map<Identifier, WikiFamily> prepared, ResourceManager manager, Profiler profiler) {
+    protected void apply(Map<ResourceLocation, WikiFamily> prepared, ResourceManager manager, ProfilerFiller profiler) {
         WIKI_FAMILY_MAP = HashBiMap.create(prepared);
         activeWikis = resolveActiveWikis();
 

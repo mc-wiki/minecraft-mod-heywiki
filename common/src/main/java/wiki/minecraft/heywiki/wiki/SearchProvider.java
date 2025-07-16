@@ -6,7 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.util.StringIdentifiable;
+import net.minecraft.util.StringRepresentable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import wiki.minecraft.heywiki.HeyWikiClient;
@@ -26,10 +26,10 @@ import java.util.stream.StreamSupport;
 public interface SearchProvider {
     SequencedSet<Suggestion> search(String term, WikiIndividual wiki) throws IOException, InterruptedException;
 
-    enum ProviderType implements StringIdentifiable {
+    enum ProviderType implements StringRepresentable {
         MEDIAWIKI("mediawiki"), ALGOLIA("algolia");
 
-        public static final Codec<ProviderType> CODEC = StringIdentifiable.createCodec(ProviderType::values);
+        public static final Codec<ProviderType> CODEC = StringRepresentable.fromValues(ProviderType::values);
 
         private final String name;
 
@@ -37,7 +37,7 @@ public interface SearchProvider {
             this.name = name;
         }
 
-        @Override public String asString() {
+        @Override public String getSerializedName() {
             return this.name;
         }
     }
@@ -51,7 +51,6 @@ public interface SearchProvider {
     }
 
     record MediaWikiProvider() implements SearchProvider {
-        private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
         public static final String PREFIX_SEARCH_SUGGESTION_URL = "action=query&format=json&formatversion=2" +
                                                                   "&converttitles=true&redirects=true" +
                                                                   "&prop=info|pageimages&inprop=url&pilicense=any&piprop=thumbnail" +
@@ -60,6 +59,7 @@ public interface SearchProvider {
                                                            "&converttitles=true&redirects=true" +
                                                            "&prop=info|pageimages&inprop=url&pilicense=any&piprop=thumbnail" +
                                                            "&generator=search&gsrsearch=%s";
+        private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
 
         @Override public SequencedSet<Suggestion> search(String term, WikiIndividual wiki)
                 throws IOException, InterruptedException {

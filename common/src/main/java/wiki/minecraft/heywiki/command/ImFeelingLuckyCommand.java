@@ -6,7 +6,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent.ClientCommandSourceStack;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 import wiki.minecraft.heywiki.command.suggestion.NamespaceSuggestionProvider;
 import wiki.minecraft.heywiki.wiki.WikiPage;
 
@@ -17,7 +17,7 @@ import static dev.architectury.event.events.client.ClientCommandRegistrationEven
 
 public class ImFeelingLuckyCommand {
     public static final SimpleCommandExceptionType NOT_SUPPORTED = new SimpleCommandExceptionType(
-            Text.translatable("commands.imfeelinglucky.not_supported"));
+            Component.translatable("commands.imfeelinglucky.not_supported"));
 
     @SuppressWarnings("UnusedReturnValue")
     public static LiteralCommandNode<ClientCommandSourceStack> register(

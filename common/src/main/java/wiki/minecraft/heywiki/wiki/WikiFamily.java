@@ -2,9 +2,9 @@ package wiki.minecraft.heywiki.wiki;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Util;
+import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import wiki.minecraft.heywiki.HeyWikiClient;
@@ -23,8 +23,6 @@ import java.util.List;
  */
 public record WikiFamily(List<String> namespace, List<WikiIndividual> wikis)
         implements Comparable<WikiFamily> {
-    private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
-
     public static final Codec<WikiFamily> CODEC = RecordCodecBuilder
             .create(builder ->
                             builder.group(
@@ -35,10 +33,7 @@ public record WikiFamily(List<String> namespace, List<WikiIndividual> wikis)
                                                                .fieldOf("wikis")
                                                                .forGetter(family -> family.wikis))
                                    .apply(builder, WikiFamily::new));
-
-    public Identifier id() {
-        return MOD.familyManager().getFamilyId(this);
-    }
+    private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
 
     /**
      * Gets the wiki for the current language in this family.
@@ -49,7 +44,7 @@ public record WikiFamily(List<String> namespace, List<WikiIndividual> wikis)
         WikiIndividual wiki;
 
         if (MOD.config().language().equals("auto")) {
-            var language = MinecraftClient.getInstance().options.language;
+            var language = Minecraft.getInstance().options.languageCode;
             wiki = this.getLanguageWikiByGameLanguage(language);
         } else {
             var language = MOD.config().language();
@@ -109,8 +104,12 @@ public record WikiFamily(List<String> namespace, List<WikiIndividual> wikis)
                 "Failed to find main language wiki for family " + this.id());
     }
 
+    public ResourceLocation id() {
+        return MOD.familyManager().getFamilyId(this);
+    }
+
     public String getTranslationKey() {
-        return Util.createTranslationKey("wiki_family", this.id());
+        return Util.makeDescriptionId("wiki_family", this.id());
     }
 
     @Override

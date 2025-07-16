@@ -2,7 +2,7 @@ package wiki.minecraft.heywiki.wiki;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.util.StringIdentifiable;
+import net.minecraft.util.StringRepresentable;
 
 /**
  * Represents a title formatter.
@@ -52,7 +52,7 @@ public record TitleFormat(Letter letter, Space space) {
      *
      * @see Space
      */
-    public enum Letter implements StringIdentifiable {
+    public enum Letter implements StringRepresentable {
         /**
          * Formats the letters to lower case.
          * {@snippet lang = "java":
@@ -83,7 +83,7 @@ public record TitleFormat(Letter letter, Space space) {
          */
         IGNORE("ignore");
 
-        public static final Codec<Letter> CODEC = StringIdentifiable.createCodec(Letter::values);
+        public static final Codec<Letter> CODEC = StringRepresentable.fromValues(Letter::values);
 
         private final String name;
 
@@ -92,7 +92,7 @@ public record TitleFormat(Letter letter, Space space) {
         }
 
         @Override
-        public String asString() {
+        public String getSerializedName() {
             return this.name;
         }
     }
@@ -102,7 +102,7 @@ public record TitleFormat(Letter letter, Space space) {
      *
      * @see Letter
      */
-    public enum Space implements StringIdentifiable {
+    public enum Space implements StringRepresentable {
         /**
          * Formats the spaces to underscores.
          * {@snippet lang = "java":
@@ -133,7 +133,7 @@ public record TitleFormat(Letter letter, Space space) {
          */
         IGNORE("ignore");
 
-        public static final Codec<Space> CODEC = StringIdentifiable.createCodec(Space::values);
+        public static final Codec<Space> CODEC = StringRepresentable.fromValues(Space::values);
 
         private final String name;
 
@@ -142,7 +142,7 @@ public record TitleFormat(Letter letter, Space space) {
         }
 
         @Override
-        public String asString() {
+        public String getSerializedName() {
             return this.name;
         }
     }

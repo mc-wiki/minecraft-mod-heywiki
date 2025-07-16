@@ -3,10 +3,10 @@ package wiki.minecraft.heywiki.target;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.resource.language.TranslationStorage;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Language;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.language.ClientLanguage;
+import net.minecraft.locale.Language;
+import net.minecraft.resources.ResourceLocation;
 import wiki.minecraft.heywiki.HeyWikiClient;
 import wiki.minecraft.heywiki.wiki.WikiIndividual;
 
@@ -19,22 +19,22 @@ import java.util.Optional;
  * @param identifier     The identifier of the target.
  * @param translationKey The translation key of the target.
  */
-record IdentifierTarget(Identifier identifier, Optional<String> translationKey, Optional<String> fallbackTitle)
+record IdentifierTarget(ResourceLocation identifier, Optional<String> translationKey, Optional<String> fallbackTitle)
         implements Target {
-    private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
-    private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
     public final static MapCodec<IdentifierTarget> CODEC = RecordCodecBuilder
             .mapCodec(builder ->
                               builder.group(
-                                             Identifier.CODEC.fieldOf("heywiki:identifier")
-                                                             .forGetter(target -> target.identifier),
+                                             ResourceLocation.CODEC.fieldOf("heywiki:identifier")
+                                                                   .forGetter(target -> target.identifier),
                                              Codec.STRING.optionalFieldOf("heywiki:translation_key")
                                                          .forGetter(target -> target.translationKey),
                                              Codec.STRING.optionalFieldOf("heywiki:fallback_title")
                                                          .forGetter(target -> target.fallbackTitle))
                                      .apply(builder, IdentifierTarget::new));
+    private static final Minecraft CLIENT = Minecraft.getInstance();
+    private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
 
-    public IdentifierTarget(Identifier identifier, String translationKey) {
+    public IdentifierTarget(ResourceLocation identifier, String translationKey) {
         this(identifier, Optional.of(translationKey), Optional.empty());
     }
 
@@ -48,7 +48,7 @@ record IdentifierTarget(Identifier identifier, Optional<String> translationKey, 
 
         WikiIndividual wiki = Objects.requireNonNull(MOD.familyManager().activeWikis().get(identifier.getNamespace()));
 
-        TranslationStorage storage = MOD.translationManager().getTranslationOverride(wiki);
+        ClientLanguage storage = MOD.translationManager().getTranslationOverride(wiki);
         String fallback = fallbackTitle().orElse(identifier.getPath());
 
         if (translationKey().isEmpty()) {
@@ -57,14 +57,14 @@ record IdentifierTarget(Identifier identifier, Optional<String> translationKey, 
 
         var translationKey = translationKey().orElseThrow();
 
-        if (storage != null && storage.hasTranslation(translationKey)) {
-            return storage.get(translationKey, fallback);
-        } else if (wiki.language().match(CLIENT.options.language)) {
-            return Language.getInstance().get(translationKey, fallback);
+        if (storage != null && storage.has(translationKey)) {
+            return storage.getOrDefault(translationKey, fallback);
+        } else if (wiki.language().match(CLIENT.options.languageCode)) {
+            return Language.getInstance().getOrDefault(translationKey, fallback);
         } else {
             return MOD.translationManager().getTranslations()
                       .get(wiki.language().defaultLanguage())
-                      .get(translationKey, fallback);
+                      .getOrDefault(translationKey, fallback);
         }
     }
 }

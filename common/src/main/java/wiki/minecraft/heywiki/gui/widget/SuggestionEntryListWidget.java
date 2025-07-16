@@ -1,17 +1,17 @@
 package wiki.minecraft.heywiki.gui.widget;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.ObjectSelectionList;
 import org.lwjgl.glfw.GLFW;
 import wiki.minecraft.heywiki.gui.screen.WikiSearchScreen;
 import wiki.minecraft.heywiki.wiki.SearchProvider;
 
 import java.util.SequencedSet;
 
-public class SuggestionEntryListWidget extends AlwaysSelectedEntryListWidget<SuggestionEntryWidget> {
+public class SuggestionEntryListWidget extends ObjectSelectionList<SuggestionEntryWidget> {
     public final WikiSearchScreen parent;
 
-    public SuggestionEntryListWidget(MinecraftClient client, int width, int height, int y,
+    public SuggestionEntryListWidget(Minecraft client, int width, int height, int y,
                                      WikiSearchScreen parent) {
         super(client, width, height, y, 24);
         this.parent = parent;
@@ -21,19 +21,26 @@ public class SuggestionEntryListWidget extends AlwaysSelectedEntryListWidget<Sug
         this.setSelected(entry);
     }
 
-    @Override
-    protected int getScrollbarX() {
-        return this.getX() + this.width;
+    public void setSelected(SuggestionEntryWidget entry) {
+        super.setSelected(entry);
+        if (entry != null) {
+            this.parent.updateSelectedSuggestion(entry.suggestion);
+        }
     }
 
     @Override
-    public int getRowWidth() {
-        return this.width - 16;
+    protected int scrollBarX() {
+        return this.getX() + this.width;
     }
 
     @Override
     public int getRowLeft() {
         return this.getX() - 12;
+    }
+
+    @Override
+    public int getRowWidth() {
+        return this.width - 16;
     }
 
     @Override
@@ -46,15 +53,8 @@ public class SuggestionEntryListWidget extends AlwaysSelectedEntryListWidget<Sug
         if (keyCode == GLFW.GLFW_KEY_UP || keyCode == GLFW.GLFW_KEY_DOWN) {
             return super.keyPressed(keyCode, scanCode, modifiers);
         } else {
-            return this.getSelectedOrNull() != null &&
-                   this.getSelectedOrNull().keyPressed(keyCode, scanCode, modifiers);
-        }
-    }
-
-    public void setSelected(SuggestionEntryWidget entry) {
-        super.setSelected(entry);
-        if (entry != null) {
-            this.parent.updateSelectedSuggestion(entry.suggestion);
+            return this.getSelected() != null &&
+                   this.getSelected().keyPressed(keyCode, scanCode, modifiers);
         }
     }
 

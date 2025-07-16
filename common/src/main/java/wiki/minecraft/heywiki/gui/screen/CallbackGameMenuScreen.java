@@ -1,13 +1,13 @@
 package wiki.minecraft.heywiki.gui.screen;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.GameMenuScreen;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.sound.SoundCategory;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.PauseScreen;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.sounds.SoundSource;
 
 import java.util.Objects;
 
-public class CallbackGameMenuScreen extends GameMenuScreen {
+public class CallbackGameMenuScreen extends PauseScreen {
     private final Runnable callback;
 
     public CallbackGameMenuScreen(boolean showMenu, Runnable callback) {
@@ -15,21 +15,22 @@ public class CallbackGameMenuScreen extends GameMenuScreen {
         this.callback = callback;
     }
 
-    @Override
-    public void close() {
-        super.close();
-        this.callback.run();
-    }
-
     public static void openWithParent(Screen parent, boolean showMenu) {
-        var client = MinecraftClient.getInstance();
-        boolean integratedServer = client.isIntegratedServerRunning() && !Objects.requireNonNull(client.getServer())
-                                                                                 .isRemote();
+        var client = Minecraft.getInstance();
+        boolean integratedServer =
+                client.hasSingleplayerServer() && !Objects.requireNonNull(client.getSingleplayerServer())
+                                                          .isPublished();
         if (integratedServer) {
             client.setScreen(new CallbackGameMenuScreen(showMenu, () -> client.setScreen(parent)));
-            client.getSoundManager().pauseAllExcept(SoundCategory.MUSIC, SoundCategory.UI);
+            client.getSoundManager().pauseAllExcept(SoundSource.MUSIC, SoundSource.UI);
         } else {
             client.setScreen(new CallbackGameMenuScreen(true, () -> client.setScreen(parent)));
         }
+    }
+
+    @Override
+    public void onClose() {
+        super.onClose();
+        this.callback.run();
     }
 }

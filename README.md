@@ -9,17 +9,16 @@
 [<img alt="neoforge" height="56" src="https://github.com/mc-wiki/minecraft-mod-heywiki/blob/master/docs/supports_neoforge.svg?raw=true">](https://neoforged.net/)
 [<img alt="crowdin" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/translate/crowdin_vector.svg">](https://crowdin.com/project/hey-wiki)
 
-Hey Wiki is a client mod made by the [the Minecraft Wiki](https://minecraft.wiki) community that allows you to press H (
-customizable)
-to open the wiki page of the block, item, or entity you're aiming at, whether it's from vanilla or a mod.
-Hey Wiki supports [Fabric](https://fabricmc.net/) and [NeoForge](https://neoforged.net/).
+Hey Wiki is a client mod made by the [the Minecraft Wiki](https://minecraft.wiki) community. It allows you to quickly open the wiki page of
+the block, item, or entity you are aiming at by pressing H (customizable), whether it is from the vanilla game or 
+another mod. Hey Wiki supports [Fabric](https://fabricmc.net/) and [NeoForge](https://neoforged.net/).
 
 ## Features
 
 - Press H (customizable) to open the wiki page (Minecraft Wiki or the respective mod wiki) of the
-  block/item/entity/status effect you're aiming at or hovering over.
+  block/item/entity/status effect the crosshair/pointer is over.
 - Press Alt+H or Opt+H to open the wiki page of the item in your main hand.
-- Press B to open the wiki search screen. You can search for wiki pages by typing in the search bar.
+- Press B to open the wiki search screen. The search bar can be used to search for wiki pages.
 - Adds several [commands](#commands).
 - [Link to a wiki page in chat](#wiki-links-in-chat) using `[[wiki link]]` syntax.
 
@@ -271,7 +270,7 @@ The following table shows which versions are supported:
 | `mc/1.21.5` | 1.21.5               | EOL               | No      | Fabric, Neoforge |
 | `mc/1.21.4` | 1.21.4               | EOL               | No      | Fabric, Neoforge |
 | `mc/1.21.3` | 1.21.2, 1.21.3       | EOL               | No      | Fabric, Neoforge |
-| `mc/1.21.1` | 1.21, 1.21.1         | Active (LTS)      | Yes     | Fabric, Neoforge |
+| `mc/1.21.1` | 1.21, 1.21.1         | Maintenance (LTS) | Yes     | Fabric, Neoforge |
 | `mc/1.20.6` | 1.20.6               | EOL               | No      | Fabric, Neoforge |
 | `mc/1.20.5` | 1.20.5               | EOL               | No      | Fabric, Neoforge |
 | `mc/1.20.4` | 1.20.4               | Maintenance (LTS) | Yes     | Fabric, Neoforge |

@@ -1,12 +1,12 @@
 package wiki.minecraft.heywiki.mixin;
 
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.gui.screen.ingame.MerchantScreen;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.MerchantScreenHandler;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.MerchantScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.MerchantMenu;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,48 +18,46 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import wiki.minecraft.heywiki.extension.MerchantScreenInterface;
 
 @Mixin(MerchantScreen.class)
-public abstract class MerchantScreenMixin extends HandledScreen<MerchantScreenHandler> implements
+public abstract class MerchantScreenMixin extends AbstractContainerScreen<MerchantMenu> implements
         MerchantScreenInterface {
     @Shadow
-    @Final
-    private MerchantScreen.WidgetButtonPage[] offers;
-
+    int scrollOff;
     @Shadow
-    int indexStartOffset;
-
-    public MerchantScreenMixin(MerchantScreenHandler handler,
-                               PlayerInventory inventory, Text title) {
-        super(handler, inventory, title);
-    }
-
+    @Final
+    private MerchantScreen.TradeOfferButton[] tradeOfferButtons;
     @Unique
     private int heywiki$mouseX;
 
+    public MerchantScreenMixin(MerchantMenu menu,
+                               Inventory inventory, Component title) {
+        super(menu, inventory, title);
+    }
+
     @Inject(method = "render", at = @At("HEAD"))
-    public void render(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo cir) {
+    public void render(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo cir) {
         this.heywiki$mouseX = mouseX;
     }
 
     @Unique @Nullable public ItemStack heywiki$getHoveredStack() {
-        for (MerchantScreen.WidgetButtonPage widgetButtonPage : this.offers) {
+        for (MerchantScreen.TradeOfferButton widgetButtonPage : this.tradeOfferButtons) {
             if (widgetButtonPage.isHovered() &&
-                this.handler.getRecipes().size() > widgetButtonPage.getIndex() + this.indexStartOffset) {
+                this.menu.getOffers().size() > widgetButtonPage.getIndex() + this.scrollOff) {
                 if (heywiki$mouseX < widgetButtonPage.getX() + 20) {
-                    return (this.handler.getRecipes().get(widgetButtonPage.getIndex() +
-                                                          this.indexStartOffset))
-                            .getDisplayedFirstBuyItem();
+                    return (this.menu.getOffers().get(widgetButtonPage.getIndex() +
+                                                          this.scrollOff))
+                            .getCostA();
                 } else if (heywiki$mouseX < widgetButtonPage.getX() + 50 &&
                            heywiki$mouseX > widgetButtonPage.getX() + 30) {
-                    ItemStack itemStack = this.handler.getRecipes()
-                                                      .get(widgetButtonPage.getIndex() + this.indexStartOffset)
-                                                      .getDisplayedSecondBuyItem();
+                    ItemStack itemStack = this.menu.getOffers()
+                                                      .get(widgetButtonPage.getIndex() + this.scrollOff)
+                                                      .getCostB();
                     if (!itemStack.isEmpty()) {
                         return itemStack;
                     }
                 } else if (heywiki$mouseX > widgetButtonPage.getX() + 65) {
-                    return this.handler.getRecipes()
-                                       .get(widgetButtonPage.getIndex() + this.indexStartOffset)
-                                       .getSellItem();
+                    return this.menu.getOffers()
+                                       .get(widgetButtonPage.getIndex() + this.scrollOff)
+                                       .getResult();
 
                 }
             }

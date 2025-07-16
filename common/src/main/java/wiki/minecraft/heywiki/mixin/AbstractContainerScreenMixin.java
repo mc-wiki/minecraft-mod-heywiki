@@ -2,13 +2,13 @@ package wiki.minecraft.heywiki.mixin;
 
 import com.google.common.collect.Ordering;
 import dev.architectury.platform.Platform;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.gui.screen.ingame.MerchantScreen;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.slot.Slot;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.MerchantScreen;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import wiki.minecraft.heywiki.HeyWikiClient;
-import wiki.minecraft.heywiki.extension.HandledScreenInterface;
+import wiki.minecraft.heywiki.extension.AbstractContainerScreenInterface;
 import wiki.minecraft.heywiki.extension.MerchantScreenInterface;
 import wiki.minecraft.heywiki.target.Target;
 import wiki.minecraft.heywiki.wiki.WikiPage;
@@ -27,57 +27,78 @@ import java.util.Collection;
 
 import static wiki.minecraft.heywiki.wiki.WikiPage.NO_FAMILY_MESSAGE;
 
-@Mixin(HandledScreen.class)
-public abstract class HandledScreenMixin extends ScreenMixin implements HandledScreenInterface {
+@Mixin(AbstractContainerScreen.class)
+public abstract class AbstractContainerScreenMixin extends ScreenMixin implements AbstractContainerScreenInterface {
     @Shadow
     @Nullable
-    protected Slot focusedSlot;
+    protected Slot hoveredSlot;
     @Shadow
-    protected int x;
+    protected int leftPos;
     @Shadow
-    protected int y;
+    protected int topPos;
     @Shadow
-    protected int backgroundWidth;
+    protected int imageWidth;
 
     @Unique
     private int heywiki$mouseX;
     @Unique
     private int heywiki$mouseY;
+    @Unique
+    private boolean heywiki$hasStatusEffect = false;
 
     @Inject(method = "render", at = @At("HEAD"))
-    public void render(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo cir) {
+    public void render(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo cir) {
         this.heywiki$mouseX = mouseX;
         this.heywiki$mouseY = mouseY;
     }
 
     @Inject(method = "keyPressed", at = @At("HEAD"))
     public void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
-        if (!HeyWikiClient.openWikiKey.matchesKey(keyCode, scanCode)) return;
+        if (!HeyWikiClient.openWikiKey.matches(keyCode, scanCode)) return;
         if (!heywiki$tryFocusedSlot()) {
             heywiki$tryStatusEffect();
         }
     }
 
-    @Unique
-    private boolean heywiki$hasStatusEffect = false;
+    @Unique private boolean heywiki$tryFocusedSlot() {
+        Slot slot = this.hoveredSlot;
+        ItemStack stack = null;
+        if (slot != null && slot.hasItem()) {
+            stack = slot.getItem();
+        } else if ((AbstractContainerScreen<?>) (Object) this instanceof MerchantScreen that) {
+            stack = ((MerchantScreenInterface) that).heywiki$getHoveredStack();
+        }
 
-    @Unique
-    public void heywiki$setHasStatusEffect() {
-        this.heywiki$hasStatusEffect = true;
+        if (stack == null) {
+            return false;
+        }
+
+        var target = Target.of(stack);
+        if (target != null) {
+            var page = WikiPage.fromTarget(target);
+            if (page == null) {
+                Minecraft.getInstance().gui.setOverlayMessage(NO_FAMILY_MESSAGE, false);
+                return false;
+            }
+            page.openInBrowser(Minecraft.getInstance().screen);
+            return true;
+        }
+
+        return false;
     }
 
     @SuppressWarnings("UnusedReturnValue")
     @Unique private boolean heywiki$tryStatusEffect() {
         if (Platform.isModLoaded("emi") || !heywiki$hasStatusEffect) return false;
 
-        var client = MinecraftClient.getInstance();
+        var client = Minecraft.getInstance();
         assert client != null;
 
-        int effectX = this.x + this.backgroundWidth + 2;
+        int effectX = this.leftPos + this.imageWidth + 2;
         int availableWidth = this.width - effectX;
         assert client.player != null;
-        Collection<StatusEffectInstance> effectInstances = client.player.getStatusEffects();
-        Iterable<StatusEffectInstance> effectInstancesSorted = Ordering.natural().sortedCopy(effectInstances);
+        Collection<MobEffectInstance> effectInstances = client.player.getActiveEffects();
+        Iterable<MobEffectInstance> effectInstancesSorted = Ordering.natural().sortedCopy(effectInstances);
         int effectWidth = 33;
         if (availableWidth >= 120) {
             effectWidth = 121;
@@ -88,10 +109,10 @@ public abstract class HandledScreenMixin extends ScreenMixin implements HandledS
         }
 
         if (availableWidth > 32 && this.heywiki$mouseX >= effectX && this.heywiki$mouseX <= effectX + effectWidth) {
-            int effectY = this.y;
-            StatusEffectInstance effectFound = null;
+            int effectY = this.topPos;
+            MobEffectInstance effectFound = null;
 
-            for (StatusEffectInstance effect : effectInstancesSorted) {
+            for (MobEffectInstance effect : effectInstancesSorted) {
                 if (this.heywiki$mouseY >= effectY && this.heywiki$mouseY <= effectY + effectHeight) {
                     effectFound = effect;
                 }
@@ -104,10 +125,10 @@ public abstract class HandledScreenMixin extends ScreenMixin implements HandledS
                 assert target != null;
                 var page = WikiPage.fromTarget(target);
                 if (page == null) {
-                    client.inGameHud.setOverlayMessage(NO_FAMILY_MESSAGE, false);
+                    client.gui.setOverlayMessage(NO_FAMILY_MESSAGE, false);
                     return false;
                 }
-                page.openInBrowser(MinecraftClient.getInstance().currentScreen);
+                page.openInBrowser(Minecraft.getInstance().screen);
                 return true;
             }
         }
@@ -115,30 +136,8 @@ public abstract class HandledScreenMixin extends ScreenMixin implements HandledS
         return false;
     }
 
-    @Unique private boolean heywiki$tryFocusedSlot() {
-        Slot slot = this.focusedSlot;
-        ItemStack stack = null;
-        if (slot != null && slot.hasStack()) {
-            stack = slot.getStack();
-        } else if ((HandledScreen<?>) (Object) this instanceof MerchantScreen that) {
-            stack = ((MerchantScreenInterface) that).heywiki$getHoveredStack();
-        }
-
-        if (stack == null) {
-            return false;
-        }
-
-        var target = Target.of(stack);
-        if (target != null) {
-            var page = WikiPage.fromTarget(target);
-            if (page == null) {
-                MinecraftClient.getInstance().inGameHud.setOverlayMessage(NO_FAMILY_MESSAGE, false);
-                return false;
-            }
-            page.openInBrowser(MinecraftClient.getInstance().currentScreen);
-            return true;
-        }
-
-        return false;
+    @Unique
+    public void heywiki$setHasStatusEffect() {
+        this.heywiki$hasStatusEffect = true;
     }
 }

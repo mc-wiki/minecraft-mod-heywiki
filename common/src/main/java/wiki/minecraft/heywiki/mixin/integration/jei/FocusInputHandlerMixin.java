@@ -1,12 +1,13 @@
 package wiki.minecraft.heywiki.mixin.integration.jei;
 
+import mezz.jei.api.gui.handlers.IGuiProperties;
 import mezz.jei.common.input.IInternalKeyMappings;
 import mezz.jei.gui.input.CombinedRecipeFocusSource;
 import mezz.jei.gui.input.IUserInputHandler;
 import mezz.jei.gui.input.UserInput;
 import mezz.jei.gui.input.handlers.FocusInputHandler;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
@@ -30,10 +31,11 @@ public class FocusInputHandlerMixin {
     private CombinedRecipeFocusSource focusSource;
 
     @Inject(method = "handleUserInput", at = @At("HEAD"), remap = false)
-    private void handleUserInput(Screen screen, UserInput input, IInternalKeyMappings keyBindings,
+    private void handleUserInput(Screen screen, IGuiProperties guiProperties, UserInput input,
+                                 IInternalKeyMappings keyBindings,
                                  CallbackInfoReturnable<Optional<IUserInputHandler>> cir) {
         input.callVanilla((int keyCode, int scanCode, int modifiers) -> {
-            if (HeyWikiClient.openWikiKey.matchesKey(keyCode, scanCode)) {
+            if (HeyWikiClient.openWikiKey.matches(keyCode, scanCode)) {
                 focusSource.getIngredientUnderMouse(input, keyBindings)
                            .filter(clicked -> clicked.getElement().isVisible())
                            .findFirst()
@@ -44,8 +46,8 @@ public class FocusInputHandlerMixin {
                                    if (target != null) {
                                        var page = WikiPage.fromTarget(target);
                                        if (page == null) {
-                                           MinecraftClient.getInstance().inGameHud.setOverlayMessage(NO_FAMILY_MESSAGE,
-                                                                                                     false);
+                                           Minecraft.getInstance().gui.setOverlayMessage(NO_FAMILY_MESSAGE,
+                                                                                         false);
                                            return;
                                        }
                                        page.openInBrowser(null);

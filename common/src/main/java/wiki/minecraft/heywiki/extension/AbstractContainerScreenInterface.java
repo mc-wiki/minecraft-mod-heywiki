@@ -1,5 +1,5 @@
 package wiki.minecraft.heywiki.extension;
 
-public interface HandledScreenInterface {
+public interface AbstractContainerScreenInterface {
     void heywiki$setHasStatusEffect();
 }

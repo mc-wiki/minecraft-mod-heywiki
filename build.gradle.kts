@@ -19,8 +19,8 @@ subprojects {
         dependencies {
             "minecraft"("com.mojang:minecraft:${rootProject.property("minecraft_version")}")
             "mappings"(layered {
-                mappings("net.fabricmc:yarn:${rootProject.property("yarn_mappings")}:v2")
-                mappings("dev.architectury:yarn-mappings-patch-neoforge:1.21+build.4")
+                officialMojangMappings()
+                parchment("org.parchmentmc.data:parchment-${rootProject.property("parchment_version")}@zip")
             })
         }
     }

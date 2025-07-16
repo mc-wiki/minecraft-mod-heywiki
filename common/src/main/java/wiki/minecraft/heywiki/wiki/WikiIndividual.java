@@ -24,7 +24,6 @@ public record WikiIndividual(String articleUrl, Optional<String> mwApiUrl, Optio
                              Optional<SearchProvider.ProviderType> searchProviderType,
                              Optional<SearchProvider.AlgoliaProvider> algoliaConfig, Optional<String> searchUrl,
                              WikiLanguage language, TitleFormat title) {
-    private static final Logger LOGGER = LogUtils.getLogger();
     public static final Codec<WikiIndividual> CODEC = RecordCodecBuilder.create(
             builder -> builder.group(Codec.STRING.fieldOf("article_url").forGetter(wiki -> wiki.articleUrl),
                                      Codec.STRING.optionalFieldOf("mw_api_url").forGetter(wiki -> wiki.mwApiUrl),
@@ -42,6 +41,7 @@ public record WikiIndividual(String articleUrl, Optional<String> mwApiUrl, Optio
                                      TitleFormat.CODEC.fieldOf("title").orElse(TitleFormat.DEFAULT)
                                                       .forGetter(wiki -> wiki.title))
                               .apply(builder, WikiIndividual::new));
+    private static final Logger LOGGER = LogUtils.getLogger();
 
     public Optional<SearchProvider> searchProvider() {
         if (searchProviderType.isEmpty() && searchUrl.isPresent()) {

@@ -12,7 +12,7 @@ public class TargetTest implements FabricClientGameTest {
         try (TestSingleplayerContext world = context.worldBuilder().create()) {
             context.runOnClient((client) -> {
                 assert client.player != null;
-                client.player.setYaw(0);
+                client.player.setYRot(0);
             });
             context.getInput().holdKey(GLFW.GLFW_KEY_LEFT_ALT);
             context.getInput().holdKey(GLFW.GLFW_KEY_H);
@@ -22,7 +22,7 @@ public class TargetTest implements FabricClientGameTest {
             context.waitTick();
             context.waitForScreen(ConfirmWikiPageScreen.class);
             context.runOnClient((client) -> {
-                assert !(client.currentScreen instanceof ConfirmWikiPageScreen screen) ||
+                assert !(client.screen instanceof ConfirmWikiPageScreen screen) ||
                        screen.getTitle().getString().equals("Grass Block");
             });
         }

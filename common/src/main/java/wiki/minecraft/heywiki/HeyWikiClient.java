@@ -1,19 +1,19 @@
 package wiki.minecraft.heywiki;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.brigadier.CommandDispatcher;
 import dev.architectury.event.events.client.*;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent.ClientCommandSourceStack;
 import dev.architectury.registry.ReloadListenerRegistry;
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.command.CommandRegistryAccess;
-import net.minecraft.resource.ResourceType;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.commands.CommandBuildContext;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import wiki.minecraft.heywiki.command.*;
@@ -35,23 +35,19 @@ import static dev.architectury.event.events.client.ClientCommandRegistrationEven
  */
 public class HeyWikiClient {
     public static final String MOD_ID = "heywiki";
-
-    public static Identifier id(String path) {
-        return Identifier.of(MOD_ID, path);
-    }
-
-    public static final KeyBinding openWikiKey = new KeyBinding("key.heywiki.open",
-                                                                InputUtil.Type.KEYSYM,
+    public static final KeyMapping openWikiKey = new KeyMapping("key.heywiki.open",
+                                                                InputConstants.Type.KEYSYM,
                                                                 GLFW.GLFW_KEY_H,
                                                                 "key.categories.heywiki"
     );
-    public static final KeyBinding openWikiSearchKey = new KeyBinding("key.heywiki.open_search",
-                                                                      InputUtil.Type.KEYSYM,
+    public static final KeyMapping openWikiSearchKey = new KeyMapping("key.heywiki.open_search",
+                                                                      InputConstants.Type.KEYSYM,
                                                                       GLFW.GLFW_KEY_B,
                                                                       "key.categories.heywiki"
     );
+    private static final Set<String> experimentsWarned = new HashSet<>();
+    private static final Set<String> deprecationsWarned = new HashSet<>();
     private static HeyWikiClient INSTANCE;
-
     private final WikiFamilyManager familyManager;
     private final WikiTranslationManager translationManager;
     private final HeyWikiConfig config;
@@ -83,9 +79,11 @@ public class HeyWikiClient {
             var family = familyManager().getFamilyByNamespace(target.namespace());
             if (family == null) return;
 
-            lines.add(Text.translatable("gui.heywiki.tooltip",
-                                        openWikiKey.getBoundKeyLocalizedText().copy().setStyle(Style.EMPTY.withColor(Formatting.GRAY))
-                                       ).setStyle(Style.EMPTY.withColor(Formatting.DARK_GRAY)));
+            lines.add(Component.translatable("gui.heywiki.tooltip",
+                                             openWikiKey.getTranslatedKeyMessage().copy()
+                                                        .setStyle(Style.EMPTY.withColor(
+                                                                ChatFormatting.GRAY))
+                                            ).setStyle(Style.EMPTY.withColor(ChatFormatting.DARK_GRAY)));
         });
 
         ClientTickEvent.CLIENT_POST.register(Raycast::onClientTickPost);
@@ -93,13 +91,13 @@ public class HeyWikiClient {
 
         this.familyManager = new WikiFamilyManager();
         this.translationManager = new WikiTranslationManager();
-        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, this.familyManager, id("family"));
-        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, this.translationManager, id("translation"),
+        ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, this.familyManager, id("family"));
+        ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, this.translationManager, id("translation"),
                                         List.of(id("family")));
     }
 
     private static void registerCommands(CommandDispatcher<ClientCommandSourceStack> dispatcher,
-                                         CommandRegistryAccess registryAccess) {
+                                         CommandBuildContext buildContext) {
         ImFeelingLuckyCommand.register(dispatcher);
         WhatBiomeCommand.register(dispatcher);
         var whatCommandCommand = WhatCommandCommand.register(dispatcher);
@@ -107,7 +105,7 @@ public class HeyWikiClient {
         WhatIsThisItemCommand.register(dispatcher);
         var wikiCommand = WikiCommand.register(dispatcher);
         var whatVersionCommand = WhatVersionCommand.register(dispatcher);
-        if (MinecraftClient.getInstance().isIntegratedServerRunning()) {
+        if (Minecraft.getInstance().hasSingleplayerServer()) {
             WhatStructureCommand.register(dispatcher);
         }
 
@@ -116,12 +114,21 @@ public class HeyWikiClient {
         dispatcher.register(literal("whatver").redirect(whatVersionCommand));
     }
 
+    public HeyWikiConfig config() {
+        return config;
+    }
+
+    public WikiFamilyManager familyManager() {
+        return familyManager;
+    }
+
+    public static ResourceLocation id(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+    }
+
     public static HeyWikiClient getInstance() {
         return INSTANCE;
     }
-
-    private static final Set<String> experimentsWarned = new HashSet<>();
-    private static final Set<String> deprecationsWarned = new HashSet<>();
 
     /**
      * Logs a warning that a feature is experimental.
@@ -149,15 +156,7 @@ public class HeyWikiClient {
         }
     }
 
-    public WikiFamilyManager familyManager() {
-        return familyManager;
-    }
-
     public WikiTranslationManager translationManager() {
         return translationManager;
-    }
-
-    public HeyWikiConfig config() {
-        return config;
     }
 }

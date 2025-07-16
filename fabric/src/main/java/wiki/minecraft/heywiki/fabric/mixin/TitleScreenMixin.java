@@ -1,12 +1,12 @@
 package wiki.minecraft.heywiki.fabric.mixin;
 
 import net.minecraft.SharedConstants;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.TitleScreen;
-import net.minecraft.client.gui.widget.PressableTextWidget;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.PlainTextButton;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.TitleScreen;
+import net.minecraft.network.chat.Component;
 import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,35 +21,33 @@ public class TitleScreenMixin extends Screen {
     @Shadow
     @Final
     private static Logger LOGGER;
+    @Unique
+    private PlainTextButton wikiButton;
 
-    protected TitleScreenMixin(Text title) {
+    protected TitleScreenMixin(Component title) {
         super(title);
     }
 
-    @Unique
-    private PressableTextWidget wikiButton;
-
     @Redirect(method = "render", at = @At(value = "INVOKE",
-                                          target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Ljava/lang/String;III)V"))
-    private void drawTextWithShadow(DrawContext drawContext, TextRenderer textRenderer, String text, int x, int y,
-                                    int color) {
+                                          target = "Lnet/minecraft/client/gui/GuiGraphics;drawString(Lnet/minecraft/client/gui/Font;Ljava/lang/String;III)V"))
+    private void drawTextWithShadow(GuiGraphics instance, Font font, String text, int x, int y, int color) {
         try {
-            int width = textRenderer.getWidth(text);
+            int width = font.width(text);
             if (!this.children().contains(wikiButton)) {
-                this.wikiButton = this.addDrawableChild(
-                        new PressableTextWidget(x, y, width, 10, Text.literal(text),
-                                                (button) -> {
-                                                    var article = WikiPage.versionArticle(
-                                                            SharedConstants.getGameVersion().name());
-                                                    if (article != null) {
-                                                        article.openInBrowser(this);
-                                                    }
-                                                },
-                                                this.textRenderer));
+                this.wikiButton = this.addRenderableWidget(
+                        new PlainTextButton(x, y, width, 10, Component.literal(text),
+                                            (button) -> {
+                                                var article = WikiPage.versionArticle(
+                                                        SharedConstants.getCurrentVersion().name());
+                                                if (article != null) {
+                                                    article.openInBrowser(this);
+                                                }
+                                            },
+                                            this.font));
             }
         } catch (Exception e) {
             LOGGER.error("Failed to draw wiki button", e);
-            drawContext.drawTextWithShadow(textRenderer, text, x, y, color);
+            instance.drawString(font, text, x, y, color);
         }
     }
 }

@@ -1,12 +1,12 @@
 package wiki.minecraft.heywiki.wiki;
 
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Util;
+import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import wiki.minecraft.heywiki.HeyWikiClient;
@@ -31,13 +31,13 @@ public record WikiPage(String pageName, WikiIndividual wiki) {
     /**
      * The message to display when no family is found.
      */
-    public static final Text NO_FAMILY_MESSAGE = Text.translatable("gui.heywiki.no_family")
-                                                     .setStyle(Style.EMPTY.withColor(Formatting.RED));
+    public static final Component NO_FAMILY_MESSAGE = Component.translatable("gui.heywiki.no_family")
+                                                               .setStyle(Style.EMPTY.withColor(ChatFormatting.RED));
     /**
      * The exception to throw when no family is found in a command.
      */
     public static final SimpleCommandExceptionType NO_FAMILY_EXCEPTION =
-            new SimpleCommandExceptionType(Text.translatable("gui.heywiki.no_family"));
+            new SimpleCommandExceptionType(Component.translatable("gui.heywiki.no_family"));
     private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
 
     /**
@@ -87,16 +87,6 @@ public record WikiPage(String pageName, WikiIndividual wiki) {
     }
 
     /**
-     * Open the page in the browser, while displaying a confirmation dialog based on global configuration.
-     *
-     * @param parent The parent screen.
-     */
-    public void openInBrowser(Screen parent) {
-        openInBrowser(MOD.config().requiresConfirmation(),
-                      parent == null ? MinecraftClient.getInstance().currentScreen : parent);
-    }
-
-    /**
      * Open the page in the browser.
      *
      * @param requiresConfirmation Whether to skip the confirmation dialog.
@@ -107,7 +97,7 @@ public record WikiPage(String pageName, WikiIndividual wiki) {
         if (requiresConfirmation) {
             ConfirmWikiPageScreen.open(parent, uri.toString(), PageExcerpt.fromPage(this), this);
         } else {
-            Util.getOperatingSystem().open(uri);
+            Util.getPlatform().openUri(uri);
         }
     }
 
@@ -122,5 +112,15 @@ public record WikiPage(String pageName, WikiIndividual wiki) {
         } catch (URISyntaxException e) {
             throw new RuntimeException("Failed to create URI for wiki page", e);
         }
+    }
+
+    /**
+     * Open the page in the browser, while displaying a confirmation dialog based on global configuration.
+     *
+     * @param parent The parent screen.
+     */
+    public void openInBrowser(Screen parent) {
+        openInBrowser(MOD.config().requiresConfirmation(),
+                      parent == null ? Minecraft.getInstance().screen : parent);
     }
 }

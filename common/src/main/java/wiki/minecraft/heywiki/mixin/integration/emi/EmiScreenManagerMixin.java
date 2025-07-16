@@ -3,7 +3,7 @@ package wiki.minecraft.heywiki.mixin.integration.emi;
 import dev.emi.emi.api.stack.EmiStackInteraction;
 import dev.emi.emi.api.stack.ItemEmiStack;
 import dev.emi.emi.screen.EmiScreenManager;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.Shadow;
@@ -21,7 +21,7 @@ import static wiki.minecraft.heywiki.wiki.WikiPage.NO_FAMILY_MESSAGE;
 @Mixin(EmiScreenManager.class)
 public class EmiScreenManagerMixin {
     @Shadow
-    private static MinecraftClient client;
+    private static Minecraft client;
 
     @Inject(method = "keyPressed", at = @At("HEAD"), remap = false)
     @SuppressWarnings("UnstableApiUsage")
@@ -29,12 +29,12 @@ public class EmiScreenManagerMixin {
         EmiStackInteraction stackInteraction = getHoveredStack(false);
         if (!stackInteraction.isEmpty() && stackInteraction instanceof EmiScreenManager.SidebarEmiStackInteraction
             && stackInteraction.getStack() instanceof ItemEmiStack itemEmiStack) {
-            if (HeyWikiClient.openWikiKey.matchesKey(keyCode, scanCode)) {
+            if (HeyWikiClient.openWikiKey.matches(keyCode, scanCode)) {
                 var target = Target.of(itemEmiStack.getItemStack());
                 if (target != null) {
                     var page = WikiPage.fromTarget(target);
                     if (page == null) {
-                        client.inGameHud.setOverlayMessage(NO_FAMILY_MESSAGE, false);
+                        client.gui.setOverlayMessage(NO_FAMILY_MESSAGE, false);
                         return;
                     }
                     page.openInBrowser(null);

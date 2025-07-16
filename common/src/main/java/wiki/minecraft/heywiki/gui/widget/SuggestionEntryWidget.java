@@ -1,19 +1,17 @@
 package wiki.minecraft.heywiki.gui.widget;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gl.RenderPipelines;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget.Entry;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.texture.AbstractTexture;
-import net.minecraft.client.texture.NativeImageBackedTexture;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Language;
-import net.minecraft.util.math.ColorHelper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.ObjectSelectionList;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.texture.AbstractTexture;
+import net.minecraft.client.renderer.texture.DynamicTexture;
+import net.minecraft.locale.Language;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ARGB;
 import org.apache.commons.codec.binary.Hex;
 import org.jetbrains.annotations.Nullable;
 import wiki.minecraft.heywiki.wiki.SearchProvider;
@@ -24,21 +22,21 @@ import java.security.NoSuchAlgorithmException;
 
 import static wiki.minecraft.heywiki.HeyWikiClient.id;
 
-public class SuggestionEntryWidget extends Entry<SuggestionEntryWidget> {
+public class SuggestionEntryWidget extends ObjectSelectionList.Entry<SuggestionEntryWidget> {
     public final SearchProvider.Suggestion suggestion;
-    protected final MinecraftClient client;
+    protected final Minecraft client;
     protected final SuggestionEntryListWidget list;
     private long lastClickTime;
 
     public SuggestionEntryWidget(SearchProvider.Suggestion suggestion, SuggestionEntryListWidget list) {
         this.suggestion = suggestion;
         this.list = list;
-        this.client = MinecraftClient.getInstance();
+        this.client = Minecraft.getInstance();
     }
 
     @Override
-    public Text getNarration() {
-        return Text.literal(this.suggestion.title());
+    public Component getNarration() {
+        return Component.literal(this.suggestion.title());
     }
 
     @Override
@@ -56,43 +54,44 @@ public class SuggestionEntryWidget extends Entry<SuggestionEntryWidget> {
     }
 
     @Override
-    public void render(DrawContext DrawContext, int index, int y, int x, int rowWidth, int rowHeight, int mouseX,
+    public void render(GuiGraphics GuiGraphics, int index, int y, int x, int rowWidth, int rowHeight, int mouseX,
                        int mouseY, boolean hovered, float delta) {
         int iconSize = 20;
 
         var icon = this.getIconTexture();
         if (icon != null) {
-            DrawContext.drawTexture(RenderPipelines.GUI_TEXTURED, this.getIconTexture(),
-                                    x + 22, y, 0.0F, 0.0F,
-                                    iconSize, iconSize, iconSize, iconSize,
-                                    ColorHelper.getWhite(1.0F));
+            GuiGraphics.blit(RenderPipelines.GUI_TEXTURED, this.getIconTexture(),
+                             x + 22, y, 0.0F, 0.0F,
+                             iconSize, iconSize, iconSize, iconSize,
+                             ARGB.white(1.0F));
         }
 
-        MutableText name;
+        MutableComponent name;
         if (suggestion.title().toLowerCase().contains(this.list.parent.getSearchTerm().toLowerCase())) {
             String title = suggestion.title();
             int termIndex = title.toLowerCase().indexOf(this.list.parent.getSearchTerm().toLowerCase());
-            name = Text.literal(title.substring(0, termIndex))
-                       .append(Text.literal(
-                                           title.substring(termIndex, termIndex + this.list.parent.getSearchTerm().length()))
-                                   .setStyle(Style.EMPTY.withUnderline(true)))
-                       .append(Text.of(title.substring(termIndex + this.list.parent.getSearchTerm().length())));
+            name = Component.literal(title.substring(0, termIndex))
+                            .append(Component.literal(
+                                                     title.substring(termIndex, termIndex + this.list.parent.getSearchTerm().length()))
+                                             .setStyle(Style.EMPTY.withUnderlined(true)))
+                            .append(Component.literal(
+                                    title.substring(termIndex + this.list.parent.getSearchTerm().length())));
         } else {
-            name = Text.literal(suggestion.title());
+            name = Component.literal(suggestion.title());
         }
-        DrawContext.drawTextWithShadow(this.client.textRenderer, Language.getInstance().reorder(name),
-                                       x + 22 + iconSize + 3, y + 1,
-                                       0xFFFFFF);
+        GuiGraphics.drawString(this.client.font, Language.getInstance().getVisualOrder(name),
+                               x + 22 + iconSize + 3, y + 1,
+                               0xFFFFFF);
 
         suggestion.redirectsTo().ifPresent(redirect -> {
-            Text redirected = Text.literal(redirect);
-            DrawContext.drawTextWithShadow(this.client.textRenderer, Language.getInstance().reorder(redirected),
-                                           x + 22 + iconSize + 3, y + 1 + 10,
-                                           0xAAAAAA);
+            Component redirected = Component.literal(redirect);
+            GuiGraphics.drawString(this.client.font, Language.getInstance().getVisualOrder(redirected),
+                                   x + 22 + iconSize + 3, y + 1 + 10,
+                                   0xAAAAAA);
         });
     }
 
-    public @Nullable Identifier getIconTexture() {
+    public @Nullable ResourceLocation getIconTexture() {
         return this.suggestion.imageUrl().map((imageUrl) -> {
             MessageDigest md;
             try {
@@ -104,7 +103,7 @@ public class SuggestionEntryWidget extends Entry<SuggestionEntryWidget> {
             var identifier = id(hash);
 
             AbstractTexture texture = client.getTextureManager().getTexture(identifier);
-            return texture instanceof NativeImageBackedTexture ? identifier : null;
+            return texture instanceof DynamicTexture ? identifier : null;
         }).orElse(null);
     }
 }
