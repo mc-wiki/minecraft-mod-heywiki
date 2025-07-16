@@ -32,7 +32,7 @@
   "options.heywiki.raycast_allow_fluid.name": "액체 조준 허용",
   "options.heywiki.raycast_reach.description": "조준한 객체가 Hey Wiki 기능을 활성화할 수 있는 최대 범위입니다.\n값이 높을수록 성능 문제를 일으킬 수 있습니다.\n상호 작용 거리 특성이 더 높다면, 그 특성 값을 대신 사용합니다.",
   "options.heywiki.raycast_reach.name": "범위",
-  "options.heywiki.requires_confirmation.description": "위키 문서가 열리기 전에 확인 화면을 보여줍니다.\n실수로 작동시킨 기능이나 위키 미리 보기를 방지할 때 유용합니다.",
+  "options.heywiki.requires_confirmation.description": "위키 문서가 열리기 전에 확인 화면을 보여줍니다.\n기능을 실수로 작동시키는 걸 방지하거나 위키 문서를 미리 볼 때 유용합니다.",
   "options.heywiki.requires_confirmation.name": "확인하기",
   "options.heywiki.requires_confirmation_command.description": "명령어를 사용했을 때, 위키 문서를 열기 전 확인 화면을 엽니다.\n명령어를 사용하면서도 미리 보기 화면을 보고 싶을 때 유용합니다.",
   "options.heywiki.requires_confirmation_command.name": "명령어 사용 시 확인하기",

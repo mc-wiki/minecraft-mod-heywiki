@@ -19,7 +19,7 @@
   "options.heywiki.category.general": "全般",
   "options.heywiki.category.language": "言語",
   "options.heywiki.category.search": "検索",
-  "options.heywiki.item_tooltip.name": "アイテム上のツールチップ",
+  "options.heywiki.item_tooltip.name": "アイテムのツールチップ",
   "options.heywiki.item_tooltip.description": "アイテムのツールチップ上に、そのアイテムがHey Wikiの機能で調べられることを表示します。",
   "options.heywiki.language.auto": "自動：ゲームの言語を使用",
   "options.heywiki.language.description": "お好みの言語を設定することで、ゲームの言語設定を上書きできます。",
