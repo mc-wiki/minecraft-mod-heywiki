@@ -33,7 +33,7 @@ public class Raycast {
      * Should be called at {@link ClientTickEvent#CLIENT_POST ClientTickEvent#CLIENT_POST}.
      */
     public static void onClientTickPost(Minecraft client) {
-        while (openWikiKey.isDown()) {
+        if (openWikiKey.consumeClick()) {
             Target target;
             if (Screen.hasAltDown()) {
                 assert client.player != null;

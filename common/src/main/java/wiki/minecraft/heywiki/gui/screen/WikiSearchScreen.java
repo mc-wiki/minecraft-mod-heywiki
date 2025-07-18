@@ -68,7 +68,7 @@ public class WikiSearchScreen extends Screen {
     }
 
     public static void onClientTickPost(Minecraft client) {
-        while (openWikiSearchKey.isDown()) {
+        if (openWikiSearchKey.consumeClick()) {
             client.setScreen(new WikiSearchScreen());
         }
     }
