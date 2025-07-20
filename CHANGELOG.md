@@ -2,4 +2,4 @@
 
 ## Fixes
 
-- Fixed wiki rendering (#101)
+- Fixed wiki search rendering (#101)
