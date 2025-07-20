@@ -69,7 +69,7 @@ public class WikiSelectScreen extends Screen {
                 Button.builder(Component.translatable("gui.done"), button -> this.onClose()).width(200).build());
 
         this.layout.arrangeElements();
-        layout.visitWidgets(this::addWidget);
+        layout.visitWidgets(this::addRenderableWidget);
     }
 
     @Override

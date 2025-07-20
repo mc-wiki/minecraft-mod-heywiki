@@ -81,13 +81,13 @@ public class SuggestionEntryWidget extends ObjectSelectionList.Entry<SuggestionE
         }
         GuiGraphics.drawString(this.client.font, Language.getInstance().getVisualOrder(name),
                                x + 22 + iconSize + 3, y + 1,
-                               0xFFFFFF);
+                               0xFFFFFFFF);
 
         suggestion.redirectsTo().ifPresent(redirect -> {
             Component redirected = Component.literal(redirect);
             GuiGraphics.drawString(this.client.font, Language.getInstance().getVisualOrder(redirected),
                                    x + 22 + iconSize + 3, y + 1 + 10,
-                                   0xAAAAAA);
+                                   0xFFAAAAAA);
         });
     }
 
