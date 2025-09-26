@@ -1,5 +1,4 @@
 {
-  "id": "ae2",
   "namespace": [
     "ae2"
   ],
@@ -17,6 +16,13 @@
       "title": {
         "letter": "lower",
         "space": "underscore"
+      },
+      "search_provider": "algolia",
+      "algolia": {
+        "api_url": "https://eg2004ghb4-dsn.algolia.net/",
+        "index_name": "appliedenergistics",
+        "api_key": "ab39bd0dd374963dfa89e457fb10e514",
+        "app_id": "EG2004GHB4"
       }
     }
   ]

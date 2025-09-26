@@ -39,11 +39,11 @@
     }
   ],
   "depends": {
-    "fabricloader": ">=0.15.11",
-    "minecraft": ">=1.21",
+    "fabricloader": ">=0.16.0",
+    "minecraft": ">=1.21.6 <=1.21.8",
     "java": ">=21",
     "fabric-api": "*",
-    "architectury": ">=13.0.0",
+    "architectury": ">=14.0.0",
     "cloth-config": "*"
   },
   "recommends": {
@@ -51,7 +51,9 @@
   },
   "suggests": {
     "roughlyenoughitems": ">=15.0.0",
-    "emi": ">=1.1.0"
+    "emi": ">=1.1.0",
+    "jei": ">=19.0.0",
+    "mcbrowser": "*"
   },
   "custom": {
     "modmenu": {

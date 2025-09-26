@@ -1,0 +1,22 @@
+{
+  "namespace": [
+    "voidscape"
+  ],
+  "wikis": [
+    {
+      "article_url": "https://voidscape.tamaized.com/index.php?search=%s",
+      "mw_api_url": "https://voidscape.tamaized.com/api.php",
+      "random_article": "Special:RandomPage",
+      "excerpt": "none",
+      "search_provider": "mediawiki",
+      "search_url": "https://voidscape.tamaized.com/index.php?search=%s",
+      "language": {
+        "wiki_language": "en",
+        "main": true,
+        "default": "en_us",
+        "regex": "^en_.*",
+        "exclude": null
+      }
+    }
+  ]
+}

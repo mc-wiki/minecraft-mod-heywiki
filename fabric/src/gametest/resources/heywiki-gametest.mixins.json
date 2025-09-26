@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "wiki.minecraft.heywiki.gametest.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "minVersion": "0.8",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "TitleScreenMixin"
+  ]
+}

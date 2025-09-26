@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "id": "heywiki-gametest",
+  "version": "1.0.0",
+  "name": "Hey Wiki GameTest",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-client-gametest": [
+      "wiki.minecraft.heywiki.gametest.wiki.target.TargetTest"
+    ]
+  }
+}

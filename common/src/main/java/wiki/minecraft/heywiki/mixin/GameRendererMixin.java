@@ -1,14 +1,14 @@
 package wiki.minecraft.heywiki.mixin;
 
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.hit.HitResult;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.HitResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(GameRenderer.class)
 public interface GameRendererMixin {
-    @Invoker("findCrosshairTarget")
-    HitResult invokeFindCrosshairTarget(Entity camera, double blockInteractionRange, double entityInteractionRange,
-                                        float tickDelta);
+    @Invoker("pick")
+    HitResult invokePick(Entity camera, double blockInteractionRange, double entityInteractionRange,
+                         float tickDelta);
 }

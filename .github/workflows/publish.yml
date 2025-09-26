@@ -42,18 +42,6 @@ jobs:
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
-      - name: Sync translations
-        uses: crowdin/github-action@v2
-        with:
-          upload_sources: false
-          upload_translations: false
-          download_sources: false
-          download_translations: true
-          push_translations: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CROWDIN_PROJECT_ID: 665004
-          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
       - name: validate gradle wrapper
         uses: gradle/wrapper-validation-action@v1
       - name: setup jdk ${{ env.JAVA_VERSION }}
@@ -81,14 +69,13 @@ jobs:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
 
           name: "Hey Wiki ${{ github.ref_name }} for Minecraft ${{ needs.properties.outputs.minecraft_version }} with ${{ matrix.loader.formatted }}"
-          version: "${{ github.ref_name }}+${{ matrix.loader.name }}"
-          version-type: release
+          version: "${{ github.ref_name }}-${{ matrix.loader.name }}"
           game-versions: ${{ needs.properties.outputs.minecraft_version_range }}
           changelog-file: CHANGELOG.md
           loaders: ${{ matrix.loader.name }}
           files: ${{ matrix.loader.name }}/build/libs/!(*-sources|*-dev-shadow).jar
       - name: capture build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Artifacts
           path: ${{ matrix.loader.name }}/build/libs/

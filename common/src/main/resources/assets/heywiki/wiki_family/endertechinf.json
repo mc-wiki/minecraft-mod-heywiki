@@ -1,0 +1,22 @@
+{
+  "namespace": [
+    "endertechinf"
+  ],
+  "wikis": [
+    {
+      "article_url": "https://endertechinfinity.wiki.gg/?search=%s",
+      "mw_api_url": "https://endertechinfinity.wiki.gg/api.php",
+      "random_article": "Special:RandomPage",
+      "excerpt": "text_extracts",
+      "search_provider": "mediawiki",
+      "search_url": "https://endertechinfinity.wiki.gg/?search=%s",
+      "language": {
+        "wiki_language": "en",
+        "main": true,
+        "default": "en_us",
+        "regex": "^en_.*",
+        "exclude": null
+      }
+    }
+  ]
+}

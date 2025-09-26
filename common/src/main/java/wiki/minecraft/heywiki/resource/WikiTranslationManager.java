@@ -3,96 +3,126 @@ package wiki.minecraft.heywiki.resource;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.resource.language.TranslationStorage;
-import net.minecraft.resource.Resource;
-import net.minecraft.resource.ResourceManager;
-import net.minecraft.resource.SynchronousResourceReloader;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Language;
+import net.minecraft.client.resources.language.ClientLanguage;
+import net.minecraft.locale.Language;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
-import wiki.minecraft.heywiki.HeyWikiConfig;
-import wiki.minecraft.heywiki.mixin.TranslationStorageFactory;
+import wiki.minecraft.heywiki.HeyWikiClient;
+import wiki.minecraft.heywiki.mixin.ClientLanguageFactory;
 import wiki.minecraft.heywiki.wiki.WikiIndividual;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
-import static wiki.minecraft.heywiki.resource.WikiFamilyConfigManager.*;
-
-public class WikiTranslationManager implements SynchronousResourceReloader {
+/**
+ * Manages any additional translation files
+ * that need to be loaded for {@link wiki.minecraft.heywiki.wiki.WikiPage WikiPages} resolution.
+ */
+public class WikiTranslationManager implements ResourceManagerReloadListener {
+    private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    public static Map<String, TranslationStorage> translations;
+    private Map<String, ClientLanguage> translations;
 
     public WikiTranslationManager() {
     }
 
-    public static @Nullable TranslationStorage getTranslationOverride(WikiIndividual wiki) {
+    /**
+     * Gets the language override storage for the specified wiki.
+     *
+     * @param wiki The wiki.
+     * @return The translation storage. If the language has no override, returns null.
+     */
+    public @Nullable ClientLanguage getTranslationOverride(WikiIndividual wiki) {
         return wiki.language().langOverride()
-                   .map(s -> WikiTranslationManager.translations.getOrDefault(s, null))
+                   .map(s -> getTranslations().getOrDefault(s, null))
                    .orElse(null);
     }
 
+    /**
+     * A map of translations for each language.
+     */
+    public Map<String, ClientLanguage> getTranslations() {
+        return translations;
+    }
+
     @Override
-    public void reload(ResourceManager manager) {
-        Map<String, TranslationStorage> translationsNew = new HashMap<>();
+    public void onResourceManagerReload(ResourceManager manager) {
+        Map<String, ClientLanguage> translationsNew = new HashMap<>();
         for (String language : decideLanguage()) {
             translationsNew.put(language, loadTranslation(language, manager, true));
         }
-        for (String language : getLangOverride()) {
+        for (String language : MOD.familyManager().getLangOverride()) {
             translationsNew.put(language, loadTranslation(language, manager, false));
         }
 
         translations = translationsNew;
     }
 
-    private static Set<String> decideLanguage() {
-        var configLanguage = HeyWikiConfig.language;
+    private Set<String> decideLanguage() {
+        var configLanguage = MOD.config().language();
         if (configLanguage.equals("auto")) {
-            return getAllMainLanguages();
+            return MOD.familyManager().getAllDefaultLanguages();
         } else {
-            var mainLanguages = getAllMainLanguages();
-            var defaultLanguages = getAllDefaultLanguagesFromWikiLanguage(configLanguage);
+            var mainLanguages = MOD.familyManager().getAllDefaultLanguages();
+            var defaultLanguages = MOD.familyManager().getAllDefaultLanguagesFromWikiLanguage(configLanguage);
             mainLanguages.addAll(defaultLanguages);
             return mainLanguages;
         }
     }
 
-    public static TranslationStorage loadTranslation(String language, ResourceManager resourceManager,
-                                                     boolean fallbackEnUs) {
+    /**
+     * Load translations for the specified language from resource packs.
+     *
+     * @param language        The language code.
+     * @param resourceManager The resource manager.
+     * @param fallbackEnUs    Whether to fall back to en_us if the specified language is not found.
+     * @return The translation storage for the specified language.
+     */
+    public static ClientLanguage loadTranslation(String language, ResourceManager resourceManager,
+                                                 boolean fallbackEnUs) {
         return language.equals("en_us") || !fallbackEnUs
                 ? loadTranslationFrom(resourceManager, List.of(language))
                 : loadTranslationFrom(resourceManager, List.of("en_us", language));
     }
 
-    private static TranslationStorage loadTranslationFrom(ResourceManager resourceManager, List<String> definitions) {
+    /**
+     * @see ClientLanguage#loadFrom(ResourceManager, List, boolean)
+     */
+    private static ClientLanguage loadTranslationFrom(ResourceManager resourceManager, List<String> definitions) {
         Map<String, String> map = Maps.newHashMap();
 
         for (String definition : definitions) {
             String path = String.format(Locale.ROOT, "lang/%s.json", definition);
 
-            for (String namespace : resourceManager.getAllNamespaces()) {
+            for (String namespace : resourceManager.getNamespaces()) {
                 try {
-                    Identifier identifier = Identifier.of(namespace, path);
-                    appendTranslationFrom(definition, resourceManager.getAllResources(identifier), map);
+                    ResourceLocation identifier = ResourceLocation.fromNamespaceAndPath(namespace, path);
+                    appendTranslationFrom(definition, resourceManager.getResourceStack(identifier), map);
                 } catch (Exception e) {
                     LOGGER.warn("Skipped language file: {}:{} ({})", namespace, path, e.toString());
                 }
             }
         }
 
-        return TranslationStorageFactory.create(ImmutableMap.copyOf(map), false);
+        return ClientLanguageFactory.create(ImmutableMap.copyOf(map), false);
     }
 
+    /**
+     * @see ClientLanguage#appendFrom(String, List, Map)
+     */
     private static void appendTranslationFrom(String langCode, List<Resource> resourceRefs,
                                               Map<String, String> translations) {
         for (Resource resource : resourceRefs) {
-            try (InputStream inputStream = resource.getInputStream()) {
-                Language.load(inputStream, translations::put);
+            try (InputStream inputStream = resource.open()) {
+                Language.loadFromJson(inputStream, translations::put);
             } catch (IOException e) {
-                LOGGER.warn("Failed to load translations for {} from pack {}", langCode, resource.getPackId(), e);
+                LOGGER.warn("Failed to load translations for {} from pack {}", langCode, resource.sourcePackId(), e);
             }
         }
     }

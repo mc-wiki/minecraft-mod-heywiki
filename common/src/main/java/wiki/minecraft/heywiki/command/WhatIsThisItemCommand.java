@@ -1,14 +1,16 @@
 package wiki.minecraft.heywiki.command;
 
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent.ClientCommandSourceStack;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
-import wiki.minecraft.heywiki.wiki.Target;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
+import wiki.minecraft.heywiki.target.Target;
 import wiki.minecraft.heywiki.wiki.WikiPage;
 
 import static dev.architectury.event.events.client.ClientCommandRegistrationEvent.literal;
@@ -16,24 +18,19 @@ import static wiki.minecraft.heywiki.wiki.WikiPage.NO_FAMILY_EXCEPTION;
 
 public class WhatIsThisItemCommand {
     public static final SimpleCommandExceptionType NO_ITEM_HELD = new SimpleCommandExceptionType(
-            Text.translatable("heywiki.no_item_held"));
-    private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
+            Component.translatable("gui.heywiki.no_item_held"));
+    private static final Minecraft CLIENT = Minecraft.getInstance();
 
     @SuppressWarnings("UnusedReturnValue")
     public static LiteralCommandNode<ClientCommandSourceStack> register(
             CommandDispatcher<ClientCommandSourceStack> dispatcher) {
+        assert CLIENT.player == null;
         return dispatcher.register(
                 literal("whatisthisitem")
-                        .executes(ctx -> {
-                            if (CLIENT.player == null) return 1;
-                            ItemStack stack = CLIENT.player.getInventory().getMainHandStack();
-                            return openBrowserForStack(stack);
-                        }).then(literal("offhand")
-                                        .executes(ctx -> {
-                                            if (CLIENT.player == null) return 1;
-                                            ItemStack stack = CLIENT.player.getInventory().offHand.getFirst();
-                                            return openBrowserForStack(stack);
-                                        })));
+                        .executes(ctx -> openBrowserForStack(CLIENT.player.getInventory().getSelectedItem()))
+                        .then(literal("offhand")
+                                      .executes(ctx -> openBrowserForStack(
+                                              CLIENT.player.getInventory().getItem(Inventory.SLOT_OFFHAND)))));
     }
 
     private static int openBrowserForStack(ItemStack stack) throws CommandSyntaxException {
@@ -45,7 +42,7 @@ public class WhatIsThisItemCommand {
         if (page == null) {
             throw NO_FAMILY_EXCEPTION.create();
         }
-        page.openInBrowser(true);
-        return 0;
+        page.openInBrowserCommand(null);
+        return Command.SINGLE_SUCCESS;
     }
 }

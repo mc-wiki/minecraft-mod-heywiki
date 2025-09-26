@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://minecraft.wiki/wiki_family/schema",
+  "title": "Hey Wiki wiki family",
+  "description": "Represents a family of wikis. A family is a group of wikis that are in different languages but document the same content.",
+  "type": "object",
+  "properties": {
+    "namespace": {
+      "type": "array",
+      "description": "List of namespaces bound to the wiki family.",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "wikis": {
+      "type": "array",
+      "description": "A list of wikis in the family.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "article_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "The URL pattern to an article. %s will be replaced with the query."
+          },
+          "mw_api_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the MediaWiki API, if it exists."
+          },
+          "random_article": {
+            "type": "string",
+            "description": "The name of the random article page."
+          },
+          "version_article": {
+            "type": "string",
+            "description": "DO NOT USE"
+          },
+          "excerpt": {
+            "type": "string",
+            "description": "How Hey Wiki should fetch excerpts from the wiki. Either text_extracts or none. text_extracts only works for MediaWiki sites with the TextExtracts extension installed. You can check this by visiting Special:Version on the wiki.",
+            "enum": [
+              "text_extracts",
+              "none"
+            ]
+          },
+          "search_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "The URL pattern for searching. %s will be replaced with the query. If not present, the search feature will not be available for this wiki."
+          },
+          "language": {
+            "type": "object",
+            "properties": {
+              "wiki_language": {
+                "type": "string",
+                "description": "The language code of the wiki."
+              },
+              "main": {
+                "type": "boolean",
+                "description": "Whether this is the main language. If true, this language will be fallback if no other language matches.",
+                "default": false
+              },
+              "default": {
+                "type": "string",
+                "description": "The default in-game language that the wiki supports. This will be fallback if the in-game language is not supported by the wiki."
+              },
+              "regex": {
+                "type": "string",
+                "description": "A regular expression. If the regex matches the in-game language, this wiki will be used when config is auto-detected",
+                "format": "regex"
+              },
+              "exclude": {
+                "type": ["string", "null"],
+                "description": "A regular expression. Ditto, but for exclusion.",
+                "format": "regex"
+              },
+              "lang_override": {
+                "type": "string",
+                "description": "A language code that should override the in-game language. This is useful for wikis that have a different language code than the in-game language."
+              }
+            },
+            "required": [
+              "wiki_language",
+              "default",
+              "regex"
+            ]
+          }
+        },
+        "required": [
+          "article_url",
+          "language"
+        ]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "required": [
+      "namespace",
+      "wikis"
+    ]
+  }
+}

@@ -7,14 +7,20 @@
     "defaultRequire": 1
   },
   "client": [
-    "AbstractInventoryScreenMixin",
+    "AbstractContainerScreenMixin",
+    "ChatScreenMixin",
+    "ClientLanguageFactory",
     "GameRendererMixin",
-    "HandledScreenMixin",
+    "MerchantScreenMixin",
+    "PauseScreenMixin",
+    "RecipeBookPageMixin",
+    "RecipeBookWidgetMixin",
     "ScreenMixin",
-    "SplashTextResourceSupplierMixin",
-    "TranslationStorageFactory",
+    "SplashManagerMixin",
+    "StatusEffectsDisplayMixin",
     "integration.emi.EmiScreenManagerMixin",
     "integration.emi.RecipeScreenMixin",
+    "integration.jei.FocusInputHandlerMixin",
     "integration.rei.ScreenOverlayImplMixin"
   ]
 }
