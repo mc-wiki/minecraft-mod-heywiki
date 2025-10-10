@@ -33,8 +33,8 @@ public abstract class MerchantScreenMixin extends AbstractContainerScreen<Mercha
         super(menu, inventory, title);
     }
 
-    @Inject(method = "render", at = @At("HEAD"))
-    public void render(GuiGraphics context, int mouseX, int mouseY, float delta, CallbackInfo cir) {
+    @Inject(method = "renderContents", at = @At("HEAD"))
+    public void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo cir) {
         this.heywiki$mouseX = mouseX;
     }
 

@@ -5,6 +5,7 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookPage;
 import net.minecraft.client.gui.screens.recipebook.RecipeButton;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.world.item.crafting.display.RecipeDisplayEntry;
 import net.minecraft.world.item.crafting.display.SlotDisplayContext;
 import org.jetbrains.annotations.Nullable;
@@ -30,9 +31,9 @@ import static wiki.minecraft.heywiki.wiki.WikiPage.NO_FAMILY_MESSAGE;
     private @Nullable EditBox searchBox;
 
     @Inject(method = "keyPressed", at = @At("HEAD"))
-    public void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
+    public void keyPressed(KeyEvent keyEvent, CallbackInfoReturnable<Boolean> cir) {
         if (this.isVisible() && this.searchBox != null && !this.searchBox.isFocused() &&
-            HeyWikiClient.openWikiKey.matches(keyCode, scanCode)) {
+            HeyWikiClient.openWikiKey.matches(keyEvent)) {
             @Nullable RecipeButton button = ((RecipeBookPageMixin) recipeBookPage).heywiki$getHoveredResultButton();
             if (button != null) {
                 RecipeDisplayEntry entry = button.getCollection().getRecipes().getFirst();

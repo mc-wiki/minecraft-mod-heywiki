@@ -3,7 +3,6 @@ package wiki.minecraft.heywiki.entrypoint;
 import dev.architectury.event.events.client.ClientGuiEvent;
 import dev.architectury.event.events.client.ClientTickEvent;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.phys.BlockHitResult;
@@ -35,7 +34,7 @@ public class Raycast {
     public static void onClientTickPost(Minecraft client) {
         if (openWikiKey.consumeClick()) {
             Target target;
-            if (Screen.hasAltDown()) {
+            if (client.hasAltDown()) {
                 assert client.player != null;
                 target = Target.of(client.player.getInventory().getSelectedItem());
             } else {
@@ -76,14 +75,13 @@ public class Raycast {
      * @see #raycast()
      */
     public static @Nullable Target raycast() {
-        assert CLIENT.player != null;
-        assert CLIENT.level != null;
+        if (CLIENT.player == null || CLIENT.level == null) return null;
 
         double maxReach = MOD.config().raycastReach();
         double blockReach = Math.max(CLIENT.player.blockInteractionRange(), maxReach);
         double entityReach = Math.max(CLIENT.player.entityInteractionRange(), maxReach);
         HitResult hit = ((GameRendererMixin) CLIENT.gameRenderer).invokePick(
-                CLIENT.cameraEntity,
+                CLIENT.getCameraEntity(),
                 blockReach, entityReach,
                 1f);
 

@@ -266,7 +266,8 @@ The following table shows which versions are supported:
 
 | Git branch  | Minecraft version    | Supported?        | Is LTS? | Modloader        |
 |-------------|----------------------|-------------------|---------|------------------|
-| `master`    | 1.21.6 - 1.21.8      | Active (Latest)   | ?       | Fabric, Neoforge |
+| `master`    | 1.21.9 - 1.21.10     | Active (Latest)   | ?       | Fabric, Neoforge |
+| `mc/1.21.8` | 1.21.6 - 1.21.8      | EOL               | No      | Fabric, Neoforge |
 | `mc/1.21.5` | 1.21.5               | EOL               | No      | Fabric, Neoforge |
 | `mc/1.21.4` | 1.21.4               | EOL               | No      | Fabric, Neoforge |
 | `mc/1.21.3` | 1.21.2, 1.21.3       | EOL               | No      | Fabric, Neoforge |

@@ -8,6 +8,7 @@ import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.gui.layouts.HeaderAndFooterLayout;
 import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
 import wiki.minecraft.heywiki.HeyWikiClient;
@@ -34,12 +35,12 @@ public class WikiSelectScreen extends Screen {
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (keyCode == GLFW.GLFW_KEY_ENTER) {
+    public boolean keyPressed(KeyEvent keyEvent) {
+        if (keyEvent.key() == GLFW.GLFW_KEY_ENTER) {
             this.onClose();
             return true;
         } else {
-            return super.keyPressed(keyCode, scanCode, modifiers);
+            return super.keyPressed(keyEvent);
         }
     }
 
@@ -108,10 +109,9 @@ public class WikiSelectScreen extends Screen {
         }
 
         @Override
-        public void render(GuiGraphics context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX,
-                           int mouseY, boolean hovered, float tickDelta) {
-            context.drawString(client.font, Component.translatable(this.wiki.getTranslationKey()),
-                               x + 14, y + 2, 0xFFFFFFFF);
+        public void renderContent(GuiGraphics guiGraphics, int mouseX, int mouseY, boolean isHovering, float partialTick) {
+            guiGraphics.drawString(client.font, Component.translatable(this.wiki.getTranslationKey()),
+                               getContentX() + 14, getContentY() + 2, 0xFFFFFFFF);
         }
     }
 }

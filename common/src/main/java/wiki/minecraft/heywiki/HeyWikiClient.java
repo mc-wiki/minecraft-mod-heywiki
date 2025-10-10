@@ -18,8 +18,10 @@ import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import wiki.minecraft.heywiki.command.*;
 import wiki.minecraft.heywiki.entrypoint.ChatWikiLinks;
+import wiki.minecraft.heywiki.entrypoint.HeyWikiDebugEntry;
 import wiki.minecraft.heywiki.entrypoint.Raycast;
 import wiki.minecraft.heywiki.gui.screen.WikiSearchScreen;
+import wiki.minecraft.heywiki.mixin.DebugScreenEntriesMixin;
 import wiki.minecraft.heywiki.resource.WikiFamilyManager;
 import wiki.minecraft.heywiki.resource.WikiTranslationManager;
 import wiki.minecraft.heywiki.target.Target;
@@ -35,15 +37,16 @@ import static dev.architectury.event.events.client.ClientCommandRegistrationEven
  */
 public class HeyWikiClient {
     public static final String MOD_ID = "heywiki";
+    public static final KeyMapping.Category HEYWIKI_CATEGORY = new KeyMapping.Category(id("heywiki"));
     public static final KeyMapping openWikiKey = new KeyMapping("key.heywiki.open",
                                                                 InputConstants.Type.KEYSYM,
                                                                 GLFW.GLFW_KEY_H,
-                                                                "key.categories.heywiki"
+                                                                HEYWIKI_CATEGORY
     );
     public static final KeyMapping openWikiSearchKey = new KeyMapping("key.heywiki.open_search",
                                                                       InputConstants.Type.KEYSYM,
                                                                       GLFW.GLFW_KEY_B,
-                                                                      "key.categories.heywiki"
+                                                                      HEYWIKI_CATEGORY
     );
     private static final Set<String> experimentsWarned = new HashSet<>();
     private static final Set<String> deprecationsWarned = new HashSet<>();
@@ -67,9 +70,9 @@ public class HeyWikiClient {
 
         ClientChatEvent.RECEIVED.register(ChatWikiLinks::onClientChatReceived);
 
-        ClientGuiEvent.DEBUG_TEXT_RIGHT.register(Raycast::onDebugTextRight);
+        DebugScreenEntriesMixin.invokeRegister(HeyWikiClient.id("url"), new HeyWikiDebugEntry());
 
-        ClientTooltipEvent.ITEM.register((stack, lines, tooltipContext, flag) -> {
+        ClientTooltipEvent.ITEM.register((stack, lines, tooltipContex, flag) -> {
             if (!config().itemTooltip()) return;
             if (openWikiKey.isUnbound()) return;
 

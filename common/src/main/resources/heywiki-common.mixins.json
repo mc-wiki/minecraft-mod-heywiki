@@ -10,6 +10,7 @@
     "AbstractContainerScreenMixin",
     "ChatScreenMixin",
     "ClientLanguageFactory",
+    "DebugScreenEntriesMixin",
     "GameRendererMixin",
     "MerchantScreenMixin",
     "PauseScreenMixin",

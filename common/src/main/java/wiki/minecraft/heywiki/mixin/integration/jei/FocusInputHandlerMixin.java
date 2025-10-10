@@ -34,28 +34,25 @@ public class FocusInputHandlerMixin {
     private void handleUserInput(Screen screen, IGuiProperties guiProperties, UserInput input,
                                  IInternalKeyMappings keyBindings,
                                  CallbackInfoReturnable<Optional<IUserInputHandler>> cir) {
-        input.callVanilla((int keyCode, int scanCode, int modifiers) -> {
-            if (HeyWikiClient.openWikiKey.matches(keyCode, scanCode)) {
-                focusSource.getIngredientUnderMouse(input, keyBindings)
-                           .filter(clicked -> clicked.getElement().isVisible())
-                           .findFirst()
-                           .ifPresent(clicked -> {
-                               var itemStack = clicked.getTypedIngredient().getItemStack();
-                               if (itemStack.isPresent()) {
-                                   var target = Target.of(itemStack.get());
-                                   if (target != null) {
-                                       var page = WikiPage.fromTarget(target);
-                                       if (page == null) {
-                                           Minecraft.getInstance().gui.setOverlayMessage(NO_FAMILY_MESSAGE,
-                                                                                         false);
-                                           return;
-                                       }
-                                       page.openInBrowser(null);
+        if (input.is(HeyWikiClient.openWikiKey)) {
+            focusSource.getIngredientUnderMouse(input, keyBindings)
+                       .filter(clicked -> clicked.getElement().isVisible())
+                       .findFirst()
+                       .ifPresent(clicked -> {
+                           var itemStack = clicked.getTypedIngredient().getItemStack();
+                           if (itemStack.isPresent()) {
+                               var target = Target.of(itemStack.get());
+                               if (target != null) {
+                                   var page = WikiPage.fromTarget(target);
+                                   if (page == null) {
+                                       Minecraft.getInstance().gui.setOverlayMessage(NO_FAMILY_MESSAGE,
+                                                                                     false);
+                                       return;
                                    }
+                                   page.openInBrowser(null);
                                }
-                           });
-            }
-            return true;
-        });
+                           }
+                       });
+        }
     }
 }

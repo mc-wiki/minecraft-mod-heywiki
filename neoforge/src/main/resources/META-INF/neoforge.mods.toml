@@ -28,7 +28,7 @@ side = "CLIENT"
 [[dependencies.heywiki]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21.6,1.21.8)"
+versionRange = "[1.21.9,1.21.10]"
 ordering = "NONE"
 side = "CLIENT"
 

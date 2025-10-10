@@ -4,6 +4,7 @@ import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.ItemEmiStack;
 import dev.emi.emi.screen.RecipeScreen;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.input.KeyEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.Shadow;
@@ -23,9 +24,10 @@ public abstract class RecipeScreenMixin {
     @SuppressWarnings("UnstableApiUsage")
     private void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
         EmiIngredient ingredient = this.getHoveredStack();
+        var keyEvent = new KeyEvent(keyCode, scanCode, modifiers);
         if (!ingredient.isEmpty() && ingredient.getEmiStacks().getFirst() instanceof ItemEmiStack itemEmiStack) {
-            if (HeyWikiClient.openWikiKey.matches(keyCode, scanCode)) {
-                if (HeyWikiClient.openWikiKey.matches(keyCode, scanCode)) {
+            if (HeyWikiClient.openWikiKey.matches(keyEvent)) {
+                if (HeyWikiClient.openWikiKey.matches(keyEvent)) {
                     var target = Target.of((itemEmiStack.getItemStack()));
                     if (target != null) {
                         var page = WikiPage.fromTarget(target);

@@ -2,6 +2,7 @@ package wiki.minecraft.heywiki.gui.widget;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ObjectSelectionList;
+import net.minecraft.client.input.KeyEvent;
 import org.lwjgl.glfw.GLFW;
 import wiki.minecraft.heywiki.gui.screen.WikiSearchScreen;
 import wiki.minecraft.heywiki.wiki.SearchProvider;
@@ -35,12 +36,12 @@ public class SuggestionEntryListWidget extends ObjectSelectionList<SuggestionEnt
 
     @Override
     public int getRowLeft() {
-        return this.getX() - 12;
+        return this.getX() + 6;
     }
 
     @Override
     public int getRowWidth() {
-        return this.width - 16;
+        return this.width - 12;
     }
 
     @Override
@@ -49,12 +50,12 @@ public class SuggestionEntryListWidget extends ObjectSelectionList<SuggestionEnt
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (keyCode == GLFW.GLFW_KEY_UP || keyCode == GLFW.GLFW_KEY_DOWN) {
-            return super.keyPressed(keyCode, scanCode, modifiers);
+    public boolean keyPressed(KeyEvent keyEvent) {
+        if (keyEvent.key() == GLFW.GLFW_KEY_UP || keyEvent.key() == GLFW.GLFW_KEY_DOWN) {
+            return super.keyPressed(keyEvent);
         } else {
             return this.getSelected() != null &&
-                   this.getSelected().keyPressed(keyCode, scanCode, modifiers);
+                   this.getSelected().keyPressed(keyEvent);
         }
     }
 

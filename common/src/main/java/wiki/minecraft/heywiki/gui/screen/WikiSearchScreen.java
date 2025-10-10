@@ -10,6 +10,7 @@ import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.layouts.FrameLayout;
 import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -75,16 +76,16 @@ public class WikiSearchScreen extends Screen {
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+    public boolean keyPressed(KeyEvent keyEvent) {
         SuggestionEntryWidget selected = this.entryList.getSelected();
         String searchTerm = this.textField.getValue();
-        if (keyCode == GLFW.GLFW_KEY_ENTER) {
+        if (keyEvent.key() == GLFW.GLFW_KEY_ENTER) {
             if (searchTerm.isEmpty() || (this.getFocused() != this.entryList && this.getFocused() != this.textField))
-                return super.keyPressed(keyCode, scanCode, modifiers);
+                return super.keyPressed(keyEvent);
 
             searchEntry(selected);
         }
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return super.keyPressed(keyEvent);
     }
 
     public void searchEntry(SuggestionEntryWidget selected) {

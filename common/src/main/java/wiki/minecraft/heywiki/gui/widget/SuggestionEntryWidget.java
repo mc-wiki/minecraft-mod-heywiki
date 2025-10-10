@@ -3,6 +3,7 @@ package wiki.minecraft.heywiki.gui.widget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ObjectSelectionList;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.DynamicTexture;
@@ -26,7 +27,6 @@ public class SuggestionEntryWidget extends ObjectSelectionList.Entry<SuggestionE
     public final SearchProvider.Suggestion suggestion;
     protected final Minecraft client;
     protected final SuggestionEntryListWidget list;
-    private long lastClickTime;
 
     public SuggestionEntryWidget(SearchProvider.Suggestion suggestion, SuggestionEntryListWidget list) {
         this.suggestion = suggestion;
@@ -40,28 +40,23 @@ public class SuggestionEntryWidget extends ObjectSelectionList.Entry<SuggestionE
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int delta) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
         this.list.select(this);
-        var now = System.currentTimeMillis();
-        if (now - this.lastClickTime < 250) {
+        if (doubleClick) {
             this.list.parent.searchEntry(this);
-            this.lastClickTime = 0;
-        } else {
-            this.lastClickTime = now;
         }
 
         return true;
     }
 
     @Override
-    public void render(GuiGraphics GuiGraphics, int index, int y, int x, int rowWidth, int rowHeight, int mouseX,
-                       int mouseY, boolean hovered, float delta) {
+    public void renderContent(GuiGraphics guiGraphics, int mouseX, int mouseY, boolean isHovering, float partialTick) {
         int iconSize = 20;
 
         var icon = this.getIconTexture();
         if (icon != null) {
-            GuiGraphics.blit(RenderPipelines.GUI_TEXTURED, this.getIconTexture(),
-                             x + 22, y, 0.0F, 0.0F,
+            guiGraphics.blit(RenderPipelines.GUI_TEXTURED, this.getIconTexture(),
+                             getContentX() + 2, getContentY(), 0.0F, 0.0F,
                              iconSize, iconSize, iconSize, iconSize,
                              ARGB.white(1.0F));
         }
@@ -79,14 +74,14 @@ public class SuggestionEntryWidget extends ObjectSelectionList.Entry<SuggestionE
         } else {
             name = Component.literal(suggestion.title());
         }
-        GuiGraphics.drawString(this.client.font, Language.getInstance().getVisualOrder(name),
-                               x + 22 + iconSize + 3, y + 1,
+        guiGraphics.drawString(this.client.font, Language.getInstance().getVisualOrder(name),
+                               getContentX() + 2 + iconSize + 3, getContentY() + 1,
                                0xFFFFFFFF);
 
         suggestion.redirectsTo().ifPresent(redirect -> {
             Component redirected = Component.literal(redirect);
-            GuiGraphics.drawString(this.client.font, Language.getInstance().getVisualOrder(redirected),
-                                   x + 22 + iconSize + 3, y + 1 + 10,
+            guiGraphics.drawString(this.client.font, Language.getInstance().getVisualOrder(redirected),
+                                   getContentX() + 2 + iconSize + 3, getContentY() + 1 + 10,
                                    0xFFAAAAAA);
         });
     }

@@ -4,6 +4,7 @@ import me.shedaniel.rei.api.client.REIRuntime;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.impl.client.gui.widget.EntryWidget;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
@@ -24,11 +25,12 @@ public abstract class ScreenOverlayImplMixin {
     @Inject(method = "keyPressedIgnoreContains", at = @At("HEAD"), remap = false)
     public void keyPressedIgnoreContains(int keyCode, int scanCode, int modifiers,
                                          CallbackInfoReturnable<Boolean> cir) {
+        var keyEvent = new KeyEvent(keyCode, scanCode, modifiers);
         if (REIRuntime.getInstance().isOverlayVisible()) {
             EntryStack<?> stack = this.getCurrentEntry();
             if (stack != null && !stack.isEmpty()) {
                 stack = stack.copy();
-                if (HeyWikiClient.openWikiKey.matches(keyCode, scanCode)) {
+                if (HeyWikiClient.openWikiKey.matches(keyEvent)) {
                     if (stack.getValue() instanceof ItemStack itemStack) {
                         var target = Target.of(itemStack);
                         if (target != null) {

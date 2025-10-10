@@ -1,5 +1,7 @@
-# v1.8.3+1.21.8
+# v1.8.4+1.21.10
 
-## Fixes
+## Changes
 
-- Fixed wiki search rendering (#101)
+- Support for Minecraft 1.21.10
+- Hey Wiki URL in F3 screen is now hidden by default. You can reenable it in the F3+F6 setting screen.
+- 

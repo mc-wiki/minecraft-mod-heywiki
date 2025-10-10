@@ -13,6 +13,7 @@ import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.layouts.FrameLayout;
 import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.network.chat.CommonComponents;
@@ -146,20 +147,20 @@ public class ConfirmWikiPageScreen extends Screen {
         return CommonComponents.joinLines(super.getNarrationMessage(), this.message);
     }
 
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (keyCode == GLFW.GLFW_KEY_ENTER || openWikiKey.matches(keyCode, scanCode)) {
+    public boolean keyPressed(KeyEvent keyEvent) {
+        if (keyEvent.key() == GLFW.GLFW_KEY_ENTER || openWikiKey.matches(keyEvent)) {
             this.callback.accept(true);
             return true;
-        } else if (keyCode == GLFW.GLFW_KEY_C && hasControlDown() && !hasShiftDown() && !hasAltDown()) {
+        } else if (keyEvent.key() == GLFW.GLFW_KEY_C && keyEvent.hasControlDown() && !keyEvent.hasShiftDown() && !keyEvent.hasAltDown()) {
             this.callback.accept(false);
             this.copyToClipboard();
             return false;
-        } else if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
+        } else if (keyEvent.key() == GLFW.GLFW_KEY_ESCAPE) {
             this.callback.accept(false);
             return true;
         }
 
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return super.keyPressed(keyEvent);
     }
 
     @Override
@@ -196,7 +197,7 @@ public class ConfirmWikiPageScreen extends Screen {
                                                                   .setStyle(
                                                                           Style.EMPTY.withColor(ChatFormatting.GRAY)
                                                                                      .withUnderlined(true)),
-                                                      this.font, false, false, 3),
+                                                      this.font, false, FocusableTextWidget.BackgroundFill.ALWAYS, 3),
                               positioner -> positioner.paddingVertical(3))
                     .setCentered(false);
         } else {
@@ -214,7 +215,7 @@ public class ConfirmWikiPageScreen extends Screen {
                                                       this.message.copy()
                                                                   .setStyle(Style.EMPTY.withColor(ChatFormatting.GRAY)
                                                                                        .withUnderlined(true)),
-                                                      this.font, false, false, 3))
+                                                      this.font, false, FocusableTextWidget.BackgroundFill.NEVER, 3))
                     .setCentered(false);
             excerptTextLayout
                     .addChild(new FocusableTextWidget(

@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.MerchantScreen;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -53,8 +54,8 @@ public abstract class AbstractContainerScreenMixin extends ScreenMixin implement
     }
 
     @Inject(method = "keyPressed", at = @At("HEAD"))
-    public void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
-        if (!HeyWikiClient.openWikiKey.matches(keyCode, scanCode)) return;
+    public void keyPressed(KeyEvent keyEvent, CallbackInfoReturnable<Boolean> cir) {
+        if (!HeyWikiClient.openWikiKey.matches(keyEvent)) return;
         if (!heywiki$tryFocusedSlot()) {
             heywiki$tryStatusEffect();
         }
