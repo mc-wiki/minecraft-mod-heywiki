@@ -183,7 +183,8 @@
         "wiki_language": "zh",
         "default": "zh_cn",
         "regex": "^zh_.*",
-        "exclude": null
+        "exclude": null,
+        "lang_override": "minecraft_zh"
       }
     }
   ]
