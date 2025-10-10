@@ -20,6 +20,7 @@
   "options.heywiki.category.language": "Kieli",
   "options.heywiki.category.search": "Hae",
   "options.heywiki.item_tooltip.name": "Kohteen työkaluvihje",
+  "options.heywiki.item_tooltip.description": "Näyttää työkaluvihjeellä, että esinettä voidaan hakea Hey Wikillä.",
   "options.heywiki.language.auto": "auto: Käytä pelin kieltä",
   "options.heywiki.language.description": "Aseta haluamasi kieli, joka ohittaa pelin kieliasetuksen.",
   "options.heywiki.language.name": "Wikin kieli",
