@@ -104,6 +104,7 @@ Currently, Hey Wiki supports the following wikis:
 - [Marvel Superheroes Mod Wiki](https://marvelsuperheroesmod.wiki.gg/)
 - [BlockFront Wiki](https://blockfront.wiki.gg/)
 - [Cobblemon Wiki](https://wiki.cobblemon.com/)
+- [ArPhEx Wiki](https://arphex.miraheze.org/)
 
 If you want to add support for other wikis, you can
 [file an issue](https://github.com/mc-wiki/minecraft-mod-heywiki/issues/new?labels=new+wiki%2Ctriage+needed&template=new_wiki.yml).
