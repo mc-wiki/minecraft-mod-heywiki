@@ -11,7 +11,7 @@
   "gui.heywiki_search.search": "جستجو",
   "gui.heywiki_search.switch_wiki": "تغییر ویکی",
   "gui.heywiki_search.title": "جستجو در %s",
-  "key.categories.heywiki": "هی ویکی",
+  "key.category.heywiki.heywiki": "هی ویکی",
   "key.heywiki.open": "صفحه ویکی را باز کنید",
   "key.heywiki.open_search": "در ویکی ها جستجو کنید",
   "options.heywiki.category.search": "جستجو",

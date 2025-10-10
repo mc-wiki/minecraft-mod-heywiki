@@ -13,7 +13,7 @@
   "gui.heywiki_search.search": "חיפוש",
   "gui.heywiki_search.switch_wiki": "החלף ויקי",
   "gui.heywiki_search.title": "חפש ב-%s",
-  "key.categories.heywiki": "היי ויקי",
+  "key.category.heywiki.heywiki": "היי ויקי",
   "key.heywiki.open": "פתח ערך בויקי",
   "key.heywiki.open_search": "פתח ערך בויקי",
   "options.heywiki.category.general": "כללי",

@@ -11,7 +11,7 @@
   "gui.heywiki_search.search": "Cari",
   "gui.heywiki_search.switch_wiki": "Tukar wiki",
   "gui.heywiki_search.title": "Cari dalam %s",
-  "key.categories.heywiki": "Hey Wiki",
+  "key.category.heywiki.heywiki": "Hey Wiki",
   "key.heywiki.open": "Buka artikel wiki",
   "key.heywiki.open_search": "Buka artikel wiki",
   "options.heywiki.category.search": "Cari",

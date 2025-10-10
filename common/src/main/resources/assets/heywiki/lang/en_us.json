@@ -13,7 +13,7 @@
   "gui.heywiki_search.search": "Search",
   "gui.heywiki_search.switch_wiki": "Switch wiki",
   "gui.heywiki_search.title": "Search in %s",
-  "key.categories.heywiki": "Hey Wiki",
+  "key.category.heywiki.heywiki": "Hey Wiki",
   "key.heywiki.open": "Open wiki article",
   "key.heywiki.open_search": "Search in wikis",
   "options.heywiki.category.general": "General",

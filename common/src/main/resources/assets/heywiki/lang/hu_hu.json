@@ -13,7 +13,7 @@
   "gui.heywiki_search.search": "Keresés",
   "gui.heywiki_search.switch_wiki": "Wiki váltása",
   "gui.heywiki_search.title": "Keresés itt: %s",
-  "key.categories.heywiki": "Hey Wiki",
+  "key.category.heywiki.heywiki": "Hey Wiki",
   "key.heywiki.open": "Wiki cikk megnyitása",
   "key.heywiki.open_search": "Keresés wikiken",
   "options.heywiki.category.general": "Általános",

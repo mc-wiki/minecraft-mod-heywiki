@@ -13,7 +13,7 @@
   "gui.heywiki_search.search": "搜尋",
   "gui.heywiki_search.switch_wiki": "切換 wiki",
   "gui.heywiki_search.title": "在 %s 中搜尋",
-  "key.categories.heywiki": "Hey Wiki",
+  "key.category.heywiki.heywiki": "Hey Wiki",
   "key.heywiki.open": "開啟 wiki 條目",
   "key.heywiki.open_search": "在 wiki 中搜尋",
   "options.heywiki.category.general": "一般",

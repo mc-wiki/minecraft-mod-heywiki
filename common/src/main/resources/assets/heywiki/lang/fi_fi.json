@@ -13,7 +13,7 @@
   "gui.heywiki_search.search": "Hae",
   "gui.heywiki_search.switch_wiki": "Vaihda wikiä",
   "gui.heywiki_search.title": "Etsi kohteesta %s",
-  "key.categories.heywiki": "Hei Wiki",
+  "key.category.heywiki.heywiki": "Hei Wiki",
   "key.heywiki.open": "Avaa wiki-artikkeli",
   "key.heywiki.open_search": "Hae wikeistä",
   "options.heywiki.category.general": "Yleinen",

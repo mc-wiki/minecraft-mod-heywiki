@@ -13,7 +13,7 @@
   "gui.heywiki_search.search": "Поиск",
   "gui.heywiki_search.switch_wiki": "Сменить вики",
   "gui.heywiki_search.title": "Поиск в %s",
-  "key.categories.heywiki": "Hey Wiki",
+  "key.category.heywiki.heywiki": "Hey Wiki",
   "key.heywiki.open": "Открыть статью на вики",
   "key.heywiki.open_search": "Открыть статью на вики",
   "options.heywiki.category.general": "Общие",
