@@ -1,7 +1,9 @@
 {
+  "commands.imfeelinglucky.not_supported": "指定的 wiki 不支援隨機頁面功能",
   "key.categories.heywiki": "Hey Wiki",
   "key.heywiki.open": "打開 wiki 條目",
   "key.heywiki.open_search": "打開 wiki 條目",
+  "options.heywiki.category.general": "通用",
   "options.heywiki.language.auto": "auto: 採用遊戲語言",
   "options.heywiki.language.description": "設定您的偏好語言來取代遊戲的語言設定。",
   "options.heywiki.language.name": "wiki 語言",

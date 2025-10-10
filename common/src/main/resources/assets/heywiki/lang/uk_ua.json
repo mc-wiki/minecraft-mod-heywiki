@@ -1,5 +1,5 @@
 {
-  "commands.imfeelinglucky.not_supported": "Вказане сімейство вікі не підтримує функцію випадкових статей",
+  "commands.imfeelinglucky.not_supported": "Вказане сімейство вікі не підтримує функцію випадкової статті",
   "commands.whatstructure.no_integrated_server": "/whatstructure потребує локального світу гри наодинці",
   "commands.whatstructure.no_structure": "Структуру не знайдено",
   "gui.heywiki.no_family": "Вікі не знайдено",
