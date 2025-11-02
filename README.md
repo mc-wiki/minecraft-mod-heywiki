@@ -119,7 +119,7 @@ In addition, you can also add support for other wikis by using a resource pack.
 Hey Wiki supports using resource pack to add support for other wikis. To do so, create a JSON file in the
 `assets/<namespace>/wiki_family/` folder in your resource pack with the following format:
 
-```json
+```jsonc
 {
   // The namespaces that is bound to the wiki family
   "namespace": [
@@ -179,7 +179,7 @@ Hey Wiki supports using resource pack to add support for other wikis. To do so, 
 
 You also want to include a translation file in `assets/<namespace>/lang/` folder with the following format:
 
-```json
+```jsonc
 {
   // Assuming the definition is located at `assets/heywiki/wiki_family/minecraft.json`
   "wiki_family.heywiki.minecraft": "Minecraft Wiki"
