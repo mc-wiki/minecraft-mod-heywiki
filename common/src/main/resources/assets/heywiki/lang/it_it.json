@@ -1,6 +1,6 @@
 {
   "commands.imfeelinglucky.not_supported": "La famiglia di wiki specificata non supporta la funzione articolo casuale",
-  "commands.whatstructure.no_integrated_server": "Il comando /whatstructure richiede un mondo locale in modalità singleplayer",
+  "commands.whatstructure.no_integrated_server": "Il comando /whatstructure funziona solo in mondi a Giocatore Singolo",
   "commands.whatstructure.no_structure": "Struttura inesistente",
   "gui.heywiki.no_family": "Wiki non trovata",
   "gui.heywiki.no_item_held": "Nessun oggetto in mano",
@@ -13,6 +13,7 @@
   "gui.heywiki_search.search": "Cerca",
   "gui.heywiki_search.switch_wiki": "Cambia wiki",
   "gui.heywiki_search.title": "Cerca in %s",
+  "key.category.heywiki.heywiki": "Hey Wiki",
   "key.heywiki.open": "Apri l'articolo wiki",
   "key.heywiki.open_search": "Apri l'articolo wiki",
   "options.heywiki.category.general": "Generale",
