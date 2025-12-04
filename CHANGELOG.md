@@ -1,7 +1,5 @@
-# v1.8.4+1.21.10
+# v1.8.5+1.21.10
 
-## Changes
+## Fixes
 
-- Support for Minecraft 1.21.10
-- Hey Wiki URL in F3 screen is now hidden by default. You can reenable it in the F3+F6 setting screen.
-- Added [ArPhEx Wiki](https://arphex.miraheze.org/)
+- Fixed a crash when used with REI (#107)

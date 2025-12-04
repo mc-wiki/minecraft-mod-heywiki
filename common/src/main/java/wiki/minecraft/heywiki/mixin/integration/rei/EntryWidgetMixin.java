@@ -20,12 +20,11 @@ import static wiki.minecraft.heywiki.wiki.WikiPage.NO_FAMILY_MESSAGE;
 
 @Pseudo
 @Mixin(EntryWidget.class)
-public abstract class ScreenOverlayImplMixin {
+public abstract class EntryWidgetMixin {
     // This is so hacky
     @Inject(method = "keyPressedIgnoreContains", at = @At("HEAD"), remap = false)
-    public void keyPressedIgnoreContains(int keyCode, int scanCode, int modifiers,
+    public void keyPressedIgnoreContains(KeyEvent keyEvent,
                                          CallbackInfoReturnable<Boolean> cir) {
-        var keyEvent = new KeyEvent(keyCode, scanCode, modifiers);
         if (REIRuntime.getInstance().isOverlayVisible()) {
             EntryStack<?> stack = this.getCurrentEntry();
             if (stack != null && !stack.isEmpty()) {

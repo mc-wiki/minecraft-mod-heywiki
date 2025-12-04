@@ -22,6 +22,6 @@
     "integration.emi.EmiScreenManagerMixin",
     "integration.emi.RecipeScreenMixin",
     "integration.jei.FocusInputHandlerMixin",
-    "integration.rei.ScreenOverlayImplMixin"
+    "integration.rei.EntryWidgetMixin"
   ]
 }
