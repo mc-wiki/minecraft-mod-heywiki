@@ -1,7 +1,27 @@
 {
+  "commands.imfeelinglucky.not_supported": "所指之典，不可信手即閱",
+  "commands.whatstructure.no_integrated_server": "此令須於獨遊之世方可行",
+  "commands.whatstructure.no_structure": "未見遺跡",
+  "gui.heywiki.no_family": "大典不存",
+  "gui.heywiki.no_item_held": "手無一物",
+  "gui.heywiki.too_far": "目無所注，試近觀之？",
+  "gui.heywiki.tooltip": "按[%s]以考",
+  "gui.heywiki_confirm_link.loading_excerpt": "正讀篇旨...",
+  "gui.heywiki_confirm_link.title": "略覽大典",
+  "gui.heywiki_search.no_suggestions": "此典無以薦，可按鈕以直索之。",
+  "gui.heywiki_search.placeholder": "尋索...",
+  "gui.heywiki_search.search": "尋",
+  "gui.heywiki_search.switch_wiki": "易典",
+  "gui.heywiki_search.title": "尋於%s",
+  "key.category.heywiki.heywiki": "典徑",
   "key.heywiki.open": "閱文於大典",
   "key.heywiki.open_search": "閱文於大典",
+  "options.heywiki.category.general": "總綱",
+  "options.heywiki.category.search": "尋",
   "options.heywiki.language.auto": "auto: 取戲之用文",
   "options.heywiki.language.description": "擇所意之文，代戲之用文。",
-  "options.heywiki.language.name": "大典用文"
+  "options.heywiki.language.name": "大典用文",
+  "options.heywiki.zh_variant.description": "擇中華文字之變體。 若非通華語者，略之可也。",
+  "options.heywiki.zh_variant.name": "華文體式",
+  "structure.minecraft.ancient_city": "古城"
 }
