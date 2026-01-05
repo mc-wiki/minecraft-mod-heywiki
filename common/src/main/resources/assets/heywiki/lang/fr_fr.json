@@ -11,6 +11,7 @@
   "gui.heywiki_search.search": "Rechercher",
   "gui.heywiki_search.switch_wiki": "Changer de wiki",
   "gui.heywiki_search.title": "Rechercher dans le %s",
+  "key.categories.heywiki": "Hey Wiki",
   "key.heywiki.open": "Ouvrir la page wiki",
   "key.heywiki.open_search": "Rechercher dans les wikis",
   "options.heywiki.category.general": "Général",
