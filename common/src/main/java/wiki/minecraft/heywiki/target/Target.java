@@ -4,7 +4,7 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -96,7 +96,7 @@ public interface Target {
         Holder<MobEffect> effectEntry = effect.getEffect();
         var key = effectEntry.unwrapKey();
         if (key.isEmpty()) return null;
-        ResourceLocation identifier = key.get().location();
+        Identifier identifier = key.get().identifier();
 
         return new IdentifierTarget(identifier, effect.getDescriptionId());
     }
@@ -114,7 +114,7 @@ public interface Target {
     static Target of(Holder<?> registryEntry, String translationKeyPrefix) {
         var key = registryEntry.unwrapKey();
         if (key.isEmpty()) return null;
-        ResourceLocation identifier = key.get().location();
+        Identifier identifier = key.get().identifier();
 
         return new IdentifierTarget(identifier, identifier.toLanguageKey(translationKeyPrefix));
     }

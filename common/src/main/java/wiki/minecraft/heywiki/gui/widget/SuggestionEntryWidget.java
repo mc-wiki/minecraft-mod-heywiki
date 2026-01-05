@@ -11,7 +11,7 @@ import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 import org.apache.commons.codec.binary.Hex;
 import org.jetbrains.annotations.Nullable;
@@ -86,7 +86,7 @@ public class SuggestionEntryWidget extends ObjectSelectionList.Entry<SuggestionE
         });
     }
 
-    public @Nullable ResourceLocation getIconTexture() {
+    public @Nullable Identifier getIconTexture() {
         return this.suggestion.imageUrl().map((imageUrl) -> {
             MessageDigest md;
             try {

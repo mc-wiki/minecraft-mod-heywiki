@@ -10,7 +10,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.Nullable;
 import wiki.minecraft.heywiki.HeyWikiClient;
-import wiki.minecraft.heywiki.mixin.GameRendererMixin;
+import wiki.minecraft.heywiki.mixin.LocalPlayerMixin;
 import wiki.minecraft.heywiki.target.Target;
 import wiki.minecraft.heywiki.wiki.WikiPage;
 
@@ -80,7 +80,7 @@ public class Raycast {
         double maxReach = MOD.config().raycastReach();
         double blockReach = Math.max(CLIENT.player.blockInteractionRange(), maxReach);
         double entityReach = Math.max(CLIENT.player.entityInteractionRange(), maxReach);
-        HitResult hit = ((GameRendererMixin) CLIENT.gameRenderer).invokePick(
+        HitResult hit = ((LocalPlayerMixin) CLIENT.player).invokePick(
                 CLIENT.getCameraEntity(),
                 blockReach, entityReach,
                 1f);

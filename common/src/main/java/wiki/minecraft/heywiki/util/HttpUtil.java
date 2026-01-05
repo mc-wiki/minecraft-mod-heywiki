@@ -1,7 +1,7 @@
 package wiki.minecraft.heywiki.util;
 
 import com.mojang.logging.LogUtils;
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import org.apache.commons.codec.binary.Hex;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;

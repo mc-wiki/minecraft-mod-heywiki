@@ -5,7 +5,7 @@ import com.google.common.collect.Maps;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.resources.language.ClientLanguage;
 import net.minecraft.locale.Language;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
@@ -102,7 +102,7 @@ public class WikiTranslationManager implements ResourceManagerReloadListener {
 
             for (String namespace : resourceManager.getNamespaces()) {
                 try {
-                    ResourceLocation identifier = ResourceLocation.fromNamespaceAndPath(namespace, path);
+                    Identifier identifier = Identifier.fromNamespaceAndPath(namespace, path);
                     appendTranslationFrom(definition, resourceManager.getResourceStack(identifier), map);
                 } catch (Exception e) {
                     LOGGER.warn("Skipped language file: {}:{} ({})", namespace, path, e.toString());

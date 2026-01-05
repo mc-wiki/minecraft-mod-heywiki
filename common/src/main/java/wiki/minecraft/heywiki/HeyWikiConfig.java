@@ -16,7 +16,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
 import wiki.minecraft.heywiki.target.Target;
 
@@ -70,7 +70,7 @@ public class HeyWikiConfig {
                                     Codec.STRING.fieldOf("zhVariant")
                                                 .orElse("auto")
                                                 .forGetter(HeyWikiConfig::zhVariant),
-                                    ResourceLocation.CODEC.fieldOf("searchDefaultWikiFamily")
+                                    Identifier.CODEC.fieldOf("searchDefaultWikiFamily")
                                                           .orElse(id("minecraft"))
                                                           .forGetter(HeyWikiConfig::searchDefaultWikiFamily),
                                     Codec.BOOL.fieldOf("prefixSearch")
@@ -89,13 +89,13 @@ public class HeyWikiConfig {
     private boolean raycastAllowFluid;
     private String language;
     private String zhVariant;
-    private ResourceLocation searchDefaultWikiFamily;
+    private Identifier searchDefaultWikiFamily;
     private boolean prefixSearch;
     private boolean itemTooltip;
 
     private HeyWikiConfig(boolean requiresConfirmation, boolean requiresConfirmationCommand, double raycastReach,
                           boolean raycastAllowFluid, String language, String zhVariant,
-                          ResourceLocation searchDefaultWikiFamily, boolean prefixSearch, boolean itemTooltip) {
+                          Identifier searchDefaultWikiFamily, boolean prefixSearch, boolean itemTooltip) {
         this.requiresConfirmation = requiresConfirmation;
         this.requiresConfirmationCommand = requiresConfirmationCommand;
         this.raycastReach = raycastReach;
@@ -146,11 +146,11 @@ public class HeyWikiConfig {
     /**
      * The default wiki family to use for the search wiki screen.
      */
-    public ResourceLocation searchDefaultWikiFamily() {
+    public Identifier searchDefaultWikiFamily() {
         return searchDefaultWikiFamily;
     }
 
-    public void setSearchDefaultWikiFamily(ResourceLocation searchDefaultWikiFamily) {
+    public void setSearchDefaultWikiFamily(Identifier searchDefaultWikiFamily) {
         this.searchDefaultWikiFamily = searchDefaultWikiFamily;
     }
 

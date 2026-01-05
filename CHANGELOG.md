@@ -1,5 +1,5 @@
-# v1.8.5+1.21.10
+# v1.8.5+1.21.11
 
-## Fixes
+## Changes
 
-- Fixed a crash when used with REI (#107)
+- Ported to Minecraft 1.21.11

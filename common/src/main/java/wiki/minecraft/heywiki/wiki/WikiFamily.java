@@ -2,9 +2,9 @@ package wiki.minecraft.heywiki.wiki;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import wiki.minecraft.heywiki.HeyWikiClient;
@@ -104,7 +104,7 @@ public record WikiFamily(List<String> namespace, List<WikiIndividual> wikis)
                 "Failed to find main language wiki for family " + this.id());
     }
 
-    public ResourceLocation id() {
+    public Identifier id() {
         return MOD.familyManager().getFamilyId(this);
     }
 

@@ -2,7 +2,7 @@ package wiki.minecraft.heywiki.gui.screen;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.logging.LogUtils;
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -14,7 +14,7 @@ import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.apache.commons.codec.binary.Hex;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
@@ -52,7 +52,7 @@ public class WikiSearchScreen extends Screen {
     private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
     private static final Logger LOGGER = LogUtils.getLogger();
     private final CachedDebouncer<String, SequencedSet<SearchProvider.Suggestion>> debouncer = new CachedDebouncer<>(400);
-    private final List<ResourceLocation> textures = new LinkedList<>();
+    private final List<Identifier> textures = new LinkedList<>();
     private FrameLayout layout = new FrameLayout(0, 0, this.width, this.height);
     private EditBox textField;
     private SuggestionEntryListWidget entryList;

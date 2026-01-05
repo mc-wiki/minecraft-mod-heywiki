@@ -4,7 +4,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.FileToIdConverter;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public class WikiFamilyManager extends SimpleJsonResourceReloadListener<WikiFamily> {
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final String PATH = "wiki_family";
-    private BiMap<ResourceLocation, WikiFamily> WIKI_FAMILY_MAP = HashBiMap.create();
+    private BiMap<Identifier, WikiFamily> WIKI_FAMILY_MAP = HashBiMap.create();
     private Map<String, WikiIndividual> activeWikis = new HashMap<>();
 
     public WikiFamilyManager() {
@@ -37,7 +37,7 @@ public class WikiFamilyManager extends SimpleJsonResourceReloadListener<WikiFami
      * @param id The ID.
      * @return The family.
      */
-    public WikiFamily getFamily(ResourceLocation id) {
+    public WikiFamily getFamily(Identifier id) {
         return WIKI_FAMILY_MAP.get(id);
     }
 
@@ -47,7 +47,7 @@ public class WikiFamilyManager extends SimpleJsonResourceReloadListener<WikiFami
      * @param family The family.
      * @return The ID.
      */
-    public ResourceLocation getFamilyId(WikiFamily family) {
+    public Identifier getFamilyId(WikiFamily family) {
         return WIKI_FAMILY_MAP.inverse().get(family);
     }
 
@@ -155,7 +155,7 @@ public class WikiFamilyManager extends SimpleJsonResourceReloadListener<WikiFami
     }
 
     @Override
-    protected void apply(Map<ResourceLocation, WikiFamily> prepared, ResourceManager manager, ProfilerFiller profiler) {
+    protected void apply(Map<Identifier, WikiFamily> prepared, ResourceManager manager, ProfilerFiller profiler) {
         WIKI_FAMILY_MAP = HashBiMap.create(prepared);
         activeWikis = resolveActiveWikis();
 

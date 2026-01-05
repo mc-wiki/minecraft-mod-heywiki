@@ -8,7 +8,7 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import com.mojang.logging.LogUtils;
 import dev.architectury.event.events.client.ClientCommandRegistrationEvent.ClientCommandSourceStack;
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import org.slf4j.Logger;
 import wiki.minecraft.heywiki.util.CachedDebouncer;
 import wiki.minecraft.heywiki.util.HttpUtil;

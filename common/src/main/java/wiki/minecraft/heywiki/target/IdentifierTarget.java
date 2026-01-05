@@ -6,7 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.ClientLanguage;
 import net.minecraft.locale.Language;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import wiki.minecraft.heywiki.HeyWikiClient;
 import wiki.minecraft.heywiki.wiki.WikiIndividual;
 
@@ -19,12 +19,12 @@ import java.util.Optional;
  * @param identifier     The identifier of the target.
  * @param translationKey The translation key of the target.
  */
-record IdentifierTarget(ResourceLocation identifier, Optional<String> translationKey, Optional<String> fallbackTitle)
+record IdentifierTarget(Identifier identifier, Optional<String> translationKey, Optional<String> fallbackTitle)
         implements Target {
     public final static MapCodec<IdentifierTarget> CODEC = RecordCodecBuilder
             .mapCodec(builder ->
                               builder.group(
-                                             ResourceLocation.CODEC.fieldOf("heywiki:identifier")
+                                             Identifier.CODEC.fieldOf("heywiki:identifier")
                                                                    .forGetter(target -> target.identifier),
                                              Codec.STRING.optionalFieldOf("heywiki:translation_key")
                                                          .forGetter(target -> target.translationKey),
@@ -34,7 +34,7 @@ record IdentifierTarget(ResourceLocation identifier, Optional<String> translatio
     private static final Minecraft CLIENT = Minecraft.getInstance();
     private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
 
-    public IdentifierTarget(ResourceLocation identifier, String translationKey) {
+    public IdentifierTarget(Identifier identifier, String translationKey) {
         this(identifier, Optional.of(translationKey), Optional.empty());
     }
 

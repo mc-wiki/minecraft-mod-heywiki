@@ -43,9 +43,9 @@ dependencies {
         modRuntimeOnly("maven.modrinth:mcbrowser:${rootProject.property("mcbrowser_version")}")
         modRuntimeOnly("com.cinemamod:mcef-fabric:${rootProject.property("mcef_version")}")
     }
-//    if (rootProject.hasProperty("with_rei") && rootProject.property("with_rei") == "true") {
+    if (rootProject.hasProperty("with_rei") && rootProject.property("with_rei") == "true") {
         modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rootProject.property("rei_version")}")
-//    }
+    }
     if (rootProject.hasProperty("with_emi") && rootProject.property("with_emi") == "true") {
         modRuntimeOnly("dev.emi:emi-fabric:${rootProject.property("emi_version")}")
     }
