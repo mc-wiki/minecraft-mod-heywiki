@@ -112,6 +112,21 @@
       }
     },
     {
+      "article_url": "https://minewiki.pl/?search=%s",
+      "mw_api_url": "https://minewiki.pl/api.php",
+      "random_article": "Special:RandomRootPage/Main",
+      "excerpt": "text_extracts",
+      "search_provider": "mediawiki",
+      "search_url": "https://minewiki.pl/?search=%s",
+      "version_article": "Java_Edition_%s",
+      "language": {
+        "wiki_language": "pl",
+        "default": "pl_pl",
+        "regex": "^pl_.*",
+        "exclude": null
+      }
+    },
+    {
       "article_url": "https://pt.minecraft.wiki/?search=%s",
       "mw_api_url": "https://pt.minecraft.wiki/api.php",
       "random_article": "Special:RandomRootPage/Main",
