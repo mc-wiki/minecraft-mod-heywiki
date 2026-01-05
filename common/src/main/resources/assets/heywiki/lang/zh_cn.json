@@ -24,7 +24,7 @@
   "options.heywiki.language.auto": "auto: 使用游戏语言",
   "options.heywiki.language.description": "设置你的语言偏好，并覆盖游戏语言设置。",
   "options.heywiki.language.name": "wiki语言",
-  "options.heywiki.open_key.description": "触发查找wiki功能的按键。",
+  "options.heywiki.open_key.description": "触发查询wiki功能的按键。",
   "options.heywiki.open_search_key.description": "打开wiki搜索屏幕的按键。",
   "options.heywiki.prefix_search.description": "搜索条目时，只显示标题以搜索内容开头的条目。\n如果禁用，将尝试在标题中任意位置匹配搜索内容。\n可能不对所有wiki生效。",
   "options.heywiki.prefix_search.name": "前缀搜索",
