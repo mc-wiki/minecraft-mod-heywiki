@@ -43,7 +43,7 @@ public record WikiLanguage(String wikiLanguage, Boolean main, String defaultLang
      * @param language The language code.
      * @return Whether the language matches.
      */
-    public Boolean match(String language) {
+    public boolean match(String language) {
         if (this.exclude.isEmpty()) return language.matches(this.regex);
         return language.matches(this.regex) && !language.matches(String.valueOf(this.exclude));
     }

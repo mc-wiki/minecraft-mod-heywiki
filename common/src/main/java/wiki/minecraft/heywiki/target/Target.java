@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -76,7 +77,8 @@ public interface Target {
 
         @Nullable CustomData customData = stack.getComponents().get(DataComponents.CUSTOM_DATA);
         if (customData != null) {
-            var target = customData.copyTag().read(IdentifierTarget.CODEC).orElse(null);
+            var target = IdentifierTarget.CODEC.decode(NbtOps.INSTANCE, NbtOps.INSTANCE.getMap(customData.copyTag()).getOrThrow())
+                                  .resultOrPartial().orElse(null);
             if (target != null) {
                 experimentalWarning(LogUtils.getLogger(), "Custom item based on custom_data or NBT");
                 return target;

@@ -1,5 +1,5 @@
-# v1.8.5+1.21.11
+# v1.8.6+1.21.11
 
-## Changes
+## Fixes
 
-- Ported to Minecraft 1.21.11
+- Hovering over an unsupported item spams the log (#110)
