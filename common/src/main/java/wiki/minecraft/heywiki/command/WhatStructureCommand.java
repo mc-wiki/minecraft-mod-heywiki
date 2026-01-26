@@ -70,9 +70,9 @@ public class WhatStructureCommand {
                 assert structureStart != null;
                 BoundingBox boundingBox = structureStart.getBoundingBox();
                 if (boundingBox.isInside(block)) {
-                    var strucutreRegistryEntry = serverWorld.registryAccess().getOrThrow(Registries.STRUCTURE)
-                                                            .value().wrapAsHolder(structure);
-                    var target = Target.of(strucutreRegistryEntry, "structure");
+                    var structureRegistryEntry = serverWorld.registryAccess().lookupOrThrow(Registries.STRUCTURE)
+                                                            .wrapAsHolder(structure);
+                    var target = Target.of(structureRegistryEntry, "structure");
                     if (target == null) return -1;
                     var page = WikiPage.fromTarget(target);
                     if (page == null) {
