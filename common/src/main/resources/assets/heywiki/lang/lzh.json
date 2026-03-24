@@ -17,11 +17,14 @@
   "key.heywiki.open": "閱文於大典",
   "key.heywiki.open_search": "閱文於大典",
   "options.heywiki.category.general": "總綱",
+  "options.heywiki.category.language": "文",
   "options.heywiki.category.search": "尋",
   "options.heywiki.language.auto": "auto: 取戲之用文",
   "options.heywiki.language.description": "擇所意之文，代戲之用文。",
   "options.heywiki.language.name": "大典用文",
   "options.heywiki.zh_variant.description": "擇中華文字之變體。 若非通華語者，略之可也。",
   "options.heywiki.zh_variant.name": "華文體式",
-  "structure.minecraft.ancient_city": "古城"
+  "structure.minecraft.ancient_city": "古城",
+  "wiki_family.heywiki.aether": "天境大典",
+  "wiki_family.heywiki.minecraft": "礦藝大典"
 }
