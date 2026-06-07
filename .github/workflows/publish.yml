@@ -1,42 +1,14 @@
 name: publish
 
 on:
-  release:
-    types: [ published ]
   workflow_dispatch:
 
 env:
-  JAVA_VERSION: 21
+  JAVA_VERSION: 25
 
 jobs:
-  properties:
-    # Read gradle.properties and get snapshot property
-    runs-on: ubuntu-22.04
-    permissions:
-      contents: read
-    outputs:
-      snapshot: ${{ steps.gradle-properties.outputs.snapshot }}
-      minecraft_version: ${{ steps.gradle-properties.outputs.minecraft_version }}
-    steps:
-      - name: checkout repository
-        uses: actions/checkout@v4
-      - name: read gradle.properties
-        id: gradle-properties
-        run: |
-          echo "snapshot=$(grep '^snapshot=' gradle.properties | cut -d'=' -f2)" >> "$GITHUB_OUTPUT"
-          echo "minecraft_version=$(grep '^minecraft_version=' gradle.properties | cut -d'=' -f2)" >> "$GITHUB_OUTPUT"
-          echo "minecraft_version_range=$(grep '^minecraft_version_range=' gradle.properties | cut -d'=' -f2)" >> "$GITHUB_OUTPUT"
   build:
-    needs: properties
-    strategy:
-      fail-fast: false
-      matrix:
-        loader:
-          - name: fabric
-            formatted: Fabric
-          - name: neoforge
-            formatted: NeoForge
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
     steps:
@@ -49,33 +21,16 @@ jobs:
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: 'microsoft'
-      - name: make gradle wrapper executable
-        run: chmod +x ./gradlew
-      - name: build
-        uses: burrunan/gradle-cache-action@v1
-        with:
-          job-id: "${{ runner.os }}-jdk${{ env.JAVA_VERSION }}"
-          arguments: "${{ matrix.loader.name }}:build"
-          gradle-version: wrapper
-      - name: publish
-        uses: Kir-Antipov/mc-publish@v3.3
-        with:
-          curseforge-id: 997027
-          curseforge-token: "${{ secrets.CURSEFORGE_TOKEN }}"
-
-          modrinth-id: 6DnswkCZ
-          modrinth-token: "${{ secrets.MODRINTH_TOKEN }}"
-
-          github-token: "${{ secrets.GITHUB_TOKEN }}"
-
-          name: "Hey Wiki ${{ github.ref_name }} for Minecraft ${{ needs.properties.outputs.minecraft_version }} with ${{ matrix.loader.formatted }}"
-          version: "${{ github.ref_name }}-${{ matrix.loader.name }}"
-          game-versions: ${{ needs.properties.outputs.minecraft_version_range }}
-          changelog-file: CHANGELOG.md
-          loaders: ${{ matrix.loader.name }}
-          files: ${{ matrix.loader.name }}/build/libs/!(*-sources|*-dev-shadow).jar
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+      - run: ./gradlew build publishMods
+        env:
+          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          BRANCH: ${{ github.ref_name }}
       - name: capture build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: Artifacts
-          path: ${{ matrix.loader.name }}/build/libs/
+          path: '**/build/libs/'

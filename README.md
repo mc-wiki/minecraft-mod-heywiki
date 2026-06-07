@@ -218,7 +218,7 @@ the "niceserver" namespace per above. Then you can give the player this item:
 For Fabric:
 
 - (Required) [Fabric API](https://modrinth.com/mod/fabric-api): provides basic modding utilities
-- (Required) [Architectury API](https://modrinth.com/mod/architectury-api): for multi-modloader compatibility
+- (Required <= 1.21.11, no longer required >= 26.1) [Architectury API](https://modrinth.com/mod/architectury-api): for multi-modloader compatibility
 - (Required) [Cloth Config](https://modrinth.com/mod/cloth-config): for configuration
 - (Recommended) [Mod Menu](https://modrinth.com/mod/modmenu): to access the config menu
 - (Optional) [MCBrowser](https://modrinth.com/mod/mcbrowser) and [MCEF](https://modrinth.com/mod/mcef): for in-game browser
@@ -226,7 +226,7 @@ For Fabric:
 
 For NeoForge:
 
-- (Required) [Architectury API](https://modrinth.com/mod/architectury-api): for multi-modloader compatibility
+- (Required <= 1.21.11, no longer required >= 26.1) [Architectury API](https://modrinth.com/mod/architectury-api): for multi-modloader compatibility
 - (Required) [Cloth Config](https://modrinth.com/mod/cloth-config): for configuration
 - (Optional) [REI](https://modrinth.com/mod/roughly-enough-items)/[EMI](https://modrinth.com/mod/emi)/[JEI](https://modrinth.com/mod/jei): integration supported
 
@@ -265,15 +265,16 @@ Old snapshots are not supported.
 
 The following table shows which versions are supported:
 
-| Git branch  | Minecraft version    | Supported?        | Is LTS? | Modloader        |
-|-------------|----------------------|-------------------|---------|------------------|
-| `master`    | 1.21.9 - 1.21.10     | Active (Latest)   | ?       | Fabric, Neoforge |
-| `mc/1.21.8` | 1.21.6 - 1.21.8      | EOL               | No      | Fabric, Neoforge |
-| `mc/1.21.5` | 1.21.5               | EOL               | No      | Fabric, Neoforge |
-| `mc/1.21.4` | 1.21.4               | EOL               | No      | Fabric, Neoforge |
-| `mc/1.21.3` | 1.21.2, 1.21.3       | EOL               | No      | Fabric, Neoforge |
-| `mc/1.21.1` | 1.21, 1.21.1         | Maintenance (LTS) | Yes     | Fabric, Neoforge |
-| `mc/1.20.6` | 1.20.6               | EOL               | No      | Fabric, Neoforge |
-| `mc/1.20.5` | 1.20.5               | EOL               | No      | Fabric, Neoforge |
-| `mc/1.20.4` | 1.20.4               | Maintenance (LTS) | Yes     | Fabric, Neoforge |
-| N/A         | *Outdated snapshots* | EOL               | No      | Fabric           |
+| Git branch   | Minecraft version    | Supported?        | Is LTS? | Modloader        |
+|--------------|----------------------|-------------------|---------|------------------|
+| `master`     | 21.1 - 21.1.2        | Active (Latest)   | ?       | Fabric, Neoforge |
+| `mc/1.21.11` | 1.21.9 - 1.21.11     | Maintenance (LTS) | Yes     | Fabric, Neoforge |
+| `mc/1.21.8`  | 1.21.6 - 1.21.8      | EOL               | No      | Fabric, Neoforge |
+| `mc/1.21.5`  | 1.21.5               | EOL               | No      | Fabric, Neoforge |
+| `mc/1.21.4`  | 1.21.4               | EOL               | No      | Fabric, Neoforge |
+| `mc/1.21.3`  | 1.21.2, 1.21.3       | EOL               | No      | Fabric, Neoforge |
+| `mc/1.21.1`  | 1.21, 1.21.1         | Maintenance (LTS) | Yes     | Fabric, Neoforge |
+| `mc/1.20.6`  | 1.20.6               | EOL               | No      | Fabric, Neoforge |
+| `mc/1.20.5`  | 1.20.5               | EOL               | No      | Fabric, Neoforge |
+| `mc/1.20.4`  | 1.20.4               | Maintenance (LTS) | Yes     | Fabric, Neoforge |
+| N/A          | *Outdated snapshots* | EOL               | No      | Fabric           |

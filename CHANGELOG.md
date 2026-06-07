@@ -1,6 +1,6 @@
-# v1.8.6+1.21.11
+# v1.9.0+26.1.2
 
-## Fixes
+## Changes
 
-- Hovering over an unsupported item spams the log (#110)
-- `/whatstructure` does not work
+- Ported to Minecraft 26.1
+- Dependency on Architectury API is now dropped

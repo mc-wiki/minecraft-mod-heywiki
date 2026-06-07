@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "id": "heywiki",
+  "version": "${version}",
+  "name": "Hey Wiki",
+  "description": "Press H to open the Minecraft Wiki page of the block/item/entity you're aiming at.",
+  "authors": [
+    "Minecraft Wiki",
+    "Dianliang233"
+  ],
+  "contributors": [
+    "Translators on Crowdin"
+  ],
+  "contact": {
+    "homepage": "https://minecraft.wiki/w/MCW:Hey_Wiki",
+    "sources": "https://github.com/mc-wiki/minecraft-mod-heywiki",
+    "issues": "https://github.com/mc-wiki/minecraft-mod-heywiki/issues",
+    "discord": "https://discord.gg/fGdE5ZE"
+  },
+  "license": "LGPL-3.0",
+  "icon": "icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "wiki.minecraft.heywiki.fabric.HeyWikiFabric"
+    ],
+    "modmenu": [
+      "wiki.minecraft.heywiki.fabric.integration.ModMenuIntegration"
+    ]
+  },
+  "mixins": [
+    {
+      "config": "heywiki.fabric.mixins.json",
+      "environment": "client"
+    },
+    {
+      "config": "heywiki.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": "*",
+    "minecraft": "${minecraftVersion}",
+    "java": ">=25",
+    "fabric-api": "*",
+    "cloth-config": "*"
+  },
+  "recommends": {
+    "modmenu": "*"
+  },
+  "suggests": {
+    "roughlyenoughitems": "*",
+    "emi": "*",
+    "jei": "*",
+    "mcbrowser": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.discord": "https://discord.gg/fGdE5ZE",
+        "modmenu.github_releases": "https://github.com/mc-wiki/minecraft-mod-heywiki/releases",
+        "modmenu.mastodon": "https://wikis.world/@MinecraftWikiEN",
+        "modmenu.modrinth": "https://modrinth.com/mod/hey-wiki",
+        "modmenu.twitter": "https://twitter.com/MinecraftWikiEN"
+      }
+    }
+  }
+}
