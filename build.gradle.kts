@@ -163,12 +163,12 @@ publishMods {
     }
     val modrinthOptions = modrinthOptions {
         accessToken = providers.environmentVariable("MODRINTH_TOKEN")
-        projectId = providers.gradleProperty("6DnswkCZ")
+        projectId = "6DnswkCZ"
         minecraftVersions = supportedMinecraftVersions
     }
     val curseforgeOptions = curseforgeOptions {
         accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
-        projectId = providers.gradleProperty("997027")
+        projectId = "997027"
         minecraftVersions = supportedMinecraftVersions
     }
     val githubOptions = githubOptions {
