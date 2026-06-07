@@ -170,6 +170,7 @@ publishMods {
         accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
         projectId = "997027"
         minecraftVersions = supportedMinecraftVersions
+        client = true
     }
     val githubOptions = githubOptions {
         accessToken = providers.environmentVariable("GITHUB_TOKEN")
@@ -178,15 +179,25 @@ publishMods {
     }
     modrinth("modrinthFabric") {
         from(modrinthOptions, fabricOptions)
+        requires("fabric-api")
+        requires("cloth-config")
+        requires("modmenu")
     }
     modrinth("modrinthNeoforge") {
         from(modrinthOptions, neoforgeOptions)
+        requires("cloth-config")
     }
     curseforge("curseforgeFabric") {
         from(curseforgeOptions, fabricOptions)
+        requires("fabric-api")
+        requires("cloth-config")
+        requires("modmenu")
     }
     curseforge("curseforgeNeoforge") {
         from(curseforgeOptions, neoforgeOptions)
+        requires("fabric-api")
+        requires("cloth-config")
+        requires("modmenu")
     }
     github("github") {
         from(githubOptions, publishOptions {
