@@ -2,7 +2,6 @@ package wiki.minecraft.heywiki;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -115,16 +114,16 @@ public class HeyWikiClient {
         dispatcher.register(literal("whatver").redirect(whatVersionCommand));
     }
 
+    public static Identifier id(String path) {
+        return Identifier.fromNamespaceAndPath(MOD_ID, path);
+    }
+
     public HeyWikiConfig config() {
         return config;
     }
 
     public WikiFamilyManager familyManager() {
         return familyManager;
-    }
-
-    public static Identifier id(String path) {
-        return Identifier.fromNamespaceAndPath(MOD_ID, path);
     }
 
     public static HeyWikiClient getInstance() {

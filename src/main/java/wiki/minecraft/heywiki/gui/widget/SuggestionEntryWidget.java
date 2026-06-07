@@ -50,7 +50,8 @@ public class SuggestionEntryWidget extends ObjectSelectionList.Entry<SuggestionE
     }
 
     @Override
-    public void extractContent(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, boolean isHovering, float partialTick) {
+    public void extractContent(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, boolean isHovering,
+                               float partialTick) {
         int iconSize = 20;
 
         var icon = this.getIconTexture();
@@ -75,14 +76,14 @@ public class SuggestionEntryWidget extends ObjectSelectionList.Entry<SuggestionE
             name = Component.literal(suggestion.title());
         }
         guiGraphics.text(this.client.font, Language.getInstance().getVisualOrder(name),
-                               getContentX() + 2 + iconSize + 3, getContentY() + 1,
-                               0xFFFFFFFF);
+                         getContentX() + 2 + iconSize + 3, getContentY() + 1,
+                         0xFFFFFFFF);
 
         suggestion.redirectsTo().ifPresent(redirect -> {
             Component redirected = Component.literal(redirect);
             guiGraphics.text(this.client.font, Language.getInstance().getVisualOrder(redirected),
-                                   getContentX() + 2 + iconSize + 3, getContentY() + 1 + 10,
-                                   0xFFAAAAAA);
+                             getContentX() + 2 + iconSize + 3, getContentY() + 1 + 10,
+                             0xFFAAAAAA);
         });
     }
 

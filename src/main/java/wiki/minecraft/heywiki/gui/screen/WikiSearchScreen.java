@@ -2,7 +2,6 @@ package wiki.minecraft.heywiki.gui.screen;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.logging.LogUtils;
-import net.minecraft.util.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -15,6 +14,7 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.Util;
 import org.apache.commons.codec.binary.Hex;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
@@ -51,7 +51,8 @@ import static wiki.minecraft.heywiki.util.HttpUtil.encodeUrl;
 public class WikiSearchScreen extends Screen {
     private static final HeyWikiClient MOD = HeyWikiClient.getInstance();
     private static final Logger LOGGER = LogUtils.getLogger();
-    private final CachedDebouncer<String, SequencedSet<SearchProvider.Suggestion>> debouncer = new CachedDebouncer<>(400);
+    private final CachedDebouncer<String, SequencedSet<SearchProvider.Suggestion>> debouncer = new CachedDebouncer<>(
+            400);
     private final List<Identifier> textures = new LinkedList<>();
     private FrameLayout layout = new FrameLayout(0, 0, this.width, this.height);
     private EditBox textField;
@@ -64,9 +65,9 @@ public class WikiSearchScreen extends Screen {
 
     public WikiSearchScreen() {
         super(Component.translatable(
-            "gui.heywiki_search.title",
-            Component.literal("minecraft").withStyle(Style.EMPTY.withUnderlined(true))
-        ));
+                "gui.heywiki_search.title",
+                Component.literal("minecraft").withStyle(Style.EMPTY.withUnderlined(true))
+                                    ));
     }
 
     public static void onClientTickPost(Minecraft client) {
@@ -97,7 +98,7 @@ public class WikiSearchScreen extends Screen {
                 page.openInBrowser(this);
             }
         } else if (this.suggestions != null && !this.suggestions.isEmpty() &&
-            this.lastSearchTerm.equalsIgnoreCase(this.suggestions.getFirst().title())) {
+                   this.lastSearchTerm.equalsIgnoreCase(this.suggestions.getFirst().title())) {
             if (this.suggestions.getFirst().realUrl().isPresent()) {
                 Util.getPlatform().openUri(URI.create(this.suggestions.getFirst().realUrl().get()));
             } else {
@@ -124,10 +125,10 @@ public class WikiSearchScreen extends Screen {
         this.clearWidgets();
 
         var title = Component.translatable(
-            "gui.heywiki_search.title",
-            Component.translatable(wikiFamily.getTranslationKey())
-                     .withStyle(Style.EMPTY.withUnderlined(true))
-        );
+                "gui.heywiki_search.title",
+                Component.translatable(wikiFamily.getTranslationKey())
+                         .withStyle(Style.EMPTY.withUnderlined(true))
+                                          );
         var titleWidget = new StringWidget(title, this.font);
         var mainLayout = this.layout.addChild(LinearLayout.vertical().spacing(10));
         mainLayout.defaultCellSetting().alignHorizontallyCenter();
@@ -139,8 +140,8 @@ public class WikiSearchScreen extends Screen {
         var textFieldLayout = omniboxLayout.addChild(LinearLayout.horizontal().spacing(4));
 
         this.textField = this.textField == null
-                         ? new EditBox(this.font, 175, 20, title)
-                         : this.textField;
+                ? new EditBox(this.font, 175, 20, title)
+                : this.textField;
 
         this.textField.setHint(Component.translatable("gui.heywiki_search.placeholder"));
         this.textField.setResponder(this::onSearchChange);
@@ -149,58 +150,58 @@ public class WikiSearchScreen extends Screen {
         textFieldLayout.addChild(this.textField);
 
         textFieldLayout.addChild(Button.builder(
-            Component.translatable("gui.heywiki_search.switch_wiki"), button -> {
-                assert this.minecraft != null;
-                this.minecraft.setScreen(
-                    new WikiSelectScreen(
-                        this,
-                        MOD.familyManager().getAvailableFamilies().stream()
-                           .filter(family -> family.getWiki().searchProviderType().isPresent())
-                           .sorted().toList(),
-                        this.wikiFamily,
-                        (family) -> {
-                            if (family == this.wikiFamily)
-                                return;
-                            this.wikiFamily = family;
-                            this.wiki = family.getWiki();
-                            this.entryList.clearSuggestions();
-                            var changedTitle = Component.translatable(
-                                "gui.heywiki_search.title",
-                                Component.translatable(wikiFamily.getTranslationKey())
-                                         .withStyle(Style.EMPTY.withUnderlined(true))
-                            );
-                            titleWidget.setMessage(changedTitle);
-                            this.textField.setMessage(changedTitle);
-                            this.selectedTitle = null;
-                            String lastTerm = getSearchTerm();
-                            if (lastTerm != null && !lastTerm.isEmpty())
-                                onSearchChange(lastTerm);
-                        }
-                    )
-                );
-            }
-        ).width(71).build());
+                Component.translatable("gui.heywiki_search.switch_wiki"), button -> {
+                    assert this.minecraft != null;
+                    this.minecraft.setScreen(
+                            new WikiSelectScreen(
+                                    this,
+                                    MOD.familyManager().getAvailableFamilies().stream()
+                                       .filter(family -> family.getWiki().searchProviderType().isPresent())
+                                       .sorted().toList(),
+                                    this.wikiFamily,
+                                    (family) -> {
+                                        if (family == this.wikiFamily)
+                                            return;
+                                        this.wikiFamily = family;
+                                        this.wiki = family.getWiki();
+                                        this.entryList.clearSuggestions();
+                                        var changedTitle = Component.translatable(
+                                                "gui.heywiki_search.title",
+                                                Component.translatable(wikiFamily.getTranslationKey())
+                                                         .withStyle(Style.EMPTY.withUnderlined(true))
+                                                                                 );
+                                        titleWidget.setMessage(changedTitle);
+                                        this.textField.setMessage(changedTitle);
+                                        this.selectedTitle = null;
+                                        String lastTerm = getSearchTerm();
+                                        if (lastTerm != null && !lastTerm.isEmpty())
+                                            onSearchChange(lastTerm);
+                                    }
+                            )
+                                            );
+                }
+                                               ).width(71).build());
 
         this.entryList = new SuggestionEntryListWidget(minecraft, 250, 24 * 6, 0, this);
 
         wiki.searchProvider().ifPresentOrElse(
-            url -> omniboxLayout.addChild(this.entryList), () -> {
-                var layout = omniboxLayout.addChild(LinearLayout.vertical().spacing(4));
-                layout.defaultCellSetting().alignHorizontallyCenter();
-                layout.addChild(new StringWidget(
-                    Component.translatable("gui.heywiki_search.no_suggestions"),
-                    this.font
-                ));
-                layout.addChild(Button.builder(
-                    Component.translatable("gui.heywiki_search.search"), button -> {
-                        if (wiki.searchUrl().isPresent()) {
-                            String url = wiki.searchUrl().orElseThrow().formatted(this.getSearchTerm());
-                            Util.getPlatform().openUri(url);
-                        }
-                    }
-                ).width(100).build());
-            }
-        );
+                url -> omniboxLayout.addChild(this.entryList), () -> {
+                    var layout = omniboxLayout.addChild(LinearLayout.vertical().spacing(4));
+                    layout.defaultCellSetting().alignHorizontallyCenter();
+                    layout.addChild(new StringWidget(
+                            Component.translatable("gui.heywiki_search.no_suggestions"),
+                            this.font
+                    ));
+                    layout.addChild(Button.builder(
+                            Component.translatable("gui.heywiki_search.search"), button -> {
+                                if (wiki.searchUrl().isPresent()) {
+                                    String url = wiki.searchUrl().orElseThrow().formatted(this.getSearchTerm());
+                                    Util.getPlatform().openUri(url);
+                                }
+                            }
+                                                  ).width(100).build());
+                }
+                                             );
 
         this.layout.visitWidgets(this::addRenderableWidget);
         this.repositionElements();
@@ -218,11 +219,11 @@ public class WikiSearchScreen extends Screen {
         }
 
         CompletableFuture.runAsync(
-            () -> this.fetchSuggestions(term).ifPresent(suggestions -> screenExecutor.execute(() -> {
-                this.entryList.replaceSuggestions(suggestions);
-                this.suggestions = suggestions;
-            })), Util.ioPool()
-        );
+                () -> this.fetchSuggestions(term).ifPresent(suggestions -> screenExecutor.execute(() -> {
+                    this.entryList.replaceSuggestions(suggestions);
+                    this.suggestions = suggestions;
+                })), Util.ioPool()
+                                  );
     }
 
     public String getSearchTerm() {
@@ -235,9 +236,9 @@ public class WikiSearchScreen extends Screen {
         }
         try {
             var suggestions = debouncer.get(
-                wikiFamily.id().toString() + term,
-                () -> wiki.searchProvider().orElseThrow().search(term, wiki)
-            );
+                    wikiFamily.id().toString() + term,
+                    () -> wiki.searchProvider().orElseThrow().search(term, wiki)
+                                           );
             suggestions.ifPresent(s -> s.forEach(this::fetchImage));
 
             return suggestions;
@@ -249,52 +250,52 @@ public class WikiSearchScreen extends Screen {
 
     private void fetchImage(SearchProvider.Suggestion suggestion) {
         suggestion.imageUrl().ifPresent(imageUrl -> CompletableFuture.runAsync(
-            () -> {
-                MessageDigest md;
-                try {
-                    md = MessageDigest.getInstance("SHA-1");
-                } catch (NoSuchAlgorithmException e) {
-                    throw new RuntimeException(e);
-                }
-                String hash = Hex.encodeHexString(md.digest(imageUrl.getBytes(StandardCharsets.UTF_8)));
-
-                var textureId = id(hash);
-
-                assert this.minecraft != null;
-
-                this.screenExecutor.execute(() -> this.textures.add(textureId));
-                byte[] imageArray = HttpUtil.loadAndCacheFile(imageUrl).join();
-
-                this.screenExecutor.execute(() -> {
+                () -> {
+                    MessageDigest md;
                     try {
-                        BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageArray));
-                        if (image == null) {
-                            throw new RuntimeException("Failed to load image");
-                        }
-
-                        int size = Math.min(image.getWidth(), image.getHeight());
-                        image = image.getSubimage(
-                            (image.getWidth() - size) / 2, (image.getHeight() - size) / 2, size,
-                            size
-                        );
-
-                        ByteArrayOutputStream os = new ByteArrayOutputStream();
-                        ImageIO.write(image, "png", os);
-                        InputStream is = new ByteArrayInputStream(os.toByteArray());
-
-                        NativeImage nativeImage = NativeImage.read(is);
-                        // noinspection ConstantValue
-                        if (nativeImage == null)
-                            throw new RuntimeException("Texture is null!");
-                        DynamicTexture texture = new DynamicTexture(textureId::toString, nativeImage);
-                        this.minecraft.getTextureManager().register(textureId, texture);
-                        this.repositionElements();
-                    } catch (IOException e) {
-                        LOGGER.error("Failed to load image", e);
+                        md = MessageDigest.getInstance("SHA-1");
+                    } catch (NoSuchAlgorithmException e) {
+                        throw new RuntimeException(e);
                     }
-                });
-            }, Util.ioPool()
-        ));
+                    String hash = Hex.encodeHexString(md.digest(imageUrl.getBytes(StandardCharsets.UTF_8)));
+
+                    var textureId = id(hash);
+
+                    assert this.minecraft != null;
+
+                    this.screenExecutor.execute(() -> this.textures.add(textureId));
+                    byte[] imageArray = HttpUtil.loadAndCacheFile(imageUrl).join();
+
+                    this.screenExecutor.execute(() -> {
+                        try {
+                            BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageArray));
+                            if (image == null) {
+                                throw new RuntimeException("Failed to load image");
+                            }
+
+                            int size = Math.min(image.getWidth(), image.getHeight());
+                            image = image.getSubimage(
+                                    (image.getWidth() - size) / 2, (image.getHeight() - size) / 2, size,
+                                    size
+                                                     );
+
+                            ByteArrayOutputStream os = new ByteArrayOutputStream();
+                            ImageIO.write(image, "png", os);
+                            InputStream is = new ByteArrayInputStream(os.toByteArray());
+
+                            NativeImage nativeImage = NativeImage.read(is);
+                            // noinspection ConstantValue
+                            if (nativeImage == null)
+                                throw new RuntimeException("Texture is null!");
+                            DynamicTexture texture = new DynamicTexture(textureId::toString, nativeImage);
+                            this.minecraft.getTextureManager().register(textureId, texture);
+                            this.repositionElements();
+                        } catch (IOException e) {
+                            LOGGER.error("Failed to load image", e);
+                        }
+                    });
+                }, Util.ioPool()
+                                                                              ));
     }
 
     @Override

@@ -16,7 +16,7 @@ public abstract class PauseScreenMixin extends Screen {
     }
 
     @WrapWithCondition(method = "lambda$createPauseMenu$0", at = @At(value = "INVOKE",
-                                                         target = "Lnet/minecraft/client/Minecraft;setScreen(Lnet/minecraft/client/gui/screens/Screen;)V"))
+                                                                     target = "Lnet/minecraft/client/Minecraft;setScreen(Lnet/minecraft/client/gui/screens/Screen;)V"))
     private boolean shouldSetScreenToNull(Minecraft instance, Screen screen) {
         if (screen != null) return true;
 

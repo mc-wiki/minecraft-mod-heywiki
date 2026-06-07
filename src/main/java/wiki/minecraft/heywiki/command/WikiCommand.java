@@ -10,8 +10,8 @@ import wiki.minecraft.heywiki.wiki.WikiPage;
 
 import static com.mojang.brigadier.arguments.StringArgumentType.getString;
 import static com.mojang.brigadier.arguments.StringArgumentType.greedyString;
-import static wiki.minecraft.heywiki.platform.HeyWikiPlatform.literal;
 import static wiki.minecraft.heywiki.platform.HeyWikiPlatform.argument;
+import static wiki.minecraft.heywiki.platform.HeyWikiPlatform.literal;
 
 public class WikiCommand {
     private static final HeyWikiClient MOD = HeyWikiClient.getInstance();

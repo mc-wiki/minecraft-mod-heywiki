@@ -81,18 +81,18 @@ public interface SearchProvider {
             @Nullable JsonArray redirects = query.getAsJsonArray("redirects");
             Map<String, Suggestion> redirectMap = redirects != null
                     ? StreamSupport
-                    .stream(redirects.spliterator(), false)
-                    .map(JsonElement::getAsJsonObject)
-                    .map(redirect -> {
-                        int index = redirect.get("index").getAsInt();
-                        String from = redirect.get("from").getAsString();
-                        String to = redirect.get("to").getAsString();
-                        return new SearchProvider.Suggestion(from, index, Optional.of(to), Optional.empty(),
-                                                             Optional.empty());
-                    })
-                    .collect(Collectors.toMap((redirect) -> redirect.redirectsTo().orElseThrow(),
-                                              suggestion -> suggestion,
-                                              (a, b) -> a))
+                      .stream(redirects.spliterator(), false)
+                      .map(JsonElement::getAsJsonObject)
+                      .map(redirect -> {
+                          int index = redirect.get("index").getAsInt();
+                          String from = redirect.get("from").getAsString();
+                          String to = redirect.get("to").getAsString();
+                          return new SearchProvider.Suggestion(from, index, Optional.of(to), Optional.empty(),
+                                                               Optional.empty());
+                      })
+                      .collect(Collectors.toMap((redirect) -> redirect.redirectsTo().orElseThrow(),
+                                                suggestion -> suggestion,
+                                                (a, b) -> a))
                     : Collections.emptyMap();
 
             @Nullable JsonArray pages = query.getAsJsonArray("pages");

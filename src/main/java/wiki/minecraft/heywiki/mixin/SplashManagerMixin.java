@@ -26,11 +26,6 @@ public class SplashManagerMixin {
     @Unique
     private static final Logger heywiki$logger = LogUtils.getLogger();
 
-    @Invoker("literalSplash")
-    private static Component literalSplash(String string) {
-        throw new AssertionError();
-    }
-
     @ModifyReturnValue(
             method = "prepare(Lnet/minecraft/server/packs/resources/ResourceManager;Lnet/minecraft/util/profiling/ProfilerFiller;)Ljava/util/List;",
             at = @At("RETURN")
@@ -40,7 +35,8 @@ public class SplashManagerMixin {
             List<Component> splashes = new ArrayList<>(originalSplashes);
             try (BufferedReader splashesReader = Minecraft.getInstance().getResourceManager()
                                                           .openAsReader(heywiki$resourceId)) {
-                splashes.addAll(splashesReader.lines().map(String::trim).map(SplashManagerMixin::literalSplash).toList());
+                splashes.addAll(
+                        splashesReader.lines().map(String::trim).map(SplashManagerMixin::literalSplash).toList());
             }
 
             return splashes;
@@ -48,5 +44,10 @@ public class SplashManagerMixin {
             heywiki$logger.warn("Failed to load splashes from {}", heywiki$resourceId, e);
         }
         return originalSplashes;
+    }
+
+    @Invoker("literalSplash")
+    private static Component literalSplash(String string) {
+        throw new AssertionError();
     }
 }

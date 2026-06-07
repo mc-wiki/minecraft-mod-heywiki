@@ -25,7 +25,7 @@ record IdentifierTarget(Identifier identifier, Optional<String> translationKey, 
             .mapCodec(builder ->
                               builder.group(
                                              Identifier.CODEC.fieldOf("heywiki:identifier")
-                                                                   .forGetter(target -> target.identifier),
+                                                             .forGetter(target -> target.identifier),
                                              Codec.STRING.optionalFieldOf("heywiki:translation_key")
                                                          .forGetter(target -> target.translationKey),
                                              Codec.STRING.optionalFieldOf("heywiki:fallback_title")

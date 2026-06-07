@@ -288,15 +288,15 @@ public class ConfirmWikiPageScreen extends Screen {
                     .setCentered(false);
             excerptTextLayout
                     .addChild(
-                              FocusableTextWidget.builder(
-                                                         this.excerpt != null
-                                                                 ? Component.literal(this.excerpt.excerpt().replace("\u200B", ""))
-                                                                 : Component.translatable("gui.heywiki_confirm_link.loading_excerpt"),
-                                                         this.font)
+                            FocusableTextWidget.builder(
+                                                       this.excerpt != null
+                                                               ? Component.literal(this.excerpt.excerpt().replace("\u200B", ""))
+                                                               : Component.translatable("gui.heywiki_confirm_link.loading_excerpt"),
+                                                       this.font)
 //                                                 .alwaysShowBorder(false)
-                                                 .maxWidth(this.width - 65 - (imageWidth + 13))
+                                               .maxWidth(this.width - 65 - (imageWidth + 13))
 //                                                 .backgroundFill(FocusableTextWidget.BackgroundFill.ALWAYS)
-                                                 .build()).setCentered(false);
+                                               .build()).setCentered(false);
         }
 
         LinearLayout buttonLayout = mainLayout.addChild(LinearLayout.vertical().spacing(8));

@@ -31,7 +31,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import wiki.minecraft.heywiki.fabric.platform.FabricHeyWikiPlatform;
 
 import java.util.Objects;
@@ -43,12 +42,15 @@ public class ChatListenerMixin {
     @Unique
     private ThreadLocal<Component> cancelNextChat = new ThreadLocal<>();
 
-    @Inject(method = "handlePlayerChatMessage", at = @At(value = "INVOKE", target = "Ljava/time/Instant;now()Ljava/time/Instant;"))
-    private void handlePlayerChatMessage(PlayerChatMessage playerChatMessage, GameProfile gameProfile, ChatType.Bound bound, CallbackInfo ci) {
+    @Inject(method = "handlePlayerChatMessage",
+            at = @At(value = "INVOKE", target = "Ljava/time/Instant;now()Ljava/time/Instant;"))
+    private void handlePlayerChatMessage(PlayerChatMessage playerChatMessage, GameProfile gameProfile,
+                                         ChatType.Bound bound, CallbackInfo ci) {
         this.boundChatType = bound;
     }
 
-    @ModifyVariable(method = "handlePlayerChatMessage", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/chat/PlayerChatMessage;signature()Lnet/minecraft/network/chat/MessageSignature;"))
+    @ModifyVariable(method = "handlePlayerChatMessage", at = @At(value = "INVOKE",
+                                                                 target = "Lnet/minecraft/network/chat/PlayerChatMessage;signature()Lnet/minecraft/network/chat/MessageSignature;"))
     private Component modifyMessage(Component value) {
         cancelNextChat.remove();
 
@@ -58,7 +60,8 @@ public class ChatListenerMixin {
     @Inject(method = "handlePlayerChatMessage", at = @At(value = "INVOKE",
                                                          target = "Lnet/minecraft/client/multiplayer/chat/ChatListener;handleMessage(Lnet/minecraft/network/chat/MessageSignature;Ljava/util/function/BooleanSupplier;)V"),
             cancellable = true)
-    private void handleChatPre(PlayerChatMessage playerChatMessage, GameProfile gameProfile, ChatType.Bound bound, CallbackInfo ci,
+    private void handleChatPre(PlayerChatMessage playerChatMessage, GameProfile gameProfile, ChatType.Bound bound,
+                               CallbackInfo ci,
                                @Local(name = "decoratedMessage") Component component) {
         if (Objects.equals(cancelNextChat.get(), component)) {
             ci.cancel();

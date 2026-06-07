@@ -1,8 +1,7 @@
 package wiki.minecraft.heywiki.gui.screen;
 
-import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.util.Util;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.gui.layouts.HeaderAndFooterLayout;
@@ -10,6 +9,7 @@ import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Util;
 import org.lwjgl.glfw.GLFW;
 import wiki.minecraft.heywiki.HeyWikiClient;
 import wiki.minecraft.heywiki.wiki.WikiFamily;
@@ -109,9 +109,10 @@ public class WikiSelectScreen extends Screen {
         }
 
         @Override
-        public void extractContent(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, boolean isHovering, float partialTick) {
+        public void extractContent(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, boolean isHovering,
+                                   float partialTick) {
             guiGraphics.text(client.font, Component.translatable(this.wiki.getTranslationKey()),
-                               getContentX() + 14, getContentY() + 2, 0xFFFFFFFF);
+                             getContentX() + 14, getContentY() + 2, 0xFFFFFFFF);
         }
     }
 }

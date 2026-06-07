@@ -77,8 +77,9 @@ public interface Target {
 
         @Nullable CustomData customData = stack.getComponents().get(DataComponents.CUSTOM_DATA);
         if (customData != null) {
-            var target = IdentifierTarget.CODEC.decode(NbtOps.INSTANCE, NbtOps.INSTANCE.getMap(customData.copyTag()).getOrThrow())
-                                  .resultOrPartial().orElse(null);
+            var target = IdentifierTarget.CODEC.decode(NbtOps.INSTANCE,
+                                                       NbtOps.INSTANCE.getMap(customData.copyTag()).getOrThrow())
+                                               .resultOrPartial().orElse(null);
             if (target != null) {
                 experimentalWarning(LogUtils.getLogger(), "Custom item based on custom_data or NBT");
                 return target;

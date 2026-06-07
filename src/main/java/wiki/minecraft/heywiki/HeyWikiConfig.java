@@ -71,8 +71,8 @@ public class HeyWikiConfig {
                                                 .orElse("auto")
                                                 .forGetter(HeyWikiConfig::zhVariant),
                                     Identifier.CODEC.fieldOf("searchDefaultWikiFamily")
-                                                          .orElse(id("minecraft"))
-                                                          .forGetter(HeyWikiConfig::searchDefaultWikiFamily),
+                                                    .orElse(id("minecraft"))
+                                                    .forGetter(HeyWikiConfig::searchDefaultWikiFamily),
                                     Codec.BOOL.fieldOf("prefixSearch")
                                               .orElse(true)
                                               .forGetter(HeyWikiConfig::prefixSearch),

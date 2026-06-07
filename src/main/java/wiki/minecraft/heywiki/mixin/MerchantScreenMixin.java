@@ -34,7 +34,8 @@ public abstract class MerchantScreenMixin extends AbstractContainerScreen<Mercha
     }
 
     @Inject(method = "extractContents", at = @At("HEAD"))
-    public void renderContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick, CallbackInfo cir) {
+    public void renderContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick,
+                               CallbackInfo cir) {
         this.heywiki$mouseX = mouseX;
     }
 
@@ -44,20 +45,20 @@ public abstract class MerchantScreenMixin extends AbstractContainerScreen<Mercha
                 this.menu.getOffers().size() > widgetButtonPage.getIndex() + this.scrollOff) {
                 if (heywiki$mouseX < widgetButtonPage.getX() + 20) {
                     return (this.menu.getOffers().get(widgetButtonPage.getIndex() +
-                                                          this.scrollOff))
+                                                      this.scrollOff))
                             .getCostA();
                 } else if (heywiki$mouseX < widgetButtonPage.getX() + 50 &&
                            heywiki$mouseX > widgetButtonPage.getX() + 30) {
                     ItemStack itemStack = this.menu.getOffers()
-                                                      .get(widgetButtonPage.getIndex() + this.scrollOff)
-                                                      .getCostB();
+                                                   .get(widgetButtonPage.getIndex() + this.scrollOff)
+                                                   .getCostB();
                     if (!itemStack.isEmpty()) {
                         return itemStack;
                     }
                 } else if (heywiki$mouseX > widgetButtonPage.getX() + 65) {
                     return this.menu.getOffers()
-                                       .get(widgetButtonPage.getIndex() + this.scrollOff)
-                                       .getResult();
+                                    .get(widgetButtonPage.getIndex() + this.scrollOff)
+                                    .getResult();
 
                 }
             }

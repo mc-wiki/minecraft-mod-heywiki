@@ -52,7 +52,8 @@ public class WhatStructureCommand {
             var serverPlayer = playerManager.getPlayer(playerUuid);
             var serverWorld = Objects.requireNonNull(serverPlayer).level();
             var chunkPos = ChunkPos.containing(block);
-            ChunkAccess chunk = serverWorld.getChunk(chunkPos.x(), chunkPos.z(), ChunkStatus.STRUCTURE_REFERENCES, false);
+            ChunkAccess chunk = serverWorld.getChunk(chunkPos.x(), chunkPos.z(), ChunkStatus.STRUCTURE_REFERENCES,
+                                                     false);
             if (chunk == null) {
                 return -1;
             }

@@ -25,10 +25,6 @@ public interface HeyWikiPlatform {
         return HeyWikiPlatformImplHolder.impl;
     }
 
-    void registerAssetReloadListener(Identifier id, PreparableReloadListener listener);
-
-    void registerKeyMapping(KeyMapping keyMapping);
-
     static LiteralArgumentBuilder<SharedSuggestionProvider> literal(String name) {
         return LiteralArgumentBuilder.literal(name);
     }
@@ -36,6 +32,10 @@ public interface HeyWikiPlatform {
     static <T> RequiredArgumentBuilder<SharedSuggestionProvider, T> argument(String name, ArgumentType<T> type) {
         return RequiredArgumentBuilder.argument(name, type);
     }
+
+    void registerAssetReloadListener(Identifier id, PreparableReloadListener listener);
+
+    void registerKeyMapping(KeyMapping keyMapping);
 
     void registerClientCommand(BiConsumer<CommandDispatcher<SharedSuggestionProvider>, CommandBuildContext> consumer);
 
@@ -46,6 +46,6 @@ public interface HeyWikiPlatform {
     void onClientTickPost(Consumer<Minecraft> consumer);
 
     Path getConfigFolder();
-    
+
     boolean isModLoaded(String modId);
 }

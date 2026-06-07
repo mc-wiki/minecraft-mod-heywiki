@@ -29,7 +29,7 @@ public class TitleScreenMixin extends Screen {
     }
 
     @Redirect(method = "extractRenderState", at = @At(value = "INVOKE",
-                                          target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;text(Lnet/minecraft/client/gui/Font;Ljava/lang/String;III)V"))
+                                                      target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;text(Lnet/minecraft/client/gui/Font;Ljava/lang/String;III)V"))
     private void drawTextWithShadow(GuiGraphicsExtractor instance, Font font, String text, int x, int y, int color) {
         try {
             int width = font.width(text);
