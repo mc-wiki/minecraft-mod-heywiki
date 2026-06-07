@@ -38,6 +38,7 @@
       "environment": "client"
     }
   ],
+  "accessWidener": "heywiki.accesswidener",
   "depends": {
     "fabricloader": "*",
     "minecraft": "${minecraftVersion}",

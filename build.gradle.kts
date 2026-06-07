@@ -8,7 +8,6 @@ plugins {
 
     alias(libs.plugins.modstitch.multiloader)
     alias(libs.plugins.modstitch.manifests)
-    alias(libs.plugins.modstitch.accessx)
 
     alias(libs.plugins.mod.publish.plugin)
     `maven-publish`
@@ -116,26 +115,11 @@ dependencies {
 //    }
 }
 
-val canonicalAW = layout.projectDirectory.file("heywiki.accesswidener")
-
-// Loom does everything at configuration time which means accessx cannot be used
-// to source comptime access wideners
-loom.accessWidenerPath = canonicalAW
-
-val fabricAWTask = accessx.convert("fabric", sourceSets.fabric.name) {
-    inputFiles.from(canonicalAW)
-    outputFormat = accessx.AW_V1
-}
-// modstitch-accessx: converts the access widener into an access transformer and includes it in resources
-val neoforgeAWTask = accessx.convert("neoforge", sourceSets.neoforge.name) {
-    inputFiles.from(canonicalAW)
-    outputFormat = accessx.AT
-}
-// access transformers must be sourced BEFORE `neoforgeImplementation(libs.neoforge)`
-accessTransformers.files.from(neoforgeAWTask.flatMap { it.outputFile })
-// NeoGradle bug: https://github.com/neoforged/NeoGradle/issues/318
-tasks.named { it in listOf("neoFormTransformSource", "applyAccessTransformer") }.configureEach {
-    dependsOn(neoforgeAWTask)
+loom.accessWidenerPath = layout.projectDirectory.file("src/fabric/resources/heywiki.accesswidener")
+minecraft {
+    accessTransformers {
+        file("src/neoforge/resources/META-INF/accesstransformer.cfg")
+    }
 }
 
 val minecraftConstraint = "[26.1,26.2)"
