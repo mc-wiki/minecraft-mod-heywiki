@@ -142,6 +142,10 @@ val minecraftConstraint = "[26.1,26.2)"
 val minecraftConstraintFabric = "~26.1"
 val supportedMinecraftVersions = manifests.minecraftReleasesMatching(minecraftConstraint)
 
+tasks.convertAccessxNeoforge {
+    dependsOn(tasks.named("neoFormApplyAccessTransformer"))
+}
+
 tasks.withType<Jar>().configureEach {
     from(rootProject.file("LICENSE")) {
         into("META-INF")
