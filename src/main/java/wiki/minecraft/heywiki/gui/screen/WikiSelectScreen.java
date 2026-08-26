@@ -53,7 +53,7 @@ public class WikiSelectScreen extends Screen {
             Util.nonCriticalIoPool().execute(() -> MOD.config().save(false));
         }
         assert this.minecraft != null;
-        this.minecraft.setScreen(this.parent);
+        this.minecraft.gui.setScreen(this.parent);
     }
 
     @Override

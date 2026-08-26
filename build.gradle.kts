@@ -122,8 +122,8 @@ minecraft {
     }
 }
 
-val minecraftConstraint = "[26.1,26.2)"
-val minecraftConstraintFabric = "~26.1"
+val minecraftConstraint = "[26.2,26.3)"
+val minecraftConstraintFabric = "~26.2"
 val supportedMinecraftVersions = manifests.minecraftReleasesMatching(minecraftConstraint)
 
 tasks.withType<Jar>().configureEach {

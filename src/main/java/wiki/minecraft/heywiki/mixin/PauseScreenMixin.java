@@ -1,7 +1,7 @@
 package wiki.minecraft.heywiki.mixin;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -16,8 +16,8 @@ public abstract class PauseScreenMixin extends Screen {
     }
 
     @WrapWithCondition(method = "lambda$createPauseMenu$0", at = @At(value = "INVOKE",
-                                                                     target = "Lnet/minecraft/client/Minecraft;setScreen(Lnet/minecraft/client/gui/screens/Screen;)V"))
-    private boolean shouldSetScreenToNull(Minecraft instance, Screen screen) {
+                                                                     target = "Lnet/minecraft/client/gui/Gui;setScreen(Lnet/minecraft/client/gui/screens/Screen;)V"))
+    private boolean shouldSetScreenToNull(Gui instance, Screen screen) {
         if (screen != null) return true;
 
         if ((Screen) this instanceof CallbackGameMenuScreen that) {

@@ -190,14 +190,14 @@ public class ConfirmWikiPageScreen extends Screen {
     public static void open(Screen parent, String url, Optional<CompletableFuture<PageExcerpt>> excerpt,
                             WikiPage page) {
         Minecraft client = Minecraft.getInstance();
-        client.setScreen(new ConfirmWikiPageScreen((confirmed) -> {
+        client.gui.setScreen(new ConfirmWikiPageScreen((confirmed) -> {
             if (confirmed) {
                 Util.getPlatform().openUri(url);
                 if (client.level != null) {
                     CallbackGameMenuScreen.openWithParent(parent, true);
                 }
             } else {
-                client.setScreen(parent);
+                client.gui.setScreen(parent);
             }
         }, url, excerpt, page));
     }

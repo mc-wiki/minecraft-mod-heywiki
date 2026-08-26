@@ -72,7 +72,7 @@ public class WikiSearchScreen extends Screen {
 
     public static void onClientTickPost(Minecraft client) {
         if (openWikiSearchKey.consumeClick()) {
-            client.setScreen(new WikiSearchScreen());
+            client.gui.setScreen(new WikiSearchScreen());
         }
     }
 
@@ -152,7 +152,7 @@ public class WikiSearchScreen extends Screen {
         textFieldLayout.addChild(Button.builder(
                 Component.translatable("gui.heywiki_search.switch_wiki"), button -> {
                     assert this.minecraft != null;
-                    this.minecraft.setScreen(
+                    this.minecraft.gui.setScreen(
                             new WikiSelectScreen(
                                     this,
                                     MOD.familyManager().getAvailableFamilies().stream()

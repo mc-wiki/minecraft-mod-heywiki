@@ -43,10 +43,10 @@ import static wiki.minecraft.heywiki.wiki.WikiPage.NO_FAMILY_MESSAGE;
                 if (target != null) {
                     var page = WikiPage.fromTarget(target);
                     if (page == null) {
-                        Minecraft.getInstance().gui.setOverlayMessage(NO_FAMILY_MESSAGE, false);
+                        Minecraft.getInstance().gui.hud.setOverlayMessage(NO_FAMILY_MESSAGE, false);
                         return;
                     }
-                    page.openInBrowser(Minecraft.getInstance().screen);
+                    page.openInBrowser(Minecraft.getInstance().gui.screen());
                 }
             }
         }

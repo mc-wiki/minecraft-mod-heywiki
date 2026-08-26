@@ -21,10 +21,10 @@ public class CallbackGameMenuScreen extends PauseScreen {
                 client.hasSingleplayerServer() && !Objects.requireNonNull(client.getSingleplayerServer())
                                                           .isPublished();
         if (integratedServer) {
-            client.setScreen(new CallbackGameMenuScreen(showMenu, () -> client.setScreen(parent)));
+            client.gui.setScreen(new CallbackGameMenuScreen(showMenu, () -> client.gui.setScreen(parent)));
             client.getSoundManager().pauseAllExcept(SoundSource.MUSIC, SoundSource.UI);
         } else {
-            client.setScreen(new CallbackGameMenuScreen(true, () -> client.setScreen(parent)));
+            client.gui.setScreen(new CallbackGameMenuScreen(true, () -> client.gui.setScreen(parent)));
         }
     }
 

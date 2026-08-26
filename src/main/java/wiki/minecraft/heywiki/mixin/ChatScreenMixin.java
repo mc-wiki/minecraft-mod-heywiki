@@ -1,7 +1,7 @@
 package wiki.minecraft.heywiki.mixin;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -17,9 +17,9 @@ public abstract class ChatScreenMixin extends Screen {
     @WrapWithCondition(
             method = "keyPressed",
             at = @At(value = "INVOKE",
-                     target = "Lnet/minecraft/client/Minecraft;setScreen(Lnet/minecraft/client/gui/screens/Screen;)V")
+                     target = "Lnet/minecraft/client/gui/Gui;setScreen(Lnet/minecraft/client/gui/screens/Screen;)V")
     )
-    private boolean shouldSetScreen(Minecraft instance, Screen screen) {
-        return screen != null || instance.screen == this;
+    private boolean shouldSetScreen(Gui instance, Screen screen) {
+        return screen != null || screen == this;
     }
 }

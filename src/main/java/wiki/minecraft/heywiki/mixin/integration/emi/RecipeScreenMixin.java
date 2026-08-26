@@ -33,7 +33,7 @@ public abstract class RecipeScreenMixin {
                     if (target != null) {
                         var page = WikiPage.fromTarget(target);
                         if (page == null) {
-                            Minecraft.getInstance().gui.setOverlayMessage(NO_FAMILY_MESSAGE, false);
+                            Minecraft.getInstance().gui.hud.setOverlayMessage(NO_FAMILY_MESSAGE, false);
                             return;
                         }
                         page.openInBrowser(null);

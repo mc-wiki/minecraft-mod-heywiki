@@ -38,7 +38,7 @@ public class Raycast {
             if (target != null) {
                 var page = WikiPage.fromTarget(target);
                 if (page == null) {
-                    client.gui.setOverlayMessage(NO_FAMILY_MESSAGE, false);
+                    client.gui.hud.setOverlayMessage(NO_FAMILY_MESSAGE, false);
                     return;
                 }
                 page.openInBrowser(null);
@@ -55,7 +55,7 @@ public class Raycast {
     public static @Nullable Target raycastWithMessage() {
         var target = raycast();
         if (target == null) {
-            CLIENT.gui.setOverlayMessage(Component.translatable("gui.heywiki.too_far"), false);
+            CLIENT.gui.hud.setOverlayMessage(Component.translatable("gui.heywiki.too_far"), false);
         }
         return target;
     }

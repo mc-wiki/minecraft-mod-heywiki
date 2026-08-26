@@ -45,7 +45,7 @@ public class FocusInputHandlerMixin {
                                if (target != null) {
                                    var page = WikiPage.fromTarget(target);
                                    if (page == null) {
-                                       Minecraft.getInstance().gui.setOverlayMessage(NO_FAMILY_MESSAGE,
+                                       Minecraft.getInstance().gui.hud.setOverlayMessage(NO_FAMILY_MESSAGE,
                                                                                      false);
                                        return;
                                    }

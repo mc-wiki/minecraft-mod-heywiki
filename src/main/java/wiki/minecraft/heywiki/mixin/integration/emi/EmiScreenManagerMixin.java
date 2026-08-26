@@ -36,7 +36,7 @@ public class EmiScreenManagerMixin {
                 if (target != null) {
                     var page = WikiPage.fromTarget(target);
                     if (page == null) {
-                        client.gui.setOverlayMessage(NO_FAMILY_MESSAGE, false);
+                        client.gui.hud.setOverlayMessage(NO_FAMILY_MESSAGE, false);
                         return;
                     }
                     page.openInBrowser(null);

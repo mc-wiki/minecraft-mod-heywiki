@@ -121,6 +121,6 @@ public record WikiPage(String pageName, WikiIndividual wiki) {
      */
     public void openInBrowser(Screen parent) {
         openInBrowser(MOD.config().requiresConfirmation(),
-                      parent == null ? Minecraft.getInstance().screen : parent);
+                      parent == null ? Minecraft.getInstance().gui.screen() : parent);
     }
 }

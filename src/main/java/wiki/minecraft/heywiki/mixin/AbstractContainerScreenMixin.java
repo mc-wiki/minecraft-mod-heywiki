@@ -76,10 +76,10 @@ public abstract class AbstractContainerScreenMixin extends ScreenMixin implement
         if (target != null) {
             var page = WikiPage.fromTarget(target);
             if (page == null) {
-                Minecraft.getInstance().gui.setOverlayMessage(NO_FAMILY_MESSAGE, false);
+                Minecraft.getInstance().gui.hud.setOverlayMessage(NO_FAMILY_MESSAGE, false);
                 return false;
             }
-            page.openInBrowser(Minecraft.getInstance().screen);
+            page.openInBrowser(Minecraft.getInstance().gui.screen());
             return true;
         }
 
@@ -123,10 +123,10 @@ public abstract class AbstractContainerScreenMixin extends ScreenMixin implement
                 assert target != null;
                 var page = WikiPage.fromTarget(target);
                 if (page == null) {
-                    client.gui.setOverlayMessage(NO_FAMILY_MESSAGE, false);
+                    client.gui.hud.setOverlayMessage(NO_FAMILY_MESSAGE, false);
                     return false;
                 }
-                page.openInBrowser(Minecraft.getInstance().screen);
+                page.openInBrowser(Minecraft.getInstance().gui.screen());
                 return true;
             }
         }
