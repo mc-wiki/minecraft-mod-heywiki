@@ -16,7 +16,7 @@ plugins {
 val minecraftVersion: String = libs.versions.minecraft.get()
 
 group = "wiki.minecraft.heywiki"
-version = "1.9.0+$minecraftVersion"
+version = "1.9.1+$minecraftVersion"
 
 java {
     toolchain {
