@@ -1,5 +1,7 @@
 package wiki.minecraft.heywiki.gui.screen;
 
+import com.mojang.blaze3d.Blaze3D;
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
@@ -16,7 +18,6 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Util;
 import org.apache.commons.codec.binary.Hex;
-import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import wiki.minecraft.heywiki.HeyWikiClient;
 import wiki.minecraft.heywiki.gui.widget.SuggestionEntryListWidget;
@@ -80,7 +81,7 @@ public class WikiSearchScreen extends Screen {
     public boolean keyPressed(KeyEvent keyEvent) {
         SuggestionEntryWidget selected = this.entryList.getSelected();
         String searchTerm = this.textField.getValue();
-        if (keyEvent.key() == GLFW.GLFW_KEY_ENTER) {
+        if (keyEvent.key() == InputConstants.KEY_RETURN) {
             if (searchTerm.isEmpty() || (this.getFocused() != this.entryList && this.getFocused() != this.textField))
                 return super.keyPressed(keyEvent);
 
@@ -92,7 +93,7 @@ public class WikiSearchScreen extends Screen {
     public void searchEntry(SuggestionEntryWidget selected) {
         if (selected != null) {
             if (selected.suggestion.realUrl().isPresent()) {
-                Util.getPlatform().openUri(URI.create(selected.suggestion.realUrl().get()));
+                Blaze3D.openUri(URI.create(selected.suggestion.realUrl().get()));
             } else {
                 var page = new WikiPage(selected.suggestion.title(), this.wiki);
                 page.openInBrowser(this);
@@ -100,14 +101,14 @@ public class WikiSearchScreen extends Screen {
         } else if (this.suggestions != null && !this.suggestions.isEmpty() &&
                    this.lastSearchTerm.equalsIgnoreCase(this.suggestions.getFirst().title())) {
             if (this.suggestions.getFirst().realUrl().isPresent()) {
-                Util.getPlatform().openUri(URI.create(this.suggestions.getFirst().realUrl().get()));
+                Blaze3D.openUri(URI.create(this.suggestions.getFirst().realUrl().get()));
             } else {
                 var page = new WikiPage(this.suggestions.getFirst().title(), this.wiki);
                 page.openInBrowser(this);
             }
         } else if (wiki.searchUrl().isPresent()) {
             String url = wiki.searchUrl().get().formatted(encodeUrl(this.lastSearchTerm));
-            Util.getPlatform().openUri(url);
+            Blaze3D.openUri(URI.create(url));
         }
     }
 
@@ -196,7 +197,7 @@ public class WikiSearchScreen extends Screen {
                             Component.translatable("gui.heywiki_search.search"), button -> {
                                 if (wiki.searchUrl().isPresent()) {
                                     String url = wiki.searchUrl().orElseThrow().formatted(this.getSearchTerm());
-                                    Util.getPlatform().openUri(url);
+                                    Blaze3D.openUri(URI.create(url));
                                 }
                             }
                                                   ).width(100).build());

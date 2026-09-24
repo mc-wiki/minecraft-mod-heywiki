@@ -1,5 +1,6 @@
 package wiki.minecraft.heywiki.wiki;
 
+import com.mojang.blaze3d.Blaze3D;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -97,7 +98,7 @@ public record WikiPage(String pageName, WikiIndividual wiki) {
         if (requiresConfirmation) {
             ConfirmWikiPageScreen.open(parent, uri.toString(), PageExcerpt.fromPage(this), this);
         } else {
-            Util.getPlatform().openUri(uri);
+            Blaze3D.openUri(uri);
         }
     }
 

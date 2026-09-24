@@ -1,9 +1,9 @@
 package wiki.minecraft.heywiki.gui.widget;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.input.KeyEvent;
-import org.lwjgl.glfw.GLFW;
 import wiki.minecraft.heywiki.gui.screen.WikiSearchScreen;
 import wiki.minecraft.heywiki.wiki.SearchProvider;
 
@@ -51,7 +51,7 @@ public class SuggestionEntryListWidget extends ObjectSelectionList<SuggestionEnt
 
     @Override
     public boolean keyPressed(KeyEvent keyEvent) {
-        if (keyEvent.key() == GLFW.GLFW_KEY_UP || keyEvent.key() == GLFW.GLFW_KEY_DOWN) {
+        if (keyEvent.key() == InputConstants.KEY_UP || keyEvent.key() == InputConstants.KEY_DOWN) {
             return super.keyPressed(keyEvent);
         } else {
             return this.getSelected() != null &&

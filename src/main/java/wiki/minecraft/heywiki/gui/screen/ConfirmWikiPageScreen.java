@@ -1,5 +1,7 @@
 package wiki.minecraft.heywiki.gui.screen;
 
+import com.mojang.blaze3d.Blaze3D;
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.logging.LogUtils;
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
@@ -19,9 +21,7 @@ import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.Util;
 import org.jetbrains.annotations.NotNull;
-import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import wiki.minecraft.heywiki.util.HttpUtil;
 import wiki.minecraft.heywiki.wiki.PageExcerpt;
@@ -32,6 +32,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
@@ -192,7 +193,7 @@ public class ConfirmWikiPageScreen extends Screen {
         Minecraft client = Minecraft.getInstance();
         client.gui.setScreen(new ConfirmWikiPageScreen((confirmed) -> {
             if (confirmed) {
-                Util.getPlatform().openUri(url);
+                Blaze3D.openUri(URI.create(url));
                 if (client.level != null) {
                     CallbackGameMenuScreen.openWithParent(parent, true);
                 }
@@ -208,15 +209,15 @@ public class ConfirmWikiPageScreen extends Screen {
     }
 
     public boolean keyPressed(KeyEvent keyEvent) {
-        if (keyEvent.key() == GLFW.GLFW_KEY_ENTER || openWikiKey.matches(keyEvent)) {
+        if (keyEvent.key() == InputConstants.KEY_RETURN || openWikiKey.matches(keyEvent)) {
             this.callback.accept(true);
             return true;
-        } else if (keyEvent.key() == GLFW.GLFW_KEY_C && keyEvent.hasControlDown() && !keyEvent.hasShiftDown() &&
+        } else if (keyEvent.key() == InputConstants.KEY_C && keyEvent.hasControlDown() && !keyEvent.hasShiftDown() &&
                    !keyEvent.hasAltDown()) {
             this.callback.accept(false);
             this.copyToClipboard();
             return false;
-        } else if (keyEvent.key() == GLFW.GLFW_KEY_ESCAPE) {
+        } else if (keyEvent.key() == InputConstants.KEY_ESCAPE) {
             this.callback.accept(false);
             return true;
         }

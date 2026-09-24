@@ -10,7 +10,6 @@ import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.Identifier;
-import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import wiki.minecraft.heywiki.command.*;
 import wiki.minecraft.heywiki.entrypoint.ChatWikiLinks;
@@ -35,13 +34,11 @@ public class HeyWikiClient {
     public static final String MOD_ID = "heywiki";
     public static final KeyMapping.Category HEYWIKI_CATEGORY = new KeyMapping.Category(id("heywiki"));
     public static final KeyMapping openWikiKey = new KeyMapping("key.heywiki.open",
-                                                                InputConstants.Type.KEYSYM,
-                                                                GLFW.GLFW_KEY_H,
+                                                                InputConstants.KEY_H,
                                                                 HEYWIKI_CATEGORY
     );
     public static final KeyMapping openWikiSearchKey = new KeyMapping("key.heywiki.open_search",
-                                                                      InputConstants.Type.KEYSYM,
-                                                                      GLFW.GLFW_KEY_B,
+                                                                      InputConstants.KEY_B,
                                                                       HEYWIKI_CATEGORY
     );
     private static final Set<String> experimentsWarned = new HashSet<>();
