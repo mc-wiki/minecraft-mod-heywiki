@@ -51,6 +51,21 @@
       }
     },
     {
+      "article_url": "https://he.minecraft.wiki/?search=%s",
+      "mw_api_url": "https://he.minecraft.wiki/api.php",
+      "random_article": "Special:RandomRootPage/Main",
+      "version_article": "Java Edition %s",
+      "excerpt": "text_extracts",
+      "search_provider": "mediawiki",
+      "search_url": "https://he.minecraft.wiki/?search=%s",
+      "language": {
+        "wiki_language": "he",
+        "default": "he_il",
+        "regex": "^he_.*",
+        "exclude": null
+      }
+    },
+    {
       "article_url": "https://fr.minecraft.wiki/?search=%s",
       "mw_api_url": "https://fr.minecraft.wiki/api.php",
       "random_article": "Special:RandomRootPage/Main",
