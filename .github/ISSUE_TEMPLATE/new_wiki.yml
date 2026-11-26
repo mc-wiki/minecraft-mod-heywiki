@@ -43,7 +43,7 @@ body:
       description: Forked wikis are copies of other wikis that have been modified or adapted, often because the original host is no longer the best place for the wiki. An example of this is the Minecraft Wiki, which was forked from Fandom. We prefer linking to the forked wiki if it is more up-to-date or has more information.
       options:
         - label: This wiki is a fork of another wiki and it has more information.
-        - label: This wiki is has never been forked.
+        - label: This wiki has never been forked.
     validations:
       required: true
   - type: checkboxes
